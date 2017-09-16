@@ -1,0 +1,21 @@
+<form novalidate [formGroup]="form">
+    <h2 md-dialog-title>{{ title }}</h2>
+    <md-dialog-content>
+        <md-form-field  class="max-width">
+            <input mdInput formControlName="title" placeholder="Title">
+        </md-form-field>
+        <md-form-field class="max-width">
+            <textarea mdInput formControlName="description" placeholder="Description"></textarea>
+        </md-form-field>
+        <md-form-field class="max-width">
+            <input mdInput [mdDatepicker]="picker" formControlName="releasedOn" placeholder="Release date">
+            <md-datepicker-toggle mdSuffix [for]="picker"></md-datepicker-toggle>
+            <md-datepicker #picker></md-datepicker>
+        </md-form-field>
+        <md-progress-bar *ngIf="loading" color="primary" mode="indeterminate"></md-progress-bar>
+    </md-dialog-content>
+    <md-dialog-actions align="end">
+            <button md-button [md-dialog-close]="true">Close</button>
+            <button [disabled]="!isFormValid()" md-button (click)="submit();">Submit</button>
+    </md-dialog-actions>
+</form>

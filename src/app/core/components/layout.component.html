@@ -1,0 +1,22 @@
+<md-sidenav-container fullscreen>
+        <md-sidenav 
+            #sidenav
+            mode="side"
+            [opened]="showSidenav$ | async"
+            style="box-shadow: 3px 0 6px rgba(0, 0, 0, 0.2);">
+            <md-toolbar
+                color="primary">
+                Entertainment-Database
+            </md-toolbar>
+            <md-nav-list style="padding: 0px;">
+                <ng-template ngFor let-link [ngForOf]="links" let-i="index" >
+                    <md-list-item [routerLink]="link.path" routerLinkActive="active-sidenav-menu-link">
+                            <md-icon mdListIcon>home</md-icon>
+                            <span>{{ link.displayName }}</span>
+                    </md-list-item>
+                </ng-template>
+            </md-nav-list>
+        </md-sidenav>
+        <etdb-toolbar (openMenu)="toggleSidenav();"></etdb-toolbar>
+        <router-outlet></router-outlet>
+</md-sidenav-container>

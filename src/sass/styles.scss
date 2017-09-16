@@ -1,0 +1,22 @@
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import './partials/flex.scss';
+
+html {
+    font: {
+        font-family: 'Roboto', 'Helvetica Neue', sans-serif
+    }
+}
+
+body {
+    margin: 0px;
+    font-family: 'Roboto', 'Helvetica Neue', sans-serif
+}
+
+.active-sidenav-menu-link {
+    border-left: 5px solid;
+    border-left-color: red;
+}
+
+.max-width{
+    width: 100%;
+}

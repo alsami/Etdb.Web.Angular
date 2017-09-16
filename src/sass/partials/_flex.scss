@@ -1,0 +1,38 @@
+
+.flex-container{
+    display: -webkit-box;
+    display: ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    min-width: 100% !important;
+}
+
+.align-items-center{
+    align-items: center;
+}
+
+.justify-center{
+    justify-content: center;
+}
+
+.justify-between-center{
+    justify-content: space-between;
+    align-items: center;
+}
+
+.justify-end{
+    justify-content: flex-end;
+}
+
+.space-around{
+    justify-content: space-around;
+}
+
+.space-between{
+    justify-content: space-between;
+}
+
+.flow-column{
+    flex-flow: column;
+}
