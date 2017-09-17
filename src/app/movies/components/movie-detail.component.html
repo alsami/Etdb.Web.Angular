@@ -1,1 +1,18 @@
-<etdb-movie-card [movie]="movie$ | async"></etdb-movie-card>
+<div class="flex-container justify-center">
+    <md-card *ngIf="movie" style="width: 800px; margin: 10px;">
+        <md-card-title [routerLink]="['/movies', movie.id]">
+            {{ movie.title }}
+        </md-card-title>
+        <img *ngIf="!movie.movieCoverImageUrl" md-card-image src="./assets/no-image.png" />
+        <img *ngIf="movie.movieCoverImageUrl" md-card-image [src]="movie.movieCoverImageUrl" />
+        <md-card-content class="item-card-container" flex>
+            <p>
+                {{ movie.description }}
+            </p>
+        </md-card-content>
+        <md-card-actions align="end">
+                <input type="file" name="file" #fileInput placeholder="Upload file...">
+                <button md-raised-button (click)="uploadCoverFile();">Upload</button>
+        </md-card-actions>
+    </md-card>
+</div>

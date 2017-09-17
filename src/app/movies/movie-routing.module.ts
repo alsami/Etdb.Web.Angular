@@ -6,22 +6,14 @@ import { MovieComponent } from './containers/movie.component';
 import { MovieListComponent } from './components/movie-list.component';
 
 const routes: Routes = [
-  { 
-      path: '', 
-      component: MovieComponent,
-      children: [
-          {
-              path: '',
-              component: MovieListComponent,
-              children: [
-                  {
-                    path: ':id',
-                    component: MovieDetailComponent
-                  }
-              ]
-          }
-      ]
-  },
+    { 
+        path: '', 
+        component: MovieComponent,
+    },
+    {
+        path: ':id',
+        component: MovieDetailComponent
+    }
 ];
 
 @NgModule({

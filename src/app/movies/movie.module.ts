@@ -16,14 +16,12 @@ import { MovieRoutingModule } from './movie-routing.module';
 import { reducers } from './reducers';
 import { MovieCoverImageService } from './services/movie-cover-image.service';
 import { MovieService } from './services/movie.service';
-import { MovieCardComponent } from './components/movie-card.component';
 
 @NgModule({
     declarations: [
         MovieComponent,
         MovieListComponent,
         MovieDetailComponent,
-        MovieCardComponent,
         MovieFormComponent,
     ],
     imports: [
@@ -36,7 +34,6 @@ import { MovieCardComponent } from './components/movie-card.component';
         EffectsModule.forFeature([MovieEffects, MovieCollectionEffects])
     ],
     exports: [
-        MovieCardComponent
     ],
     providers: [
         MovieService,

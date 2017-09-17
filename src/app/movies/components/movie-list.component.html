@@ -1,17 +1,27 @@
 <md-progress-bar *ngIf="loading" color="accent" mode="indeterminate"></md-progress-bar>
-
-<!-- <input type="file" name="file" #fileInput placeholder="Upload file...">
-<button md-raised-button (click)="uploadCoverFile();">Upload</button> -->
-
 <div class="flex-container justify-center">
     <md-form-field class="max-width">
             <input mdInput [formControl]="searchControl" type="search" placeholder="Search movies">
     </md-form-field>
 </div>
 <div class="flex-container space-around movie-container">
-    <ng-template ngFor let-movie [ngForOf]="movies | movieFilter : 'title' : searchTerm">
-        <etdb-movie-card [movie]="movie" (requestEdit)="openDialog(movie);"></etdb-movie-card>
-    </ng-template>
+    <md-card *ngFor="let movie of movies | movieFilter : 'title' : searchTerm" style="width: 400px; margin: 10px;">
+        <md-card-title [routerLink]="['/movies', movie.id]">
+            {{ movie.title }}
+        </md-card-title>
+        <img *ngIf="!movie.movieCoverImageUrl" md-card-image src="./assets/no-image.png" />
+        <img *ngIf="movie.movieCoverImageUrl" md-card-image [src]="movie.movieCoverImageUrl" />
+        <md-card-content class="item-card-container" flex>
+            <p>
+                {{ movie.description }}
+            </p>
+        </md-card-content>
+        <md-card-actions align="end">
+            <button md-icon-button (click)="openDialog(movie);">
+                <md-icon>mode_edit</md-icon>
+            </button>
+        </md-card-actions>
+    </md-card>
 </div>
 <ng-template portal>
     <button (click)="openDialog(null);" color="accent" md-fab style="display: inline-block;

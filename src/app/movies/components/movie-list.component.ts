@@ -1,3 +1,4 @@
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { MovieCoverImageService } from '../services/movie-cover-image.service';
 import { Overlay, OverlayRef, OverlayState } from '@angular/cdk/overlay';
 import { Portal, TemplatePortalDirective } from '@angular/cdk/portal';
@@ -32,7 +33,8 @@ export class MovieListComponent implements OnInit {
     
     public constructor(private store: Store<fromMovies.State>, 
         private dialog: MdDialog,  private overlay: Overlay, 
-        private movieCoverImageService: MovieCoverImageService) { 
+        private movieCoverImageService: MovieCoverImageService, 
+        private domsanitizer: DomSanitizer) { 
 
         }
 
@@ -72,14 +74,7 @@ export class MovieListComponent implements OnInit {
             //this.overlayRef.backdropClick().subscribe(() => this.overlayRef.detach());
     }
 
-    private uploadCoverFile(){
-        const fileBrowser = this.fileInput.nativeElement;
-        if (fileBrowser.files && fileBrowser.files[0]) {
-          const formData = new FormData();
-          formData.append("file", fileBrowser.files[0]);
-          this.movieCoverImageService.create(formData, this.movies[0].id).subscribe(res => {
-              console.log(res)
-          });
-        }
+    private allowImageUrl(movie: Movie): SafeUrl {
+        return this.domsanitizer.bypassSecurityTrustUrl(movie.movieCoverImageUrl);
     }
 }
