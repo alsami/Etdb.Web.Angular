@@ -18,5 +18,10 @@
             </md-nav-list>
         </md-sidenav>
         <etdb-toolbar (openMenu)="toggleSidenav();"></etdb-toolbar>
+        <form #form="ngForm" (ngSubmit)="submit(form.value)">
+            <counter-input name="counter" ngModel></counter-input>
+            <button type="submit">Submit</button>
+        </form>
+        {{ form.value | json }}
         <router-outlet></router-outlet>
 </md-sidenav-container>

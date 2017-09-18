@@ -1,4 +1,6 @@
-import { NgModule } from '@angular/core';
+import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { CounterInputComponent } from './components/counter-input.component';
+import { forwardRef, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './containers/app.component';
@@ -11,6 +13,7 @@ const COMPONENTS = [
     AppComponent,
     ToolbarComponent,
     LayoutComponent,
+    CounterInputComponent
 ]
 
 
@@ -21,12 +24,14 @@ const COMPONENTS = [
     imports: [
         CommonModule,
         RouterModule,
+        FormsModule,
         MaterialModule
     ],
     exports: [
         COMPONENTS
     ],
-    providers: [],
+    providers: [
+    ],
 })
 
 export class CoreModule {

@@ -46,4 +46,8 @@ export class LayoutComponent {
     private closeSidenav(): void {
         this.store.dispatch(new layoutActions.CloseSidenav());
     }
+
+    submit(value: any){
+        
+    }
 }

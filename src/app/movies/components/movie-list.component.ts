@@ -10,6 +10,7 @@ import { Store } from '@ngrx/store';
 import { Movie } from '../movie.model';
 import * as fromMovies from '../reducers';
 import { MovieFormComponent } from './movie-form.component';
+import * as movieCollectionActions from '../actions/movie-collection.actions';
 
 @Component({
     selector: 'etdb-movie-list',
@@ -56,7 +57,10 @@ export class MovieListComponent implements OnInit {
                 movie
             }
         });
-        dialogref.afterClosed().subscribe(value => console.log(value))
+
+        dialogref.afterClosed().subscribe(() => {
+            this.store.dispatch(new movieCollectionActions.LoadAction());
+        });
     }
 
     private initializeOverlay(): void {

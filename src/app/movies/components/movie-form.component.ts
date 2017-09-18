@@ -70,7 +70,7 @@ export class MovieFormComponent {
             }, error => console.log(error), () => {
                 this.init();
                 this.loading = false;
-                this.dialogRef.close('Lol');
+                this.dialogRef.close();
             });
         } else {
             Object.assign(this.movie, formData)
@@ -79,7 +79,7 @@ export class MovieFormComponent {
             }, error => console.log(error), () => {
                 this.init();
                 this.loading = false;
-                this.dialogRef.close('Lol');
+                this.dialogRef.close();
             });
         }
     }
