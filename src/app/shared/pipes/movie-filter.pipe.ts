@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Movie } from "../../movies/movie.model";
+import { Movie } from '../../movies/movie.model';
 
 
 @Pipe({
@@ -7,8 +7,8 @@ import { Movie } from "../../movies/movie.model";
 })
 
 export class MovieFilterPipe implements PipeTransform {
-    public transform(movies: Movie[], key: string, searchTerm: string) : Movie[] {
-        if(searchTerm === ''){
+    public transform(movies: Movie[], key: string, searchTerm: string): Movie[] {
+        if (searchTerm === '') {
             return movies;
         }
 

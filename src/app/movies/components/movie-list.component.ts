@@ -1,10 +1,10 @@
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { MovieCoverImageService } from '../services/movie-cover-image.service';
-import { Overlay, OverlayRef, OverlayState } from '@angular/cdk/overlay';
+import { Overlay, OverlayRef, OverlayConfig } from '@angular/cdk/overlay';
 import { Portal, TemplatePortalDirective } from '@angular/cdk/portal';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { Store } from '@ngrx/store';
 
 import { Movie } from '../movie.model';
@@ -24,20 +24,17 @@ export class MovieListComponent implements OnInit {
     private overlayRef: OverlayRef;
 
     @Input() movies: Movie[] = [];
-    @Input() loading: boolean = false;
-    @Input() searching: boolean = false;
+    @Input() loading = false;
+    @Input() searching = false;
     @ViewChild(TemplatePortalDirective) templatePortal: Portal<any>;
     @ViewChild('fileInput') fileInput;
 
-    searchTerm: string = '';
+    searchTerm = '';
     searchControl: FormControl;
-    
-    public constructor(private store: Store<fromMovies.State>, 
-        private dialog: MdDialog,  private overlay: Overlay, 
-        private movieCoverImageService: MovieCoverImageService, 
-        private domsanitizer: DomSanitizer) { 
 
-        }
+    public constructor(private store: Store<fromMovies.State>,
+        private dialog: MatDialog,  private overlay: Overlay,
+        private movieCoverImageService: MovieCoverImageService) {}
 
     public ngOnInit() {
         this.searchControl = new FormControl();
@@ -50,7 +47,7 @@ export class MovieListComponent implements OnInit {
         this.initializeOverlay();
      }
 
-    private openDialog(movie: Movie){
+    private openDialog(movie: Movie) {
         const dialogref = this.dialog.open(MovieFormComponent, {
             width: '50%',
             data: {
@@ -64,9 +61,7 @@ export class MovieListComponent implements OnInit {
     }
 
     private initializeOverlay(): void {
-        console.log(this.templatePortal);
-        
-        let config = new OverlayState();
+        const config = new OverlayConfig();
             config.positionStrategy = this.overlay.position()
             .global()
             .centerHorizontally();
@@ -76,9 +71,5 @@ export class MovieListComponent implements OnInit {
             this.overlayRef = this.overlay.create(config);
             this.overlayRef.attach(this.templatePortal);
             //this.overlayRef.backdropClick().subscribe(() => this.overlayRef.detach());
-    }
-
-    private allowImageUrl(movie: Movie): SafeUrl {
-        return this.domsanitizer.bypassSecurityTrustUrl(movie.movieCoverImageUrl);
     }
 }

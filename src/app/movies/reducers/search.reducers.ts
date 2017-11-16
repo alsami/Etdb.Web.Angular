@@ -34,7 +34,7 @@ export function reducer(state: SearchState = initialState, action: movieActions.
 
     case movieActions.SEARCH_COMPLETE: {
       return {
-        ids: action.movies.map(book => book.id),
+        ids: action.movies.map(movie => movie.id),
         loading: false,
         searchTerm: state.searchTerm,
       };

@@ -1,7 +1,7 @@
+import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
@@ -26,7 +26,7 @@ import { MovieService } from './services/movie.service';
     ],
     imports: [
         CommonModule,
-        HttpModule,
+        HttpClientModule,
         ReactiveFormsModule,
         SharedModule,
         MovieRoutingModule,

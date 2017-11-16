@@ -1,9 +1,9 @@
 import {
-    Headers
-} from '@angular/http';
+    HttpHeaders
+} from '@angular/common/http';
 
 export abstract class APiService {
-    protected baseHeaders: Headers = new Headers({
-        'Content-Type' : 'application/json', 'charset' : 'utf-8'
-    })
+    protected baseHeaders: HttpHeaders = new HttpHeaders()
+        .set('Content-Type', 'application/json')
+        .set('charset', 'utf-8');
 }

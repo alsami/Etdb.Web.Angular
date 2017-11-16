@@ -3,15 +3,15 @@ import { Routes, RouterModule } from '@angular/router';
 
 
 const routes: Routes = [
-    // {
-    //     path: '',
-    //     redirectTo: '/movies',
-    //     pathMatch: 'full'
-    // },
-    // {
-    //     path: 'movies',
-    //     loadChildren: 'app/movies/movie.module#MovieModule'
-    // }
+    {
+        path: '',
+        redirectTo: '/movies',
+        pathMatch: 'full'
+    },
+    {
+        path: 'movies',
+        loadChildren: 'app/movies/movie.module#MovieModule'
+    }
 ];
 
 @NgModule({
@@ -19,4 +19,4 @@ const routes: Routes = [
   exports: [RouterModule],
 })
 
-export class AppRoutingModule { }
+export class AppRoutingModule {}

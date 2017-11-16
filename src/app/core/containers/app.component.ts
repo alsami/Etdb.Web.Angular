@@ -10,4 +10,3 @@ import { getShowSidenav } from '../reducers/layout.reducer';
   templateUrl: 'app.component.html',
 })
 export class AppComponent {}
- 

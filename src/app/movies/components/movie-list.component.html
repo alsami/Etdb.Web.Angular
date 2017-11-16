@@ -1,34 +1,34 @@
-<md-progress-bar *ngIf="loading" color="accent" mode="indeterminate"></md-progress-bar>
+<mat-progress-bar *ngIf="loading" color="accent" mode="indeterminate"></mat-progress-bar>
 <div class="flex-container justify-center">
-    <md-form-field style="width: 50%">
-            <input mdInput [formControl]="searchControl" type="search" placeholder="Search movies">
-    </md-form-field>
+    <mat-form-field style="width: 50%">
+            <input matInput [formControl]="searchControl" type="search" placeholder="Search movies">
+    </mat-form-field>
 </div>
 <div class="flex-container space-around movie-container">
     <ng-template ngFor let-movie [ngForOf]="movies | movieFilter : 'title' : searchTerm">
-        <md-card  style="width: 600px; margin: 10px;">
-            <md-card-title>
+        <mat-card  style="width: 600px; margin: 10px;">
+            <mat-card-title>
                 <a style="text-decoration: none;" [routerLink]="[movie.id]">{{ movie.title }}</a>
-            </md-card-title>
-            <img *ngIf="!movie.movieCoverImageUrl" md-card-image src="./assets/no-image.png" />
-            <img *ngIf="movie.movieCoverImageUrl" md-card-image [src]="movie.movieCoverImageUrl" />
-            <md-card-content class="item-card-container" flex>
+            </mat-card-title>
+            <img *ngIf="!movie.movieCoverImageUrl" mat-card-image src="./assets/no-image.png" />
+            <img *ngIf="movie.movieCoverImageUrl" mat-card-image [src]="movie.movieCoverImageUrl" />
+            <mat-card-content class="item-card-container" flex>
                 <p>
                     {{ movie.description }}
                 </p>
-            </md-card-content>
-            <md-card-actions align="end">
-                <button md-icon-button (click)="openDialog(movie);">
-                    <md-icon>mode_edit</md-icon>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button mat-icon-button (click)="openDialog(movie);">
+                    <mat-icon>mode_edit</mat-icon>
                 </button>
-            </md-card-actions>
-        </md-card>
+            </mat-card-actions>
+        </mat-card>
     </ng-template>
 </div>
 <ng-template portal>
-    <button (click)="openDialog(null);" color="accent" md-fab style="display: inline-block;
+    <button (click)="openDialog(null);" color="accent" mat-fab style="display: inline-block;
         position: fixed;
         bottom: 20px;
-        right: 20px;"><md-icon>add</md-icon>
+        right: 20px;"><mat-icon>add</mat-icon>
     </button>
 </ng-template>

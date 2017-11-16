@@ -8,13 +8,11 @@ import { Store } from '@ngrx/store';
 
 @Component({
     selector: 'etdb-movie',
-    template: `
-        <etdb-movie-list 
-            [movies]="movies$ | async" 
+    template: `<etdb-movie-list
+            [movies]="movies$ | async"
             [loading]="loading$ | async"
             [searching]="searching$ | async">
-        </etdb-movie-list>
-    `
+        </etdb-movie-list>`,
 })
 
 export class MovieComponent implements OnInit {
@@ -22,7 +20,7 @@ export class MovieComponent implements OnInit {
     searchMovies$: Observable<Movie[]>;
     loading$: Observable<boolean>;
     searching$: Observable<boolean>;
-    
+
     public constructor(private store: Store<fromMovies.State>) {
         this.movies$ = this.store.select(fromMovies.getMovieCollection);
         this.searchMovies$ = this.store.select(fromMovies.getSearchResults);

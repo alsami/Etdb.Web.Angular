@@ -6,8 +6,8 @@ import { MovieComponent } from './containers/movie.component';
 import { MovieListComponent } from './components/movie-list.component';
 
 const routes: Routes = [
-    { 
-        path: '', 
+    {
+        path: '',
         component: MovieComponent,
     },
     {
@@ -20,4 +20,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class MovieRoutingModule { }
+export class MovieRoutingModule {}

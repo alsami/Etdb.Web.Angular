@@ -5,17 +5,17 @@ export interface MovieCollectionState {
     loaded: boolean;
     loading: boolean;
     ids: string[];
-  }
-  
-  const initialState: MovieCollectionState = {
+}
+
+const initialState: MovieCollectionState = {
     loaded: false,
     loading: false,
     ids: [],
-  };
+};
 
-export function reducer(state: MovieCollectionState = initialState, 
-    action: movieCollectionActions.Actions) : MovieCollectionState {
-        switch(action.type){
+export function reducer(state: MovieCollectionState = initialState,
+    action: movieCollectionActions.Actions): MovieCollectionState {
+        switch (action.type) {
             case movieCollectionActions.LOAD: {
                 return {
                     ...state,
