@@ -1,22 +1,13 @@
-<mat-sidenav-container fullscreen>
-        <mat-sidenav 
-            #sidenav
-            mode="side"
-            [opened]="showSidenav$ | async"
-            style="box-shadow: 3px 0 6px rgba(0, 0, 0, 0.2);">
-            <mat-toolbar
-                color="primary">
-                Entertainment-Database
-            </mat-toolbar>
-            <mat-nav-list style="padding: 0px;">
-                <ng-template ngFor let-link [ngForOf]="links" let-i="index" >
-                    <mat-list-item [routerLink]="link.path" routerLinkActive="active-sidenav-menu-link">
-                            <mat-icon mdListIcon>home</mat-icon>
-                            <span>{{ link.displayName }}</span>
-                    </mat-list-item>
-                </ng-template>
-            </mat-nav-list>
-        </mat-sidenav>
-        <etdb-toolbar (openMenu)="toggleSidenav();"></etdb-toolbar>
-        <router-outlet></router-outlet>
+<etdb-toolbar (openMenu)="toggleSidenav();"></etdb-toolbar>
+<mat-sidenav-container>
+    <mat-sidenav 
+        #sidenav
+        mode="side"
+        [opened]="showSidenav$ | async"
+        [fixedInViewport]="true"
+        [fixedTopGap]="64"
+        style="box-shadow: 3px 0 6px rgba(0, 0, 0, 0.2);">
+        <etdb-sidenav-content></etdb-sidenav-content>
+    </mat-sidenav>
 </mat-sidenav-container>
+<router-outlet></router-outlet>

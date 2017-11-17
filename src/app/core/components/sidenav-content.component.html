@@ -1,0 +1,17 @@
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            Administration
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    
+    <mat-nav-list style="padding: 0px;">
+        <ng-template ngFor let-link [ngForOf]="links" let-i="index" >
+            <mat-list-item [routerLink]="link.path" routerLinkActive="active-sidenav-menu-link">
+                    <mat-icon mdListIcon>home</mat-icon>
+                    <span>{{ link.displayName }}</span>
+            </mat-list-item>
+        </ng-template>
+    </mat-nav-list>
+
+</mat-expansion-panel>

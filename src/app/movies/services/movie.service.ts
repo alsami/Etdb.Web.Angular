@@ -49,7 +49,7 @@ export class MovieService extends APiService {
     }
 
     private handleError(requestError: any) {
-        console.log(requestError);
+        console.error(requestError);
         return Observable.throw(requestError);
     }
 }

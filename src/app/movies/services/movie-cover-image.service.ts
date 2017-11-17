@@ -16,7 +16,7 @@ export class MovieCoverImageService {
     }
 
     private handleError(requestError: any) {
-        console.log(requestError);
+        console.error(requestError);
         return Observable.throw(requestError);
     }
 }

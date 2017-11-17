@@ -13,51 +13,51 @@ export const LOAD_FAIL = '[Collection] Load Fail';
 
 export class AddAction implements Action {
     readonly type = ADD_MOVIE;
-    public constructor(public movie: Movie){}
+    public constructor(public movie: Movie) {}
 }
 
 export class AddSuccessAction implements Action {
     readonly type = ADD_MOVIE_SUCCESS;
-    public constructor(public movie: Movie){}
+    public constructor(public movie: Movie) {}
 }
 
 export class AddFailAction implements Action {
     readonly type = ADD_MOVIE_FAIL;
-    public constructor(public movie: Movie){}
+    public constructor(public movie: Movie) {}
 }
 
 export class RemoveAction implements Action {
     readonly type = REMOVE_MOVIE;
-    public constructor(public movie: Movie){}
+    public constructor(public movie: Movie) {}
 }
 
 export class RemoveSuccessAction implements Action {
     readonly type = REMOVE_MOVIE_SUCCESS;
-    public constructor(public movie: Movie){}
+    public constructor(public movie: Movie) {}
 }
 
 export class RemoveFailAction implements Action {
     readonly type = REMOVE_MOVIE_FAIL;
-    public constructor(public movie: Movie){}
+    public constructor(public movie: Movie) {}
 }
 
 export class LoadAction implements Action {
     readonly type = LOAD;
 }
-  
-  export class LoadSuccessAction implements Action {
+
+export class LoadSuccessAction implements Action {
     readonly type = LOAD_SUCCESS;
-  
+
     constructor(public movies: Movie[]) {}
-  }
-  
-  export class LoadFailAction implements Action {
+}
+
+export class LoadFailAction implements Action {
     readonly type = LOAD_FAIL;
-  
+
     constructor(public error: any) {}
   }
 
-  export type Actions = 
+export type Actions =
     AddAction | AddSuccessAction | AddFailAction |
     RemoveAction | RemoveSuccessAction | RemoveFailAction |
-    LoadAction | LoadSuccessAction | LoadFailAction
+    LoadAction | LoadSuccessAction | LoadFailAction;

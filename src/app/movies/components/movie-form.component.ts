@@ -65,11 +65,8 @@ export class MovieFormComponent {
             };
             this.movieService.post(this.movie).subscribe(value => {
                 this.movie = value;
-                console.log(this.movie);
-                console.log(this.movie.releasedOn instanceof Date);
-                console.log(new Date(this.movie.releasedOn));
                 this.init();
-            }, error => console.log(error), () => {
+            }, error => console.error(error), () => {
                 this.init();
                 this.loading = false;
                 this.dialogRef.close();
@@ -78,7 +75,7 @@ export class MovieFormComponent {
             Object.assign(this.movie, formData);
             this.movieService.put(this.movie).subscribe(value => {
                 this.movie = value;
-            }, error => console.log(error), () => {
+            }, error => console.error(error), () => {
                 this.init();
                 this.loading = false;
                 this.dialogRef.close();

@@ -12,6 +12,7 @@ import {
     MatCardModule,
     MatDialogModule,
     MatProgressBarModule,
+    MatExpansionModule,
  } from '@angular/material';
 
  import {OverlayModule} from '@angular/cdk/overlay';
@@ -30,6 +31,7 @@ const modules = [
     MatCardModule,
     MatDialogModule,
     MatProgressBarModule,
+    MatExpansionModule,
     OverlayModule,
     PortalModule,
 ];

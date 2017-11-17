@@ -29,9 +29,6 @@ export class MovieComponent implements OnInit {
      }
 
     public ngOnInit(): void {
-        this.loading$.subscribe(loading => console.log('loading is: ' + loading));
-        this.searching$.subscribe(searching => console.log('searching is: ' + searching));
-        this.searchMovies$.subscribe(searchMovies => console.log(searchMovies, this));
         this.store.dispatch(new movieCollectionActions.LoadAction());
     }
 

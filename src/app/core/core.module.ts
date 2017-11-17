@@ -7,11 +7,13 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../shared/material.module';
 import { LayoutComponent } from './containers/layout.component';
 import { ToolbarComponent } from './components/toolbar.component';
+import { SidenavContentComponent } from './components/sidenav-content.component';
 
 const COMPONENTS = [
     AppComponent,
     ToolbarComponent,
     LayoutComponent,
+    SidenavContentComponent,
 ];
 
 

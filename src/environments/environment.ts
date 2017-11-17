@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  mainApiUrl: 'http://localhost:65114/api/main/v1/',
-  adminApiUrl: 'http://localhost:65114/api/admin/v1/'
+  mainApiUrl: 'http://localhost:5001/api/main/v1/',
+  adminApiUrl: 'http://localhost:5001/api/admin/v1/'
 };
