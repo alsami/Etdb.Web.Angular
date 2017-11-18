@@ -1,8 +1,7 @@
-import { MovieCoverImageService } from '../services/movie-cover-image.service';
 import { MovieService } from '../services/movie.service';
 import { ActivatedRoute } from '@angular/router';
 import { Movie } from '../movie.model';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
     selector: 'etdb-movie-detail',
@@ -14,8 +13,7 @@ export class MovieDetailComponent implements OnInit {
     private movieId: string;
 
     public constructor(private route: ActivatedRoute,
-        private movieService: MovieService,
-        private movieCoverImageService: MovieCoverImageService) {}
+        private movieService: MovieService) {}
 
     public ngOnInit(): void {
         this.route.params.subscribe(params => {
@@ -28,18 +26,4 @@ export class MovieDetailComponent implements OnInit {
         this.movieService.getSingle(this.movieId)
             .subscribe(movie => this.movie = movie);
     }
-
-    // private uploadCoverFile(file: File){
-    //     const formData = new FormData();
-    //     formData.append("file", file);
-    //     this.movieCoverImageService.create(formData, this.movie.id).subscribe(res => {
-    //         console.log(res)
-    //     },
-    //     (error) => {
-    //         console.log(error);
-    //     },
-    //     () => {
-    //         this.loadMovie();
-    //     });
-    // }
 }

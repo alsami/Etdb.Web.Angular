@@ -1,5 +1,4 @@
-import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { forwardRef, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './containers/app.component';
@@ -8,6 +7,7 @@ import { MaterialModule } from '../shared/material.module';
 import { LayoutComponent } from './containers/layout.component';
 import { ToolbarComponent } from './components/toolbar.component';
 import { SidenavContentComponent } from './components/sidenav-content.component';
+import { FormsModule } from '@angular/forms';
 
 const COMPONENTS = [
     AppComponent,

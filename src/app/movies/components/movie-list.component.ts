@@ -1,5 +1,3 @@
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { MovieCoverImageService } from '../services/movie-cover-image.service';
 import { Overlay, OverlayRef, OverlayConfig } from '@angular/cdk/overlay';
 import { Portal, TemplatePortalDirective } from '@angular/cdk/portal';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
@@ -33,8 +31,7 @@ export class MovieListComponent implements OnInit {
     searchControl: FormControl;
 
     public constructor(private store: Store<fromMovies.State>,
-        private dialog: MatDialog,  private overlay: Overlay,
-        private movieCoverImageService: MovieCoverImageService) {}
+        private dialog: MatDialog,  private overlay: Overlay) {}
 
     public ngOnInit() {
         this.searchControl = new FormControl();
@@ -47,7 +44,7 @@ export class MovieListComponent implements OnInit {
         this.initializeOverlay();
      }
 
-    private openDialog(movie: Movie) {
+    public openDialog(movie: Movie) {
         const dialogref = this.dialog.open(MovieFormComponent, {
             width: '50%',
             data: {
@@ -70,6 +67,6 @@ export class MovieListComponent implements OnInit {
 
             this.overlayRef = this.overlay.create(config);
             this.overlayRef.attach(this.templatePortal);
-            //this.overlayRef.backdropClick().subscribe(() => this.overlayRef.detach());
+            // this.overlayRef.backdropClick().subscribe(() => this.overlayRef.detach());
     }
 }

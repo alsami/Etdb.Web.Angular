@@ -1,11 +1,9 @@
 import { SearchCompleteAction } from '../actions/movie.actions';
-import { empty } from 'rxjs/Observer';
 import { Action } from '@ngrx/store';
 import { Actions, Effect } from '@ngrx/effects';
 import { MovieService } from '../services/movie.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { async } from 'rxjs/scheduler/async';
 import { of } from 'rxjs/observable/of';
 import * as movieActions from '../actions/movie.actions';
 import { Movie } from '../movie.model';

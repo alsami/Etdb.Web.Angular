@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MovieService } from '../services/movie.service';
 import { Observable } from 'rxjs/Observable';
 import { Movie } from '../movie.model';
 import * as fromMovies from '../reducers';

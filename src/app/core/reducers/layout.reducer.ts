@@ -1,4 +1,4 @@
-import { Action, createSelector } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 import * as LayoutActions from '../actions/layout.actions';
 
 export interface LayoutState {

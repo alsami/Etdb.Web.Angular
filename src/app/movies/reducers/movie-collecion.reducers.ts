@@ -1,5 +1,4 @@
 import * as movieCollectionActions from '../actions/movie-collection.actions';
-import { REMOVE_MOVIE_FAIL } from '../actions/movie-collection.actions';
 
 export interface MovieCollectionState {
     loaded: boolean;

@@ -1,8 +1,7 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MovieService } from '../services/movie.service';
 import { Movie } from '../movie.model';
 import {
-    FormControl,
     FormBuilder,
     FormGroup,
     Validators

@@ -5,12 +5,12 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class MovieCoverImageService {
-    private mainUrl: string = environment.mainApiUrl + 'movies/';
+    // private mainUrl: string = environment.mainApiUrl + 'movies/';
     private adminUrl: string = environment.adminApiUrl + 'movies/';
 
     public constructor(private http: HttpClient) {}
 
-    public create(formData: any, movieId: string) {
+    public create(formData: FormData, movieId: string) {
         return this.http.post(this.adminUrl + movieId + '/moviecoverimages', formData)
             .catch(this.handleError);
     }
