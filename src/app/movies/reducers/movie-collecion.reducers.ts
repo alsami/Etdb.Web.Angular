@@ -30,6 +30,14 @@ export function reducer(state: MovieCollectionState = initialState,
                 };
             }
 
+            case movieCollectionActions.LOAD_FAIL: {
+                return {
+                    ...state,
+                    loading: false,
+                    loaded: false
+                };
+            }
+
             case movieCollectionActions.ADD_MOVIE_SUCCESS:
             case movieCollectionActions.REMOVE_MOVIE_FAIL: {
                 if (state.ids.indexOf(action.movie.id) > -1) {

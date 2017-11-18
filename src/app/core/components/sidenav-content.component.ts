@@ -2,10 +2,7 @@ import { AfterViewInit, Component, ElementRef, Renderer2 } from '@angular/core';
 
 @Component({
     selector: 'etdb-sidenav-content',
-    templateUrl: './sidenav-content.component.html',
-    styleUrls: [
-        'sidenav-content.component.scss'
-    ]
+    templateUrl: './sidenav-content.component.html'
 })
 
 export class SidenavContentComponent implements AfterViewInit {
@@ -20,8 +17,7 @@ export class SidenavContentComponent implements AfterViewInit {
     public constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
 
     public ngAfterViewInit(): void {
-        const expansionPanelBodies: HTMLElement[] = [];
-        expansionPanelBodies.push(this.elementRef.nativeElement.querySelector('.mat-expansion-panel-body'));
+        const expansionPanelBodies = this.elementRef.nativeElement.querySelectorAll('.mat-expansion-panel-body') as HTMLElement[];
         expansionPanelBodies.forEach(body => {
             this.renderer.setStyle(body, 'padding', '0px');
         });

@@ -8,7 +8,7 @@
     <mat-nav-list style="padding: 0px;">
         <ng-template ngFor let-link [ngForOf]="links" let-i="index" >
             <mat-list-item [routerLink]="link.path" routerLinkActive="active-sidenav-menu-link">
-                    <mat-icon mdListIcon>home</mat-icon>
+                    <mat-icon mdListIcon>{{ link.icon }}</mat-icon>
                     <span>{{ link.displayName }}</span>
             </mat-list-item>
         </ng-template>
