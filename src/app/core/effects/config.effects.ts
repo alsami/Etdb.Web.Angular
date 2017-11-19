@@ -2,8 +2,8 @@ import { Actions, Effect } from '@ngrx/effects';
 import { ConfigService } from '../services/config.service';
 import * as configActions from '../actions/config.actions';
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs/observable/of';
 import * as notificationMessageActions from '../actions/notification-message.actions';
+import { Observable } from 'rxjs/Observable';
 
 
 
@@ -16,7 +16,7 @@ export class ConfigEffects {
         .switchMap(() => {
             return this.configService.LoadClientConfig()
                 .map(clientConfig => new configActions.LoadClientConfigSuccessAction(clientConfig))
-                .catch((error: Error) => of(new configActions.LoadClientConfigFailAction(error)));
+                .catch((error: Error) => Observable.of(new configActions.LoadClientConfigFailAction(error)));
         });
 
     @Effect() loadClientConfigFail = this.actions$

@@ -1,4 +1,4 @@
 export interface ClientConfig {
-    name: string;
+    clientName: string;
     secret: string;
 }

@@ -1,6 +1,7 @@
 <etdb-toolbar
-[sidenavVisible]="showSidenav$ | async"
-[title]="title$ | async"></etdb-toolbar>
+    [user]="user$ | async"
+    [sidenavVisible]="showSidenav$ | async"
+    [title]="title$ | async"></etdb-toolbar>
 <mat-sidenav-container>
     <mat-sidenav 
         #sidenav
@@ -11,5 +12,8 @@
         style="box-shadow: 3px 0 6px rgba(0, 0, 0, 0.2);">
         <etdb-sidenav-content></etdb-sidenav-content>
     </mat-sidenav>
+    <mat-sidenav-container style="width: 100%;
+        height: calc(100vh - 64px);">
+        <router-outlet></router-outlet>
+    </mat-sidenav-container>
 </mat-sidenav-container>
-<router-outlet></router-outlet>

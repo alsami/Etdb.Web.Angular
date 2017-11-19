@@ -11,6 +11,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/skip';
 import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/withLatestFrom';
 
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';

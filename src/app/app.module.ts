@@ -11,6 +11,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { FormsModule } from '@angular/forms';
 import { UniqueSelectionDispatcher } from '@angular/cdk/collections';
 import { NotificationMessageEffects } from './core/effects/notification-message.effects';
+import { AuthEffects } from './core/effects/auth.effects';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { NotificationMessageEffects } from './core/effects/notification-message.
       metaReducers
     }),
     EffectsModule.forRoot([
+      AuthEffects,
       ConfigEffects,
       NotificationMessageEffects,
     ]),

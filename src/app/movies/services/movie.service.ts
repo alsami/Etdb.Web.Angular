@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { APiService } from '../../abstractions/api.service';
+import { ApiService } from '../../abstractions/api.service';
 import { Movie } from '../movie.model';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
-export class MovieService extends APiService {
+export class MovieService extends ApiService {
     private headers: HttpHeaders = this.baseHeaders;
     private mainUrl: string = environment.webserviceMainUrl + 'movies/';
     private adminUrl: string = environment.webserviceAdminUrl + 'movies/';

@@ -9,6 +9,7 @@ import {
 import * as fromLayout from '../core/reducers/layout.reducer';
 import * as fromTitle from '../core/reducers/title.reducer';
 import * as fromConfig from '../core/reducers/config.reducer';
+import * as fromAuth from '../core/reducers/auth.reducer';
 import { environment } from '../../environments/environment';
 
 /**
@@ -19,6 +20,7 @@ export interface AppState {
   layout: fromLayout.LayoutState;
   title: fromTitle.TitleState;
   config: fromConfig.ConfigState;
+  auth: fromAuth.AuthState;
 }
 
 /**
@@ -29,7 +31,8 @@ export interface AppState {
 export const reducers: ActionReducerMap<AppState> = {
   layout: fromLayout.reducer,
   title: fromTitle.reducer,
-  config: fromConfig.reducer
+  config: fromConfig.reducer,
+  auth: fromAuth.reducer,
 };
 
 // console.log all actions
@@ -79,4 +82,24 @@ export const getConfigState = createFeatureSelector<fromConfig.ConfigState>('con
 export const getClientConfig = createSelector(
   getConfigState,
   fromConfig.clientConfig
+);
+
+/**
+ * Config Reducers
+ */
+export const getAuthState = createFeatureSelector<fromAuth.AuthState>('auth');
+
+export const getIdentityToken = createSelector(
+  getAuthState,
+  fromAuth.identityToken
+);
+
+export const getIdentityUser = createSelector(
+  getAuthState,
+  fromAuth.identityUser
+);
+
+export const getAuthLoading = createSelector(
+  getAuthState,
+  fromAuth.loading
 );

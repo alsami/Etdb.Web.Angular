@@ -5,4 +5,15 @@
         <mat-icon>menu</mat-icon>
     </button>
     ETDB | {{ title }}
+    <span style="flex: 1 1 auto;"></span>
+    <button *ngIf="!user"
+        mat-button
+        [routerLink]="'login'">Login</button>
+    <button mat-icon-button
+        *ngIf="user"
+        [matTooltip]="getUserGreeting()">
+        <mat-icon>
+            person
+        </mat-icon>
+    </button>
 </mat-toolbar>

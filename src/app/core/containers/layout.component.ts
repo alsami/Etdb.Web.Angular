@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../reducers';
+import { IdentityUser } from '../models/identity-user.model';
 
 @Component({
     selector: 'etdb-layout',
@@ -11,9 +12,11 @@ import * as fromRoot from '../../reducers';
 export class LayoutComponent {
     showSidenav$: Observable<boolean>;
     title$: Observable<string>;
+    user$: Observable<IdentityUser>;
 
     public constructor(private store: Store<fromRoot.AppState>) {
         this.showSidenav$ = this.store.select(fromRoot.getShowSidenav);
         this.title$ = this.store.select(fromRoot.getTitle);
+        this.user$ = this.store.select(fromRoot.getIdentityUser);
     }
 }

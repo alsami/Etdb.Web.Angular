@@ -10,13 +10,18 @@ import { MaterialModule } from '../shared/material.module';
 import { LayoutComponent } from './containers/layout.component';
 import { ToolbarComponent } from './components/toolbar.component';
 import { SidenavContentComponent } from './components/sidenav-content.component';
-import { FormsModule } from '@angular/forms';
+import { LoginComponent } from './containers/login.component';
+import { LoginFormComponent } from './components/login-form.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const COMPONENTS = [
     AppComponent,
     ToolbarComponent,
     LayoutComponent,
     SidenavContentComponent,
+    LoginComponent,
+    LoginFormComponent
 ];
 
 
@@ -28,8 +33,9 @@ const COMPONENTS = [
         HttpClientModule,
         CommonModule,
         RouterModule,
-        FormsModule,
-        MaterialModule
+        MaterialModule,
+        FlexLayoutModule,
+        ReactiveFormsModule
     ],
     exports: [
         COMPONENTS

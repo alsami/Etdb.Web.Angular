@@ -1,0 +1,22 @@
+<div class="page-content" fxFlex fxLayoutAlign="center">
+    <form [formGroup]="loginForm" novalidate>
+        <mat-card>
+            <mat-card-title>Login</mat-card-title>
+            <mat-card-content>
+                <div fxFlex="500px;" fxLayout='column'>
+                    <mat-form-field>
+                        <input formControlName="userName" matInput type="text" placeholder="Username or Email">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput formControlName="password" type="password" placeholder="Password">
+                    </mat-form-field>
+                </div>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button mat-button
+                    [disabled]="!isFormValid()"
+                    (click)="submit();">Login</button>
+            </mat-card-actions>
+        </mat-card>
+    </form>
+</div>
