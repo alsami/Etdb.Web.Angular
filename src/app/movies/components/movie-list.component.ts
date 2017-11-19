@@ -9,6 +9,7 @@ import { Movie } from '../movie.model';
 import * as fromMovies from '../reducers';
 import { MovieFormComponent } from './movie-form.component';
 import * as movieCollectionActions from '../actions/movie-collection.actions';
+import * as titleActions from '../../core/actions/title.actions';
 
 @Component({
     selector: 'etdb-movie-list',
@@ -31,7 +32,9 @@ export class MovieListComponent implements OnInit {
     searchControl: FormControl;
 
     public constructor(private store: Store<fromMovies.State>,
-        private dialog: MatDialog,  private overlay: Overlay) {}
+        private dialog: MatDialog,  private overlay: Overlay) {
+            this.store.dispatch(new titleActions.SetTitleAction('Movies'));
+        }
 
     public ngOnInit() {
         this.searchControl = new FormControl();

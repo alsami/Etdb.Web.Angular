@@ -10,8 +10,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable()
 export class MovieService extends APiService {
     private headers: HttpHeaders = this.baseHeaders;
-    private mainUrl: string = environment.mainApiUrl + 'movies/';
-    private adminUrl: string = environment.adminApiUrl + 'movies/';
+    private mainUrl: string = environment.webserviceMainUrl + 'movies/';
+    private adminUrl: string = environment.webserviceAdminUrl + 'movies/';
 
     public constructor(private http: HttpClient) {
         super();

@@ -10,7 +10,7 @@ export interface MoviesState {
     collection: fromCollection.MovieCollectionState;
 }
 
-export interface State extends fromRoot.State {
+export interface State extends fromRoot.AppState {
   'movies': MoviesState;
 }
 

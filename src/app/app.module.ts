@@ -1,3 +1,4 @@
+import { ConfigEffects } from './core/effects/config.effects';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { AppComponent } from './core/containers/app.component';
@@ -9,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { EffectsModule } from '@ngrx/effects';
 import { FormsModule } from '@angular/forms';
 import { UniqueSelectionDispatcher } from '@angular/cdk/collections';
+import { NotificationMessageEffects } from './core/effects/notification-message.effects';
 
 
 @NgModule({
@@ -20,7 +22,10 @@ import { UniqueSelectionDispatcher } from '@angular/cdk/collections';
     StoreModule.forRoot(reducers, {
       metaReducers
     }),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([
+      ConfigEffects,
+      NotificationMessageEffects,
+    ]),
     CoreModule.forRoot(),
   ],
   providers: [

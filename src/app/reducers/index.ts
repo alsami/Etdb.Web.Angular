@@ -6,15 +6,19 @@ import {
     MetaReducer,
   } from '@ngrx/store';
 
-  import * as fromLayout from '../core/reducers/layout.reducer';
+import * as fromLayout from '../core/reducers/layout.reducer';
+import * as fromTitle from '../core/reducers/title.reducer';
+import * as fromConfig from '../core/reducers/config.reducer';
 import { environment } from '../../environments/environment';
 
 /**
  * As mentioned, we treat each reducer like a table in a database. This means
  * our top level state interface is just a map of keys to inner state types.
  */
-export interface State {
+export interface AppState {
   layout: fromLayout.LayoutState;
+  title: fromTitle.TitleState;
+  config: fromConfig.ConfigState;
 }
 
 /**
@@ -22,13 +26,15 @@ export interface State {
  * These reducer functions are called with each dispatched action
  * and the current or initial state and return a new immutable state.
  */
-export const reducers: ActionReducerMap<State> = {
+export const reducers: ActionReducerMap<AppState> = {
   layout: fromLayout.reducer,
+  title: fromTitle.reducer,
+  config: fromConfig.reducer
 };
 
 // console.log all actions
-export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
-  return function(state: State, action: any): State {
+export function logger(reducer: ActionReducer<AppState>): ActionReducer<AppState> {
+  return function(state: AppState, action: any): AppState {
     console.log('state', state);
     console.log('action', action);
 
@@ -41,7 +47,7 @@ export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
  * the root meta-reducer. To add more meta-reducers, provide an array of meta-reducers
  * that will be composed to form the root meta-reducer.
  */
-export const metaReducers: MetaReducer<State>[] = !environment.production
+export const metaReducers: MetaReducer<AppState>[] = !environment.production
   ? [logger]
   : [];
 
@@ -52,7 +58,25 @@ export const getLayoutState = createFeatureSelector<fromLayout.LayoutState>('lay
 
 export const getShowSidenav = createSelector(
   getLayoutState,
-  fromLayout.getShowSidenav,
+  fromLayout.showSidenav,
 );
 
-export const getSidenavShown = createSelector(getShowSidenav, (state: boolean) => state);
+/**
+ * Title Reducers
+ */
+export const getTitleState = createFeatureSelector<fromTitle.TitleState>('title');
+
+export const getTitle = createSelector(
+  getTitleState,
+  fromTitle.title
+);
+
+/**
+ * Config Reducers
+ */
+export const getConfigState = createFeatureSelector<fromConfig.ConfigState>('config');
+
+export const getClientConfig = createSelector(
+  getConfigState,
+  fromConfig.clientConfig
+);

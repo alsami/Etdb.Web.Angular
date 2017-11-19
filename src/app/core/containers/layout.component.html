@@ -1,4 +1,6 @@
-<etdb-toolbar (openMenu)="toggleSidenav();"></etdb-toolbar>
+<etdb-toolbar
+[sidenavVisible]="showSidenav$ | async"
+[title]="title$ | async"></etdb-toolbar>
 <mat-sidenav-container>
     <mat-sidenav 
         #sidenav

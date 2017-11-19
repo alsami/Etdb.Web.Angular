@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('entertainment-database-angular App', () => {
+describe('etdb-angular App', () => {
   let page: AppPage;
 
   beforeEach(() => {

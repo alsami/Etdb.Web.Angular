@@ -1,22 +1,21 @@
-import { Action } from '@ngrx/store';
-import * as LayoutActions from '../actions/layout.actions';
+import * as layoutActions from '../actions/layout.actions';
 
 export interface LayoutState {
     showSidenav: boolean;
   }
 
-  const initialState: LayoutState = {
-    showSidenav: true,
-  };
+const initialState: LayoutState = {
+  showSidenav: true,
+};
 
-export function reducer(state = initialState, action: Action): LayoutState {
+export function reducer(state = initialState, action: layoutActions.Actions): LayoutState {
     switch (action.type) {
-      case LayoutActions.CLOSE_SIDENAV:
+      case layoutActions.CLOSE_SIDENAV:
         return {
           showSidenav: false,
         };
 
-      case LayoutActions.OPEN_SIDENAV:
+      case layoutActions.OPEN_SIDENAV:
         return {
           showSidenav: true,
         };
@@ -26,4 +25,4 @@ export function reducer(state = initialState, action: Action): LayoutState {
     }
   }
 
-export const getShowSidenav = (state: LayoutState) => state.showSidenav;
+export const showSidenav = (state: LayoutState) => state.showSidenav;

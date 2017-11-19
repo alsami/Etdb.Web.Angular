@@ -9,7 +9,7 @@
         <ng-template ngFor let-link [ngForOf]="links" let-i="index" >
             <mat-list-item [routerLink]="link.path" routerLinkActive="active-sidenav-menu-link">
                     <mat-icon mdListIcon>{{ link.icon }}</mat-icon>
-                    <span>{{ link.displayName }}</span>
+                    <span style="font-size: 14px;">{{ link.displayName }}</span>
             </mat-list-item>
         </ng-template>
     </mat-nav-list>

@@ -4,7 +4,6 @@ import { Actions, Effect } from '@ngrx/effects';
 import { MovieService } from '../services/movie.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
 import * as movieActions from '../actions/movie.actions';
 import { Movie } from '../movie.model';
 
@@ -19,7 +18,7 @@ export class MovieEffects {
         .map(action => action.searchTerm)
         .switchMap(searchTerm => {
             if (searchTerm === '') {
-                return of();
+                return Observable.of();
             }
 
             const nextSearch$ = this.actions$
@@ -31,6 +30,6 @@ export class MovieEffects {
                 .search(searchTerm)
                 .takeUntil(nextSearch$)
                 .map((movies: Movie[]) => new movieActions.SearchCompleteAction(movies))
-                .catch(() => of(new SearchCompleteAction([])));
+                .catch(() => Observable.of(new SearchCompleteAction([])));
         });
 }
