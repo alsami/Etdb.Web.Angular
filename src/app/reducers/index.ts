@@ -10,6 +10,7 @@ import * as fromLayout from '../core/reducers/layout.reducer';
 import * as fromTitle from '../core/reducers/title.reducer';
 import * as fromConfig from '../core/reducers/config.reducer';
 import * as fromAuth from '../core/reducers/auth.reducer';
+import * as fromTheme from '../core/reducers/theme.reducer';
 import { environment } from '../../environments/environment';
 
 /**
@@ -21,6 +22,7 @@ export interface AppState {
   title: fromTitle.TitleState;
   config: fromConfig.ConfigState;
   auth: fromAuth.AuthState;
+  theme: fromTheme.ThemeState;
 }
 
 /**
@@ -32,7 +34,8 @@ export const reducers: ActionReducerMap<AppState> = {
   layout: fromLayout.reducer,
   title: fromTitle.reducer,
   config: fromConfig.reducer,
-  auth: fromAuth.reducer
+  auth: fromAuth.reducer,
+  theme: fromTheme.reducer
 };
 
 // console.log all actions
@@ -109,3 +112,9 @@ export const getAuthLoading = createSelector(
   fromAuth.loading
 );
 
+export const getThemeState = createFeatureSelector<fromTheme.ThemeState>('theme');
+
+export const getTheme = createSelector(
+  getThemeState,
+  fromTheme.theme
+);

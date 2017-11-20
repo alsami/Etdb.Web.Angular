@@ -9,6 +9,14 @@
     <button *ngIf="!user"
         mat-button
         [routerLink]="'login'">Login</button>
+    <button mat-icon-button [matMenuTriggerFor]="themeMenu">
+        <mat-icon>color_lens</mat-icon>
+    </button>
+    <mat-menu #themeMenu="matMenu">
+        <ng-template ngFor let-theme [ngForOf]="themes">
+            <button mat-menu-item (click)="requestThemeChange.emit(theme.theme);">{{theme.name}}</button>
+        </ng-template>
+    </mat-menu>
     <button mat-icon-button
         *ngIf="user"
         [matTooltip]="getUserGreeting()">

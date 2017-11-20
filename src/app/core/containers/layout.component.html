@@ -1,9 +1,10 @@
 <etdb-toolbar
     [user]="user$ | async"
     [sidenavVisible]="showSidenav$ | async"
-    [title]="title$ | async"></etdb-toolbar>
+    [title]="title$ | async"
+    (requestThemeChange)="dispatchThemeChange($event);"></etdb-toolbar>
 <mat-sidenav-container>
-    <mat-sidenav 
+    <mat-sidenav color="accent"
         #sidenav
         mode="side"
         [opened]="showSidenav$ | async"

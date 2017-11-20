@@ -1,0 +1,6 @@
+$etdb-light-primary: mat-palette($mat-blue-grey);
+$etdb-light-accent:  mat-palette($mat-deep-orange, A700);
+
+$etdb-light-warn: mat-palette($mat-red);
+
+$etdb-light-theme: mat-light-theme($etdb-light-primary, $etdb-light-accent, $etdb-light-warn);
