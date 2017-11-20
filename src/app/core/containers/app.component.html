@@ -1,1 +1,4 @@
-<etdb-layout></etdb-layout>
+<etdb-layout [hidden]="loading$ | async"></etdb-layout>
+<ng-template portal>
+    <mat-progress-spinner *ngIf="loading$ | async" color="accent" mode="indeterminate"></mat-progress-spinner>
+</ng-template>

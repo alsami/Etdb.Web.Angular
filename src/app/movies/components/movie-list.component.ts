@@ -66,7 +66,7 @@ export class MovieListComponent implements OnInit {
             .global()
             .centerHorizontally();
             // config.hasBackdrop = true;
-            // config.backdropClass = 'cdk-overlay-transparent-backdrop';
+            // config.backdropClass = 'cdk-overlay-dark-backdrop';
 
             this.overlayRef = this.overlay.create(config);
             this.overlayRef.attach(this.templatePortal);

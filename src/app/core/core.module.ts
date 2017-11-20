@@ -14,6 +14,7 @@ import { LoginComponent } from './containers/login.component';
 import { LoginFormComponent } from './components/login-form.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TokenStorageService } from './services/token-storage.service';
 
 const COMPONENTS = [
     AppComponent,
@@ -43,6 +44,7 @@ const COMPONENTS = [
     providers: [
         AuthService,
         ConfigService,
+        TokenStorageService,
     ],
 })
 

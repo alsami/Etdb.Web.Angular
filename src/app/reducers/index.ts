@@ -32,7 +32,7 @@ export const reducers: ActionReducerMap<AppState> = {
   layout: fromLayout.reducer,
   title: fromTitle.reducer,
   config: fromConfig.reducer,
-  auth: fromAuth.reducer,
+  auth: fromAuth.reducer
 };
 
 // console.log all actions
@@ -84,6 +84,11 @@ export const getClientConfig = createSelector(
   fromConfig.clientConfig
 );
 
+export const getConfigLoading = createSelector(
+  getConfigState,
+  fromConfig.loading
+);
+
 /**
  * Config Reducers
  */
@@ -103,3 +108,4 @@ export const getAuthLoading = createSelector(
   getAuthState,
   fromAuth.loading
 );
+

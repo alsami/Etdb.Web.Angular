@@ -15,7 +15,7 @@ export class AuthService extends ApiService {
         super();
     }
 
-    public login(login: UserLogin, config: ClientConfig): Observable<IdentityToken> {
+    public loginViaCredentials(login: UserLogin, config: ClientConfig): Observable<IdentityToken> {
         const formData = new FormData();
 
         const headers = new HttpHeaders()
@@ -27,6 +27,22 @@ export class AuthService extends ApiService {
         formData.append('username', login.userName);
         formData.append('password', login.password);
         formData.append('scope', 'UserService WebService openid offline_access');
+
+        return this.http.post(environment.userserviceAuthUrl, formData, {
+            headers: headers
+        }).map((res: IdentityToken) => res);
+    }
+
+    public loginViaRefreshtoken(token: IdentityToken, config: ClientConfig): Observable<IdentityToken> {
+        const formData = new FormData();
+
+        const headers = new HttpHeaders()
+            .set('Authorization', 'Basic ' + Base64.encode(config.clientName + ':' + config.secret))
+            .set('Accept', 'application/json')
+            .set('cache-control', 'no-cache');
+
+        formData.append('grant_type', 'refresh_token');
+        formData.append('refresh_token', token.refresh_token);
 
         return this.http.post(environment.userserviceAuthUrl, formData, {
             headers: headers
