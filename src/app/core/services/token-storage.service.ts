@@ -20,7 +20,7 @@ export class TokenStorageService {
 
     public canRestore(): boolean {
         const token = this.getTokenFromStorage();
-        return token !== undefined && token !== null;
+        return token !== undefined;
     }
 
     public isExpired(): boolean {
@@ -36,6 +36,9 @@ export class TokenStorageService {
 
     private getTokenFromStorage(): IdentityToken {
         const token: IdentityToken = JSON.parse(window.localStorage.getItem('token'));
+        if (!token) {
+            return undefined;
+        }
         token.expires_at = new Date(token.expires_in);
         return token;
     }

@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthService } from './services/auth.service';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -16,6 +16,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TokenStorageService } from './services/token-storage.service';
 import { RegisterComponent } from './containers/register.component';
 import { RegisterFormComponent } from './components/register-form.component';
+import { TokenInterceptor } from './interceptors/token.interceptor';
 
 const COMPONENTS = [
     AppComponent,
@@ -47,6 +48,11 @@ const COMPONENTS = [
     providers: [
         AuthService,
         TokenStorageService,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: TokenInterceptor,
+            multi: true
+        }
     ],
 })
 

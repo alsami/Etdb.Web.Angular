@@ -50,8 +50,7 @@ export class AuthService extends ApiService {
     }
 
     public loadIdentityUser(): Observable<IdentityUser> {
-        let headers = this.baseHeaders;
-        headers = this.setAuthorizationHeader(headers);
+        const headers = this.baseHeaders;
 
         return this.http.get(environment.userserviceAuthProfileUrl, {
             headers: headers
