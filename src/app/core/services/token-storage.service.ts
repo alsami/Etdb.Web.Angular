@@ -6,7 +6,6 @@ export class TokenStorageService {
     public storeToken(token: IdentityToken): void {
         const storeToken: IdentityToken = token;
         this.setExpiresInTime(storeToken);
-        console.log('before token store', storeToken);
         window.localStorage.setItem('token', JSON.stringify(storeToken));
     }
 
