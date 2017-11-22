@@ -1,5 +1,4 @@
 import { HttpClientModule } from '@angular/common/http';
-import { ConfigService } from './services/config.service';
 import { AuthService } from './services/auth.service';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -47,7 +46,6 @@ const COMPONENTS = [
     ],
     providers: [
         AuthService,
-        ConfigService,
         TokenStorageService,
     ],
 })

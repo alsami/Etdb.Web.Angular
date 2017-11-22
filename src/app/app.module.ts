@@ -1,4 +1,3 @@
-import { ConfigEffects } from './core/effects/config.effects';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { AppComponent } from './core/containers/app.component';
@@ -25,7 +24,6 @@ import { AuthEffects } from './core/effects/auth.effects';
     }),
     EffectsModule.forRoot([
       AuthEffects,
-      ConfigEffects,
       NotificationMessageEffects,
     ]),
     CoreModule.forRoot(),

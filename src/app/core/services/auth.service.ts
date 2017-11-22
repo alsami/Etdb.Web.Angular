@@ -1,7 +1,6 @@
-import { ClientConfig } from '../models/client-config.model';
 import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
-import { Base64 } from 'js-base64';
+// import { Base64 } from 'js-base64';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { UserLogin } from '../models/user-login.model';
@@ -16,11 +15,11 @@ export class AuthService extends ApiService {
         super();
     }
 
-    public loginViaCredentials(login: UserLogin, config: ClientConfig): Observable<IdentityToken> {
+    public loginViaCredentials(login: UserLogin): Observable<IdentityToken> {
         const formData = new FormData();
 
         const headers = new HttpHeaders()
-            .set('Authorization', 'Basic ' + Base64.encode(config.clientName + ':' + config.secret))
+            .set('Authorization', 'Basic d2ViLmNsaWVudDpnaXg4ZXhrbmY5c3h2bmh2dmtyZ3R6bTVlYjdvNHU3bWtwbW5xODZtbzkwd2plNDlxdQ==')
             .set('Accept', 'application/json')
             .set('cache-control', 'no-cache');
 
@@ -34,11 +33,11 @@ export class AuthService extends ApiService {
         }).map((res: IdentityToken) => res);
     }
 
-    public loginViaRefreshtoken(token: IdentityToken, config: ClientConfig): Observable<IdentityToken> {
+    public loginViaRefreshtoken(token: IdentityToken): Observable<IdentityToken> {
         const formData = new FormData();
 
         const headers = new HttpHeaders()
-            .set('Authorization', 'Basic ' + Base64.encode(config.clientName + ':' + config.secret))
+            .set('Authorization', 'Basic d2ViLmNsaWVudDpnaXg4ZXhrbmY5c3h2bmh2dmtyZ3R6bTVlYjdvNHU3bWtwbW5xODZtbzkwd2plNDlxdQ==')
             .set('Accept', 'application/json')
             .set('cache-control', 'no-cache');
 
