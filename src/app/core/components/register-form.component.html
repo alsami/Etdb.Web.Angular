@@ -22,14 +22,17 @@
                                 matInput
                                 #passwordInput
                                 formControlName="password" type="password" placeholder="Password">
-                            <mat-icon (click)="changePasswordVisibility();" class="pointer" matSuffix>remove_red_eye</mat-icon>
+                            <mat-icon (click)="changePasswordVisibility(passwordInput);" class="pointer" matSuffix>remove_red_eye</mat-icon>
                         </mat-form-field>
                         <mat-form-field>
                             <input
                                 matInput
-                                #passwordInput
+                                #passwordInputRepeat
                                 formControlName="passwordRepeat" type="password" placeholder="Repeat password">
-                            <mat-icon (click)="changePasswordVisibility();" class="pointer" matSuffix>remove_red_eye</mat-icon>
+                            <mat-icon (click)="changePasswordVisibility(passwordInputRepeat);" class="pointer" matSuffix>remove_red_eye</mat-icon>
+                            <mat-error *ngIf="hasMismatchedPasswordError();">
+                                Passwords do not match!
+                            </mat-error>
                         </mat-form-field>
                     </div>
                 </div>

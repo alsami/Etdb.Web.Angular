@@ -1,16 +1,7 @@
-import { Component, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { RegisterUser } from '../models/register-user.model';
-
-function matchingPasswords(password: string, passwordRepeat: string) {
-    return (group: FormGroup): {[key: string]: any} => {
-      if (group.controls[password].value !== group.controls[passwordRepeat].value) {
-        return {
-          mismatchedPasswords: true
-        };
-      }
-    };
-  }
+import { PasswordValidator } from '../validators/password.validator';
 
 @Component({
     selector: 'etdb-register-form',
@@ -21,9 +12,6 @@ export class RegisterFormComponent {
     @Output() requestRegister: EventEmitter<RegisterUser> =
         new EventEmitter<RegisterUser>();
 
-    @ViewChild('passwordInput') passwordInput: ElementRef;
-    @ViewChild('passwordInputRepeat') passwordInputRepeat: ElementRef;
-
     registerFormGroup: FormGroup;
 
     public constructor(private formBuilder: FormBuilder) {
@@ -31,14 +19,23 @@ export class RegisterFormComponent {
     }
 
     public isFormValid(): boolean {
-        console.log(this.registerFormGroup);
+        // console.log(this.registerFormGroup);
         return this.registerFormGroup.valid;
     }
 
-    public changePasswordVisibility(): void {
-        this.passwordInput.nativeElement.type === 'password'
-            ? this.passwordInput.nativeElement.type = 'text'
-            : this.passwordInput.nativeElement.type = 'password';
+    public hasMismatchedPasswordError(): boolean {
+        const hasPasswordError = this.registerFormGroup
+            .controls['passwordRepeat'].hasError('mismatchedPassword');
+
+        console.log(hasPasswordError);
+
+        return hasPasswordError;
+    }
+
+    public changePasswordVisibility(inputElement: HTMLInputElement): void {
+        inputElement.type === 'password'
+            ? inputElement.type = 'text'
+            : inputElement.type = 'password';
     }
 
     public submit(): void {
@@ -62,6 +59,6 @@ export class RegisterFormComponent {
             ],
             password: ['', Validators.required],
             passwordRepeat: ['', Validators.required]
-        }, { validator: matchingPasswords('password', 'passwordRepeat') });
+        }, { validator: PasswordValidator.mismatchedPassword('password', 'passwordRepeat') });
     }
 }
