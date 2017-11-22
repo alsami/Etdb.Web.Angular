@@ -50,6 +50,7 @@ export class AuthEffects {
             if (!this.tokenStorageService.canRestore()) {
                 return Observable.of();
             }
+
             return this.authService
                 .loginViaRefreshtoken(this.tokenStorageService.restoreToken())
                 .map(token => {

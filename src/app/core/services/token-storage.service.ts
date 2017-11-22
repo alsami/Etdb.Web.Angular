@@ -4,24 +4,39 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class TokenStorageService {
     public storeToken(token: IdentityToken): void {
-        window.localStorage.setItem('token', JSON.stringify(token));
-        // window.localStorage.setItem('access_token', token.access_token);
-        // window.localStorage.setItem('refresh_token', token.refresh_token);
-        // window.localStorage.setItem('expires_in', token.expires_in.toString());
-        // window.localStorage.setItem('token_type', token.token_type);
+        const storeToken: IdentityToken = token;
+        this.setExpiresInTime(storeToken);
+        console.log('before token store', storeToken);
+        window.localStorage.setItem('token', JSON.stringify(storeToken));
     }
 
     public restoreToken(): IdentityToken {
-        const token: IdentityToken = JSON.parse(window.localStorage.getItem('token'));
-        return token;
+        return this.getTokenFromStorage();
     }
 
     public clearToken(): void {
         window.localStorage.removeItem('token');
     }
 
-    public canRestore() {
-        const token: IdentityToken = JSON.parse(window.localStorage.getItem('token'));
+    public canRestore(): boolean {
+        const token = this.getTokenFromStorage();
         return token !== undefined && token !== null;
+    }
+
+    public isExpired(): boolean {
+        const token = this.getTokenFromStorage();
+        return token.expires_at < new Date();
+    }
+
+    private setExpiresInTime(token: IdentityToken): void {
+        const date = new Date();
+        date.setMinutes(date.getMinutes(), token.expires_in);
+        token.expires_in = date.getTime();
+    }
+
+    private getTokenFromStorage(): IdentityToken {
+        const token: IdentityToken = JSON.parse(window.localStorage.getItem('token'));
+        token.expires_at = new Date(token.expires_in);
+        return token;
     }
 }
