@@ -7,7 +7,6 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
 import { PRIMARY_THEME } from '../core.constants';
 import * as authActions from '../actions/auth.actions';
-import { setTimeout } from 'timers';
 
 @Component({
   selector: 'etdb-root',

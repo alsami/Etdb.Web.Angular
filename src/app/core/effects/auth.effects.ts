@@ -53,6 +53,7 @@ export class AuthEffects {
             return this.authService
                 .loginViaRefreshtoken(this.tokenStorageService.restoreToken())
                 .map(token => {
+                    this.tokenStorageService.clearToken();
                     this.tokenStorageService.storeToken(token);
                     return new authActions.LoginSuccessAction(token);
                 }).catch((error: Error) => {

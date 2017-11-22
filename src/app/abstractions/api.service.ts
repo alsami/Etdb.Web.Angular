@@ -1,6 +1,7 @@
 import {
     HttpHeaders
 } from '@angular/common/http';
+import { IdentityToken } from '../core/models/identity-token.model';
 
 export abstract class ApiService {
     protected baseHeaders: HttpHeaders = new HttpHeaders()
@@ -8,6 +9,7 @@ export abstract class ApiService {
         .set('charset', 'utf-8');
 
     protected setAuthorizationHeader(headers: HttpHeaders): HttpHeaders {
-        return headers.set('Authorization', 'Bearer ' + window.localStorage.getItem('access_token'));
+        const token: IdentityToken = JSON.parse(window.localStorage.getItem('token'));
+        return headers.set('Authorization', 'Bearer ' + token.access_token);
     }
 }
