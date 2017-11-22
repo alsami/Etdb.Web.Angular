@@ -20,14 +20,26 @@ export class AuthEffects {
         private actions$: Actions) {}
 
     @Effect() login = this.actions$
-        .ofType(authActions.LOGIN)
+        .ofType(authActions.LOGIN, authActions.REGISTER_SUCCESS)
         .withLatestFrom(this.store.select(fromRoot.getClientConfig))
-        .switchMap(([action, config]: [authActions.LoginAction, ClientConfig]) => {
+        .switchMap(([action, config]: [authActions.LoginAction | authActions.RegisterSucessAction, ClientConfig]) => {
             return this.authService.loginViaCredentials(action.login, config)
                 .map(token => {
                     this.tokenStorageService.storeToken(token);
                     return new authActions.LoginSuccessAction(token);
                 }).catch((error: Error) => Observable.of(new authActions.LoginFailAction(error)));
+        });
+
+    @Effect() register = this.actions$
+        .ofType(authActions.REGISTER)
+        .switchMap((action: authActions.RegisterAction) => {
+            return this.authService.register(action.registerUser)
+                .map(() => {
+                    return new authActions.RegisterSucessAction({
+                        userName: action.registerUser.userName,
+                        password: action.registerUser.password
+                    });
+                }).catch((error: Error) => Observable.of(new authActions.RegisterFailAction(error)));
         });
 
     @Effect() loadIdentityUser = this.actions$
@@ -54,7 +66,10 @@ export class AuthEffects {
                             .map(token => {
                                 this.tokenStorageService.storeToken(token);
                                 return new authActions.LoginSuccessAction(token);
-                            }).catch((error: Error) => Observable.of(new authActions.LoginFailAction(error)));
+                            }).catch((error: Error) => {
+                                this.tokenStorageService.clearToken();
+                                return Observable.of(new authActions.LoginFailAction(error));
+                            });
                     }
                 }
         });

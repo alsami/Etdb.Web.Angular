@@ -1,0 +1,4 @@
+<mat-progress-bar *ngIf="loading$ | async" color="accent" mode="indeterminate"></mat-progress-bar>
+<etdb-register-form
+    (requestRegister)="register($event);">
+</etdb-register-form>

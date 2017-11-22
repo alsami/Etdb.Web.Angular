@@ -1,0 +1,44 @@
+<div class="page-content" fxFlex fxLayoutAlign="center">
+    <form [formGroup]="registerFormGroup" novalidate>
+        <mat-card color="primary">
+            <mat-card-title>Register</mat-card-title>
+            <mat-card-content>
+                <div fxFlex="500px;" fxLayout='column'>
+                    <mat-form-field>
+                        <input formControlName="name" matInput type="text" placeholder="Your name">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input formControlName="lastName" matInput type="text" placeholder="Your family name">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input formControlName="userName" matInput type="text" placeholder="Choose a username">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input formControlName="email" matInput type="email" placeholder="Your email address">
+                    </mat-form-field>
+                    <div fxLayout="row" fxLayoutAlign="space-between">
+                        <mat-form-field>
+                            <input
+                                matInput
+                                #passwordInput
+                                formControlName="password" type="password" placeholder="Password">
+                            <mat-icon (click)="changePasswordVisibility();" class="pointer" matSuffix>remove_red_eye</mat-icon>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input
+                                matInput
+                                #passwordInput
+                                formControlName="passwordRepeat" type="password" placeholder="Repeat password">
+                            <mat-icon (click)="changePasswordVisibility();" class="pointer" matSuffix>remove_red_eye</mat-icon>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button mat-button
+                    [disabled]="!isFormValid()"
+                    (click)="submit();">Register</button>
+            </mat-card-actions>
+        </mat-card>
+    </form>
+</div>

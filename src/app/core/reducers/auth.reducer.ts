@@ -43,6 +43,29 @@ export function reducer(state = initialState, action: authActions.Actions): Auth
             };
         }
 
+        case authActions.REGISTER: {
+            return {
+                ...state,
+                loading: true
+            };
+        }
+
+        case authActions.REGISTER_SUCCESS: {
+            return {
+                ...state,
+                loaded: true,
+                loading: false
+            };
+        }
+
+        case authActions.REGISTER_FAIL: {
+            return {
+                ...state,
+                loaded: true,
+                loading: false
+            };
+        }
+
         case authActions.LOAD_IDENTITY_USER: {
             return {
                 ...state,

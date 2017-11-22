@@ -19,6 +19,13 @@ export class TokenStorageService {
         };
     }
 
+    public clearToken(): void {
+        window.localStorage.removeItem('access_token');
+        window.localStorage.removeItem('refresh_token');
+        window.localStorage.removeItem('expires_in');
+        window.localStorage.removeItem('token_type');
+    }
+
     public canRestore() {
         const refreshToken = window.localStorage.getItem('refresh_token');
         return refreshToken !== '' && refreshToken !== undefined && refreshToken !== null;

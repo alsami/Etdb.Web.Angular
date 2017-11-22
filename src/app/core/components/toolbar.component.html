@@ -8,6 +8,9 @@
     <span style="flex: 1 1 auto;"></span>
     <button *ngIf="!user"
         mat-button
+        [routerLink]="'register'">Register</button>
+    <button *ngIf="!user"
+        mat-button
         [routerLink]="'login'">Login</button>
     <button mat-icon-button [matMenuTriggerFor]="themeMenu">
         <mat-icon>color_lens</mat-icon>

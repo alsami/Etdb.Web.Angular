@@ -15,6 +15,8 @@ import { LoginFormComponent } from './components/login-form.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TokenStorageService } from './services/token-storage.service';
+import { RegisterComponent } from './containers/register.component';
+import { RegisterFormComponent } from './components/register-form.component';
 
 const COMPONENTS = [
     AppComponent,
@@ -22,7 +24,9 @@ const COMPONENTS = [
     LayoutComponent,
     SidenavContentComponent,
     LoginComponent,
-    LoginFormComponent
+    LoginFormComponent,
+    RegisterComponent,
+    RegisterFormComponent
 ];
 
 

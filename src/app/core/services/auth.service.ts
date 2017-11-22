@@ -8,6 +8,7 @@ import { UserLogin } from '../models/user-login.model';
 import { IdentityToken } from '../models/identity-token.model';
 import { IdentityUser } from '../models/identity-user.model';
 import { ApiService } from '../../abstractions/api.service';
+import { RegisterUser } from '../models/register-user.model';
 
 @Injectable()
 export class AuthService extends ApiService {
@@ -56,5 +57,13 @@ export class AuthService extends ApiService {
         return this.http.get(environment.userserviceAuthProfileUrl, {
             headers: headers
         }).map((res: IdentityUser) => res);
+    }
+
+    public register(registerUser: RegisterUser): Observable<any> {
+        const headers = this.baseHeaders;
+        return this.http.post(environment.userserviceAdminUrl + 'users/registration',
+            JSON.stringify(registerUser), {
+                headers: headers
+            });
     }
 }
