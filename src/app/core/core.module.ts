@@ -44,16 +44,17 @@ const COMPONENTS = [
     ],
     exports: [
         COMPONENTS
-    ],
-    providers: [
-        AuthService,
-        TokenStorageService,
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: TokenInterceptor,
-            multi: true
-        }
-    ],
+    ]
+    // ,
+    // providers: [
+    //     AuthService,
+    //     TokenStorageService,
+    //     {
+    //         provide: HTTP_INTERCEPTORS,
+    //         useClass: TokenInterceptor,
+    //         multi: true
+    //     }
+    // ],
 })
 
 export class CoreModule {
@@ -61,7 +62,13 @@ export class CoreModule {
         return {
             ngModule: CoreModule,
             providers: [
-
+                AuthService,
+                TokenStorageService,
+                {
+                    provide: HTTP_INTERCEPTORS,
+                    useClass: TokenInterceptor,
+                    multi: true
+                }
             ]
         };
     }

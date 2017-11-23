@@ -1,12 +1,12 @@
 import { Store } from '@ngrx/store';
 import { Component, ViewChild, OnInit } from '@angular/core';
-import * as fromRoot from '../../reducers';
 import { Overlay, OverlayRef, OverlayConfig, OverlayContainer } from '@angular/cdk/overlay';
 import { Portal, TemplatePortalDirective } from '@angular/cdk/portal';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
 import { PRIMARY_THEME } from '../core.constants';
 import * as authActions from '../actions/auth.actions';
+import * as fromRoot from '@app/reducers';
 
 @Component({
   selector: 'etdb-root',

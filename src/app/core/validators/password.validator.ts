@@ -2,8 +2,7 @@ import { FormGroup } from '@angular/forms';
 
 
 export class PasswordValidator {
-
-    static mismatchedPassword(passwordKey: string, passwordRepeatKey: string) {
+    public static mismatchedPassword(passwordKey: string, passwordRepeatKey: string) {
         return (group: FormGroup) => {
             if (!group) {
                 return;
@@ -13,10 +12,8 @@ export class PasswordValidator {
             const confirmPassword = group.get(passwordRepeatKey).value;
 
             if (password !== confirmPassword) {
-                // console.log('false');
-                group.get('passwordRepeat').setErrors( { mismatchedPassword: true } );
+                group.get(passwordRepeatKey).setErrors( { mismatchedPassword: true } );
             } else {
-                // console.log('true');
                 return null;
             }
         };
