@@ -1,6 +1,6 @@
 import { Overlay, OverlayRef, OverlayConfig } from '@angular/cdk/overlay';
 import { Portal, TemplatePortalDirective } from '@angular/cdk/portal';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { Store } from '@ngrx/store';
@@ -19,7 +19,7 @@ import * as titleActions from '../../core/actions/title.actions';
     ]
 })
 
-export class MovieListComponent implements OnInit {
+export class MovieListComponent implements OnInit, OnDestroy {
     private overlayRef: OverlayRef;
 
     @Input() movies: Movie[] = [];
@@ -36,7 +36,7 @@ export class MovieListComponent implements OnInit {
             this.store.dispatch(new titleActions.SetTitleAction('Movies'));
         }
 
-    public ngOnInit() {
+    public ngOnInit(): void {
         this.searchControl = new FormControl();
         this.searchControl.valueChanges
             .distinctUntilChanged()
@@ -45,7 +45,15 @@ export class MovieListComponent implements OnInit {
                 this.searchTerm = searchTerm;
             });
         this.initializeOverlay();
-     }
+    }
+
+    public ngOnDestroy(): void {
+        if (this.overlayRef && this.overlayRef.hasAttached()) {
+            this.overlayRef.detach();
+            this.overlayRef.detachBackdrop();
+            this.overlayRef.dispose();
+        }
+    }
 
     public openDialog(movie: Movie) {
         const dialogref = this.dialog.open(MovieFormComponent, {

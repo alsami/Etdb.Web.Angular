@@ -10,6 +10,7 @@ export class TokenInterceptor implements HttpInterceptor {
         if (request.headers.has('Authorization')) {
             return httpHandler.handle(request);
         }
+
         const nextRequest = request.clone({
             setHeaders: {
                 'Authorization' : 'Bearer ' + this.tokenStorageService.restoreToken().access_token
