@@ -5,6 +5,7 @@ import { Portal, TemplatePortalDirective } from '@angular/cdk/portal';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
 import { PRIMARY_THEME } from '../core.constants';
+import * as userUiPreferenceActions from '../actions/user-ui-preference.actions';
 import * as authActions from '../actions/auth.actions';
 import * as fromRoot from '@app/reducers';
 
@@ -23,6 +24,7 @@ export class AppComponent implements OnInit {
     public constructor(private overlay: Overlay,
         private overlayContainer: OverlayContainer,
         private store: Store<fromRoot.AppState>) {
+            this.store.dispatch(new userUiPreferenceActions.RestoreThemeAction());
             this.store.dispatch(new authActions.RestoreLoginAction());
     }
 

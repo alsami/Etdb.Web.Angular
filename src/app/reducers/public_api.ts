@@ -9,7 +9,7 @@ import {
 import * as fromLayout from '../core/reducers/layout.reducer';
 import * as fromTitle from '../core/reducers/title.reducer';
 import * as fromAuth from '../core/reducers/auth.reducer';
-import * as fromTheme from '../core/reducers/theme.reducer';
+import * as fromUserUiPreference from '../core/reducers/user-ui-preference.reducer';
 import { environment } from '../../environments/environment';
 
 /**
@@ -20,7 +20,7 @@ export interface AppState {
   layout: fromLayout.LayoutState;
   title: fromTitle.TitleState;
   auth: fromAuth.AuthState;
-  theme: fromTheme.ThemeState;
+  userUiPreference: fromUserUiPreference.UserUiPreferenceState;
 }
 
 /**
@@ -32,7 +32,7 @@ export const reducers: ActionReducerMap<AppState> = {
   layout: fromLayout.reducer,
   title: fromTitle.reducer,
   auth: fromAuth.reducer,
-  theme: fromTheme.reducer
+  userUiPreference: fromUserUiPreference.reducer
 };
 
 // console.log all actions
@@ -94,9 +94,9 @@ export const getAuthLoading = createSelector(
   fromAuth.loading
 );
 
-export const getThemeState = createFeatureSelector<fromTheme.ThemeState>('theme');
+export const getUserUiPreferenceState = createFeatureSelector<fromUserUiPreference.UserUiPreferenceState>('userUiPreference');
 
 export const getTheme = createSelector(
-  getThemeState,
-  fromTheme.theme
+  getUserUiPreferenceState,
+  fromUserUiPreference.theme
 );

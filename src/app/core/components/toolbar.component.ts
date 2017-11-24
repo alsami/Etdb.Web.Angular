@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import * as fromRoot from '../../reducers';
 import * as layoutActions from '../actions/layout.actions';
 import { IdentityUser } from '../models/identity-user.model';
-import { PRIMARY_THEME, DARK_THEME } from '../core.constants';
+import { VALID_THEMES_DESC } from '@app/core/core.constants';
 
 @Component({
     selector: 'etdb-toolbar',
@@ -15,13 +15,7 @@ export class ToolbarComponent {
     @Input() title = '';
     @Input() sidenavVisible: boolean;
     @Input() user: IdentityUser;
-    themes: any[] = [{
-        theme: PRIMARY_THEME,
-        name: 'Light Theme'
-    }, {
-        theme: DARK_THEME,
-        name: 'Dark Theme'
-    }];
+    themes = VALID_THEMES_DESC;
 
     public constructor(private store: Store<fromRoot.AppState>) {}
 

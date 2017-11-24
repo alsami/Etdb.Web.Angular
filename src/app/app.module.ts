@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { UniqueSelectionDispatcher } from '@angular/cdk/collections';
 import { NotificationMessageEffects } from './core/effects/notification-message.effects';
 import { AuthEffects } from './core/effects/auth.effects';
+import { UserUiPreferenceEffects } from '@app/core/effects/user-ui-preference.effects';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { AuthEffects } from './core/effects/auth.effects';
     EffectsModule.forRoot([
       AuthEffects,
       NotificationMessageEffects,
+      UserUiPreferenceEffects
     ]),
     CoreModule.forRoot(),
   ],
