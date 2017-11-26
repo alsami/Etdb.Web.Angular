@@ -59,7 +59,7 @@ export class AuthService extends ApiService {
 
     public register(registerUser: RegisterUser): Observable<any> {
         const headers = this.baseHeaders;
-        return this.http.post(environment.userserviceAdminUrl + 'users/registration',
+        return this.http.post(environment.userserviceUrl + 'users/registration',
             JSON.stringify(registerUser), {
                 headers: headers
             });

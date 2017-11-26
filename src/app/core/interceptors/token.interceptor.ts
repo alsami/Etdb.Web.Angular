@@ -13,6 +13,10 @@ export class TokenInterceptor implements HttpInterceptor {
             return httpHandler.handle(request);
         }
 
+        if (request.url.indexOf('registration') > -1) {
+            return httpHandler.handle(request);
+        }
+
         const nextRequest = request.clone({
             setHeaders: {
                 'Authorization' : 'Bearer ' + this.tokenStorageService.restoreToken().access_token
