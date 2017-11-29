@@ -10,6 +10,7 @@ import * as fromMovies from '../reducers';
 import { MovieFormComponent } from './movie-form.component';
 import * as movieCollectionActions from '../actions/movie-collection.actions';
 import * as titleActions from '../../core/actions/title.actions';
+import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
     selector: 'etdb-movie-list',
@@ -19,7 +20,7 @@ import * as titleActions from '../../core/actions/title.actions';
     ]
 })
 
-export class MovieListComponent implements OnInit, OnDestroy {
+export class MovieListComponent implements OnInit, AfterViewInit, OnDestroy {
     private overlayRef: OverlayRef;
 
     @Input() movies: Movie[] = [];
@@ -44,6 +45,9 @@ export class MovieListComponent implements OnInit, OnDestroy {
             .subscribe(searchTerm => {
                 this.searchTerm = searchTerm;
             });
+    }
+
+    public ngAfterViewInit(): void {
         this.initializeOverlay();
     }
 

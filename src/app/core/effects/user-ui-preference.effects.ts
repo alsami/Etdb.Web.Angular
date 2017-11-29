@@ -14,16 +14,15 @@ export class UserUiPreferenceEffects {
         .ofType(userUiPreferenceActions.SWITCH)
         .switchMap((action: userUiPreferenceActions.SwitchThemeAction) => {
             this.uiPreferenceStorageService.storeTheme(action.theme);
-            return Observable.of();
+            return Observable.empty();
         });
 
     @Effect() restore = this.actions$
         .ofType(userUiPreferenceActions.RESTORE)
-        .map(() => {
+        .switchMap(() => {
             if (this.uiPreferenceStorageService.canRestoreTheme()) {
-                return new userUiPreferenceActions
-                    .SwitchThemeAction(this.uiPreferenceStorageService.getTheme());
+                return Observable.of(new userUiPreferenceActions.SwitchThemeAction(this.uiPreferenceStorageService.getTheme()));
             }
-            Observable.of();
+            return Observable.of({ type: 'EMPTY'});
         });
 }
