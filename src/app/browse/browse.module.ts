@@ -3,17 +3,13 @@ import { MaterialModule } from '@app/shared/material.module';
 import { BrowseComponent } from '@app/browse/container';
 import { RouterModule } from '@angular/router';
 
-const components = [
-    BrowseComponent
-];
-
 @NgModule({
     imports: [
         MaterialModule,
         RouterModule.forChild([])
     ],
     declarations: [
-        ...components
+        BrowseComponent
     ],
     exports: [
 
