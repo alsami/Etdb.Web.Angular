@@ -1,10 +1,10 @@
 import { Actions, Effect } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
-// import * as notificationMessageActions from '../actions/notification-message.actions';
 import * as authActions from '../actions/auth.actions';
 import { AuthService } from '../services/auth.service';
 import { Observable } from 'rxjs/Observable';
 import { TokenStorageService } from '../services/token-storage.service';
+import { Router } from '@angular/router';
 
 
 
@@ -12,7 +12,7 @@ import { TokenStorageService } from '../services/token-storage.service';
 export class AuthEffects {
     public constructor(private authService: AuthService,
         private tokenStorageService: TokenStorageService,
-        private actions$: Actions) {}
+        private actions$: Actions, private router: Router) {}
 
     @Effect() login = this.actions$
         .ofType(authActions.LOGIN, authActions.REGISTER_SUCCESS)
@@ -22,6 +22,20 @@ export class AuthEffects {
                     this.tokenStorageService.storeToken(token);
                     return new authActions.LoginSuccessAction(token);
                 }).catch((error: Error) => Observable.of(new authActions.LoginFailAction(error)));
+        });
+
+    @Effect() loginSuccess = this.actions$
+        .ofType(authActions.LOGIN_SUCCESS, authActions.REGISTER_SUCCESS)
+        .switchMap(() => {
+            this.router.navigate(['/browse']);
+            return Observable.of();
+        });
+
+    @Effect() logout = this.actions$
+        .ofType(authActions.LOGOUT)
+        .switchMap(() => {
+            this.tokenStorageService.clearToken();
+            return Observable.of();
         });
 
     @Effect() register = this.actions$

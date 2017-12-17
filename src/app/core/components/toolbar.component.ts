@@ -12,6 +12,7 @@ import { VALID_THEMES_DESC } from '@app/core/core.constants';
 
 export class ToolbarComponent {
     @Output() requestThemeChange: EventEmitter<string> = new EventEmitter<string>();
+    @Output() requestLogout: EventEmitter<void> = new EventEmitter<void>();
     @Input() title = '';
     @Input() sidenavVisible: boolean;
     @Input() user: IdentityUser;

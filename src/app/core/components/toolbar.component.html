@@ -27,4 +27,10 @@
             person
         </mat-icon>
     </button>
+    <button mat-icon-button
+        *ngIf="user"
+        matTooltip="Logout"
+        (click)="requestLogout.emit();">
+        <mat-icon>exit_to_app</mat-icon>
+    </button>
 </mat-toolbar>

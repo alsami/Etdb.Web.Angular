@@ -43,6 +43,14 @@ export function reducer(state = initialState, action: authActions.Actions): Auth
             };
         }
 
+        case authActions.LOGOUT: {
+            return {
+                ...state,
+                identityToken: null,
+                identityUser: null
+            };
+        }
+
         case authActions.REGISTER: {
             return {
                 ...state,

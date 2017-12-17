@@ -6,11 +6,19 @@ import { AfterViewInit, Component, ElementRef, Renderer2 } from '@angular/core';
 })
 
 export class SidenavContentComponent implements AfterViewInit {
-    public links: any[] = [
+    public adminLinks: any[] = [
         {
             path: 'movies',
             displayName: 'Movies',
             icon: 'movie'
+        }
+    ];
+
+    public discoverLinks: any[] = [
+        {
+            path: 'browse',
+            displayName: 'Browse',
+            icon: 'dashboard'
         }
     ];
 

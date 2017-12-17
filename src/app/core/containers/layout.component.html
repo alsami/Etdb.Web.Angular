@@ -2,7 +2,8 @@
     [user]="user$ | async"
     [sidenavVisible]="showSidenav$ | async"
     [title]="title$ | async"
-    (requestThemeChange)="dispatchThemeChange($event);"></etdb-toolbar>
+    (requestThemeChange)="dispatchThemeChange($event);"
+    (requestLogout)="dispatchLogout();"></etdb-toolbar>
 <mat-sidenav-container>
     <mat-sidenav color="accent"
         #sidenav

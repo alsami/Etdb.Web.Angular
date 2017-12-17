@@ -11,27 +11,29 @@ import { AuthEffects, NotificationMessageEffects } from '@app/core/effects';
 import { CoreModule } from '@app/core/core.module';
 import { AppComponent } from '@app/core/containers';
 import { LayoutEffects } from '@app/core/effects/layout.effects';
+import { BrowseModule } from '@app/browse/browse.module';
 
 
 @NgModule({
     imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    FormsModule,
-    StoreModule.forRoot(reducers, {
-        metaReducers
-    }),
-    EffectsModule.forRoot([
-        AuthEffects,
-        NotificationMessageEffects,
-        LayoutEffects,
-    ]),
-    CoreModule.forRoot(),
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        FormsModule,
+        StoreModule.forRoot(reducers, {
+            metaReducers
+        }),
+        EffectsModule.forRoot([
+            AuthEffects,
+            NotificationMessageEffects,
+            LayoutEffects,
+        ]),
+        CoreModule.forRoot(),
+        BrowseModule,
     ],
     providers: [
-    {provide: LOCALE_ID, useValue: 'de-de'},
-    UniqueSelectionDispatcher
+        {provide: LOCALE_ID, useValue: 'de-de'},
+        UniqueSelectionDispatcher
     ],
     bootstrap: [AppComponent]
 })

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { VALID_THEMES, PRIMARY_THEME } from '@app/core/core.constants';
 
 @Injectable()
-export class UserUiPreferenceStorageService {
+export class LayoutStorageService {
     public storeTheme(theme: string): void  {
         window.localStorage.setItem('theme', theme);
     }

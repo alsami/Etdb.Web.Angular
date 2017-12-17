@@ -2,17 +2,14 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './core/containers/login.component';
 import { RegisterComponent } from './core/containers/register.component';
+import { BrowseComponent } from '@app/browse/container';
 
 
 const routes: Routes = [
     {
         path: '',
-        redirectTo: '/movies',
+        redirectTo: '/browse/movies',
         pathMatch: 'full'
-    },
-    {
-        path: 'movies',
-        loadChildren: 'app/movies/movie.module#MovieModule'
     },
     {
         path: 'login',
@@ -21,6 +18,16 @@ const routes: Routes = [
     {
         path: 'register',
         component: RegisterComponent
+    },
+    {
+        path: 'browse',
+        component: BrowseComponent,
+        children: [
+            {
+                path: 'movies',
+                loadChildren: 'app/movies/movie.module#MovieModule'
+            }
+        ]
     }
 ];
 

@@ -17,7 +17,7 @@ import { TokenStorageService } from './services/token-storage.service';
 import { RegisterComponent } from './containers/register.component';
 import { RegisterFormComponent } from './components/register-form.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
-import { UserUiPreferenceStorageService } from '@app/core/services/user-ui-preference-storage.service';
+import { LayoutStorageService } from '@app/core/services/layout-storage.service';
 
 const COMPONENTS = [
     AppComponent,
@@ -55,7 +55,7 @@ export class CoreModule {
             providers: [
                 AuthService,
                 TokenStorageService,
-                UserUiPreferenceStorageService,
+                LayoutStorageService,
                 {
                     provide: HTTP_INTERCEPTORS,
                     useClass: TokenInterceptor,

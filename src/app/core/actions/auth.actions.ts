@@ -14,6 +14,7 @@ export const RESTORE_LOGIN = '[Auth] Restore login';
 export const LOAD_IDENTITY_USER = '[Auth] Load Identity User';
 export const LOAD_IDENTITY_USER_SUCCESS = '[Auth] Load Identity User success';
 export const LOAD_IDENTITY_USER_FAIL = '[Auth] Load Identity User fail';
+export const LOGOUT = '[Auth] Logout';
 
 export class LoginAction implements Action {
     readonly type = LOGIN;
@@ -28,6 +29,10 @@ export class LoginSuccessAction implements Action {
 export class LoginFailAction implements Action {
     readonly type = LOGIN_FAIL;
     public constructor(public error: Error) {}
+}
+
+export class LogoutAction implements Action {
+    readonly type = LOGOUT;
 }
 
 export class RegisterAction implements Action {
@@ -66,6 +71,7 @@ export class LoadIdentityUserFailAction implements Action {
 
 export declare type Actions =
     LoginAction | LoginSuccessAction | LoginFailAction |
+    LogoutAction |
     RegisterAction | RegisterSucessAction | RegisterFailAction |
     RestoreLoginAction |
     LoadIdentityUserAction | LoadIdentityUserSuccessAction | LoadIdentityUserFailAction;

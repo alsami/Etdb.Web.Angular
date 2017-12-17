@@ -37,8 +37,8 @@ export class AppComponent implements OnInit {
     private subscribeThemeChanges(): void {
         this.store.select(fromRoot.getTheme).subscribe(theme => {
             if (theme !== this.theme) {
-            this.overlayContainer.getContainerElement().classList.remove(this.theme);
-            this.theme = theme;
+                this.overlayContainer.getContainerElement().classList.remove(this.theme);
+                this.theme = theme;
             }
             this.overlayContainer.getContainerElement().classList.add(theme);
         });
