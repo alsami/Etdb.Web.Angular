@@ -12,6 +12,11 @@ const routes: Routes = [
         pathMatch: 'full'
     },
     {
+        path: 'browse',
+        redirectTo: '/browse/movies',
+        pathMatch: 'full'
+    },
+    {
         path: 'login',
         component: LoginComponent
     },

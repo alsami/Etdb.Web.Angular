@@ -27,7 +27,7 @@ export class AuthEffects {
     @Effect() loginSuccess = this.actions$
         .ofType(authActions.LOGIN_SUCCESS, authActions.REGISTER_SUCCESS)
         .switchMap(() => {
-            this.router.navigate(['/browse']);
+            this.router.navigate(['/']);
             return Observable.of();
         });
 
