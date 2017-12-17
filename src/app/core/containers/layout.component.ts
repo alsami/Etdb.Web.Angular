@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../reducers';
 import { IdentityUser } from '../models/identity-user.model';
-import * as userUiPreferenceActions from '../actions/user-ui-preference.actions';
+import * as layoutActions from '../actions/layout.actions';
 
 @Component({
     selector: 'etdb-layout',
@@ -22,6 +22,6 @@ export class LayoutComponent {
     }
 
     public dispatchThemeChange(theme: string) {
-        this.store.dispatch(new userUiPreferenceActions.SwitchThemeAction(theme));
+        this.store.dispatch(new layoutActions.SwitchThemeAction(theme));
     }
 }

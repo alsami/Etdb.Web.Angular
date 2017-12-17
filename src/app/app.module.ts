@@ -7,9 +7,10 @@ import { FormsModule } from '@angular/forms';
 import { UniqueSelectionDispatcher } from '@angular/cdk/collections';
 import { AppRoutingModule } from '@app/app-routing.module';
 import { reducers, metaReducers } from '@app/reducers';
-import { AuthEffects, NotificationMessageEffects, UserUiPreferenceEffects } from '@app/core/effects';
+import { AuthEffects, NotificationMessageEffects } from '@app/core/effects';
 import { CoreModule } from '@app/core/core.module';
 import { AppComponent } from '@app/core/containers';
+import { LayoutEffects } from '@app/core/effects/layout.effects';
 
 
 @NgModule({
@@ -24,7 +25,7 @@ import { AppComponent } from '@app/core/containers';
     EffectsModule.forRoot([
         AuthEffects,
         NotificationMessageEffects,
-        UserUiPreferenceEffects
+        LayoutEffects,
     ]),
     CoreModule.forRoot(),
     ],
