@@ -17,7 +17,7 @@
       "test": "test.ts",
       "tsconfig": "tsconfig.app.json",
       "testTsconfig": "tsconfig.spec.json",
-      "prefix": "bmc",
+      "prefix": "app",
       "styles": [
         "sass/styles.scss",
         "sass/material-theme.scss"
