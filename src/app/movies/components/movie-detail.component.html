@@ -1,10 +1,10 @@
 <mat-card>
-        <mat-card-title-group>
-          <mat-card-title>Card with Large Image</mat-card-title>
-          <mat-card-subtitle>152px x 152px image</mat-card-subtitle>
-          <img mat-card-lg-image src="https://placekitten.com/g/400/200">
-        </mat-card-title-group>
-      </mat-card>
+    <mat-card-title-group>
+        <mat-card-title>Card with Large Image</mat-card-title>
+        <mat-card-subtitle>152px x 152px image</mat-card-subtitle>
+        <img mat-card-lg-image src="https://placekitten.com/g/400/200">
+    </mat-card-title-group>
+</mat-card>
 <div class="flex-container justify-center">
     <mat-card *ngIf="movie" style="width: 800px; margin: 10px;">
         <mat-card-title>
@@ -18,8 +18,8 @@
             </p>
         </mat-card-content>
         <mat-card-actions align="end">
-                <input type="file" name="file" #fileInput placeholder="Upload file...">
-                <button mat-raised-button (click)="uploadCoverFile();">Upload</button>
+            <input type="file" name="file" #fileInput placeholder="Upload file...">
+            <button mat-raised-button (click)="uploadCoverFile();">Upload</button>
         </mat-card-actions>
     </mat-card>
 </div>
