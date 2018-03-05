@@ -5,7 +5,7 @@ import { PasswordValidator } from '../validators/password.validator';
 
 @Component({
     selector: 'etdb-register-form',
-    templateUrl: './register-form.component.html'
+    templateUrl: 'register-form.component.html'
 })
 
 export class RegisterFormComponent {

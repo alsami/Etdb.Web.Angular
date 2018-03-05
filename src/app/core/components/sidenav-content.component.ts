@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, Renderer2 } from '@angular/core';
 
 @Component({
     selector: 'etdb-sidenav-content',
-    templateUrl: './sidenav-content.component.html'
+    templateUrl: 'sidenav-content.component.html'
 })
 
 export class SidenavContentComponent implements AfterViewInit {

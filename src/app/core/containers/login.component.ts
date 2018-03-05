@@ -8,7 +8,7 @@ import { UserLogin } from '../models/user-login.model';
 
 @Component({
     selector: 'etdb-login',
-    templateUrl: './login.component.html'
+    templateUrl: 'login.component.html'
 })
 
 export class LoginComponent {
