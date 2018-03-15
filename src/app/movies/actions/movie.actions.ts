@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Movie } from '../movie.model';
+import { Movie } from '@app/movies/models/movie.model';
 
 export const SEARCH = '[Movie] Search';
 export const SEARCH_COMPLETE = '[Movie] Search Complete';
@@ -34,5 +34,5 @@ export class SelectAction implements Action {
     }
 }
 
-export type Actions = 
+export type Actions =
     SearchAction | SearchCompleteAction | LoadAction | SelectAction;

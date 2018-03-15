@@ -1,12 +1,12 @@
 import { Component, Inject } from '@angular/core';
-import { MovieService } from '../services/movie.service';
-import { Movie } from '../movie.model';
 import {
     FormBuilder,
     FormGroup,
     Validators
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { Movie } from '@app/movies/models/movie.model';
+import { MovieService } from '@app/movies/services';
 
 @Component({
     selector: 'etdb-movie-form',

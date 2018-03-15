@@ -1,6 +1,5 @@
 import { FormGroup } from '@angular/forms';
 
-
 export class PasswordValidator {
     public static mismatchedPassword(passwordKey: string, passwordRepeatKey: string) {
         return (group: FormGroup) => {

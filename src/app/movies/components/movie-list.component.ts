@@ -5,12 +5,13 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { Store } from '@ngrx/store';
 
-import { Movie } from '../movie.model';
-import * as fromMovies from '../reducers';
+import * as fromMovies from 'app/movies/reducers';
 import { MovieFormComponent } from './movie-form.component';
 import * as movieCollectionActions from '../actions/movie-collection.actions';
 import * as titleActions from '../../core/actions/title.actions';
 import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { Movie } from '@app/movies/models/movie.model';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
     selector: 'etdb-movie-list',
@@ -39,9 +40,12 @@ export class MovieListComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public ngOnInit(): void {
         this.searchControl = new FormControl();
-        this.searchControl.valueChanges
-            .distinctUntilChanged()
-            .debounceTime(1000)
+        this.searchControl
+            .valueChanges
+            .pipe(
+                distinctUntilChanged(),
+                debounceTime(1000)
+            )
             .subscribe(searchTerm => {
                 this.searchTerm = searchTerm;
             });

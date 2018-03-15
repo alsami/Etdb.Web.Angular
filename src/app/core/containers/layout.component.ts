@@ -1,10 +1,10 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
-import * as fromRoot from '../../reducers';
-import { IdentityUser } from '../models/identity-user.model';
+import * as fromRoot from '@app/reducers';
 import * as layoutActions from '../actions/layout.actions';
 import * as authActions from '../actions/auth.actions';
+import { IdentityUser } from '@app/core/models';
 
 @Component({
     selector: 'etdb-layout',

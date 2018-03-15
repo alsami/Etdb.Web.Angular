@@ -4,10 +4,11 @@ import { Overlay, OverlayRef, OverlayConfig, OverlayContainer } from '@angular/c
 import { Portal, TemplatePortalDirective } from '@angular/cdk/portal';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
-import { PRIMARY_THEME } from '../core.constants';
 import * as layoutActions from '../actions/layout.actions';
 import * as authActions from '../actions/auth.actions';
 import * as fromRoot from '@app/reducers';
+import { PRIMARY_THEME } from '@app/core/core.constants';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'etdb-root',
@@ -45,14 +46,15 @@ export class AppComponent implements OnInit {
     }
 
     private subscribeAuthLoading(): void {
-        this.authLoadingSubscription = this.store.select(fromRoot.getAuthLoading)
-        .delay(2500)
-        .subscribe((loading: boolean) => {
-            this.loading$.next(loading);
-            if (!loading) {
-                this.overlayRef.detach();
-                this.authLoadingSubscription.unsubscribe();
-            }
+        this.authLoadingSubscription = this.store
+            .select(fromRoot.getAuthLoading)
+            .pipe(delay(2500))
+            .subscribe((loading: boolean) => {
+                this.loading$.next(loading);
+                if (!loading) {
+                    this.overlayRef.detach();
+                    this.authLoadingSubscription.unsubscribe();
+                }
       });
     }
 

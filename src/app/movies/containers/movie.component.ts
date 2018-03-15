@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Movie } from '../movie.model';
-import * as fromMovies from '../reducers';
+import * as fromMovies from '@app/movies/reducers';
 import * as movieCollectionActions from '../actions/movie-collection.actions';
 import { Store } from '@ngrx/store';
+import { Movie } from '@app/movies/models/movie.model';
 
 @Component({
     selector: 'etdb-movie',

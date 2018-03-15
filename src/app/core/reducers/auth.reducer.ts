@@ -1,6 +1,5 @@
 import * as authActions from '../actions/auth.actions';
-import { IdentityToken } from '../models/identity-token.model';
-import { IdentityUser } from '../models/identity-user.model';
+import { IdentityToken, IdentityUser } from '@app/core/models';
 
 export interface AuthState {
     identityToken: IdentityToken;

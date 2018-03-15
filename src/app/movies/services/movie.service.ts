@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
 import { ApiService } from '../../abstractions/api.service';
-import { Movie } from '../movie.model';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Movie } from '@app/movies/models/movie.model';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable()
 export class MovieService extends ApiService {
@@ -19,37 +18,30 @@ export class MovieService extends ApiService {
 
     public get(): Observable<Movie[]> {
         return this.http.get(this.mainUrl)
-            .map(res => <Movie[]>res);
+            .pipe(map(res => <Movie[]>res));
     }
 
     public getSingle(id: string): Observable<Movie> {
         return this.http.get(this.mainUrl + id)
-        .map(res => <Movie>res);
+            .pipe(map(res => <Movie>res));
     }
 
     public search(searchTerm: string): Observable<Movie[]> {
         return this.http.get(this.mainUrl + 'search/' + searchTerm)
-            .map(res => <Movie[]>res);
+            .pipe(map(res => <Movie[]>res));
     }
 
     public post(movie: Movie): Observable<Movie> {
         return this.http.post(this.adminUrl, JSON.stringify(movie), {
             headers: this.headers
         })
-        .map(res => <Movie>res)
-        .catch(this.handleError);
+        .pipe(map(res => <Movie>res));
     }
 
     public put(movie: Movie): Observable<Movie> {
         return this.http.put(this.adminUrl + movie.id, JSON.stringify(movie), {
             headers: this.headers
         })
-        .map(res => <Movie>res)
-        .catch(this.handleError);
-    }
-
-    private handleError(requestError: any) {
-        console.error(requestError);
-        return Observable.throw(requestError);
+        .pipe(map(res => <Movie>res));
     }
 }

@@ -1,6 +1,6 @@
 <mat-progress-bar *ngIf="loading" color="accent" mode="indeterminate"></mat-progress-bar>
 <div class="flex-container space-around movie-container">
-    <ng-template ngFor let-movie [ngForOf]="movies | movieFilter : 'title' : searchTerm">
+    <ng-template ngFor let-movie [ngForOf]="movies">
         <mat-card  style="width: 600px; margin: 10px;">
             <mat-card-title>
                 <a style="text-decoration: none;" [routerLink]="[movie.id]">{{ movie.title }}</a>

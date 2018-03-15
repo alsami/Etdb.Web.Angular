@@ -1,8 +1,7 @@
-import { MovieDetailComponent } from './components/movie-detail.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
-import { MovieComponent } from './containers/movie.component';
+import { MovieComponent } from '@app/movies/containers';
+import { MovieDetailComponent } from '@app/movies/components';
 
 const routes: Routes = [
     {

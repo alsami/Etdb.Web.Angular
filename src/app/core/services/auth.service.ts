@@ -1,12 +1,10 @@
 import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
-import { UserLogin } from '../models/user-login.model';
-import { IdentityToken } from '../models/identity-token.model';
-import { IdentityUser } from '../models/identity-user.model';
-import { ApiService } from '../../abstractions/api.service';
-import { RegisterUser } from '../models/register-user.model';
+import { ApiService } from '@app/abstractions/api.service';
+import { IdentityToken, UserLogin, IdentityUser, RegisterUser } from '@app/core/models';
+import { environment } from 'environments/environment';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class AuthService extends ApiService {
@@ -29,7 +27,9 @@ export class AuthService extends ApiService {
 
         return this.http.post(environment.userserviceAuthUrl, formData, {
             headers: headers
-        }).map((res: IdentityToken) => res);
+        }).pipe(
+            map((res: IdentityToken) => res)
+        );
     }
 
     public loginViaRefreshtoken(token: IdentityToken): Observable<IdentityToken> {
@@ -45,7 +45,9 @@ export class AuthService extends ApiService {
 
         return this.http.post(environment.userserviceAuthUrl, formData, {
             headers: headers
-        }).map((res: IdentityToken) => res);
+        }).pipe(
+            map((res: IdentityToken) => res)
+        );
     }
 
     public loadIdentityUser(): Observable<IdentityUser> {
@@ -53,7 +55,9 @@ export class AuthService extends ApiService {
 
         return this.http.get(environment.userserviceAuthProfileUrl, {
             headers: headers
-        }).map((res: IdentityUser) => res);
+        }).pipe(
+            map((res: IdentityUser) => res)
+        );
     }
 
     public register(registerUser: RegisterUser): Observable<any> {
