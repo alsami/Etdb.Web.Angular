@@ -1,10 +1,10 @@
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { LayoutStorageService } from '@app/core/services/layout-storage.service';
 import * as layoutActions from '../actions/layout.actions';
 import { switchMap } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 
 
 @Injectable()

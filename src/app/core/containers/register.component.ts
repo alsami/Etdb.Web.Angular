@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '@app/reducers';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import * as titleActions from '../actions/title.actions';
 import * as authActions from '../actions/auth.actions';
 import { RegisterUser } from '@app/core/models';

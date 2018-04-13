@@ -3,11 +3,11 @@ import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { MovieService } from '../services/movie.service';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import * as movieActions from '../actions/movie.actions';
 import { Movie } from '@app/movies/models/movie.model';
 import { map, catchError, toArray, switchMap, mergeMap, debounceTime, skip, takeUntil } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 
 @Injectable()
 export class MovieEffects {
@@ -33,7 +33,7 @@ export class MovieEffects {
                 .search(searchTerm)
                 .pipe(
                     takeUntil(nextSearch$),
-                    map(movies => new movieActions.SearchCompleteAction(movies)),
+                    map((movies: Movie[]) => new movieActions.SearchCompleteAction(movies)),
                     catchError(() => of(new SearchCompleteAction([])))
                 );
         }));

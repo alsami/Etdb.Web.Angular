@@ -1,11 +1,11 @@
 import { Action } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { MovieService } from '../services/movie.service';
 import * as movieCollectionActions from '../actions/movie-collection.actions';
 import { map, catchError, toArray, switchMap, mergeMap } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 
 @Injectable()
 export class MovieCollectionEffects {
