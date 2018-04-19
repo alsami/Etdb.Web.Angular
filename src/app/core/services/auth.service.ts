@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ApiService } from '@app/abstractions/api.service';
-import { IdentityToken, UserLogin, IdentityUser, RegisterUser } from '@app/core/models';
+import { ApiService } from '@etdb/abstractions/api.service';
+import { IdentityToken, UserLogin, IdentityUser, RegisterUser } from '@etdb/core/models';
 import { environment } from 'environments/environment';
 import { map } from 'rxjs/operators';
 

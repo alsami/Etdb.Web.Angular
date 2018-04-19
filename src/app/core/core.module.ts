@@ -17,7 +17,7 @@ import { TokenStorageService } from './services/token-storage.service';
 import { RegisterComponent } from './containers/register.component';
 import { RegisterFormComponent } from './components/register-form.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
-import { LayoutStorageService } from '@app/core/services/layout-storage.service';
+import { LayoutStorageService } from '@etdb/core/services/layout-storage.service';
 
 const COMPONENTS = [
     AppComponent,

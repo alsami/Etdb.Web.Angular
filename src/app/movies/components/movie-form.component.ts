@@ -5,8 +5,8 @@ import {
     Validators
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Movie } from '@app/movies/models/movie.model';
-import { MovieService } from '@app/movies/services';
+import { Movie } from '@etdb/movies/models/movie.model';
+import { MovieService } from '@etdb/movies/services';
 
 @Component({
     selector: 'etdb-movie-form',

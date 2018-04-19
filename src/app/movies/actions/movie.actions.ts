@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Movie } from '@app/movies/models/movie.model';
+import { Movie } from '@etdb/movies/models/movie.model';
 
 export const SEARCH = '[Movie] Search';
 export const SEARCH_COMPLETE = '[Movie] Search Complete';

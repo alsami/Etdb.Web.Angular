@@ -1,7 +1,7 @@
 import * as movieActions from '../actions/movie.actions';
 import * as movieCollectionActions from '../actions/movie-collection.actions';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { Movie } from '@app/movies/models/movie.model';
+import { Movie } from '@etdb/movies/models/movie.model';
 
 export interface MovieState extends EntityState<Movie> {
     selectedMovieId: string | null;

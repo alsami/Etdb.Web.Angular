@@ -1,5 +1,5 @@
 import * as authActions from '../actions/auth.actions';
-import { IdentityToken, IdentityUser } from '@app/core/models';
+import { IdentityToken, IdentityUser } from '@etdb/core/models';
 
 export interface AuthState {
     identityToken: IdentityToken;

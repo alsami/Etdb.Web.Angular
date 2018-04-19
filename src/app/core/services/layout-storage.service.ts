@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { VALID_THEMES, PRIMARY_THEME } from '@app/core/core.constants';
+import { VALID_THEMES, PRIMARY_THEME } from '@etdb/core/core.constants';
 
 @Injectable()
 export class LayoutStorageService {

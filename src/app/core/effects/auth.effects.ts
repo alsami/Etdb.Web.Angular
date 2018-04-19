@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TokenStorageService } from '../services/token-storage.service';
 import { Router } from '@angular/router';
-import { AuthService } from '@app/core/services';
+import { AuthService } from '@etdb/core/services';
 import * as authActions from '../actions/auth.actions';
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';

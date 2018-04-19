@@ -5,7 +5,7 @@ import { MovieService } from '../services/movie.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import * as movieActions from '../actions/movie.actions';
-import { Movie } from '@app/movies/models/movie.model';
+import { Movie } from '@etdb/movies/models/movie.model';
 import { map, catchError, toArray, switchMap, mergeMap, debounceTime, skip, takeUntil } from 'rxjs/operators';
 import { of } from 'rxjs';
 

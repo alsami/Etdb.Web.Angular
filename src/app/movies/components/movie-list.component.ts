@@ -10,7 +10,7 @@ import { MovieFormComponent } from './movie-form.component';
 import * as movieCollectionActions from '../actions/movie-collection.actions';
 import * as titleActions from '../../core/actions/title.actions';
 import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
-import { Movie } from '@app/movies/models/movie.model';
+import { Movie } from '@etdb/movies/models/movie.model';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({

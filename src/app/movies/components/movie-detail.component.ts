@@ -1,7 +1,7 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { Movie } from '@app/movies/models/movie.model';
-import { MovieService } from '@app/movies/services';
+import { Movie } from '@etdb/movies/models/movie.model';
+import { MovieService } from '@etdb/movies/services';
 
 @Component({
     selector: 'etdb-movie-detail',

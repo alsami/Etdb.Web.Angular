@@ -1,7 +1,7 @@
 import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { TokenStorageService } from '@app/core/services';
+import { TokenStorageService } from '@etdb/core/services';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {

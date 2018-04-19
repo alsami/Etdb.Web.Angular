@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { BrowseComponent } from '@app/browse/container';
-import { LoginComponent, RegisterComponent } from '@app/core/containers';
+import { BrowseComponent } from '@etdb/browse/container';
+import { LoginComponent, RegisterComponent } from '@etdb/core/containers';
 
 
 const routes: Routes = [

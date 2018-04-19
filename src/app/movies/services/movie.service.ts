@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { ApiService } from '../../abstractions/api.service';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Movie } from '@app/movies/models/movie.model';
+import { Movie } from '@etdb/movies/models/movie.model';
 import { map, catchError } from 'rxjs/operators';
 
 @Injectable()

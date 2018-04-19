@@ -1,5 +1,5 @@
 import * as layoutActions from '../actions/layout.actions';
-import { PRIMARY_THEME } from '@app/core/core.constants';
+import { PRIMARY_THEME } from '@etdb/core/core.constants';
 
 export interface LayoutState {
     showSidenav: boolean;

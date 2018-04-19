@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import * as fromRoot from '../../reducers';
 import * as layoutActions from '../actions/layout.actions';
 import { IdentityUser } from '../models/identity-user.model';
-import { VALID_THEMES_DESC } from '@app/core/core.constants';
+import { VALID_THEMES_DESC } from '@etdb/core/core.constants';
 
 @Component({
     selector: 'etdb-toolbar',

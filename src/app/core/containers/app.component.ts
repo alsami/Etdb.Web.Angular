@@ -6,8 +6,8 @@ import { BehaviorSubject } from 'rxjs';
 import { Subscription } from 'rxjs';
 import * as layoutActions from '../actions/layout.actions';
 import * as authActions from '../actions/auth.actions';
-import * as fromRoot from '@app/reducers';
-import { PRIMARY_THEME } from '@app/core/core.constants';
+import * as fromRoot from '@etdb/reducers';
+import { PRIMARY_THEME } from '@etdb/core/core.constants';
 import { delay } from 'rxjs/operators';
 
 @Component({

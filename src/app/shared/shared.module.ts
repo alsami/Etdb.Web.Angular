@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { MaterialModule } from '@app/shared/material.module';
+import { MaterialModule } from '@etdb/shared/material.module';
 
 @NgModule({
     imports: [

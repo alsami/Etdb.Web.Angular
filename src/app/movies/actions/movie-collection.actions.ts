@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Movie } from '@app/movies/models/movie.model';
+import { Movie } from '@etdb/movies/models/movie.model';
 
 export const ADD_MOVIE = '[Collection] Add MOVIE';
 export const ADD_MOVIE_SUCCESS = '[Collection] Add MOVIE Success';

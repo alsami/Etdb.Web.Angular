@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IdentityToken } from '@app/core/models';
+import { IdentityToken } from '@etdb/core/models';
 
 @Injectable()
 export class TokenStorageService {
