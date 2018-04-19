@@ -2,8 +2,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../reducers';
 import * as layoutActions from '../actions/layout.actions';
-import { IdentityUser } from '../models/identity-user.model';
 import { VALID_THEMES_DESC } from '@etdb/core/core.constants';
+import { IdentityUser } from '@etdb/core/models';
 
 @Component({
     selector: 'etdb-toolbar',
