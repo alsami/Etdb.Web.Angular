@@ -4,18 +4,18 @@
     [title]="title$ | async"
     (requestThemeChange)="dispatchThemeChange($event);"
     (requestLogout)="dispatchLogout();"></etdb-toolbar>
-<mat-sidenav-container>
+<mat-sidenav-container class="main-sidenav-container" (backdropClick)="toggleSidenav(false);">
     <mat-sidenav color="accent"
         #sidenav
-        mode="side"
+        [mode]="sidenavMode"
         [opened]="showSidenav$ | async"
         [fixedInViewport]="true"
-        [fixedTopGap]="64"
+        [fixedTopGap]="layoutGap"
         style="box-shadow: 3px 0 6px rgba(0, 0, 0, 0.2);">
-        <etdb-sidenav-content></etdb-sidenav-content>
+        <etdb-sidenav-content (linkClicked)="toggleSidenavBasesOnSize();">
+        </etdb-sidenav-content>
     </mat-sidenav>
-    <mat-sidenav-container style="width: 100%;
-        height: calc(100vh - 64px);">
+    <mat-sidenav-container>
         <router-outlet></router-outlet>
     </mat-sidenav-container>
 </mat-sidenav-container>

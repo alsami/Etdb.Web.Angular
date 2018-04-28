@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import * as movieActions from '../actions/movie.actions';
 import { Movie } from '@etdb/movies/models/movie.model';
-import { map, catchError, toArray, switchMap, mergeMap, debounceTime, skip, takeUntil } from 'rxjs/operators';
+import { map, catchError, switchMap, debounceTime, skip, takeUntil } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 @Injectable()

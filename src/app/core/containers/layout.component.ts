@@ -1,26 +1,43 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { ObservableMedia } from '@angular/flex-layout';
+import { IdentityUser } from '@etdb/core/models';
+
 import * as fromRoot from '@etdb/reducers';
 import * as layoutActions from '../actions/layout.actions';
 import * as authActions from '../actions/auth.actions';
-import { IdentityUser } from '@etdb/core/models';
 
 @Component({
     selector: 'etdb-layout',
     templateUrl: 'layout.component.html',
+    styleUrls: [
+        'layout.component.scss'
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class LayoutComponent {
+export class LayoutComponent implements OnInit, OnDestroy {
     showSidenav$: Observable<boolean>;
     title$: Observable<string>;
     user$: Observable<IdentityUser>;
+    sidenavMode: string;
+    layoutGap: string;
 
-    public constructor(private store: Store<fromRoot.AppState>) {
+    private mediaObserver: Subscription;
+
+    public constructor(private store: Store<fromRoot.AppState>, private observMedia: ObservableMedia) {}
+
+    public ngOnInit(): void {
         this.showSidenav$ = this.store.select(fromRoot.getShowSidenav);
         this.title$ = this.store.select(fromRoot.getTitle);
         this.user$ = this.store.select(fromRoot.getIdentityUser);
+
+        this.subscribeLayoutSizeChange();
+    }
+
+    public ngOnDestroy(): void {
+        this.mediaObserver.unsubscribe();
     }
 
     public dispatchThemeChange(theme: string): void {
@@ -29,5 +46,41 @@ export class LayoutComponent {
 
     public dispatchLogout(): void {
         this.store.dispatch(new authActions.LogoutAction());
+    }
+
+    public toggleSidenav(visible: boolean): void {
+        visible
+        ? this.store.dispatch(new layoutActions.OpenSidenav())
+        : this.store.dispatch(new layoutActions.CloseSidenav());
+    }
+
+    public toggleSidenavBasesOnSize(): void {
+        if (this.observMedia.isActive('xs') || this.observMedia.isActive('sm')) {
+            this.store.dispatch(new layoutActions.CloseSidenav());
+        }
+    }
+
+    private subscribeLayoutSizeChange(): void {
+        this.mediaObserver = this.observMedia.subscribe(() => {
+            this.determineSidenavMode();
+            this.determineLayoutGap();
+        });
+    }
+
+    private determineSidenavMode(): void {
+        if (this.observMedia.isActive('xs') || this.observMedia.isActive('sm')) {
+            this.sidenavMode = 'over';
+            this.toggleSidenav(false);
+        } else {
+            this.sidenavMode = 'side';
+        }
+    }
+
+    private determineLayoutGap(): void {
+        if (this.observMedia.isActive('xs')) {
+            this.layoutGap = '56';
+        } else {
+            this.layoutGap = '64';
+        }
     }
 }

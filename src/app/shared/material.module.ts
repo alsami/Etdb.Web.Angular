@@ -19,8 +19,9 @@ import {
     MatMenuModule,
  } from '@angular/material';
 
- import {OverlayModule} from '@angular/cdk/overlay';
- import {PortalModule} from '@angular/cdk/portal';
+ import { OverlayModule } from '@angular/cdk/overlay';
+ import { PortalModule } from '@angular/cdk/portal';
+ import { LayoutModule } from '@angular/cdk/layout';
 
 const modules = [
     MatSidenavModule,
@@ -42,6 +43,7 @@ const modules = [
     MatMenuModule,
     OverlayModule,
     PortalModule,
+    LayoutModule,
 ];
 
 @NgModule({

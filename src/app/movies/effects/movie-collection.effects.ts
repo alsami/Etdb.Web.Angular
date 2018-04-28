@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MovieService } from '../services/movie.service';
 import * as movieCollectionActions from '../actions/movie-collection.actions';
-import { map, catchError, toArray, switchMap, mergeMap } from 'rxjs/operators';
+import { map, catchError, switchMap, mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 @Injectable()

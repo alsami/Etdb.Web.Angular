@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { RegisterUser } from '../models/register-user.model';
-import { PasswordValidator } from '../validators/password.validator';
+import { RegisterUser } from '@etdb/core/models';
+import { PasswordValidator } from '@etdb/core/validators';
 
 @Component({
     selector: 'etdb-register-form',
@@ -19,7 +19,6 @@ export class RegisterFormComponent {
     }
 
     public isFormValid(): boolean {
-        // console.log(this.registerFormGroup);
         return this.registerFormGroup.valid;
     }
 

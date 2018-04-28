@@ -1,11 +1,13 @@
-import { AfterViewInit, Component, ElementRef, Renderer2 } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
     selector: 'etdb-sidenav-content',
     templateUrl: 'sidenav-content.component.html'
 })
 
-export class SidenavContentComponent implements AfterViewInit {
+export class SidenavContentComponent {
+    @Output() linkClicked = new EventEmitter();
+
     public adminLinks: any[] = [
         {
             path: 'movies',
@@ -21,13 +23,4 @@ export class SidenavContentComponent implements AfterViewInit {
             icon: 'dashboard'
         }
     ];
-
-    public constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
-
-    public ngAfterViewInit(): void {
-        const expansionPanelBodies = this.elementRef.nativeElement.querySelectorAll('.mat-expansion-panel-body') as HTMLElement[];
-        expansionPanelBodies.forEach(body => {
-            this.renderer.setStyle(body, 'padding', '0px');
-        });
-    }
 }

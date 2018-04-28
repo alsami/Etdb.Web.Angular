@@ -5,7 +5,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
-import { SharedModule } from '../shared/shared.module';
 import { MovieDetailComponent } from './components/movie-detail.component';
 import { MovieFormComponent } from './components/movie-form.component';
 import { MovieListComponent } from './components/movie-list.component';
@@ -16,6 +15,8 @@ import { MovieRoutingModule } from './movie-routing.module';
 import { reducers } from './reducers';
 import { MovieCoverImageService } from './services/movie-cover-image.service';
 import { MovieService } from './services/movie.service';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MaterialModule } from '@etdb/shared';
 
 @NgModule({
     declarations: [
@@ -28,8 +29,9 @@ import { MovieService } from './services/movie.service';
         CommonModule,
         HttpClientModule,
         ReactiveFormsModule,
-        SharedModule,
         MovieRoutingModule,
+        MaterialModule,
+        FlexLayoutModule,
         StoreModule.forFeature('movies', reducers),
         EffectsModule.forFeature([MovieEffects, MovieCollectionEffects])
     ],

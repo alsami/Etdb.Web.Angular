@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { UserLogin } from '../models/user-login.model';
+import { UserLogin } from '@etdb/core/models';
 
 @Component({
     selector: 'etdb-login-form',

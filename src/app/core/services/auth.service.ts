@@ -4,7 +4,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ApiService } from '@etdb/abstractions/api.service';
 import { IdentityToken, UserLogin, IdentityUser, RegisterUser } from '@etdb/core/models';
 import { environment } from 'environments/environment';
-import { map } from 'rxjs/operators';
 
 @Injectable()
 export class AuthService extends ApiService {
@@ -46,7 +45,7 @@ export class AuthService extends ApiService {
 
         return this.http.get<IdentityUser>(environment.userserviceAuthProfileUrl, {
             headers: headers
-        })
+        });
     }
 
     public register(registerUser: RegisterUser): Observable<any> {

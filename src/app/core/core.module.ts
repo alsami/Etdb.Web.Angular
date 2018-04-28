@@ -1,23 +1,16 @@
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthService } from './services/auth.service';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
-import { AppComponent } from './containers/app.component';
 import { CommonModule } from '@angular/common';
-import { MaterialModule } from '../shared/material.module';
-import { LayoutComponent } from './containers/layout.component';
-import { ToolbarComponent } from './components/toolbar.component';
-import { SidenavContentComponent } from './components/sidenav-content.component';
-import { LoginComponent } from './containers/login.component';
-import { LoginFormComponent } from './components/login-form.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TokenStorageService } from './services/token-storage.service';
-import { RegisterComponent } from './containers/register.component';
-import { RegisterFormComponent } from './components/register-form.component';
-import { TokenInterceptor } from './interceptors/token.interceptor';
+
 import { LayoutStorageService } from '@etdb/core/services/layout-storage.service';
+import { AppComponent, LayoutComponent, LoginComponent, RegisterComponent } from '@etdb/core/containers';
+import { ToolbarComponent, SidenavContentComponent, LoginFormComponent, RegisterFormComponent } from '@etdb/core/components';
+import { MaterialModule } from '@etdb/shared';
+import { AuthService, TokenStorageService } from '@etdb/core/services';
+import { TokenInterceptor } from '@etdb/core/interceptors';
 
 const COMPONENTS = [
     AppComponent,

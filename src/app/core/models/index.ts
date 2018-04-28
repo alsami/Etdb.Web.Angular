@@ -1,7 +1,4 @@
 export * from './error-notification-message.model';
-export * from './event-source-error.response.model';
-export * from './event-source-success.response.model';
-export * from './event-source.response.model';
 export * from './identity-token.model';
 export * from './identity-user.model';
 export * from './notification-message.model';

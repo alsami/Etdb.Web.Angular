@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '@etdb/reducers';
 import { Observable } from 'rxjs';
+import { UserLogin } from '@etdb/core/models';
+
 import * as titleActions from '../actions/title.actions';
 import * as authActions from '../actions/auth.actions';
-import { UserLogin } from '@etdb/core/models';
 
 @Component({
     selector: 'etdb-login',

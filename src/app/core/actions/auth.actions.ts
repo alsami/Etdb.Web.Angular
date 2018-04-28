@@ -1,8 +1,6 @@
 import { Action } from '@ngrx/store';
 import { UserLogin } from '../models/user-login.model';
-import { IdentityToken } from '../models/identity-token.model';
-import { IdentityUser } from '../models/identity-user.model';
-import { RegisterUser } from '../models/register-user.model';
+import { IdentityToken, RegisterUser, IdentityUser } from '@etdb/core/models';
 
 export const LOGIN = '[Auth] Login';
 export const LOGIN_SUCCESS = '[Auth] Login success';

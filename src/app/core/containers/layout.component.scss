@@ -1,0 +1,11 @@
+.main-sidenav-container {
+    width: 100%;
+    height: calc(100vh - 64px);
+}
+
+@media screen and (max-width: 599px) {
+    .main-sidenav-container {
+        width: 100%;
+        height: calc(100vh - 56px);
+    }
+}

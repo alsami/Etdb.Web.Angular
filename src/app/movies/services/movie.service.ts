@@ -4,7 +4,7 @@ import { ApiService } from '../../abstractions/api.service';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Movie } from '@etdb/movies/models/movie.model';
-import { map, catchError } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class MovieService extends ApiService {
