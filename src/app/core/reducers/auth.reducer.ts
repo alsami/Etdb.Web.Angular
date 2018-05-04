@@ -1,5 +1,5 @@
-import * as authActions from '../actions/auth.actions';
 import { IdentityToken, IdentityUser } from '@etdb/core/models';
+import { AuthActionTypes, AuthActions } from '@etdb/core/actions/auth.actions';
 
 export interface AuthState {
     identityToken: IdentityToken;
@@ -15,16 +15,16 @@ const initialState: AuthState = {
   loaded: false,
 };
 
-export function reducer(state = initialState, action: authActions.Actions): AuthState {
+export function reducer(state = initialState, action: AuthActions): AuthState {
     switch (action.type) {
-        case authActions.LOGIN: {
+        case AuthActionTypes.Login: {
             return {
                 ...state,
                 loading: true
             };
         }
 
-        case authActions.LOGIN_SUCCESS: {
+        case AuthActionTypes.LoggedIn: {
             return {
                 ...state,
                 identityToken: action.token,
@@ -33,7 +33,7 @@ export function reducer(state = initialState, action: authActions.Actions): Auth
             };
         }
 
-        case authActions.LOGIN_FAIL: {
+        case AuthActionTypes.LoginFailed: {
             return {
                 identityToken: null,
                 identityUser: null,
@@ -42,7 +42,7 @@ export function reducer(state = initialState, action: authActions.Actions): Auth
             };
         }
 
-        case authActions.LOGOUT: {
+        case AuthActionTypes.Logout: {
             return {
                 ...state,
                 identityToken: null,
@@ -50,14 +50,14 @@ export function reducer(state = initialState, action: authActions.Actions): Auth
             };
         }
 
-        case authActions.REGISTER: {
+        case AuthActionTypes.Register: {
             return {
                 ...state,
                 loading: true
             };
         }
 
-        case authActions.REGISTER_SUCCESS: {
+        case AuthActionTypes.Registered: {
             return {
                 ...state,
                 loaded: true,
@@ -65,7 +65,7 @@ export function reducer(state = initialState, action: authActions.Actions): Auth
             };
         }
 
-        case authActions.REGISTER_FAIL: {
+        case AuthActionTypes.RegisterFailed: {
             return {
                 ...state,
                 loaded: true,
@@ -73,7 +73,7 @@ export function reducer(state = initialState, action: authActions.Actions): Auth
             };
         }
 
-        case authActions.LOAD_IDENTITY_USER: {
+        case AuthActionTypes.IdentityUserLoad: {
             return {
                 ...state,
                 loading: true,
@@ -81,7 +81,7 @@ export function reducer(state = initialState, action: authActions.Actions): Auth
             };
         }
 
-        case authActions.LOAD_IDENTITY_USER_SUCCESS: {
+        case AuthActionTypes.IdentityUserLoaded: {
             return {
                 ...state,
                 loaded: true,
@@ -90,7 +90,7 @@ export function reducer(state = initialState, action: authActions.Actions): Auth
             };
         }
 
-        case authActions.LOAD_IDENTITY_USER_FAIL: {
+        case AuthActionTypes.IdentityUserLoadFailed: {
             return {
                 ...state,
                 loading: false,

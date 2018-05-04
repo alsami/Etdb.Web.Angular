@@ -16,11 +16,11 @@ export class RegisterComponent {
     loading$: Observable<boolean>;
 
     public constructor(private store: Store<fromRoot.AppState>) {
-        this.store.dispatch(new titleActions.SetTitleAction('Register'));
+        this.store.dispatch(new titleActions.SetTitle('Register'));
         this.loading$ = this.store.select(fromRoot.getAuthLoading);
     }
 
     public register(registerUser: RegisterUser) {
-        this.store.dispatch(new authActions.RegisterAction(registerUser));
+        this.store.dispatch(new authActions.Register(registerUser));
     }
 }

@@ -2,8 +2,9 @@
     [user]="user$ | async"
     [sidenavVisible]="showSidenav$ | async"
     [title]="title$ | async"
-    (requestThemeChange)="dispatchThemeChange($event);"
-    (requestLogout)="dispatchLogout();"></etdb-toolbar>
+    (requestThemeChange)="changeTheme($event);"
+    (requestLogout)="logout();"
+    (mainMenuClicked)="toggleSidenav($event);"></etdb-toolbar>
 <mat-sidenav-container class="main-sidenav-container" (backdropClick)="toggleSidenav(false);">
     <mat-sidenav color="accent"
         #sidenav

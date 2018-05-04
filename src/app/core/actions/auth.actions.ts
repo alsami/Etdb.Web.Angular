@@ -1,75 +1,74 @@
 import { Action } from '@ngrx/store';
-import { UserLogin } from '../models/user-login.model';
-import { IdentityToken, RegisterUser, IdentityUser } from '@etdb/core/models';
+import { IdentityToken, RegisterUser, IdentityUser, UserLogin } from '@etdb/core/models';
 
-export const LOGIN = '[Auth] Login';
-export const LOGIN_SUCCESS = '[Auth] Login success';
-export const LOGIN_FAIL = '[Auth] Login fail';
-export const REGISTER = '[Auth] Register';
-export const REGISTER_SUCCESS = '[Auth] Register success';
-export const REGISTER_FAIL = '[Auth] Register fail';
-export const RESTORE_LOGIN = '[Auth] Restore login';
-export const LOAD_IDENTITY_USER = '[Auth] Load Identity User';
-export const LOAD_IDENTITY_USER_SUCCESS = '[Auth] Load Identity User success';
-export const LOAD_IDENTITY_USER_FAIL = '[Auth] Load Identity User fail';
-export const LOGOUT = '[Auth] Logout';
+export enum AuthActionTypes {
+    Login = '[Auth API] User Login',
+    LoggedIn = '[Auth API] User Logged in',
+    LoginFailed = '[Auth API] User Login failed',
+    Logout = '[Auth API] Logout',
+    Register = '[Auth API] User Register',
+    Registered = '[Auth API] User Registered',
+    RegisterFailed = '[Auth API] User Register failed',
+    RestoreLogin = '[Auth API] Restore Login',
+    IdentityUserLoad = '[Auth API] Identity-User Load',
+    IdentityUserLoaded = '[Auth API] Identity-User Loaded',
+    IdentityUserLoadFailed = '[Auth API] Identity-User Load failed',
+}
 
-export class LoginAction implements Action {
-    readonly type = LOGIN;
+export class Login implements Action {
+    readonly type = AuthActionTypes.Login;
     public constructor(public login: UserLogin) {}
 }
 
-export class LoginSuccessAction implements Action {
-    readonly type = LOGIN_SUCCESS;
+export class LoggedIn implements Action {
+    readonly type = AuthActionTypes.LoggedIn;
     public constructor(public token: IdentityToken) {}
 }
 
-export class LoginFailAction implements Action {
-    readonly type = LOGIN_FAIL;
+export class LoginFailed implements Action {
+    readonly type = AuthActionTypes.LoginFailed;
     public constructor(public error: Error) {}
 }
 
-export class LogoutAction implements Action {
-    readonly type = LOGOUT;
+export class Logout implements Action {
+    readonly type = AuthActionTypes.Logout;
 }
 
-export class RegisterAction implements Action {
-    readonly type = REGISTER;
+export class Register implements Action {
+    readonly type = AuthActionTypes.Register;
     public constructor(public registerUser: RegisterUser) {}
 }
 
-export class RegisterSucessAction implements Action {
-    readonly type = REGISTER_SUCCESS;
+export class Registered implements Action {
+    readonly type = AuthActionTypes.Registered;
     public constructor(public login: UserLogin) {}
 }
 
-export class RegisterFailAction implements Action {
-    readonly type = REGISTER_FAIL;
+export class RegisterFailed implements Action {
+    readonly type = AuthActionTypes.RegisterFailed;
     public constructor(public error: Error) {}
 }
 
-export class RestoreLoginAction implements Action {
-    readonly type = RESTORE_LOGIN;
+export class RestoreLogin implements Action {
+    readonly type = AuthActionTypes.RestoreLogin;
 }
 
-export class LoadIdentityUserAction implements Action {
-    readonly type = LOAD_IDENTITY_USER;
+export class IdentityUserLoad implements Action {
+    readonly type = AuthActionTypes.IdentityUserLoad;
     public constructor(public identityToken: UserLogin) {}
 }
 
-export class LoadIdentityUserSuccessAction implements Action {
-    readonly type = LOAD_IDENTITY_USER_SUCCESS;
+export class IdentityUserLoaded implements Action {
+    readonly type = AuthActionTypes.IdentityUserLoaded;
     public constructor(public identityUser: IdentityUser) {}
 }
 
-export class LoadIdentityUserFailAction implements Action {
-    readonly type = LOAD_IDENTITY_USER_FAIL;
+export class IdentityUserLoadFailed implements Action {
+    readonly type = AuthActionTypes.IdentityUserLoadFailed;
     public constructor(public error: Error) {}
 }
 
-export declare type Actions =
-    LoginAction | LoginSuccessAction | LoginFailAction |
-    LogoutAction |
-    RegisterAction | RegisterSucessAction | RegisterFailAction |
-    RestoreLoginAction |
-    LoadIdentityUserAction | LoadIdentityUserSuccessAction | LoadIdentityUserFailAction;
+export declare type AuthActions =
+    Login | LoggedIn | LoginFailed |Logout | RestoreLogin |
+    Register | Registered | RegisterFailed |
+    IdentityUserLoad | IdentityUserLoaded | IdentityUserLoadFailed;

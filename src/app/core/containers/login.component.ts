@@ -16,11 +16,11 @@ export class LoginComponent {
     loading$: Observable<boolean>;
 
     public constructor(private store: Store<fromRoot.AppState>) {
-        this.store.dispatch(new titleActions.SetTitleAction('Login'));
+        this.store.dispatch(new titleActions.SetTitle('Login'));
         this.loading$ = this.store.select(fromRoot.getAuthLoading);
     }
 
     public login(userLogin: UserLogin) {
-        this.store.dispatch(new authActions.LoginAction(userLogin));
+        this.store.dispatch(new authActions.Login(userLogin));
     }
 }

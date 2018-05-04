@@ -7,10 +7,9 @@ import { FormsModule } from '@angular/forms';
 import { UniqueSelectionDispatcher } from '@angular/cdk/collections';
 import { AppRoutingModule } from '@etdb/app-routing.module';
 import { reducers, metaReducers } from '@etdb/reducers';
-import { AuthEffects, NotificationMessageEffects } from '@etdb/core/effects';
+import { AuthEffects, TitleEffects, LayoutEffects } from '@etdb/core/effects';
 import { CoreModule } from '@etdb/core/core.module';
 import { AppComponent } from '@etdb/core/containers';
-import { LayoutEffects } from '@etdb/core/effects/layout.effects';
 import { BrowseModule } from '@etdb/browse/browse.module';
 
 
@@ -25,14 +24,14 @@ import { BrowseModule } from '@etdb/browse/browse.module';
         }),
         EffectsModule.forRoot([
             AuthEffects,
-            NotificationMessageEffects,
             LayoutEffects,
+            TitleEffects
         ]),
         CoreModule.forRoot(),
         BrowseModule,
     ],
     providers: [
-        {provide: LOCALE_ID, useValue: 'de-de'},
+        {provide: LOCALE_ID, useValue: 'en-US'},
         UniqueSelectionDispatcher
     ],
     bootstrap: [AppComponent]

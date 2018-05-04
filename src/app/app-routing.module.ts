@@ -7,12 +7,7 @@ import { LoginComponent, RegisterComponent } from '@etdb/core/containers';
 const routes: Routes = [
     {
         path: '',
-        redirectTo: '/browse/movies',
-        pathMatch: 'full'
-    },
-    {
-        path: 'browse',
-        redirectTo: '/browse/movies',
+        redirectTo: '/browse',
         pathMatch: 'full'
     },
     {
@@ -25,13 +20,7 @@ const routes: Routes = [
     },
     {
         path: 'browse',
-        component: BrowseComponent,
-        children: [
-            {
-                path: 'movies',
-                loadChildren: 'app/movies/movie.module#MovieModule'
-            }
-        ]
+        component: BrowseComponent
     }
 ];
 

@@ -1,17 +1,10 @@
-<mat-toolbar
-    class="mat-elevation-z6"
-    color="primary">
-    <button mat-icon-button (click)="toggleSidenav();">
+<mat-toolbar class="mat-elevation-z6" color="primary">
+    <button mat-icon-button (click)="emitMainMenuClicked();">
         <mat-icon>menu</mat-icon>
     </button>
     ETDB | {{ title }}
     <span style="flex: 1 1 auto;"></span>
-    <button *ngIf="!user"
-        mat-button
-        [routerLink]="'register'">Register</button>
-    <button *ngIf="!user"
-        mat-button
-        [routerLink]="'login'">Login</button>
+    <button *ngIf="!user" mat-button [routerLink]="'login'">Login</button>
     <button mat-icon-button [matMenuTriggerFor]="themeMenu">
         <mat-icon>color_lens</mat-icon>
     </button>
@@ -20,17 +13,12 @@
             <button mat-menu-item (click)="requestThemeChange.emit(theme.theme);">{{theme.name}}</button>
         </ng-template>
     </mat-menu>
-    <button mat-icon-button
-        *ngIf="user"
-        [matTooltip]="getUserGreeting()">
+    <button mat-icon-button *ngIf="user">
         <mat-icon>
             person
         </mat-icon>
     </button>
-    <button mat-icon-button
-        *ngIf="user"
-        matTooltip="Logout"
-        (click)="requestLogout.emit();">
+    <button mat-icon-button *ngIf="user" matTooltip="Logout" (click)="requestLogout.emit();">
         <mat-icon>exit_to_app</mat-icon>
     </button>
 </mat-toolbar>

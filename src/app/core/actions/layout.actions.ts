@@ -1,27 +1,27 @@
 import { Action } from '@ngrx/store';
 
-export const OPEN_SIDENAV = '[Layout] Open Sidenav';
-export const CLOSE_SIDENAV = '[Layout] Close Sidenav';
-export const SWITCH = '[Layout] Change Theme';
-export const RESTORE = '[Layout] Restore Theme';
+export enum LayoutActionTypes {
+    OpenSidenav = '[Layout] Open Sidenav',
+    CloseSidenav = '[Layout] Close Sidenav',
+    SwitchTheme = '[Layout] Switch Theme',
+    RestoreTheme = '[Layout] Restore Theme'
+}
 
 export class OpenSidenav implements Action {
-  readonly type = OPEN_SIDENAV;
+    readonly type = LayoutActionTypes.OpenSidenav;
 }
 
 export class CloseSidenav implements Action {
-  readonly type = CLOSE_SIDENAV;
+    readonly type = LayoutActionTypes.CloseSidenav;
 }
 
-
-export class SwitchThemeAction implements Action {
-    readonly type = SWITCH;
-    public constructor(public theme: string) {}
+export class SwitchTheme implements Action {
+    readonly type = LayoutActionTypes.SwitchTheme;
+    public constructor(public theme: string) { }
 }
 
-export class RestoreThemeAction implements Action {
-    readonly type = RESTORE;
+export class RestoreTheme implements Action {
+    readonly type = LayoutActionTypes.RestoreTheme;
 }
 
-
-export type Actions = OpenSidenav | CloseSidenav | SwitchThemeAction | RestoreThemeAction;
+export type LayoutActions = OpenSidenav | CloseSidenav | SwitchTheme | RestoreTheme;

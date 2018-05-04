@@ -34,7 +34,7 @@ const COMPONENTS = [
         RouterModule,
         MaterialModule,
         FlexLayoutModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
     ],
     exports: [
         COMPONENTS

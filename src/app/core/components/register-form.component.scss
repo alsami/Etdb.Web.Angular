@@ -1,0 +1,11 @@
+@import '~sass/partials/_breakpoints.scss';
+
+.register-container {
+    width: 500px;
+}
+
+@media #{ $xs } {
+    .register-container {
+        width: 100%;
+    }
+}

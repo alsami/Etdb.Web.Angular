@@ -1,10 +1,14 @@
-import { Component, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { UserLogin } from '@etdb/core/models';
 
 @Component({
     selector: 'etdb-login-form',
-    templateUrl: 'login-form.component.html'
+    templateUrl: 'login-form.component.html',
+    styleUrls: [
+        'login-form.component.scss'
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class LoginFormComponent {

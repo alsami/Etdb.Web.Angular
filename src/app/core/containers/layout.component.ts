@@ -40,12 +40,12 @@ export class LayoutComponent implements OnInit, OnDestroy {
         this.mediaObserver.unsubscribe();
     }
 
-    public dispatchThemeChange(theme: string): void {
-        this.store.dispatch(new layoutActions.SwitchThemeAction(theme));
+    public changeTheme(theme: string): void {
+        this.store.dispatch(new layoutActions.SwitchTheme(theme));
     }
 
-    public dispatchLogout(): void {
-        this.store.dispatch(new authActions.LogoutAction());
+    public logout(): void {
+        this.store.dispatch(new authActions.Logout());
     }
 
     public toggleSidenav(visible: boolean): void {

@@ -1,31 +1,27 @@
-import * as layoutActions from '../actions/layout.actions';
 import { PRIMARY_THEME } from '@etdb/core/core.constants';
+import { LayoutActions, LayoutActionTypes } from '@etdb/core/actions/layout.actions';
+import * as layoutActions from '@etdb/core/actions/layout.actions';
 
 export interface LayoutState {
     showSidenav: boolean;
     theme: string;
-  }
+}
 
 const initialState: LayoutState = {
-  showSidenav: true,
-  theme: PRIMARY_THEME
+    showSidenav: true,
+    theme: PRIMARY_THEME
 };
 
-export function reducer(state = initialState, action: layoutActions.Actions): LayoutState {
+export function reducer(state = initialState, action: LayoutActions): LayoutState {
     switch (action.type) {
-        case layoutActions.CLOSE_SIDENAV:
+        case LayoutActionTypes.OpenSidenav:
+        case LayoutActionTypes.CloseSidenav:
             return {
                 ...state,
-                showSidenav: false,
+                showSidenav: action instanceof layoutActions.OpenSidenav
             };
 
-        case layoutActions.OPEN_SIDENAV:
-            return {
-                ...state,
-                showSidenav: true,
-            };
-
-        case layoutActions.SWITCH:
+        case LayoutActionTypes.SwitchTheme:
             return {
                 ...state,
                 theme: action.theme
@@ -34,7 +30,7 @@ export function reducer(state = initialState, action: layoutActions.Actions): La
         default:
             return state;
     }
-  }
+}
 
 export const showSidenav = (state: LayoutState) => state.showSidenav;
 export const theme = (state: LayoutState) => state.theme;

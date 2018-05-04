@@ -10,5 +10,5 @@ export class NotifyErrorAction implements Action {
 }
 
 
-export declare type Actions =
+export declare type NotificationActions =
     NotifyErrorAction;

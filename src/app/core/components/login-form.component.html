@@ -1,26 +1,26 @@
-<div class="page-content" fxFlex fxLayoutAlign="center">
-    <form [formGroup]="loginForm" novalidate>
-        <mat-card color="primary">
-            <mat-card-title>Login</mat-card-title>
-            <mat-card-content>
-                <div fxFlex="500px;" fxLayout='column'>
-                    <mat-form-field>
-                        <input formControlName="userName" matInput type="text" placeholder="Username or Email">
-                    </mat-form-field>
-                    <mat-form-field>
-                        <input
-                            matInput
-                            #passwordInput
-                            formControlName="password" type="password" placeholder="Password">
-                        <mat-icon (click)="changePasswordVisibility();" class="pointer" matSuffix>remove_red_eye</mat-icon>
-                    </mat-form-field>
-                </div>
-            </mat-card-content>
-            <mat-card-actions align="end">
-                <button mat-button
-                    [disabled]="!isFormValid()"
-                    (click)="submit();">Login</button>
-            </mat-card-actions>
-        </mat-card>
-    </form>
-</div>
+<form [formGroup]="loginForm" novalidate (ngSubmit)="submit();">
+    <div class="page-content flex-container flex-flow-column flex-center-center">
+        <div class="login-container">
+            <mat-card color="primary">
+                <mat-card-title>Login</mat-card-title>
+                <mat-card-content>
+                    <div class="flex-container flex-flow-column">
+                        <mat-form-field>
+                            <input formControlName="userName" matInput type="text" placeholder="Username or Email">
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput #passwordInput formControlName="password" type="password" placeholder="Password">
+                            <mat-icon (click)="changePasswordVisibility();" class="pointer" matSuffix>remove_red_eye</mat-icon>
+                        </mat-form-field>
+                    </div>
+                </mat-card-content>
+                <mat-card-actions align="end">
+                    <button type="submit" mat-button [disabled]="!isFormValid()">Login</button>
+                </mat-card-actions>
+            </mat-card>
+            <div class="flex-container flex-center-center" style="margin-top: 10px;">
+                <button type="button" style="flex: 1 1 auto;" mat-button routerLink="/register">Register</button>
+            </div>
+        </div>
+    </div>
+</form>

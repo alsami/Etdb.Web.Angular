@@ -2,66 +2,68 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService, TokenStorageService } from '@etdb/core/services';
-import * as authActions from '../actions/auth.actions';
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { AuthActionTypes } from '@etdb/core/actions/auth.actions';
+import * as authActions from '@etdb/core/actions/auth.actions';
 
 @Injectable()
 export class AuthEffects {
+
     public constructor(private authService: AuthService,
         private tokenStorageService: TokenStorageService,
         private actions$: Actions, private router: Router) {}
 
-    @Effect() login = this.actions$.pipe(
-        ofType(authActions.LOGIN, authActions.REGISTER_SUCCESS),
-        switchMap((action: authActions.LoginAction | authActions.RegisterSucessAction) =>
+    @Effect() login$ = this.actions$.pipe(
+        ofType(AuthActionTypes.Login, AuthActionTypes.Registered),
+        switchMap((action: authActions.Login | authActions.Registered) =>
             this.authService.loginViaCredentials(action.login).pipe(
                 map(token => {
                     this.tokenStorageService.storeToken(token);
-                    return new authActions.LoginSuccessAction(token);
+                    return new authActions.LoggedIn(token);
                 }),
-                catchError((error: Error) => of(new authActions.LoginFailAction(error)))
+                catchError((error: Error) => of(new authActions.LoginFailed(error)))
             ))
     );
 
-    @Effect() loginSuccess = this.actions$.pipe(
-        ofType(authActions.LOGIN_SUCCESS, authActions.REGISTER_SUCCESS),
+    @Effect() loginSuccess$ = this.actions$.pipe(
+        ofType(AuthActionTypes.LoggedIn, AuthActionTypes.Registered),
         switchMap(() => {
             this.router.navigate(['/']);
             return of();
         })
     );
 
-    @Effect() logout = this.actions$.pipe(
-        ofType(authActions.LOGOUT),
+    @Effect() logout$ = this.actions$.pipe(
+        ofType(AuthActionTypes.Logout),
         switchMap(() => {
             this.tokenStorageService.clearToken();
             return of();
         }));
 
-    @Effect() register = this.actions$.pipe(
-        ofType(authActions.REGISTER),
-        switchMap((action: authActions.RegisterAction) =>
+    @Effect() register$ = this.actions$.pipe(
+        ofType(AuthActionTypes.Register),
+        switchMap((action: authActions.Register) =>
             this.authService.register(action.registerUser).pipe(
-                map(() => new authActions.RegisterSucessAction({
+                map(() => new authActions.Registered({
                     userName: action.registerUser.userName,
                     password: action.registerUser.password
                 })),
-                catchError((error: Error) => of(new authActions.RegisterFailAction(error)))
+                catchError((error: Error) => of(new authActions.RegisterFailed(error)))
         ))
     );
 
-    @Effect() loadIdentityUser = this.actions$.pipe(
-        ofType(authActions.LOGIN_SUCCESS),
+    @Effect() identityUserLoad$ = this.actions$.pipe(
+        ofType(AuthActionTypes.LoggedIn),
         switchMap(() => this.authService.loadIdentityUser().pipe(
-                map(identityUser => new authActions.LoadIdentityUserSuccessAction(identityUser)),
-                catchError((error: Error) => of(new authActions.LoadIdentityUserFailAction(error)))
+                map(identityUser => new authActions.IdentityUserLoaded(identityUser)),
+                catchError((error: Error) => of(new authActions.IdentityUserLoadFailed(error)))
             )
         )
     );
 
-    @Effect() restoreLogin = this.actions$.pipe(
-        ofType(authActions.RESTORE_LOGIN),
+    @Effect() restoreLogin$ = this.actions$.pipe(
+        ofType(AuthActionTypes.RestoreLogin),
         switchMap(() => {
             if (!this.tokenStorageService.canRestore()) {
                 return of();
@@ -72,11 +74,11 @@ export class AuthEffects {
                     map(token => {
                         this.tokenStorageService.clearToken();
                         this.tokenStorageService.storeToken(token);
-                        return new authActions.LoginSuccessAction(token);
+                        return new authActions.LoggedIn(token);
                     }),
                     catchError((error: Error) => {
                         this.tokenStorageService.clearToken();
-                        return of(new authActions.LoginFailAction(error));
+                        return of(new authActions.LoginFailed(error));
                     })
             );
         })

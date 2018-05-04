@@ -1,6 +1,6 @@
 // @import '~@angular/material/prebuilt-themes/purple-green.css';
 @import './partials/flex.scss';
-
+@import './partials/breakpoints.scss';
 
 html {
     font: {
@@ -17,14 +17,20 @@ body {
     width: 100%;
 }
 
-.page-content {
-    padding: 20px;
-}
-
 .pointer {
     cursor: pointer;
 }
 
 etdb-sidenav-content mat-expansion-panel .mat-expansion-panel-body {
     padding: 0px;
+}
+
+.page-content {
+    padding: 20px;
+}
+
+@media #{ $xs } {
+    .page-content {
+        padding: 0px;
+    }
 }

@@ -17,6 +17,7 @@ import {
     MatSnackBarModule,
     MatTooltipModule,
     MatMenuModule,
+    MatSlideToggleModule,
  } from '@angular/material';
 
  import { OverlayModule } from '@angular/cdk/overlay';
@@ -41,6 +42,7 @@ const modules = [
     MatSnackBarModule,
     MatTooltipModule,
     MatMenuModule,
+    MatSlideToggleModule,
     OverlayModule,
     PortalModule,
     LayoutModule,

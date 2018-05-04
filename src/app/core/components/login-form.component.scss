@@ -1,0 +1,11 @@
+@import '~sass/partials/_breakpoints.scss';
+
+.login-container {
+    width: 500px;
+}
+
+@media #{ $xs } {
+    .login-container {
+        width: 100%;
+    }
+}

@@ -25,8 +25,8 @@ export class AppComponent implements OnInit {
     public constructor(private overlay: Overlay,
         private overlayContainer: OverlayContainer,
         private store: Store<fromRoot.AppState>) {
-            this.store.dispatch(new layoutActions.RestoreThemeAction());
-            this.store.dispatch(new authActions.RestoreLoginAction());
+            this.store.dispatch(new layoutActions.RestoreTheme());
+            this.store.dispatch(new authActions.RestoreLogin());
     }
 
     public ngOnInit(): void {
