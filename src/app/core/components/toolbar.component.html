@@ -1,10 +1,10 @@
 <mat-toolbar class="mat-elevation-z6" color="primary">
-    <button mat-icon-button (click)="emitMainMenuClicked();">
+    <button mat-icon-button (click)="hamburgerMenuClicked.emit(!sidenavVisible);">
         <mat-icon>menu</mat-icon>
     </button>
     ETDB | {{ title }}
     <span style="flex: 1 1 auto;"></span>
-    <button *ngIf="!user" mat-button [routerLink]="'login'">Login</button>
+    <button *ngIf="!user" mat-button [routerLink]="'login'" (click)="linkedMenuClicked.emit();">Login</button>
     <button mat-icon-button [matMenuTriggerFor]="themeMenu">
         <mat-icon>color_lens</mat-icon>
     </button>

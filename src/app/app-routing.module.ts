@@ -5,10 +5,6 @@ import { LoginComponent, RegisterComponent } from '@etdb/core/containers';
 
 
 const routes: Routes = [{
-    path: '',
-    redirectTo: '/browse',
-    pathMatch: 'full'
-}, {
     path: 'login',
     component: LoginComponent
 }, {
@@ -18,7 +14,7 @@ const routes: Routes = [{
     path: 'browse',
     component: BrowseComponent
 }, {
-    path: 'users',
+    path: 'users/:id',
     loadChildren: 'app/users/users.module#UsersModule'
 }
 ];
