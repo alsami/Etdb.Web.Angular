@@ -1,13 +1,13 @@
-import { Observable } from 'rxjs';
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { ApiService } from '@etdb/abstractions/api.service';
-import { IdentityToken, UserLogin, IdentityUser, RegisterUser } from '@etdb/core/models';
+import { IdentityToken, IdentityUser, RegisterUser, UserLogin } from '@etdb/core/models';
 import { environment } from 'environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class AuthService extends ApiService {
-    private headers: HttpHeaders = new HttpHeaders()
+    private basicAuthHeaders: HttpHeaders = this.baseHeaders
         .set('Authorization', 'Basic d2ViLmNsaWVudDpnaXg4ZXhrbmY5c3h2bmh2dmtyZ3R6bTVlYjdvNHU3bWtwbW5xODZtbzkwd2plNDlxdQ==')
         .set('Accept', 'application/json')
         .set('cache-control', 'no-cache');
@@ -25,7 +25,7 @@ export class AuthService extends ApiService {
         formData.append('scope', 'UserService FileService IndexService StorageService openid offline_access');
 
         return this.http.post<IdentityToken>(environment.userserviceAuthUrl, formData, {
-            headers: this.headers
+            headers: this.basicAuthHeaders
         });
     }
 
@@ -36,7 +36,7 @@ export class AuthService extends ApiService {
         formData.append('refresh_token', token.refresh_token);
 
         return this.http.post<IdentityToken>(environment.userserviceAuthUrl, formData, {
-            headers: this.headers
+            headers: this.basicAuthHeaders
         });
     }
 
