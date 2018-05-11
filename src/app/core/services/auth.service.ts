@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class AuthService extends ApiService {
-    private basicAuthHeaders: HttpHeaders = this.baseHeaders
+    private basicAuthHeaders: HttpHeaders = new HttpHeaders()
         .set('Authorization', 'Basic d2ViLmNsaWVudDpnaXg4ZXhrbmY5c3h2bmh2dmtyZ3R6bTVlYjdvNHU3bWtwbW5xODZtbzkwd2plNDlxdQ==')
         .set('Accept', 'application/json')
         .set('cache-control', 'no-cache');

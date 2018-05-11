@@ -1,4 +1,5 @@
-import { User, UserNameChange } from '@etdb/users/models';
+import { User } from '@etdb/models';
+import { UpdateUserNameCommand } from '@etdb/users/models';
 import { Action } from '@ngrx/store';
 
 export enum UserActionTypes {
@@ -27,7 +28,7 @@ export class LoadFailed implements Action {
 
 export class UpdateUserName implements Action {
     readonly type = UserActionTypes.UpdateUserName;
-    public constructor(public data: UserNameChange) { }
+    public constructor(public data: UpdateUserNameCommand) { }
 }
 
 export class UpdatedUserName implements Action {

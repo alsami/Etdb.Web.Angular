@@ -1,12 +1,15 @@
 import { NgModule } from '@angular/core';
-import { MaterialModule } from '@etdb/shared/material.module';
-import { BrowseComponent } from '@etdb/browse/container';
 import { RouterModule } from '@angular/router';
+import { BrowseComponent } from '@etdb/browse/container';
+import { MaterialModule } from '@etdb/shared/material.module';
 
 @NgModule({
     imports: [
         MaterialModule,
-        RouterModule.forChild([])
+        RouterModule.forChild([{
+            path: 'browse',
+            component: BrowseComponent
+        }])
     ],
     declarations: [
         BrowseComponent
@@ -19,4 +22,4 @@ import { RouterModule } from '@angular/router';
     ]
 })
 
-export class BrowseModule {}
+export class BrowseModule { }

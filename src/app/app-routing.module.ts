@@ -2,11 +2,17 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BrowseComponent } from '@etdb/browse/container';
 import { LoginComponent, RegisterComponent } from '@etdb/core/containers';
+import { NotAuthorizedAuthGuard } from '@etdb/core/guards';
 
 
 const routes: Routes = [{
+    path: '',
+    redirectTo: 'browse',
+    pathMatch: 'full'
+}, {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    canActivate: [NotAuthorizedAuthGuard]
 }, {
     path: 'register',
     component: RegisterComponent
@@ -14,10 +20,9 @@ const routes: Routes = [{
     path: 'browse',
     component: BrowseComponent
 }, {
-    path: 'users/:id',
+    path: 'users',
     loadChildren: 'app/users/users.module#UsersModule'
-}
-];
+}];
 
 @NgModule({
     imports: [RouterModule.forRoot(routes, { useHash: true })],

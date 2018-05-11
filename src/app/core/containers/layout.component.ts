@@ -26,12 +26,12 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
     private mediaObserver: Subscription;
 
-    public constructor(private store: Store<fromRoot.AppState>, private observMedia: ObservableMedia) {}
+    public constructor(private store: Store<fromRoot.AppState>, private observMedia: ObservableMedia) { }
 
     public ngOnInit(): void {
         this.showSidenav$ = this.store.select(fromRoot.getShowSidenav);
         this.title$ = this.store.select(fromRoot.getTitle);
-        this.user$ = this.store.select(fromRoot.getIdentityUser);
+        this.user$ = this.store.select(fromRoot.getAuthIdentityUser);
 
         this.subscribeLayoutSizeChange();
     }
@@ -50,8 +50,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
     public toggleSidenav(visible: boolean): void {
         visible
-        ? this.store.dispatch(new layoutActions.OpenSidenav())
-        : this.store.dispatch(new layoutActions.CloseSidenav());
+            ? this.store.dispatch(new layoutActions.OpenSidenav())
+            : this.store.dispatch(new layoutActions.CloseSidenav());
     }
 
     public toggleSidenavBasesOnSize(): void {

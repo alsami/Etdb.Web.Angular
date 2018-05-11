@@ -13,7 +13,7 @@
             <button mat-menu-item (click)="requestThemeChange.emit(theme.theme);">{{theme.name}}</button>
         </ng-template>
     </mat-menu>
-    <button mat-icon-button *ngIf="user">
+    <button *ngIf="user" mat-icon-button [routerLink]="'users/' + user.sub" (click)="linkedMenuClicked.emit();">
         <mat-icon>
             person
         </mat-icon>

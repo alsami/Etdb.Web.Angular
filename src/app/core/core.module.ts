@@ -1,16 +1,17 @@
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
-
-import { LayoutStorageService } from '@etdb/core/services/layout-storage.service';
+import { RouterModule } from '@angular/router';
+import { LoginFormComponent, RegisterFormComponent, SidenavContentComponent, ToolbarComponent } from '@etdb/core/components';
 import { AppComponent, LayoutComponent, LoginComponent, RegisterComponent } from '@etdb/core/containers';
-import { ToolbarComponent, SidenavContentComponent, LoginFormComponent, RegisterFormComponent } from '@etdb/core/components';
-import { MaterialModule } from '@etdb/shared';
-import { AuthService, TokenStorageService } from '@etdb/core/services';
+import { NotAuthorizedAuthGuard } from '@etdb/core/guards';
 import { TokenInterceptor } from '@etdb/core/interceptors';
+import { AuthService, TokenStorageService } from '@etdb/core/services';
+import { LayoutStorageService } from '@etdb/core/services/layout-storage.service';
+import { MaterialModule } from '@etdb/shared';
+
 
 const COMPONENTS = [
     AppComponent,
@@ -53,7 +54,8 @@ export class CoreModule {
                     provide: HTTP_INTERCEPTORS,
                     useClass: TokenInterceptor,
                     multi: true
-                }
+                },
+                NotAuthorizedAuthGuard
             ]
         };
     }

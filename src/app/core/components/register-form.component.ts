@@ -1,50 +1,39 @@
-import { Component, Output, EventEmitter } from '@angular/core';
-import { Validators, FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RegisterUser } from '@etdb/core/models';
-import { PasswordValidator } from '@etdb/core/validators';
-
-export const hasPrimaryEmailError = 'hasPrimary';
-
-export const hasMultiplePrimaryEmails = 'hasMultiplePrimary';
-
-function primaryEmailValidation(primaryControlName: string): any {
-    return (array: FormArray): { [key: string]: any } => {
-        if (!array) {
-            return null;
-        }
-
-        const groups = array.controls as FormGroup[];
-
-        const groupsMarkedAsPrimary = groups
-            .filter(group => (group.controls[primaryControlName].value as boolean));
-
-        if (groupsMarkedAsPrimary.length > 1) {
-            return { 'hasMultilePrimary': {
-                valid: false
-            }};
-        }
-
-        if (groupsMarkedAsPrimary.length === 0) {
-            return { 'hasNoPrimary': {
-                valid: false
-            }};
-        }
-
-        return null;
-    };
-}
+import { PasswordValidator, PrimaryEmailValidation } from '@etdb/core/validators';
 
 @Component({
     selector: 'etdb-register-form',
     templateUrl: 'register-form.component.html',
-    styleUrls: ['register-form.component.scss']
+    styleUrls: ['register-form.component.scss'],
+    animations: [
+        trigger('flyInOut', [
+            state('in', style({ transform: 'translateX(0)' })),
+            transition('void => *', [
+                animate(500, keyframes([
+                    style({ opacity: 0, transform: 'translateX(-100%)', offset: 0 }),
+                    style({ opacity: 1, transform: 'translateX(15px)', offset: 0.5 }),
+                    style({ opacity: 1, transform: 'translateX(0)', offset: 1.0 })
+                ]))
+            ]),
+            transition('* => void', [
+                animate(500, keyframes([
+                    style({ opacity: 1, transform: 'translateX(0)', offset: 0 }),
+                    style({ opacity: 1, transform: 'translateX(-15px)', offset: 0.5 }),
+                    style({ opacity: 0, transform: 'translateX(100%)', offset: 1.0 })
+                ]))
+            ])
+        ])
+    ]
 })
 
 export class RegisterFormComponent {
     @Output() requestRegister: EventEmitter<RegisterUser> =
         new EventEmitter<RegisterUser>();
 
-    registerForm: FormGroup;
+    public registerForm: FormGroup;
 
     public constructor(private formBuilder: FormBuilder) {
         this.buildForm();
@@ -61,13 +50,13 @@ export class RegisterFormComponent {
 
     public hasPrimaryEmailError(): boolean {
         return this.getEmailFormArray()
-        .getError('hasNoPrimary');
+            .getError('hasNoPrimary');
     }
 
     hasInvalidEmailError(index: number): boolean {
         return (this.getEmailFormArray().at(index) as FormGroup)
-        .controls['address']
-        .hasError('email');
+            .controls['address']
+            .hasError('email');
     }
 
     public hasMismatchedPasswordError(): boolean {
@@ -110,7 +99,7 @@ export class RegisterFormComponent {
             name: [null],
             firstName: [null],
             userName: [null, Validators.required],
-            emails: this.formBuilder.array([this.createEmptyEmailGroup(true)], primaryEmailValidation('isPrimary')),
+            emails: this.formBuilder.array([this.createEmptyEmailGroup(true)], PrimaryEmailValidation.primaryEmail('isPrimary')),
             password: [null, [Validators.required, Validators.minLength(8)]],
             passwordRepeat: [null, Validators.required]
         }, { validator: PasswordValidator.mismatchedPassword('password', 'passwordRepeat') });

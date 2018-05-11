@@ -1,25 +1,27 @@
-import { IdentityToken, IdentityUser } from '@etdb/core/models';
 import { AuthActionTypes, AuthActions } from '@etdb/core/actions/auth.actions';
+import { IdentityToken, IdentityUser } from '@etdb/core/models';
 
 export interface AuthState {
     identityToken: IdentityToken;
     identityUser: IdentityUser;
+    loggedIn: boolean;
     loading: boolean;
     loaded: boolean;
-  }
+}
 
 const initialState: AuthState = {
-  identityToken: null,
-  identityUser: null,
-  loading: false,
-  loaded: false,
+    identityToken: null,
+    identityUser: null,
+    loggedIn: false,
+    loading: false,
+    loaded: false,
 };
 
 export function reducer(state = initialState, action: AuthActions): AuthState {
     switch (action.type) {
         case AuthActionTypes.Login: {
             return {
-                ...state,
+                ...initialState,
                 loading: true
             };
         }
@@ -29,24 +31,28 @@ export function reducer(state = initialState, action: AuthActions): AuthState {
                 ...state,
                 identityToken: action.token,
                 loading: false,
+                loggedIn: true,
                 loaded: true
             };
         }
 
         case AuthActionTypes.LoginFailed: {
-            return {
-                identityToken: null,
-                identityUser: null,
-                loaded: true,
-                loading: false
-            };
+            return initialState;
         }
 
         case AuthActionTypes.Logout: {
             return {
                 ...state,
+                loggedIn: false,
                 identityToken: null,
                 identityUser: null
+            };
+        }
+
+        case AuthActionTypes.RestoreCompleted: {
+            return {
+                ...state,
+                loaded: true
             };
         }
 
@@ -77,7 +83,7 @@ export function reducer(state = initialState, action: AuthActions): AuthState {
             return {
                 ...state,
                 loading: true,
-                loaded: false
+                loaded: false,
             };
         }
 
@@ -94,17 +100,19 @@ export function reducer(state = initialState, action: AuthActions): AuthState {
             return {
                 ...state,
                 loading: false,
-                loaded: true
+                loaded: true,
+                loggedIn: false
             };
         }
 
         default:
             return state;
     }
-  }
+}
 
 
 export const identityToken = (state: AuthState) => state.identityToken;
 export const identityUser = (state: AuthState) => state.identityUser;
+export const loggedIn = (state: AuthState) => state.loggedIn;
 export const loading = (state: AuthState) => state.loading;
 export const loaded = (state: AuthState) => state.loaded;
