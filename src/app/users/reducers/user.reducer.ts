@@ -3,7 +3,8 @@ import { UserActionTypes, UserActions } from '@etdb/users/actions/user.actions';
 import { EntityState, createEntityAdapter } from '@ngrx/entity';
 
 export interface UserState extends EntityState<User> {
-    selectUserId: string | null;
+    selectedId: string | null;
+    selectedUser: User;
     loading: boolean;
 }
 
@@ -13,30 +14,35 @@ export const adapter = createEntityAdapter<User>({
 });
 
 export const initialState: UserState = adapter.getInitialState({
-    selectUser: null,
-    selectUserId: null,
+    selectedUser: null,
+    selectedId: null,
     loading: false,
 });
 
 export function reducer(state: UserState = initialState, action: UserActions): UserState {
     switch (action.type) {
         case (UserActionTypes.Load):
-        case (UserActionTypes.UpdatedUserName): {
+        case (UserActionTypes.UpdatedUserName):
+        case (UserActionTypes.UploadProfileImage): {
             return {
                 ...state,
                 loading: true
             };
         }
 
-        case (UserActionTypes.Loaded): {
+        case (UserActionTypes.Loaded):
+        case (UserActionTypes.UploadedProfileImage): {
             return {
-                ...adapter.removeOne(action.user.id, state),
+                ...adapter.addOne(action.user, adapter.removeOne(action.user.id, state)),
+                selectedUser: action.user,
+                selectedId: action.user.id,
                 loading: false
             };
         }
 
         case (UserActionTypes.LoadFailed):
-        case (UserActionTypes.UpdateUserNameFailed): {
+        case (UserActionTypes.UpdateUserNameFailed):
+        case (UserActionTypes.UploadProfileImageFailed): {
             return {
                 ...state,
                 loading: false
@@ -49,5 +55,5 @@ export function reducer(state: UserState = initialState, action: UserActions): U
     }
 }
 
-export const selectedId = (state: UserState) => state.selectUserId;
+export const selectedId = (state: UserState) => state.selectedId;
 export const loading = (state: UserState) => state.loading;

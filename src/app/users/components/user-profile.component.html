@@ -1,1 +1,7 @@
-Hi from profile mofos
+<div class="page-content">
+    <input #fileInput type="file" />
+    <button type="button" (click)="emitProfileImageUploadRequest();">
+        Upload profile image
+    </button>
+    <img *ngIf="user?.profileImageUrl" [src]="user.profileImageUrl" />
+</div>

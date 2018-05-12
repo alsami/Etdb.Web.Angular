@@ -1,4 +1,3 @@
-// import { createSelector, createFeatureSelector, ActionReducerMap } from '@ngrx/store';
 import * as fromRoot from '@etdb/reducers';
 import * as fromUser from '@etdb/users/reducers/user.reducer';
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
@@ -38,4 +37,9 @@ export const getSelectedUser = createSelector(
     getUserEntities,
     getSelectedUserId,
     (entities, selectedId) => selectedId && entities[selectedId]
+);
+
+export const getUserLoading = createSelector(
+    getUserEntitiesState,
+    fromUser.loading
 );

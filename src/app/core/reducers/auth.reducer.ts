@@ -37,7 +37,11 @@ export function reducer(state = initialState, action: AuthActions): AuthState {
         }
 
         case AuthActionTypes.LoginFailed: {
-            return initialState;
+            return {
+                ...state,
+                loaded: true,
+                loading: false
+            };
         }
 
         case AuthActionTypes.Logout: {

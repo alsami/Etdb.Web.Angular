@@ -1,1 +1,2 @@
-<etdb-user-profile></etdb-user-profile>
+<mat-progress-bar *ngIf="loading$ | async" color="accent" mode="indeterminate"></mat-progress-bar>
+<etdb-user-profile [user]="user$ | async" (requestProfileImageUpload)="upload($event);"></etdb-user-profile>

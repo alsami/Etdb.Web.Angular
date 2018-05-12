@@ -1,5 +1,5 @@
 import { User } from '@etdb/models';
-import { UpdateUserNameCommand } from '@etdb/users/models';
+import { UpdateUserNameCommand, UploadProfileImageCommand } from '@etdb/users/models';
 import { Action } from '@ngrx/store';
 
 export enum UserActionTypes {
@@ -8,7 +8,10 @@ export enum UserActionTypes {
     LoadFailed = '[User API] Load User Failed',
     UpdateUserName = '[User API] Update User Name',
     UpdatedUserName = '[User API] Updated User Name',
-    UpdateUserNameFailed = '[User API] Update User Name Failed'
+    UpdateUserNameFailed = '[User API] Update User Name Failed',
+    UploadProfileImage = '[User API] Upload User Profile Image',
+    UploadedProfileImage = '[User API] Uploaded User Profile Image',
+    UploadProfileImageFailed = '[User API] Upload User Profil Image Failed'
 }
 
 export class Load implements Action {
@@ -40,5 +43,21 @@ export class UpdateUserNameFailed implements Action {
     public constructor(public error: Error | any) { }
 }
 
+export class UploadProfileImage implements Action {
+    readonly type = UserActionTypes.UploadProfileImage;
+    public constructor(public data: UploadProfileImageCommand) { }
+}
+
+export class UploadedProfileImage implements Action {
+    readonly type = UserActionTypes.UploadedProfileImage;
+    public constructor(public user: User) { }
+}
+
+export class UploadProfileImageFailed implements Action {
+    readonly type = UserActionTypes.UploadProfileImageFailed;
+    public constructor(public error: Error | any) { }
+}
+
 export type UserActions = Load | Loaded | LoadFailed |
-    UpdateUserName | UpdatedUserName | UpdateUserNameFailed;
+    UpdateUserName | UpdatedUserName | UpdateUserNameFailed |
+    UploadProfileImage | UploadedProfileImage | UploadProfileImageFailed;
