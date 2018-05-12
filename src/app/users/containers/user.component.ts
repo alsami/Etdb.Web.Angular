@@ -4,21 +4,26 @@ import * as titleActions from '@etdb/core/actions/title.actions';
 import { User } from '@etdb/models';
 import * as userActions from '@etdb/users/actions/user.actions';
 import * as fromUser from '@etdb/users/reducers';
+import * as fromRoot from '@etdb/reducers';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { IdentityUser } from '@etdb/core/models';
 
 @Component({
     selector: 'etdb-user',
-    templateUrl: 'user.component.html'
+    templateUrl: 'user.component.html',
+    styleUrls: ['user.component.scss']
 })
 
 export class UserComponent implements OnInit, OnDestroy {
     private paramSub: Subscription;
     private userId: string;
 
+    public loggedInUserIsUser$: Observable<boolean>;
     public loading$: Observable<boolean>;
     public user$: Observable<User>;
+    public loggedInUser$: Observable<IdentityUser>;
 
     public constructor(private store: Store<fromUser.State>, private route: ActivatedRoute) { }
 
@@ -33,9 +38,24 @@ export class UserComponent implements OnInit, OnDestroy {
         this.user$ = this.store.select(fromUser.getSelectedUser).pipe(
             map(user => {
                 if (user) {
-                    this.store.dispatch(new titleActions.SetTitle(`Users | ${user.userName.toUpperCase()}`));
+                    this.store.dispatch(new titleActions.SetTitle(`Users | ${user.userName}`));
                 }
                 return user;
+            })
+        );
+
+        this.loggedInUser$ = this.store.select(fromRoot.getAuthIdentityUser);
+
+        this.loggedInUserIsUser$ = combineLatest(
+            this.user$,
+            this.loggedInUser$
+        ).pipe(
+            map(([user, loggedInUser]) => {
+                if (!user || !loggedInUser) {
+                    return false;
+                }
+
+                return user.id === loggedInUser.sub;
             })
         );
 

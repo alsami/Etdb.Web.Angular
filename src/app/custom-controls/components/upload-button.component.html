@@ -1,0 +1,4 @@
+<button mat-button (click)="triggerFileDialog();">
+    <mat-icon>attach_file</mat-icon> {{ text }}
+</button>
+<input hidden [accept]="accept" [multiple]="multiple" type="file" (change)="emitSelection($event);" />

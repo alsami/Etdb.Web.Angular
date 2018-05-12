@@ -17,9 +17,15 @@ export class TokenInterceptor implements HttpInterceptor {
             return httpHandler.handle(request);
         }
 
+        if (!this.tokenStorageService.canRestore()) {
+            return httpHandler.handle(request);
+        }
+
+        const token = this.tokenStorageService.restoreToken();
+
         const nextRequest = request.clone({
             setHeaders: {
-                'Authorization' : 'Bearer ' + this.tokenStorageService.restoreToken().access_token
+                'Authorization' : 'Bearer ' + token.access_token
             }
         });
 

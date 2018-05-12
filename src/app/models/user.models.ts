@@ -4,4 +4,6 @@ export interface User {
     profileImageUrl: string;
     name: string;
     lastName: string;
+    biography: string;
+    registeredSince: Date;
 }
