@@ -5,14 +5,14 @@
 }
 
 .user-card-container {
-    width: auto;
+    max-width: 600px;
 }
 
-@media #{ $md } {
-    .user-card-container {
-        width: 300px;
-    }
-}
+// @media #{ $md } {
+//     .user-card-container {
+//         width: 300px;
+//     }
+// }
 
 @media #{ $lt-md } {
     .user-profile-container {
