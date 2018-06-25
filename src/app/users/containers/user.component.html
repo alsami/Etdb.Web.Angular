@@ -1,7 +1,7 @@
 <mat-progress-bar *ngIf="loading$ | async" color="accent" mode="indeterminate"></mat-progress-bar>
 <mat-tab-group mat-stretch-tabs>
     <mat-tab label="Profile">
-        <div class="page-profile-container">
+        <div class="page-content page-profile-container">
             <div class="user-card-container">
                     <etdb-user-card
                     [user]="user$ | async"
@@ -10,11 +10,7 @@
             </div>
         </div>
     </mat-tab>
-    <mat-tab label="Messages"></mat-tab>
-    <mat-tab label="Messages"></mat-tab>
-    <mat-tab label="Messages"></mat-tab>
-    <mat-tab label="Messages"></mat-tab>
-    <mat-tab label="Messages"></mat-tab>
-    <mat-tab label="Messages"></mat-tab>
-    <mat-tab label="Messages"></mat-tab>
+    <mat-tab *ngIf="(loggedInUserIsUser$ | async)" label="Contacts"></mat-tab>
+    <mat-tab label="Ratings"></mat-tab>
+    <mat-tab label="Activity"></mat-tab>
 </mat-tab-group>
