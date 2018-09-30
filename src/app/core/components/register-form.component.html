@@ -1,28 +1,21 @@
 <div class="page-content flex-container flex-center-center flex-flow-column">
     <div class="register-container">
-        <etdb-mat-stepper-extended>
+        <etdb-mat-stepper-extended [endButtonLabel]="'Register'">
             <etdb-mat-stepper-step-extended label="Your name" [form]="nameForm" [isOptional]="true">
-                <div class="flex-container flex-flow-column">
-                    <form [formGroup]="nameForm">
-                        <div class="flex-container flex-flow-column">
-                            <mat-form-field>
-                                <input formControlName="firstName" matInput type="text" placeholder="Your name" />
-                            </mat-form-field>
-                            <mat-form-field>
-                                <input formControlName="name" matInput type="text" placeholder="Your family name" />
-                            </mat-form-field>
-                        </div>
-                    </form>
-                </div>
+                <form [formGroup]="nameForm">
+                    <div class="flex-container flex-flow-column">
+                        <mat-form-field>
+                            <input formControlName="firstName" matInput type="text" placeholder="Your name" />
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input formControlName="name" matInput type="text" placeholder="Your family name" />
+                        </mat-form-field>
+                    </div>
+                </form>
             </etdb-mat-stepper-step-extended>
-            <etdb-mat-stepper-step-extended label="Username and E-Mails" [form]="userNameEmailsForm">
+            <etdb-mat-stepper-step-extended label="Add e-mail addresses" [form]="emailsForm">
                 <div class="flex-container flex-flow-column">
-                    <form [formGroup]="userNameEmailsForm">
-                        <div class="flex-container flex-flow-column">
-                            <mat-form-field>
-                                <input formControlName="userName" matInput type="text" placeholder="Choose a username" required />
-                            </mat-form-field>
-                        </div>
+                    <form [formGroup]="emailsForm">
                         <div formArrayName="emails">
                             <div *ngFor="let email of getEmailFormArray().controls; let i = index; let last = last;" [@flyInOut]="'in'">
                                 <div [formGroupName]="i" class="flex-container flex-flow-row">
@@ -56,9 +49,13 @@
                     </form>
                 </div>
             </etdb-mat-stepper-step-extended>
-            <etdb-mat-stepper-step-extended label="Set your password" [form]="passwordForm" (formSubmitted)="submit();">
-                <form [formGroup]="passwordForm" novalidate>
-                    <ng-template matStepLabel>Set a password</ng-template>
+            <etdb-mat-stepper-step-extended label="Username and password" [form]="userNamePasswordForm" (formSubmitted)="submit();">
+                <form [formGroup]="userNamePasswordForm" novalidate>
+                    <div class="flex-container flex-flow-column">
+                        <mat-form-field>
+                            <input formControlName="userName" matInput type="text" placeholder="Choose a username" required />
+                        </mat-form-field>
+                    </div>
                     <div class="flex-container flex-flow-column">
                         <mat-form-field>
                             <input matInput #passwordInput formControlName="password" type="password" placeholder="Password" required />
