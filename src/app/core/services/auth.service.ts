@@ -1,20 +1,18 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ApiService } from '@etdb/abstractions/api.service';
 import { IdentityToken, IdentityUser, RegisterUser, UserLogin } from '@etdb/core/models';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
+import { BASE_HEADERS } from '@etdb/core/core.constants';
 
 @Injectable()
-export class AuthService extends ApiService {
+export class AuthService {
     private basicAuthHeaders: HttpHeaders = new HttpHeaders()
         .set('Authorization', 'Basic d2ViLmNsaWVudDpnaXg4ZXhrbmY5c3h2bmh2dmtyZ3R6bTVlYjdvNHU3bWtwbW5xODZtbzkwd2plNDlxdQ==')
         .set('Accept', 'application/json')
         .set('cache-control', 'no-cache');
 
-    public constructor(private http: HttpClient) {
-        super();
-    }
+    public constructor(private http: HttpClient) {}
 
     public loginViaCredentials(login: UserLogin): Observable<IdentityToken> {
         const formData = new FormData();
@@ -41,7 +39,7 @@ export class AuthService extends ApiService {
     }
 
     public loadIdentityUser(): Observable<IdentityUser> {
-        const headers = this.baseHeaders;
+        const headers = BASE_HEADERS;
 
         return this.http.get<IdentityUser>(environment.userserviceAuthProfileUrl, {
             headers: headers
@@ -49,7 +47,7 @@ export class AuthService extends ApiService {
     }
 
     public register(registerUser: RegisterUser): Observable<any> {
-        const headers = this.baseHeaders;
+        const headers = BASE_HEADERS;
         return this.http.post(environment.userserviceUrl + 'auth/registration',
             JSON.stringify(registerUser), {
                 headers: headers

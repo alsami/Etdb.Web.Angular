@@ -1,2 +1,8 @@
 {
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "tslint.autoFixOnSave": true,
+    "typescript.autoImportSuggestions.enabled": true,
+    "typescript.preferences.quoteStyle": "single",
+    "typescript.preferences.importModuleSpecifier": "non-relative",
+    "editor.formatOnSave": true
 }

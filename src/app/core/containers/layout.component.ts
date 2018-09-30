@@ -1,12 +1,12 @@
 import { Component, ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { ObservableMedia } from '@angular/flex-layout';
 import { IdentityUser } from '@etdb/core/models';
 
 import * as fromRoot from '@etdb/reducers';
 import * as layoutActions from '../actions/layout.actions';
 import * as authActions from '../actions/auth.actions';
+import { BreakpointService } from '@etdb/core/services';
 
 @Component({
     selector: 'etdb-layout',
@@ -26,7 +26,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
     private mediaObserver: Subscription;
 
-    public constructor(private store: Store<fromRoot.AppState>, private observMedia: ObservableMedia) { }
+    public constructor(private store: Store<fromRoot.AppState>, private breakpointService: BreakpointService) { }
 
     public ngOnInit(): void {
         this.showSidenav$ = this.store.select(fromRoot.getShowSidenav);
@@ -55,32 +55,42 @@ export class LayoutComponent implements OnInit, OnDestroy {
     }
 
     public toggleSidenavBasesOnSize(): void {
-        if (this.observMedia.isActive('xs') || this.observMedia.isActive('sm')) {
-            this.store.dispatch(new layoutActions.CloseSidenav());
+        if (!this.breakpointService.isExtraSmallDevice()
+            && !this.breakpointService.isSmallDevice()) {
+            return;
         }
+
+        this.store.dispatch(new layoutActions.CloseSidenav());
     }
 
     private subscribeLayoutSizeChange(): void {
-        this.mediaObserver = this.observMedia.subscribe(() => {
+        this.mediaObserver = this.breakpointService.hasBreakpointChanged().subscribe(changed => {
+            if (!changed) {
+                return;
+            }
+
             this.determineSidenavMode();
             this.determineLayoutGap();
         });
     }
 
     private determineSidenavMode(): void {
-        if (this.observMedia.isActive('xs') || this.observMedia.isActive('sm')) {
+        if (this.breakpointService.isExtraSmallDevice()
+            || this.breakpointService.isSmallDevice()) {
             this.sidenavMode = 'over';
             this.toggleSidenav(false);
-        } else {
-            this.sidenavMode = 'side';
+            return;
         }
+
+        this.sidenavMode = 'side';
     }
 
     private determineLayoutGap(): void {
-        if (this.observMedia.isActive('xs')) {
+        if (this.breakpointService.isExtraSmallDevice()) {
             this.layoutGap = '56';
-        } else {
-            this.layoutGap = '64';
+            return;
         }
+
+        this.layoutGap = '64';
     }
 }

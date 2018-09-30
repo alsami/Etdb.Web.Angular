@@ -1,7 +1,14 @@
 import { NgModule } from '@angular/core';
 import { MaterialModule } from '@etdb/shared';
-import { UploadButtonComponent } from '@etdb/custom-controls/components';
 import { CommonModule } from '@angular/common';
+import { UploadButtonComponent, MatStepperExtendedComponent } from '@etdb/custom-controls/container';
+import { MatStepperStepExtendedComponent } from '@etdb/custom-controls/component';
+
+const COMPONENTS = [
+    UploadButtonComponent,
+    MatStepperExtendedComponent,
+    MatStepperStepExtendedComponent
+];
 
 @NgModule({
     imports: [
@@ -9,10 +16,10 @@ import { CommonModule } from '@angular/common';
         MaterialModule
     ],
     declarations: [
-        UploadButtonComponent
+        ...COMPONENTS
     ],
     exports: [
-        UploadButtonComponent
+        ...COMPONENTS
     ]
 })
 export class CustomControlModule { }

@@ -6,7 +6,7 @@ import { AuthService, TokenStorageService } from '@etdb/core/services';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class AuthEffects {
@@ -61,12 +61,10 @@ export class AuthEffects {
 
     @Effect() restoreLogin$: Observable<Action> = this.actions$.pipe(
         ofType(AuthActionTypes.RestoreLogin),
-        tap(() => {
-            if (!this.tokenStorageService.canRestore()) {
-                return new authActions.RestoreCompleted();
-            }
-        }),
         switchMap(() => {
+            if (!this.tokenStorageService.canRestore()) {
+                return of(new authActions.RestoreCompleted());
+            }
             return this.authService.loginViaRefreshtoken(this.tokenStorageService.restoreToken())
                 .pipe(
                     map(token => {

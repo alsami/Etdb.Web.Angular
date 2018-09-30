@@ -1,3 +1,11 @@
+import {
+    HttpHeaders
+} from '@angular/common/http';
+
+export const BASE_HEADERS: HttpHeaders = new HttpHeaders()
+        .set('Content-Type', 'application/json')
+        .set('charset', 'utf-8');
+
 export const PRIMARY_THEME = 'primary-theme';
 
 export const DARK_THEME = 'dark-theme';

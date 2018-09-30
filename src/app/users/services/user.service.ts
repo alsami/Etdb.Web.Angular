@@ -1,17 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ApiService } from '@etdb/abstractions/api.service';
 import { User } from '@etdb/models';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class UserService extends ApiService {
+export class UserService  {
     private url = `${environment.userserviceUrl}users/`;
 
-    public constructor(private http: HttpClient) {
-        super();
-    }
+    public constructor(private http: HttpClient) {}
 
     public getUser(id: string): Observable<User> {
         return this.http.get<User>(`${this.url}${id}`);

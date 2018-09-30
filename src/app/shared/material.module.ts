@@ -18,11 +18,12 @@ import {
     MatTooltipModule,
     MatMenuModule,
     MatSlideToggleModule,
- } from '@angular/material';
+    MatStepperModule,
+} from '@angular/material';
 
- import { OverlayModule } from '@angular/cdk/overlay';
- import { PortalModule } from '@angular/cdk/portal';
- import { LayoutModule } from '@angular/cdk/layout';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { PortalModule } from '@angular/cdk/portal';
+import { LayoutModule } from '@angular/cdk/layout';
 
 const modules = [
     MatSidenavModule,
@@ -43,6 +44,7 @@ const modules = [
     MatTooltipModule,
     MatMenuModule,
     MatSlideToggleModule,
+    MatStepperModule,
     OverlayModule,
     PortalModule,
     LayoutModule,

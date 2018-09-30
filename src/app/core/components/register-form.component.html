@@ -1,70 +1,86 @@
-<form [formGroup]="registerForm" novalidate (ngSubmit)="submit();">
-    <div class="page-content" fxFlex fxLayoutAlign="center">
-        <mat-card class="register-container" color="primary">
-            <mat-card-title>Create a new account</mat-card-title>
-            <mat-card-content>
+<div class="page-content flex-container flex-center-center flex-flow-column">
+    <div class="register-container">
+        <etdb-mat-stepper-extended>
+            <etdb-mat-stepper-step-extended label="Your name" [form]="nameForm" [isOptional]="true">
                 <div class="flex-container flex-flow-column">
-                    <mat-form-field>
-                        <input formControlName="firstName" matInput type="text" placeholder="Your name" />
-                    </mat-form-field>
-                    <mat-form-field>
-                        <input formControlName="name" matInput type="text" placeholder="Your family name" />
-                    </mat-form-field>
-                    <mat-form-field>
-                        <input formControlName="userName" matInput type="text" placeholder="Choose a username" required />
-                    </mat-form-field>
-                </div>
-                <div formArrayName="emails">
-                    <div *ngFor="let email of getEmailFormArray().controls; let i = index; let last = last;" [@flyInOut]="'in'">
-                        <div [formGroupName]="i" class="flex-container flex-flow-row">
-                            <mat-form-field class="flex-1-1-auto">
-                                <input matInput type="email" formControlName="address" placeholder="E-Mail address" required />
-                                <mat-error *ngIf="hasInvalidEmailError(i);">
-                                    Not a valid email-address!
-                                </mat-error>
+                    <form [formGroup]="nameForm">
+                        <div class="flex-container flex-flow-column">
+                            <mat-form-field>
+                                <input formControlName="firstName" matInput type="text" placeholder="Your name" />
                             </mat-form-field>
-                            <div style="padding-top: 10px;">
-                                <mat-slide-toggle formControlName="isPrimary" labelPosition="before" color="accent">Primary</mat-slide-toggle>
-                            </div>
-                            <div class="flex-container flex-flow-column">
-                                <button *ngIf="getEmailFormArray().controls.length !== 1" (click)="removeEmailGroupFromFormArray(i);" matTooltip="Remove email-address"
-                                    type="button" mat-icon-button>
-                                    <mat-icon>delete</mat-icon>
-                                </button>
-                                <button *ngIf="last" (click)="appendEmailFormArray();" matTooltip="Add emai-address" type="button" mat-icon-button>
-                                    <mat-icon>add</mat-icon>
-                                </button>
-                            </div>
+                            <mat-form-field>
+                                <input formControlName="name" matInput type="text" placeholder="Your family name" />
+                            </mat-form-field>
                         </div>
-                    </div>
-                    <mat-error *ngIf="hasPrimaryEmailError();">
-                        You must choose one primary email address!
-                    </mat-error>
-                    <mat-error *ngIf="hasMultiplePrimaryEmails();">
-                        You can only choose one primary email address!
-                    </mat-error>
+                    </form>
                 </div>
+            </etdb-mat-stepper-step-extended>
+            <etdb-mat-stepper-step-extended label="Username and E-Mails" [form]="userNameEmailsForm">
                 <div class="flex-container flex-flow-column">
-                    <mat-form-field>
-                        <input matInput #passwordInput formControlName="password" type="password" placeholder="Password" required />
-                        <mat-icon (click)="changePasswordVisibility(passwordInput);" class="pointer" matSuffix>remove_red_eye</mat-icon>
-                        <mat-error *ngIf="hasMinLengthPasswordError();">
-                            Password must contain at least 8 letters!
-                        </mat-error>
-                    </mat-form-field>
-                    <mat-form-field>
-                        <input matInput #passwordInputRepeat formControlName="passwordRepeat" type="password" placeholder="Repeat password" required
-                        />
-                        <mat-icon (click)="changePasswordVisibility(passwordInputRepeat);" class="pointer" matSuffix>remove_red_eye</mat-icon>
-                        <mat-error *ngIf="hasMismatchedPasswordError();">
-                            Passwords do not match!
-                        </mat-error>
-                    </mat-form-field>
+                    <form [formGroup]="userNameEmailsForm">
+                        <div class="flex-container flex-flow-column">
+                            <mat-form-field>
+                                <input formControlName="userName" matInput type="text" placeholder="Choose a username" required />
+                            </mat-form-field>
+                        </div>
+                        <div formArrayName="emails">
+                            <div *ngFor="let email of getEmailFormArray().controls; let i = index; let last = last;" [@flyInOut]="'in'">
+                                <div [formGroupName]="i" class="flex-container flex-flow-row">
+                                    <mat-form-field class="flex-1-1-auto">
+                                        <input matInput type="email" formControlName="address" placeholder="E-Mail address" required />
+                                        <mat-error *ngIf="hasInvalidEmailError(i);">
+                                            Not a valid email-address!
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <div style="padding-top: 10px;">
+                                        <mat-slide-toggle formControlName="isPrimary" labelPosition="before" color="accent">Primary</mat-slide-toggle>
+                                    </div>
+                                    <div class="flex-container flex-flow-column">
+                                        <button *ngIf="getEmailFormArray().controls.length !== 1" (click)="removeEmailGroupFromFormArray(i);" matTooltip="Remove email-address"
+                                            type="button" mat-icon-button>
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
+                                        <button *ngIf="last" (click)="appendEmailFormArray();" matTooltip="Add emai-address" type="button" mat-icon-button>
+                                            <mat-icon>add</mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <mat-error *ngIf="hasPrimaryEmailError();">
+                                You must choose one primary email address!
+                            </mat-error>
+                            <mat-error *ngIf="hasMultiplePrimaryEmails();">
+                                You can only choose one primary email address!
+                            </mat-error>
+                        </div>
+                    </form>
                 </div>
-            </mat-card-content>
-            <mat-card-actions align="end">
-                <button mat-button>Register</button>
-            </mat-card-actions>
-        </mat-card>
+            </etdb-mat-stepper-step-extended>
+            <etdb-mat-stepper-step-extended label="Set your password" [form]="passwordForm" (formSubmitted)="submit();">
+                <form [formGroup]="passwordForm" novalidate>
+                    <ng-template matStepLabel>Set a password</ng-template>
+                    <div class="flex-container flex-flow-column">
+                        <mat-form-field>
+                            <input matInput #passwordInput formControlName="password" type="password" placeholder="Password" required />
+                            <mat-icon (click)="changePasswordVisibility(passwordInput);" class="pointer" matSuffix>remove_red_eye</mat-icon>
+                            <mat-error *ngIf="hasMinLengthPasswordError();">
+                                Password must contain at least 8 letters!
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput #passwordInputRepeat formControlName="passwordRepeat" type="password" placeholder="Repeat password" required
+                            />
+                            <mat-icon (click)="changePasswordVisibility(passwordInputRepeat);" class="pointer" matSuffix>remove_red_eye</mat-icon>
+                            <mat-error *ngIf="hasMismatchedPasswordError();">
+                                Passwords do not match!
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </form>
+            </etdb-mat-stepper-step-extended>
+        </etdb-mat-stepper-extended>
     </div>
-</form>
+    <div style="margin-top: 10px; text-align: center;">
+        <button type="button" mat-button routerLink="/login">Already a member? Login!</button>
+    </div>
+</div>

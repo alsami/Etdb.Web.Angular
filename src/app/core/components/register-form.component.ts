@@ -33,14 +33,16 @@ export class RegisterFormComponent {
     @Output() requestRegister: EventEmitter<RegisterUser> =
         new EventEmitter<RegisterUser>();
 
-    public registerForm: FormGroup;
+    public nameForm: FormGroup;
+    public userNameEmailsForm: FormGroup;
+    public passwordForm: FormGroup;
 
     public constructor(private formBuilder: FormBuilder) {
-        this.buildForm();
+        this.buildForms();
     }
 
     public getEmailFormArray(): FormArray {
-        return this.registerForm.controls['emails'] as FormArray;
+        return this.userNameEmailsForm.controls['emails'] as FormArray;
     }
 
     public hasMultiplePrimaryEmails(): boolean {
@@ -60,7 +62,7 @@ export class RegisterFormComponent {
     }
 
     public hasMismatchedPasswordError(): boolean {
-        return this.registerForm
+        return this.passwordForm
             .controls['passwordRepeat']
             .hasError('mismatchedPassword');
     }
@@ -72,11 +74,16 @@ export class RegisterFormComponent {
     }
 
     public submit(): void {
-        if (!this.registerForm.valid) {
+        if (!this.nameForm.valid || !this.userNameEmailsForm.valid || !this.passwordForm.valid) {
             return;
         }
 
-        const registerUser: RegisterUser = Object.assign({}, this.registerForm.value);
+        const registerUser: RegisterUser = {
+            ...this.nameForm.value,
+            ...this.userNameEmailsForm.value,
+            ...this.passwordForm.value
+        };
+
         this.requestRegister.emit(registerUser);
     }
 
@@ -89,17 +96,23 @@ export class RegisterFormComponent {
     }
 
     public hasMinLengthPasswordError(): boolean {
-        return this.registerForm
+        return this.passwordForm
             .controls['password']
             .hasError('minlength');
     }
 
-    private buildForm(): void {
-        this.registerForm = this.formBuilder.group({
+    private buildForms(): void {
+        this.nameForm = this.formBuilder.group({
             name: [null],
-            firstName: [null],
+            firstName: [null]
+        });
+
+        this.userNameEmailsForm = this.formBuilder.group({
             userName: [null, Validators.required],
             emails: this.formBuilder.array([this.createEmptyEmailGroup(true)], PrimaryEmailValidation.primaryEmail('isPrimary')),
+        });
+
+        this.passwordForm = this.formBuilder.group({
             password: [null, [Validators.required, Validators.minLength(8)]],
             passwordRepeat: [null, Validators.required]
         }, { validator: PasswordValidator.mismatchedPassword('password', 'passwordRepeat') });
