@@ -73,7 +73,8 @@ export class IdentityUserLoadFailed implements Action {
     public constructor(public error: Error) { }
 }
 
-export declare type AuthActions =
-    Login | LoggedIn | LoginFailed | Logout | RestoreLogin | RestoreCompleted |
+export declare type AuthActions = |
+    Login | LoggedIn | LoginFailed | Logout |
+    RestoreLogin | RestoreCompleted |
     Register | Registered | RegisterFailed |
     IdentityUserLoad | IdentityUserLoaded | IdentityUserLoadFailed;

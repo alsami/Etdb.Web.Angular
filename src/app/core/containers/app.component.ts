@@ -1,6 +1,6 @@
 import { Overlay, OverlayConfig, OverlayContainer, OverlayRef } from '@angular/cdk/overlay';
-import { Portal, TemplatePortal, TemplatePortalDirective } from '@angular/cdk/portal';
-import { Component, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { Portal, TemplatePortalDirective } from '@angular/cdk/portal';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PRIMARY_THEME } from '@etdb/core/core.constants';
 import * as fromRoot from '@etdb/reducers';
 import { Store } from '@ngrx/store';
@@ -19,12 +19,11 @@ export class AppComponent implements OnInit {
     private authLoadingSubscription: Subscription;
     theme = PRIMARY_THEME;
     @ViewChild(TemplatePortalDirective) templatePortal: Portal<any>;
-    @ViewChild('overlay') overlayTemplate: TemplateRef<any>;
+    // @ViewChild('overlay') overlayTemplate: TemplateRef<any>;
 
 
     public constructor(private overlay: Overlay,
         private overlayContainer: OverlayContainer,
-        private vcr: ViewContainerRef,
         private store: Store<fromRoot.AppState>) {
         this.store.dispatch(new layoutActions.RestoreTheme());
         this.store.dispatch(new authActions.RestoreLogin());
@@ -33,7 +32,7 @@ export class AppComponent implements OnInit {
     public ngOnInit(): void {
         this.subscribeThemeChanges();
         this.subscribeAuthLoading();
-        this.initializeOverlay();
+        this.createLoadingOverlay();
     }
 
     private subscribeThemeChanges(): void {
@@ -54,22 +53,22 @@ export class AppComponent implements OnInit {
                 this.loading$.next(loading);
                 if (!loading) {
                     this.overlayRef.detach();
-                    this.test();
+                    // this.testTemplatePortalOverlay();
                     this.authLoadingSubscription.unsubscribe();
                 }
             });
     }
 
-    private test(): void {
-        this.overlayRef = this.overlay.create({
-            positionStrategy: this.overlay.position().global().bottom('0px'),
-            minWidth: '100%'
-        });
+    // private testTemplatePortalOverlay(): void {
+    //     this.overlayRef = this.overlay.create({
+    //         positionStrategy: this.overlay.position().global().bottom('0px'),
+    //         minWidth: '100%'
+    //     });
 
-        this.overlayRef.attach(new TemplatePortal(this.overlayTemplate, this.vcr));
-    }
+    //     this.overlayRef.attach(new TemplatePortal(this.overlayTemplate, this.vcr));
+    // }
 
-    private initializeOverlay(): void {
+    private createLoadingOverlay(): void {
         const config = new OverlayConfig();
         config.positionStrategy = this.overlay.position()
             .global()
