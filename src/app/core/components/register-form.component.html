@@ -1,6 +1,6 @@
 <div class="page-content flex-container flex-center-center flex-flow-column">
     <div class="register-container">
-        <etdb-mat-stepper-extended [endButtonLabel]="'Register'">
+        <etdb-mat-stepper-extended [endButtonLabel]="'Register'" [isLinear]="true">
             <etdb-mat-stepper-step-extended label="Your name" [form]="nameForm" [isOptional]="true">
                 <form [formGroup]="nameForm">
                     <div class="flex-container flex-flow-column">
@@ -15,12 +15,14 @@
             </etdb-mat-stepper-step-extended>
             <etdb-mat-stepper-step-extended label="Add e-mail addresses" [form]="emailsForm">
                 <div class="flex-container flex-flow-column">
-                    <form [formGroup]="emailsForm">
+                    <form #emailsformTempl [formGroup]="emailsForm" novalidate>
                         <div formArrayName="emails">
-                            <div *ngFor="let email of getEmailFormArray().controls; let i = index; let last = last;" [@flyInOut]="'in'">
+                            <div *ngFor="let email of getEmailFormArray().controls; let i = index; let last = last;"
+                                [@flyInOut]="'in'">
                                 <div [formGroupName]="i" class="flex-container flex-flow-row">
                                     <mat-form-field class="flex-1-1-auto">
-                                        <input matInput type="email" formControlName="address" placeholder="E-Mail address" required />
+                                        <input matInput type="email" formControlName="address" placeholder="E-Mail address"
+                                            required />
                                         <mat-error *ngIf="hasInvalidEmailError(i);">
                                             Not a valid email-address!
                                         </mat-error>
@@ -29,11 +31,12 @@
                                         <mat-slide-toggle formControlName="isPrimary" labelPosition="before" color="accent">Primary</mat-slide-toggle>
                                     </div>
                                     <div class="flex-container flex-flow-column">
-                                        <button *ngIf="getEmailFormArray().controls.length !== 1" (click)="removeEmailGroupFromFormArray(i);" matTooltip="Remove email-address"
-                                            type="button" mat-icon-button>
+                                        <button *ngIf="getEmailFormArray().controls.length !== 1" (click)="removeEmailGroupFromFormArray(i);"
+                                            matTooltip="Remove email-address" type="button" mat-icon-button>
                                             <mat-icon>delete</mat-icon>
                                         </button>
-                                        <button *ngIf="last" (click)="appendEmailFormArray();" matTooltip="Add emai-address" type="button" mat-icon-button>
+                                        <button *ngIf="last" (click)="appendEmailFormArray();" matTooltip="Add emai-address"
+                                            type="button" mat-icon-button>
                                             <mat-icon>add</mat-icon>
                                         </button>
                                     </div>
@@ -49,25 +52,28 @@
                     </form>
                 </div>
             </etdb-mat-stepper-step-extended>
-            <etdb-mat-stepper-step-extended label="Username and password" [form]="userNamePasswordForm" (formSubmitted)="submit();">
-                <form [formGroup]="userNamePasswordForm" novalidate>
+            <etdb-mat-stepper-step-extended label="Username and password" [form]="userNamePasswordForm" [submitAction]="submit">
+                <form #userNamePasswordFormTempl [formGroup]="userNamePasswordForm" novalidate>
                     <div class="flex-container flex-flow-column">
                         <mat-form-field>
-                            <input formControlName="userName" matInput type="text" placeholder="Choose a username" required />
+                            <input formControlName="userName" matInput type="text" placeholder="Choose a username"
+                                required />
                         </mat-form-field>
                     </div>
                     <div class="flex-container flex-flow-column">
                         <mat-form-field>
-                            <input matInput #passwordInput formControlName="password" type="password" placeholder="Password" required />
+                            <input matInput #passwordInput formControlName="password" type="password" placeholder="Password"
+                                required />
                             <mat-icon (click)="changePasswordVisibility(passwordInput);" class="pointer" matSuffix>remove_red_eye</mat-icon>
                             <mat-error *ngIf="hasMinLengthPasswordError();">
                                 Password must contain at least 8 letters!
                             </mat-error>
                         </mat-form-field>
                         <mat-form-field>
-                            <input matInput #passwordInputRepeat formControlName="passwordRepeat" type="password" placeholder="Repeat password" required
-                            />
-                            <mat-icon (click)="changePasswordVisibility(passwordInputRepeat);" class="pointer" matSuffix>remove_red_eye</mat-icon>
+                            <input matInput #passwordInputRepeat formControlName="passwordRepeat" type="password"
+                                placeholder="Repeat password" required />
+                            <mat-icon (click)="changePasswordVisibility(passwordInputRepeat);" class="pointer"
+                                matSuffix>remove_red_eye</mat-icon>
                             <mat-error *ngIf="hasMismatchedPasswordError();">
                                 Passwords do not match!
                             </mat-error>

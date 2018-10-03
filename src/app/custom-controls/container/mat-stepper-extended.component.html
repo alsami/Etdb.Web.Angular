@@ -1,5 +1,6 @@
 <mat-horizontal-stepper *ngIf="!isMobile" #stepper [linear]="isLinear" (selectionChange)="selectionChanged($event)">
-    <mat-step *ngFor="let step of steps; let i = index; let last = last;" [stepControl]="step.form" [label]="step.label" [optional]="step.isOptional">
+    <mat-step *ngFor="let step of steps; let i = index; let last = last;" [stepControl]="step.form" [label]="step.label"
+        [optional]="step.isOptional">
         <ng-container *ngTemplateOutlet="step.template"></ng-container>
         <div class="flex-container flex-flow-row flex-justify-end">
             <div>
@@ -14,8 +15,10 @@
 </mat-horizontal-stepper>
 
 <mat-vertical-stepper *ngIf="isMobile" #stepper [linear]="isLinear" (selectionChange)="selectionChanged($event)">
-    <mat-step *ngFor="let step of steps; let i = index; let last = last;" [stepControl]="step.form" [label]="step.label" [optional]="step.isOptional">
+    <mat-step *ngFor="let step of steps; let i = index; let last = last;" [stepControl]="step.form" [label]="step.label"
+        [optional]="step.isOptional">
         <ng-container *ngTemplateOutlet="step.template"></ng-container>
+
         <div class="flex-container flex-flow-row flex-justify-end">
             <div>
                 <button *ngIf="i > 0" type="button" mat-button matStepperPrevious>{{ previousButtonLabel }}</button>

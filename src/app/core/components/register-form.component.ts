@@ -1,8 +1,18 @@
-import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
+import {
+    animate,
+    keyframes,
+    state,
+    style,
+    transition,
+    trigger
+} from '@angular/animations';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RegisterUser } from '@etdb/core/models';
-import { PasswordValidator, PrimaryEmailValidation } from '@etdb/core/validators';
+import {
+    PasswordValidator,
+    PrimaryEmailValidation
+} from '@etdb/core/validators';
 
 @Component({
     selector: 'etdb-register-form',
@@ -12,26 +22,57 @@ import { PasswordValidator, PrimaryEmailValidation } from '@etdb/core/validators
         trigger('flyInOut', [
             state('in', style({ transform: 'translateX(0)' })),
             transition('void => *', [
-                animate(500, keyframes([
-                    style({ opacity: 0, transform: 'translateX(-100%)', offset: 0 }),
-                    style({ opacity: 1, transform: 'translateX(15px)', offset: 0.5 }),
-                    style({ opacity: 1, transform: 'translateX(0)', offset: 1.0 })
-                ]))
+                animate(
+                    500,
+                    keyframes([
+                        style({
+                            opacity: 0,
+                            transform: 'translateX(-100%)',
+                            offset: 0
+                        }),
+                        style({
+                            opacity: 1,
+                            transform: 'translateX(15px)',
+                            offset: 0.5
+                        }),
+                        style({
+                            opacity: 1,
+                            transform: 'translateX(0)',
+                            offset: 1.0
+                        })
+                    ])
+                )
             ]),
             transition('* => void', [
-                animate(500, keyframes([
-                    style({ opacity: 1, transform: 'translateX(0)', offset: 0 }),
-                    style({ opacity: 1, transform: 'translateX(-15px)', offset: 0.5 }),
-                    style({ opacity: 0, transform: 'translateX(100%)', offset: 1.0 })
-                ]))
+                animate(
+                    500,
+                    keyframes([
+                        style({
+                            opacity: 1,
+                            transform: 'translateX(0)',
+                            offset: 0
+                        }),
+                        style({
+                            opacity: 1,
+                            transform: 'translateX(-15px)',
+                            offset: 0.5
+                        }),
+                        style({
+                            opacity: 0,
+                            transform: 'translateX(100%)',
+                            offset: 1.0
+                        })
+                    ])
+                )
             ])
         ])
     ]
 })
-
 export class RegisterFormComponent {
-    @Output() requestRegister: EventEmitter<RegisterUser> =
-        new EventEmitter<RegisterUser>();
+    @Output()
+    requestRegister: EventEmitter<RegisterUser> = new EventEmitter<
+        RegisterUser
+    >();
 
     public nameForm: FormGroup;
     public emailsForm: FormGroup;
@@ -46,35 +87,37 @@ export class RegisterFormComponent {
     }
 
     public hasMultiplePrimaryEmails(): boolean {
-        return this.getEmailFormArray()
-            .hasError('hasMultilePrimary');
+        return this.getEmailFormArray().hasError('hasMultilePrimary');
     }
 
     public hasPrimaryEmailError(): boolean {
-        return this.getEmailFormArray()
-            .getError('hasNoPrimary');
+        return this.getEmailFormArray().getError('hasNoPrimary');
     }
 
     hasInvalidEmailError(index: number): boolean {
-        return (this.getEmailFormArray().at(index) as FormGroup)
-            .controls['address']
-            .hasError('email');
+        return (this.getEmailFormArray().at(index) as FormGroup).controls[
+            'address'
+        ].hasError('email');
     }
 
     public hasMismatchedPasswordError(): boolean {
-        return this.userNamePasswordForm
-            .controls['passwordRepeat']
-            .hasError('mismatchedPassword');
+        return this.userNamePasswordForm.controls['passwordRepeat'].hasError(
+            'mismatchedPassword'
+        );
     }
 
     public changePasswordVisibility(inputElement: HTMLInputElement): void {
         inputElement.type === 'password'
-            ? inputElement.type = 'text'
-            : inputElement.type = 'password';
+            ? (inputElement.type = 'text')
+            : (inputElement.type = 'password');
     }
 
-    public submit(): void {
-        if (!this.nameForm.valid || !this.emailsForm.valid || !this.userNamePasswordForm.valid) {
+    public submit = (): void => {
+        if (
+            !this.nameForm.valid ||
+            !this.emailsForm.valid ||
+            !this.userNamePasswordForm.valid
+        ) {
             return;
         }
 
@@ -96,9 +139,9 @@ export class RegisterFormComponent {
     }
 
     public hasMinLengthPasswordError(): boolean {
-        return this.userNamePasswordForm
-            .controls['password']
-            .hasError('minlength');
+        return this.userNamePasswordForm.controls['password'].hasError(
+            'minlength'
+        );
     }
 
     private buildForms(): void {
@@ -108,14 +151,28 @@ export class RegisterFormComponent {
         });
 
         this.emailsForm = this.formBuilder.group({
-            emails: this.formBuilder.array([this.createEmptyEmailGroup(true)], PrimaryEmailValidation.primaryEmail('isPrimary')),
+            emails: this.formBuilder.array(
+                [this.createEmptyEmailGroup(true)],
+                PrimaryEmailValidation.primaryEmail('isPrimary')
+            )
         });
 
-        this.userNamePasswordForm = this.formBuilder.group({
-            userName: [null, Validators.required],
-            password: [null, [Validators.required, Validators.minLength(8)]],
-            passwordRepeat: [null, Validators.required]
-        }, { validator: PasswordValidator.mismatchedPassword('password', 'passwordRepeat') });
+        this.userNamePasswordForm = this.formBuilder.group(
+            {
+                userName: [null, Validators.required],
+                password: [
+                    null,
+                    [Validators.required, Validators.minLength(8)]
+                ],
+                passwordRepeat: [null, Validators.required]
+            },
+            {
+                validator: PasswordValidator.mismatchedPassword(
+                    'password',
+                    'passwordRepeat'
+                )
+            }
+        );
     }
 
     private createEmptyEmailGroup(markAsPrimary: boolean = false): FormGroup {

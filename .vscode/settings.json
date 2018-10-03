@@ -4,5 +4,8 @@
     "typescript.autoImportSuggestions.enabled": true,
     "typescript.preferences.quoteStyle": "single",
     "typescript.preferences.importModuleSpecifier": "non-relative",
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
 }

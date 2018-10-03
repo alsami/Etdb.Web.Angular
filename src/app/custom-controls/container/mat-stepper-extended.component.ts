@@ -1,6 +1,15 @@
 import {
-    Component, OnDestroy, Input, ContentChildren, QueryList,
-    ViewChild, TemplateRef, ChangeDetectionStrategy, AfterViewChecked, ChangeDetectorRef, AfterViewInit
+    Component,
+    OnDestroy,
+    Input,
+    ContentChildren,
+    QueryList,
+    ViewChild,
+    TemplateRef,
+    ChangeDetectionStrategy,
+    AfterViewChecked,
+    ChangeDetectorRef,
+    AfterViewInit
 } from '@angular/core';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
@@ -10,27 +19,39 @@ import { MatStepperStepExtendedComponent } from '@etdb/custom-controls/component
 @Component({
     selector: 'etdb-mat-stepper-extended',
     templateUrl: 'mat-stepper-extended.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.Default
 })
-export class MatStepperExtendedComponent implements AfterViewInit, AfterViewChecked, OnDestroy {
+export class MatStepperExtendedComponent
+    implements AfterViewInit, AfterViewChecked, OnDestroy {
     public selectedIndex = 0;
     public isMobile: boolean;
     public template: TemplateRef<any>;
 
-    @Input() isLinear = true;
-    @Input() startAtIndex: number;
-    @Input() nextButtonLabel = 'Next';
-    @Input() endButtonLabel = 'Done';
-    @Input() previousButtonLabel = 'Previous';
-    @Input() observeableBreakpoints: string | string[] = ['(max-width: 599px)'];
+    @Input()
+    isLinear = true;
+    @Input()
+    startAtIndex: number;
+    @Input()
+    nextButtonLabel = 'Next';
+    @Input()
+    endButtonLabel = 'Done';
+    @Input()
+    previousButtonLabel = 'Previous';
+    @Input()
+    observeableBreakpoints: string | string[] = ['(max-width: 599px)'];
 
-    @ContentChildren(MatStepperStepExtendedComponent) public steps: QueryList<MatStepperStepExtendedComponent>;
+    @ContentChildren(MatStepperStepExtendedComponent)
+    public steps: QueryList<MatStepperStepExtendedComponent>;
 
-    @ViewChild('stepper') stepper: MatStepper;
+    @ViewChild('stepper')
+    stepper: MatStepper;
 
     private breakpointSubscriber: Subscription;
 
-    constructor(private breakpointObserver: BreakpointObserver, private changeDetector: ChangeDetectorRef) { }
+    public constructor(
+        private breakpointObserver: BreakpointObserver,
+        private changeDetector: ChangeDetectorRef
+    ) {}
 
     public ngAfterViewInit(): void {
         this.breakpointSubscriber = this.breakpointObserver
@@ -67,7 +88,5 @@ export class MatStepperExtendedComponent implements AfterViewInit, AfterViewChec
     public rightButtonText = (isLast: boolean): string =>
         isLast ? this.endButtonLabel : this.nextButtonLabel
 
-    public reset(): void {
-        this.stepper.reset();
-    }
+    public reset = (): void => this.stepper.reset();
 }
