@@ -9,16 +9,21 @@
         <mat-icon>color_lens</mat-icon>
     </button>
     <mat-menu #themeMenu="matMenu">
-        <ng-template ngFor let-theme [ngForOf]="themes">
+        <ng-template ngFor let-theme [ngForOf]="themes" let-last="last">
             <button mat-menu-item (click)="requestThemeChange.emit(theme.theme);">{{theme.name}}</button>
+            <mat-divider *ngIf="!last"></mat-divider>
         </ng-template>
     </mat-menu>
-    <button *ngIf="user" mat-icon-button [routerLink]="'users/' + user.sub" (click)="linkedMenuClicked.emit();">
-        <mat-icon>
-            person
-        </mat-icon>
+    <button *ngIf="user" mat-icon-button mat-icon-button [matMenuTriggerFor]="usersMenu">
+        <div *ngIf="user" class=" profile-picture" [style.backgroundImage]="'url('+ userPictureUrl +')'"></div>
     </button>
-    <button mat-icon-button *ngIf="user" matTooltip="Logout" (click)="requestLogout.emit();">
-        <mat-icon>exit_to_app</mat-icon>
-    </button>
+    <mat-menu #usersMenu="matMenu" yPosition="below" xPosition="before">
+        <button mat-menu-item [routerLink]="'users/' + user?.sub" (click)="linkedMenuClicked.emit();">
+            <mat-icon>person</mat-icon> Profile
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="requestLogout.emit();">
+            <mat-icon>exit_to_app</mat-icon> Logout
+        </button>
+    </mat-menu>
 </mat-toolbar>

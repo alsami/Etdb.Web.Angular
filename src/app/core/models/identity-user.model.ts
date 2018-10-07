@@ -6,4 +6,5 @@ export interface IdentityUser {
     name: string;
     role: string[];
     sub: string;
+    picture: string;
 }

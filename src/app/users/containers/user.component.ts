@@ -28,6 +28,8 @@ export class UserComponent implements OnInit, OnDestroy {
     public constructor(private store: Store<fromUser.State>, private route: ActivatedRoute) { }
 
     public ngOnInit(): void {
+        this.loading$ = this.store.select(fromUser.getUserLoading);
+
         this.paramSub = this.route.params.pipe(
             map(params => params['id'])
         ).subscribe(id => {
@@ -58,9 +60,6 @@ export class UserComponent implements OnInit, OnDestroy {
                 return user.id === loggedInUser.sub;
             })
         );
-
-        this.loading$ = this.store.select(fromUser.getUserLoading);
-        this.loading$.subscribe(l => console.warn(l));
     }
 
     public ngOnDestroy(): void {
