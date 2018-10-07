@@ -6,9 +6,10 @@ import * as userActions from '@etdb/users/actions/user.actions';
 import * as fromUser from '@etdb/users/reducers';
 import * as fromRoot from '@etdb/reducers';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription, combineLatest } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IdentityUser } from '@etdb/core/models';
+import { PolicyService } from '@etdb/core/services';
 
 @Component({
     selector: 'etdb-user',
@@ -25,13 +26,13 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     public user$: Observable<User>;
     public loggedInUser$: Observable<IdentityUser>;
 
-    public constructor(private store: Store<fromUser.State>, private route: ActivatedRoute) { }
+    public constructor(private store: Store<fromUser.State>, private route: ActivatedRoute, private policyService: PolicyService) { }
 
     public ngOnInit(): void {
         this.loading$ = this.store.select(fromUser.getUserLoading);
 
         this.paramSub = this.route.params.pipe(
-            map(params => params['id'])
+            map(params => <string>params['id'])
         ).subscribe(id => {
             this.userId = id;
             this.store.dispatch(new userActions.Load(this.userId));
@@ -48,18 +49,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 
         this.loggedInUser$ = this.store.select(fromRoot.getAuthIdentityUser);
 
-        this.loggedInUserIsUser$ = combineLatest(
-            this.user$,
-            this.loggedInUser$
-        ).pipe(
-            map(([user, loggedInUser]) => {
-                if (!user || !loggedInUser) {
-                    return false;
-                }
-
-                return user.id === loggedInUser.sub;
-            })
-        );
+        this.loggedInUserIsUser$ = this.policyService.isSelectedUserIsLoggedInUser();
     }
 
     public ngOnDestroy(): void {

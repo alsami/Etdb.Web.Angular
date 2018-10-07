@@ -72,7 +72,7 @@ export class RegisterFormComponent {
     @Output()
     requestRegister: EventEmitter<RegisterUser> = new EventEmitter<
         RegisterUser
-    >();
+        >();
 
     public nameForm: FormGroup;
     public emailsForm: FormGroup;
@@ -84,26 +84,6 @@ export class RegisterFormComponent {
 
     public getEmailFormArray(): FormArray {
         return this.emailsForm.controls['emails'] as FormArray;
-    }
-
-    public hasMultiplePrimaryEmails(): boolean {
-        return this.getEmailFormArray().hasError('hasMultilePrimary');
-    }
-
-    public hasPrimaryEmailError(): boolean {
-        return this.getEmailFormArray().getError('hasNoPrimary');
-    }
-
-    hasInvalidEmailError(index: number): boolean {
-        return (this.getEmailFormArray().at(index) as FormGroup).controls[
-            'address'
-        ].hasError('email');
-    }
-
-    public hasMismatchedPasswordError(): boolean {
-        return this.userNamePasswordForm.controls['passwordRepeat'].hasError(
-            'mismatchedPassword'
-        );
     }
 
     public changePasswordVisibility(inputElement: HTMLInputElement): void {
@@ -141,6 +121,26 @@ export class RegisterFormComponent {
     public hasMinLengthPasswordError(): boolean {
         return this.userNamePasswordForm.controls['password'].hasError(
             'minlength'
+        );
+    }
+
+    public hasMultiplePrimaryEmails(): boolean {
+        return this.getEmailFormArray().hasError('hasMultilePrimary');
+    }
+
+    public hasPrimaryEmailError(): boolean {
+        return this.getEmailFormArray().getError('hasNoPrimary');
+    }
+
+    hasInvalidEmailError(index: number): boolean {
+        return (this.getEmailFormArray().at(index) as FormGroup).controls[
+            'address'
+        ].hasError('email');
+    }
+
+    public hasMismatchedPasswordError(): boolean {
+        return this.userNamePasswordForm.controls['passwordRepeat'].hasError(
+            'mismatchedPassword'
         );
     }
 

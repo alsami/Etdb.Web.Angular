@@ -5,6 +5,7 @@ import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 import { BASE_HEADERS } from '@etdb/core/core.constants';
 
+
 @Injectable()
 export class AuthService {
     private basicAuthHeaders: HttpHeaders = new HttpHeaders()
@@ -12,7 +13,7 @@ export class AuthService {
         .set('Accept', 'application/json')
         .set('cache-control', 'no-cache');
 
-    public constructor(private http: HttpClient) {}
+    public constructor(private http: HttpClient) { }
 
     public loginViaCredentials(login: UserLogin): Observable<IdentityToken> {
         const formData = new FormData();

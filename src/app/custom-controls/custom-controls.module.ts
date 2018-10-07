@@ -4,7 +4,8 @@ import { CommonModule } from '@angular/common';
 import {
     UploadButtonComponent,
     MatStepperExtendedComponent,
-    UserCardComponent
+    UserCardComponent,
+    PageLoadingIndicatorComponent
 } from '@etdb/custom-controls/container';
 import { MatStepperStepExtendedComponent } from '@etdb/custom-controls/component';
 
@@ -12,7 +13,8 @@ const COMPONENTS = [
     UserCardComponent,
     UploadButtonComponent,
     MatStepperExtendedComponent,
-    MatStepperStepExtendedComponent
+    MatStepperStepExtendedComponent,
+    PageLoadingIndicatorComponent
 ];
 
 @NgModule({

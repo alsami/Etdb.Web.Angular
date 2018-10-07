@@ -1,4 +1,4 @@
-<mat-progress-bar *ngIf="loading$ | async" color="accent" mode="indeterminate"></mat-progress-bar>
+<etdb-page-loading-indicator [loading]="loading$ | async"></etdb-page-loading-indicator>
 <mat-tab-group mat-stretch-tabs>
     <mat-tab label="Profile">
         <div class="page-content page-profile-container">

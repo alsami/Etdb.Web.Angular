@@ -7,7 +7,7 @@ import { LoginFormComponent, RegisterFormComponent, SidenavContentComponent, Too
 import { AppComponent, LayoutComponent, LoginComponent, RegisterComponent } from '@etdb/core/containers';
 import { NotAuthorizedAuthGuard } from '@etdb/core/guards';
 import { TokenInterceptor } from '@etdb/core/interceptors';
-import { AuthService, LayoutStorageService, TokenStorageService, BreakpointService } from '@etdb/core/services';
+import { AuthService, LayoutStorageService, TokenStorageService, BreakpointService, PolicyService } from '@etdb/core/services';
 import { MaterialModule } from '@etdb/shared';
 import { CustomControlModule } from '@etdb/custom-controls/custom-controls.module';
 
@@ -47,6 +47,7 @@ export class CoreModule {
             ngModule: CoreModule,
             providers: [
                 AuthService,
+                PolicyService,
                 TokenStorageService,
                 LayoutStorageService,
                 BreakpointService,
