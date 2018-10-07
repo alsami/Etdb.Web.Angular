@@ -34,7 +34,7 @@ export class UserComponent implements OnInit, OnDestroy {
             map(params => params['id'])
         ).subscribe(id => {
             this.userId = id;
-            this.store.dispatch(new userActions.Load(id));
+            this.store.dispatch(new userActions.Load(this.userId));
         });
 
         this.user$ = this.store.select(fromUser.getSelectedUser).pipe(

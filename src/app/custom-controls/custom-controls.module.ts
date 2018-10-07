@@ -3,11 +3,13 @@ import { MaterialModule } from '@etdb/shared';
 import { CommonModule } from '@angular/common';
 import {
     UploadButtonComponent,
-    MatStepperExtendedComponent
+    MatStepperExtendedComponent,
+    UserCardComponent
 } from '@etdb/custom-controls/container';
 import { MatStepperStepExtendedComponent } from '@etdb/custom-controls/component';
 
 const COMPONENTS = [
+    UserCardComponent,
     UploadButtonComponent,
     MatStepperExtendedComponent,
     MatStepperStepExtendedComponent
@@ -18,4 +20,4 @@ const COMPONENTS = [
     declarations: [...COMPONENTS],
     exports: [...COMPONENTS]
 })
-export class CustomControlModule {}
+export class CustomControlModule { }

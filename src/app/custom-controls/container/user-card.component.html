@@ -8,12 +8,7 @@
         <mat-card-subtitle>Member since {{ user.registeredSince | date: 'dd.MM.yyyy' }} </mat-card-subtitle>
     </mat-card-header>
     <img mat-card-image *ngIf="user.profileImageUrl" [src]="user.profileImageUrl">
-    <div class="flex-container flex-justify-end">
-        <etdb-upload-button 
-            *ngIf="showProfileImageUploadButton" 
-            (filesSelected)="requestProfileImageUpload($event);" 
-            text="Upload profile image"></etdb-upload-button>
-    </div>
+    <ng-content></ng-content>
     <mat-card-content *ngIf="user.biography">
         <p>{{ user.biography }}</p>
     </mat-card-content>

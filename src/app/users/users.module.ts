@@ -10,7 +10,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { TokenInterceptor } from '@etdb/core/interceptors';
 import { CustomControlModule } from '@etdb/custom-controls/custom-controls.module';
-import { CardsModule } from '@etdb/cards/cards.module';
 
 @NgModule({
     imports: [
@@ -22,7 +21,6 @@ import { CardsModule } from '@etdb/cards/cards.module';
         MaterialModule,
         UsersRoutingModule,
         CustomControlModule,
-        CardsModule
     ],
     declarations: [
         UsersComponent,
