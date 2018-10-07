@@ -13,10 +13,10 @@ export class TitleEffects {
         .ofType(TitleActionTypes.SetTitle)
         .pipe(
             switchMap((action: titleActions.SetTitle) => {
-                this.title.setTitle(`ETDB | ${ action.title }`);
+                this.title.setTitle(`ETDB | ${action.section} | ${action.suffix}`);
                 return of();
             })
         );
 
-    public constructor(private actions$: Actions, private title: Title) {}
+    public constructor(private actions$: Actions, private title: Title) { }
 }

@@ -12,11 +12,11 @@ import { IdentityUser } from '@etdb/core/models';
 
 @Component({
     selector: 'etdb-user',
-    templateUrl: 'user.component.html',
-    styleUrls: ['user.component.scss']
+    templateUrl: 'user-profile.component.html',
+    styleUrls: ['user-profile.component.scss']
 })
 
-export class UserComponent implements OnInit, OnDestroy {
+export class UserProfileComponent implements OnInit, OnDestroy {
     private paramSub: Subscription;
     private userId: string;
 
@@ -40,7 +40,7 @@ export class UserComponent implements OnInit, OnDestroy {
         this.user$ = this.store.select(fromUser.getSelectedUser).pipe(
             map(user => {
                 if (user) {
-                    this.store.dispatch(new titleActions.SetTitle(`Users | ${user.userName}`));
+                    this.store.dispatch(new titleActions.SetTitle('Users', user.userName));
                 }
                 return user;
             })

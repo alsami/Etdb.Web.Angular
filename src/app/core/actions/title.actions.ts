@@ -6,7 +6,7 @@ export enum TitleActionTypes {
 
 export class SetTitle implements Action {
     readonly type = TitleActionTypes.SetTitle;
-    public constructor(public title: string) {}
+    public constructor(public section: string, public suffix: string = '', public delimiter = '|') { }
 }
 
 export type TitleActions = SetTitle;

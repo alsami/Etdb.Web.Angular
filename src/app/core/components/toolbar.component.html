@@ -15,14 +15,18 @@
         </ng-template>
     </mat-menu>
     <button *ngIf="user" mat-icon-button mat-icon-button [matMenuTriggerFor]="usersMenu">
-        <div *ngIf="user" class=" profile-picture" [style.backgroundImage]="'url('+ userPictureUrl +')'"></div>
+        <div *ngIf="user" class="profile-picture mat-icon material-icons" [style.backgroundImage]="'url('+ userPictureUrl +')'"></div>
     </button>
     <mat-menu #usersMenu="matMenu" yPosition="below" xPosition="before">
-        <button mat-menu-item [routerLink]="'users/' + user?.sub" (click)="linkedMenuClicked.emit();">
+        <button mat-menu-item [routerLink]="'users/profile/' + user?.sub" (click)="linkedMenuClicked.emit();">
             <mat-icon>person</mat-icon> Profile
         </button>
         <mat-divider></mat-divider>
-        <button mat-menu-item (click)="requestLogout.emit();">
+        <button mat-menu-item [routerLink]="'users/settings/' + user?.sub" (click)="linkedMenuClicked.emit();">
+            <mat-icon>settings</mat-icon> Settings
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="requestLogout.emit(); linkedMenuClicked.emit();">
             <mat-icon>exit_to_app</mat-icon> Logout
         </button>
     </mat-menu>

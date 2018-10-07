@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { VALID_THEMES_DESC } from '@etdb/core/core.constants';
 import { IdentityUser } from '@etdb/core/models';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -7,7 +7,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 @Component({
     selector: 'etdb-toolbar',
     templateUrl: 'toolbar.component.html',
-    styleUrls: ['toolbar.component.scss']
+    styleUrls: ['toolbar.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class ToolbarComponent implements OnChanges {

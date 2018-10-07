@@ -12,7 +12,9 @@ export function reducer(state = initialState, action: TitleActions): TitleState 
     switch (action.type) {
         case TitleActionTypes.SetTitle:
             return {
-                title: action.title
+                title: action.suffix
+                    ? `${action.section} ${action.delimiter} ${action.suffix}`
+                    : action.section
             };
 
         default:

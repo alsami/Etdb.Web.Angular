@@ -1,13 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UserComponent, UsersComponent } from '@etdb/users/containers';
+import { UserProfileComponent, UsersComponent, UserSettingsComponent } from '@etdb/users/containers';
 
 const routes: Routes = [{
     path: '',
     component: UsersComponent,
     children: [{
-        path: ':id',
-        component: UserComponent
+        path: 'profile/:id',
+        component: UserProfileComponent
+    }, {
+        path: 'settings/:id',
+        component: UserSettingsComponent
     }]
 }];
 
