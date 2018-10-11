@@ -1,6 +1,4 @@
 <etdb-page-loading-indicator [loading]="loading$ | async"></etdb-page-loading-indicator>
 <div class="page-content">
-    <div>
-        <etdb-user-pwd-change-form></etdb-user-pwd-change-form>
-    </div>
+    <etdb-user-pwd-change-form [loading]="loading$ | async" (requestPwdChange)="updatePassword($event);"></etdb-user-pwd-change-form>
 </div>

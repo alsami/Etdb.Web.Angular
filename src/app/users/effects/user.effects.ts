@@ -9,7 +9,8 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class UserEffects {
-    @Effect() loadUser$: Observable<Action> = this.actions$.pipe(
+    @Effect()
+    loadUser$: Observable<Action> = this.actions$.pipe(
         ofType(UserActionTypes.Load),
         switchMap((action: userActions.Load) => {
             return this.userService.getUser(action.id).pipe(
@@ -19,15 +20,41 @@ export class UserEffects {
         })
     );
 
-    @Effect() uploadProfileImage$: Observable<Action> = this.actions$.pipe(
+    @Effect()
+    uploadProfileImage$: Observable<Action> = this.actions$.pipe(
         ofType(UserActionTypes.UploadProfileImage),
         switchMap((action: userActions.UploadProfileImage) => {
-            return this.userService.uploadProfileImage(action.data.id, action.data.file).pipe(
-                map(user => new userActions.UploadedProfileImage(user)),
-                catchError((error: Error) => of(new userActions.UploadProfileImageFailed(error)))
-            );
+            return this.userService
+                .uploadProfileImage(
+                    action.profileImage.id,
+                    action.profileImage.file
+                )
+                .pipe(
+                    map(user => new userActions.UploadedProfileImage(user)),
+                    catchError((error: Error) =>
+                        of(new userActions.UploadProfileImageFailed(error))
+                    )
+                );
         })
     );
 
-    public constructor(private userService: UserService, private actions$: Actions) { }
+    @Effect()
+    updatePassword$: Observable<Action> = this.actions$.pipe(
+        ofType(UserActionTypes.UpdatePassword),
+        switchMap((action: userActions.UpdatePassword) => {
+            return this.userService
+                .updatePassword(action.id, action.passwordChange)
+                .pipe(
+                    map(() => new userActions.UpdatedPassword()),
+                    catchError((error: Error) =>
+                        of(new userActions.UpdatePasswordFailed(error))
+                    )
+                );
+        })
+    );
+
+    public constructor(
+        private userService: UserService,
+        private actions$: Actions
+    ) {}
 }

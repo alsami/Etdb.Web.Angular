@@ -3,9 +3,11 @@ import { Injectable } from '@angular/core';
 import { User } from '@etdb/models';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
+import { UserPasswordChange } from '@etdb/users/models';
+import { BASE_HEADERS } from '@etdb/core/core.constants';
 
 @Injectable()
-export class UserService  {
+export class UserService {
     private url = `${environment.userserviceUrl}users/`;
 
     public constructor(private http: HttpClient) {}
@@ -19,5 +21,18 @@ export class UserService  {
         formData.append('file', file);
 
         return this.http.patch<User>(`${this.url}${id}/profileimage`, formData);
+    }
+
+    public updatePassword(
+        id: string,
+        passwordChange: UserPasswordChange
+    ): Observable<any> {
+        return this.http.patch(
+            `${this.url}${id}/passwordupdate`,
+            passwordChange,
+            {
+                headers: BASE_HEADERS
+            }
+        );
     }
 }
