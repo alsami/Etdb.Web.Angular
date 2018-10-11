@@ -10,6 +10,7 @@ import { User } from '@etdb/models';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { UserPasswordChange } from '@etdb/users/models';
+import { PolicyService } from '@etdb/core/services';
 
 @Component({
     selector: 'etdb-user-settings',
@@ -20,11 +21,14 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
 
     public user$: Observable<User>;
     public loading$: Observable<boolean>;
+    public loggedInUserIsUser$: Observable<boolean>;
+
     public paramsSubscription: Subscription;
 
     public constructor(
         private store: Store<fromRoot.AppState>,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private policyService: PolicyService
     ) {}
 
     public ngOnInit(): void {
@@ -40,6 +44,8 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
                 this.id = id;
                 this.store.dispatch(new userActions.Load(id));
             });
+
+        this.loggedInUserIsUser$ = this.policyService.isSelectedUserIsLoggedInUser();
     }
 
     public ngOnDestroy(): void {
@@ -48,5 +54,18 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
 
     public updatePassword(model: UserPasswordChange): void {
         this.store.dispatch(new userActions.UpdatePassword(this.id, model));
+    }
+
+    public upload(file: File): void {
+        if (!this.id) {
+            return;
+        }
+
+        this.store.dispatch(
+            new userActions.UploadProfileImage({
+                id: this.id,
+                file: file
+            })
+        );
     }
 }

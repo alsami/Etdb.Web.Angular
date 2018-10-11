@@ -3,12 +3,7 @@
     <mat-tab label="Profile">
         <div class="page-content page-profile-container">
             <div class="user-card-container">
-                <etdb-user-card [user]="user$ | async">
-                    <div class="flex-container flex-justify-end">
-                        <etdb-upload-button *ngIf="loggedInUserIsUser$ | async" (filesSelected)="upload($event[0]);"
-                            text="Upload profile image"></etdb-upload-button>
-                    </div>
-                </etdb-user-card>
+                <etdb-user-card [user]="user$ | async"></etdb-user-card>
             </div>
         </div>
     </mat-tab>

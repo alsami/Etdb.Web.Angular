@@ -12,3 +12,9 @@ export interface UserPasswordChange {
     currentPassword: string;
     newPassword: string;
 }
+
+export interface UserProfileInfoChange {
+    firstName: string;
+    name: string;
+    biography: string;
+}

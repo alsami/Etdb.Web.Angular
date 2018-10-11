@@ -16,7 +16,6 @@ import { PolicyService } from '@etdb/core/services';
     templateUrl: 'user-profile.component.html',
     styleUrls: ['user-profile.component.scss']
 })
-
 export class UserProfileComponent implements OnInit, OnDestroy {
     private paramSub: Subscription;
     private userId: string;
@@ -26,22 +25,28 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     public user$: Observable<User>;
     public loggedInUser$: Observable<IdentityUser>;
 
-    public constructor(private store: Store<fromUser.State>, private route: ActivatedRoute, private policyService: PolicyService) { }
+    public constructor(
+        private store: Store<fromUser.State>,
+        private route: ActivatedRoute,
+        private policyService: PolicyService
+    ) {}
 
     public ngOnInit(): void {
         this.loading$ = this.store.select(fromUser.getUserLoading);
 
-        this.paramSub = this.route.params.pipe(
-            map(params => <string>params['id'])
-        ).subscribe(id => {
-            this.userId = id;
-            this.store.dispatch(new userActions.Load(this.userId));
-        });
+        this.paramSub = this.route.params
+            .pipe(map(params => <string>params['id']))
+            .subscribe(id => {
+                this.userId = id;
+                this.store.dispatch(new userActions.Load(this.userId));
+            });
 
         this.user$ = this.store.select(fromUser.getSelectedUser).pipe(
             map(user => {
                 if (user) {
-                    this.store.dispatch(new titleActions.SetTitle('Users', user.userName));
+                    this.store.dispatch(
+                        new titleActions.SetTitle('Users', user.userName)
+                    );
                 }
                 return user;
             })
@@ -54,16 +59,5 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 
     public ngOnDestroy(): void {
         this.paramSub.unsubscribe();
-    }
-
-    public upload(file: File): void {
-        if (!this.userId) {
-            return;
-        }
-
-        this.store.dispatch(new userActions.UploadProfileImage({
-            id: this.userId,
-            file: file
-        }));
     }
 }

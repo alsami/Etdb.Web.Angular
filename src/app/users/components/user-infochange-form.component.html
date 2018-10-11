@@ -1,0 +1,23 @@
+<form [formGroup]="infochangeForm" novalidate (ngSubmit)="submit();">
+    <mat-card>
+        <mat-card-title class="mat-typography">
+            <h2>Update your public data</h2>
+        </mat-card-title>
+        <mat-card-content>
+            <div class="flex-container flex-flow-column">
+                <mat-form-field>
+                    <input type="text" matInput placeholder="First name" formControlName="firstName" />
+                </mat-form-field>
+                <mat-form-field>
+                    <input type="text" matInput placeholder="Name" formControlName="name" />
+                </mat-form-field>
+                <mat-form-field>
+                    <textarea matInput cdkTextareaAutosize placeholder="Biography" formControlName="biography"></textarea>
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+        <mat-card-actions align="end">
+            <button mat-button>Update public data</button>
+        </mat-card-actions>
+    </mat-card>
+</form>

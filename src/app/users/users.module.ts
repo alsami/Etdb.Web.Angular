@@ -1,7 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MaterialModule } from '@etdb/shared';
-import { UserProfileComponent, UsersComponent, UserSettingsComponent } from '@etdb/users/containers';
+import {
+    UserProfileComponent,
+    UsersComponent,
+    UserSettingsComponent
+} from '@etdb/users/containers';
 import { UserEffects } from '@etdb/users/effects';
 import { reducers } from '@etdb/users/reducers';
 import { UserService } from '@etdb/users/services';
@@ -10,15 +14,16 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { CustomControlModule } from '@etdb/custom-controls/custom-controls.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { UserPasswordchangeFormComponent } from '@etdb/users/components';
+import {
+    UserPasswordchangeFormComponent,
+    UserInfochangeComponent
+} from '@etdb/users/components';
 
 @NgModule({
     imports: [
         CommonModule,
         StoreModule.forFeature('users', reducers),
-        EffectsModule.forFeature([
-            UserEffects
-        ]),
+        EffectsModule.forFeature([UserEffects]),
         MaterialModule,
         UsersRoutingModule,
         CustomControlModule,
@@ -28,10 +33,9 @@ import { UserPasswordchangeFormComponent } from '@etdb/users/components';
         UsersComponent,
         UserProfileComponent,
         UserSettingsComponent,
-        UserPasswordchangeFormComponent
+        UserPasswordchangeFormComponent,
+        UserInfochangeComponent
     ],
-    providers: [
-        UserService,
-    ]
+    providers: [UserService]
 })
-export class UsersModule { }
+export class UsersModule {}
