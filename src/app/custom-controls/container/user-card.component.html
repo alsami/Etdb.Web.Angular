@@ -1,4 +1,5 @@
 <mat-card *ngIf="user">
+    <img mat-card-image *ngIf="user.profileImageUrl" [src]="user.profileImageUrl">
     <mat-card-header>
         <mat-card-title>
             <section class="mat-typography">
@@ -7,7 +8,6 @@
         </mat-card-title>
         <mat-card-subtitle>Member since {{ user.registeredSince | date: 'dd.MM.yyyy' }} </mat-card-subtitle>
     </mat-card-header>
-    <img mat-card-image *ngIf="user.profileImageUrl" [src]="user.profileImageUrl">
     <ng-content></ng-content>
     <mat-card-content *ngIf="user.biography">
         <p>{{ user.biography }}</p>
