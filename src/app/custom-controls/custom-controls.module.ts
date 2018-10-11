@@ -20,6 +20,7 @@ const COMPONENTS = [
 @NgModule({
     imports: [CommonModule, MaterialModule],
     declarations: [...COMPONENTS],
-    exports: [...COMPONENTS]
+    exports: [...COMPONENTS],
+    entryComponents: [PageLoadingIndicatorComponent]
 })
-export class CustomControlModule { }
+export class CustomControlModule {}

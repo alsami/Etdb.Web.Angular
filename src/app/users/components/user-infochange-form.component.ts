@@ -3,14 +3,26 @@ import {
     OnChanges,
     SimpleChanges,
     OnInit,
-    Input
+    Input,
+    ElementRef,
+    ChangeDetectionStrategy,
+    ViewContainerRef
 } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { User } from '@etdb/models';
+import {
+    OverlayPositionBuilder,
+    Overlay,
+    ConnectedPosition
+} from '@angular/cdk/overlay';
+import { ComponentPortal } from '@angular/cdk/portal';
+import { PageLoadingIndicatorComponent } from '@etdb/custom-controls/container';
+import { start } from 'repl';
 
 @Component({
     selector: 'etdb-user-infochange-form',
-    templateUrl: 'user-infochange-form.component.html'
+    templateUrl: 'user-infochange-form.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserInfochangeComponent implements OnInit, OnChanges {
     @Input()
@@ -21,7 +33,36 @@ export class UserInfochangeComponent implements OnInit, OnChanges {
 
     public infochangeForm: FormGroup;
 
-    public constructor(private formBuilder: FormBuilder) {}
+    public constructor(
+        private formBuilder: FormBuilder,
+        public overlay: Overlay,
+        public elementRef: ElementRef,
+        public overlayBuilder: OverlayPositionBuilder,
+        public vcr: ViewContainerRef
+    ) {
+        const poses: ConnectedPosition[] = [
+            {
+                originX: 'start',
+                originY: 'center',
+                overlayX: 'center',
+                overlayY: 'center',
+                offsetY: 56
+            }
+        ];
+
+        console.log(elementRef);
+
+        const overlayx = this.overlay.create({
+            positionStrategy: this.overlayBuilder
+                .flexibleConnectedTo(elementRef.nativeElement)
+                .withPositions(poses),
+            hasBackdrop: true
+        });
+
+        overlayx.attach(
+            new ComponentPortal(PageLoadingIndicatorComponent, vcr)
+        );
+    }
 
     public ngOnInit(): void {
         this.buildForm();
