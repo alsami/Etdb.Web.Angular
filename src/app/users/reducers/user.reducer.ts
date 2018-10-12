@@ -27,7 +27,8 @@ export function reducer(
         case UserActionTypes.Load:
         case UserActionTypes.UpdatedUserName:
         case UserActionTypes.UploadProfileImage:
-        case UserActionTypes.UpdatePassword: {
+        case UserActionTypes.UpdatePassword:
+        case UserActionTypes.UpdateProfileInfo: {
             return {
                 ...state,
                 loading: true
@@ -54,10 +55,24 @@ export function reducer(
             };
         }
 
+        case UserActionTypes.UpdatedProfileInfo: {
+            const user = state.entities[action.id];
+
+            user.firstName = action.profileInfoChange.firstName;
+            user.name = action.profileInfoChange.name;
+            user.biography = action.profileInfoChange.biography;
+
+            return {
+                ...adapter.upsertOne(user, state),
+                loading: false
+            };
+        }
+
         case UserActionTypes.LoadFailed:
         case UserActionTypes.UpdateUserNameFailed:
         case UserActionTypes.UploadProfileImageFailed:
-        case UserActionTypes.UpdatePasswordFailed: {
+        case UserActionTypes.UpdatePasswordFailed:
+        case UserActionTypes.UpdateProfileInfoFailed: {
             return {
                 ...state,
                 loading: false

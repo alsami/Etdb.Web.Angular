@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { User } from '@etdb/models';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
-import { UserPasswordChange } from '@etdb/users/models';
+import { UserPasswordChange, UserProfileInfoChange } from '@etdb/users/models';
 import { BASE_HEADERS } from '@etdb/core/core.constants';
 
 @Injectable()
@@ -27,12 +27,17 @@ export class UserService {
         id: string,
         passwordChange: UserPasswordChange
     ): Observable<any> {
-        return this.http.patch(
-            `${this.url}${id}/passwordupdate`,
-            passwordChange,
-            {
-                headers: BASE_HEADERS
-            }
-        );
+        return this.http.patch(`${this.url}${id}/password`, passwordChange, {
+            headers: BASE_HEADERS
+        });
+    }
+
+    public updateProfileInfo(
+        id: string,
+        profileChange: UserProfileInfoChange
+    ): Observable<any> {
+        return this.http.patch(`${this.url}${id}/profileinfo`, profileChange, {
+            headers: BASE_HEADERS
+        });
     }
 }

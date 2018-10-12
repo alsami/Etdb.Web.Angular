@@ -1,4 +1,9 @@
-import { Overlay, OverlayConfig, OverlayContainer, OverlayRef } from '@angular/cdk/overlay';
+import {
+    Overlay,
+    OverlayConfig,
+    OverlayContainer,
+    OverlayRef
+} from '@angular/cdk/overlay';
 import { Portal, TemplatePortalDirective } from '@angular/cdk/portal';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PRIMARY_THEME } from '@etdb/core/core.constants';
@@ -11,20 +16,23 @@ import * as layoutActions from '../actions/layout.actions';
 
 @Component({
     selector: 'etdb-root',
-    templateUrl: 'app.component.html',
+    templateUrl: 'app.component.html'
 })
 export class AppComponent implements OnInit {
     private overlayRef: OverlayRef;
-    public loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+    public loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+        true
+    );
     private authLoadingSubscription: Subscription;
     theme = PRIMARY_THEME;
-    @ViewChild(TemplatePortalDirective) templatePortal: Portal<any>;
-    // @ViewChild('overlay') overlayTemplate: TemplateRef<any>;
+    @ViewChild(TemplatePortalDirective)
+    templatePortal: Portal<any>;
 
-
-    public constructor(private overlay: Overlay,
+    public constructor(
+        private overlay: Overlay,
         private overlayContainer: OverlayContainer,
-        private store: Store<fromRoot.AppState>) {
+        private store: Store<fromRoot.AppState>
+    ) {
         this.store.dispatch(new layoutActions.RestoreTheme());
         this.store.dispatch(new authActions.RestoreLogin());
     }
@@ -38,7 +46,9 @@ export class AppComponent implements OnInit {
     private subscribeThemeChanges(): void {
         this.store.select(fromRoot.getTheme).subscribe(theme => {
             if (theme !== this.theme) {
-                this.overlayContainer.getContainerElement().classList.remove(this.theme);
+                this.overlayContainer
+                    .getContainerElement()
+                    .classList.remove(this.theme);
                 this.theme = theme;
             }
             this.overlayContainer.getContainerElement().classList.add(theme);
@@ -53,24 +63,15 @@ export class AppComponent implements OnInit {
                 this.loading$.next(loading);
                 if (!loading) {
                     this.overlayRef.detach();
-                    // this.testTemplatePortalOverlay();
                     this.authLoadingSubscription.unsubscribe();
                 }
             });
     }
 
-    // private testTemplatePortalOverlay(): void {
-    //     this.overlayRef = this.overlay.create({
-    //         positionStrategy: this.overlay.position().global().bottom('0px'),
-    //         minWidth: '100%'
-    //     });
-
-    //     this.overlayRef.attach(new TemplatePortal(this.overlayTemplate, this.vcr));
-    // }
-
     private createLoadingOverlay(): void {
         const config = new OverlayConfig();
-        config.positionStrategy = this.overlay.position()
+        config.positionStrategy = this.overlay
+            .position()
             .global()
             .centerVertically()
             .centerHorizontally();

@@ -2,8 +2,8 @@ export interface User {
     id: string;
     userName: string;
     profileImageUrl: string;
+    firstName: string;
     name: string;
-    lastName: string;
     biography: string;
     registeredSince: Date;
 }

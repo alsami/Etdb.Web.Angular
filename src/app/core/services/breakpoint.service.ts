@@ -5,13 +5,17 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class BreakpointService {
-    private readonly breakpoints: string[] = Object.values(Breakpoints);
+    private readonly allBreakpoints: string[] = Object.values(Breakpoints);
 
-    public constructor(private breakpointObserver: BreakpointObserver) { }
+    public constructor(private breakpointObserver: BreakpointObserver) {}
 
-    public hasBreakpointChanged(): Observable<boolean> {
+    public hasBreakpointChanged(
+        breakpoints: string | string[] = null
+    ): Observable<boolean> {
+        const usedBreakpoints = breakpoints ? breakpoints : this.allBreakpoints;
+
         return this.breakpointObserver
-            .observe(this.breakpoints)
+            .observe(usedBreakpoints)
             .pipe(map(breakpointState => breakpointState.matches));
     }
 

@@ -1,11 +1,6 @@
 <div [class]="theme">
     <etdb-layout *ngIf="!(loading$ | async)"></etdb-layout>
-    <ng-template portal>
+    <ng-template cdkPortal>
         <mat-progress-spinner *ngIf="loading$ | async" color="accent" mode="indeterminate"></mat-progress-spinner>
     </ng-template>
-    <!-- <ng-template #overlay>
-        <mat-toolbar color="primary">
-            Test!
-        </mat-toolbar>
-    </ng-template> -->
 </div>

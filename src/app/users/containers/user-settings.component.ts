@@ -9,7 +9,7 @@ import { Observable, Subscription } from 'rxjs';
 import { User } from '@etdb/models';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { UserPasswordChange } from '@etdb/users/models';
+import { UserPasswordChange, UserProfileInfoChange } from '@etdb/users/models';
 import { PolicyService } from '@etdb/core/services';
 
 @Component({
@@ -67,5 +67,9 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
                 file: file
             })
         );
+    }
+
+    public updateProfileInfo(model: UserProfileInfoChange): void {
+        this.store.dispatch(new userActions.UpdateProfileInfo(this.id, model));
     }
 }

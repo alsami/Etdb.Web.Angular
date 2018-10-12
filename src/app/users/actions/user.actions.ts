@@ -2,7 +2,8 @@ import { User } from '@etdb/models';
 import {
     UserNameUpdate,
     UserProfileImageUpload,
-    UserPasswordChange
+    UserPasswordChange,
+    UserProfileInfoChange
 } from '@etdb/users/models';
 import { Action } from '@ngrx/store';
 
@@ -18,7 +19,10 @@ export enum UserActionTypes {
     UploadProfileImageFailed = '[User API] Upload User Profil Image Failed',
     UpdatePassword = '[User API] Update User Password',
     UpdatedPassword = '[User API] Updated User Password',
-    UpdatePasswordFailed = '[User API] Update User Password Failed'
+    UpdatePasswordFailed = '[User API] Update User Password Failed',
+    UpdateProfileInfo = '[User API] Update User Profileinfo',
+    UpdatedProfileInfo = '[User API] Updated User Profileinfo',
+    UpdateProfileInfoFailed = '[User API] Update User Profileinfo Failed'
 }
 
 export class Load implements Action {
@@ -82,6 +86,27 @@ export class UpdatePasswordFailed implements Action {
     public constructor(public error: Error | any) {}
 }
 
+export class UpdateProfileInfo implements Action {
+    readonly type = UserActionTypes.UpdateProfileInfo;
+    public constructor(
+        public id: string,
+        public profileInfoChange: UserProfileInfoChange
+    ) {}
+}
+
+export class UpdatedProfileInfo implements Action {
+    readonly type = UserActionTypes.UpdatedProfileInfo;
+    public constructor(
+        public id: string,
+        public profileInfoChange: UserProfileInfoChange
+    ) {}
+}
+
+export class UpdateProfileInfoFailed implements Action {
+    readonly type = UserActionTypes.UpdateProfileInfoFailed;
+    public constructor(public error: Error | any) {}
+}
+
 export type UserActions =
     | Load
     | Loaded
@@ -94,4 +119,7 @@ export type UserActions =
     | UploadProfileImageFailed
     | UpdatePassword
     | UpdatedPassword
-    | UpdatePasswordFailed;
+    | UpdatePasswordFailed
+    | UpdateProfileInfo
+    | UpdatedProfileInfo
+    | UpdateProfileInfoFailed;

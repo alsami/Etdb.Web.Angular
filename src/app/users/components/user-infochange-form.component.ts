@@ -4,19 +4,13 @@ import {
     SimpleChanges,
     OnInit,
     Input,
-    ElementRef,
     ChangeDetectionStrategy,
-    ViewContainerRef
+    Output,
+    EventEmitter
 } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { User } from '@etdb/models';
-import {
-    OverlayPositionBuilder,
-    Overlay,
-    ConnectedPosition
-} from '@angular/cdk/overlay';
-import { ComponentPortal } from '@angular/cdk/portal';
-import { PageLoadingIndicatorComponent } from '@etdb/custom-controls/container';
+import { UserProfileInfoChange } from '@etdb/users/models';
 
 @Component({
     selector: 'etdb-user-infochange-form',
@@ -30,38 +24,14 @@ export class UserInfochangeComponent implements OnInit, OnChanges {
     @Input()
     loading: boolean;
 
+    @Output()
+    requestProfileInfoChange: EventEmitter<
+        UserProfileInfoChange
+    > = new EventEmitter();
+
     public infochangeForm: FormGroup;
 
-    public constructor(
-        private formBuilder: FormBuilder,
-        public overlay: Overlay,
-        public elementRef: ElementRef,
-        public overlayBuilder: OverlayPositionBuilder,
-        public vcr: ViewContainerRef
-    ) {
-        const poses: ConnectedPosition[] = [
-            {
-                originX: 'start',
-                originY: 'center',
-                overlayX: 'center',
-                overlayY: 'center',
-                offsetY: 56
-            }
-        ];
-
-        console.log(elementRef);
-
-        const overlayx = this.overlay.create({
-            positionStrategy: this.overlayBuilder
-                .flexibleConnectedTo(elementRef.nativeElement)
-                .withPositions(poses),
-            hasBackdrop: true
-        });
-
-        overlayx.attach(
-            new ComponentPortal(PageLoadingIndicatorComponent, vcr)
-        );
-    }
+    public constructor(private formBuilder: FormBuilder) {}
 
     public ngOnInit(): void {
         this.buildForm();
@@ -78,8 +48,11 @@ export class UserInfochangeComponent implements OnInit, OnChanges {
             return;
         }
 
-        const obj = this.infochangeForm.value;
-        console.log('has value', obj);
+        const profileInfoChange: UserProfileInfoChange = {
+            ...this.infochangeForm.value
+        };
+
+        this.requestProfileInfoChange.emit(profileInfoChange);
     }
 
     private patchForm(user: User): void {

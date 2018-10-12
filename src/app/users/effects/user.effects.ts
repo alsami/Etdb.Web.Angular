@@ -39,7 +39,7 @@ export class UserEffects {
     );
 
     @Effect()
-    updatePassword$: Observable<Action> = this.actions$.pipe(
+    patchPassword$: Observable<Action> = this.actions$.pipe(
         ofType(UserActionTypes.UpdatePassword),
         switchMap((action: userActions.UpdatePassword) => {
             return this.userService
@@ -48,6 +48,27 @@ export class UserEffects {
                     map(() => new userActions.UpdatedPassword()),
                     catchError((error: Error) =>
                         of(new userActions.UpdatePasswordFailed(error))
+                    )
+                );
+        })
+    );
+
+    @Effect()
+    patchProfileInfo$: Observable<Action> = this.actions$.pipe(
+        ofType(UserActionTypes.UpdateProfileInfo),
+        switchMap((action: userActions.UpdateProfileInfo) => {
+            return this.userService
+                .updateProfileInfo(action.id, action.profileInfoChange)
+                .pipe(
+                    map(
+                        () =>
+                            new userActions.UpdatedProfileInfo(
+                                action.id,
+                                action.profileInfoChange
+                            )
+                    ),
+                    catchError((error: Error) =>
+                        of(new userActions.UpdateProfileInfoFailed(error))
                     )
                 );
         })
