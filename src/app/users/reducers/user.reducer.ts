@@ -5,7 +5,8 @@ import { EntityState, createEntityAdapter } from '@ngrx/entity';
 export interface UserState extends EntityState<User> {
     selectedId: string | null;
     selectedUser: User;
-    loading: boolean;
+    fetching: boolean;
+    updating: boolean;
 }
 
 export const adapter = createEntityAdapter<User>({
@@ -16,7 +17,8 @@ export const adapter = createEntityAdapter<User>({
 export const initialState: UserState = adapter.getInitialState({
     selectedUser: null,
     selectedId: null,
-    loading: false
+    fetching: false,
+    updating: false,
 });
 
 export function reducer(
@@ -24,34 +26,40 @@ export function reducer(
     action: UserActions
 ): UserState {
     switch (action.type) {
-        case UserActionTypes.Load:
-        case UserActionTypes.UpdatedUserName:
+        case UserActionTypes.Load: {
+            return {
+                ...state,
+                fetching: true
+            };
+        }
+        case UserActionTypes.UpdateUserName:
         case UserActionTypes.UploadProfileImage:
         case UserActionTypes.UpdatePassword:
         case UserActionTypes.UpdateProfileInfo: {
             return {
                 ...state,
-                loading: true
+                updating: true
             };
         }
 
         case UserActionTypes.Loaded:
         case UserActionTypes.UploadedProfileImage: {
             return {
-                ...adapter.addOne(
+                ...adapter.upsertOne(
                     action.user,
-                    adapter.removeOne(action.user.id, state)
+                    state
                 ),
                 selectedUser: action.user,
                 selectedId: action.user.id,
-                loading: false
+                fetching: false,
+                updating: false
             };
         }
 
         case UserActionTypes.UpdatedPassword: {
             return {
                 ...state,
-                loading: false
+                updating: false
             };
         }
 
@@ -64,7 +72,7 @@ export function reducer(
 
             return {
                 ...adapter.upsertOne(user, state),
-                loading: false
+                updating: false
             };
         }
 
@@ -75,7 +83,8 @@ export function reducer(
         case UserActionTypes.UpdateProfileInfoFailed: {
             return {
                 ...state,
-                loading: false
+                fetching: false,
+                updating: false
             };
         }
 
@@ -86,4 +95,5 @@ export function reducer(
 }
 
 export const selectedId = (state: UserState) => state.selectedId;
-export const loading = (state: UserState) => state.loading;
+export const fetching = (state: UserState) => state.fetching;
+export const updating = (state: UserState) => state.updating;

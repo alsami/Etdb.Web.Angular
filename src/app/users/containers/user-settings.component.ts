@@ -20,7 +20,8 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
     private id: string;
 
     public user$: Observable<User>;
-    public loading$: Observable<boolean>;
+    public fetching$: Observable<boolean>;
+    public updating$: Observable<boolean>;
     public loggedInUserIsUser$: Observable<boolean>;
 
     public paramsSubscription: Subscription;
@@ -29,14 +30,16 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
         private store: Store<fromRoot.AppState>,
         private route: ActivatedRoute,
         private policyService: PolicyService
-    ) {}
+    ) { }
 
     public ngOnInit(): void {
         this.store.dispatch(new titleActions.SetTitle('Users', 'Settings'));
 
         this.user$ = this.store.select(fromUsers.getSelectedUser);
 
-        this.loading$ = this.store.select(fromUsers.getUserLoading);
+        this.fetching$ = this.store.select(fromUsers.getUserFetching);
+
+        this.updating$ = this.store.select(fromUsers.getUserUpdating);
 
         this.paramsSubscription = this.route.params
             .pipe(map(params => <string>params['id']))

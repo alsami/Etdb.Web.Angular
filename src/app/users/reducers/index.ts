@@ -39,7 +39,13 @@ export const getSelectedUser = createSelector(
     (entities, selectedId) => selectedId && entities[selectedId]
 );
 
-export const getUserLoading = createSelector(
+export const getUserFetching = createSelector(
     getUserEntitiesState,
-    fromUser.loading
+    fromUser.fetching
 );
+
+export const getUserUpdating = createSelector(
+    getUserEntitiesState,
+    fromUser.updating
+);
+

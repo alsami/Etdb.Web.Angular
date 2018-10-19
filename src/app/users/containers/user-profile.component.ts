@@ -29,10 +29,10 @@ export class UserProfileComponent implements OnInit, OnDestroy {
         private store: Store<fromUser.State>,
         private route: ActivatedRoute,
         private policyService: PolicyService
-    ) {}
+    ) { }
 
     public ngOnInit(): void {
-        this.loading$ = this.store.select(fromUser.getUserLoading);
+        this.loading$ = this.store.select(fromUser.getUserFetching);
 
         this.paramSub = this.route.params
             .pipe(map(params => <string>params['id']))

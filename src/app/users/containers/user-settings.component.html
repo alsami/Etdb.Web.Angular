@@ -1,14 +1,18 @@
-<etdb-page-loading-indicator [loading]="loading$ | async"></etdb-page-loading-indicator>
+<etdb-page-loading-indicator [loading]="fetching$ | async"></etdb-page-loading-indicator>
 <div class="page-content">
-    <etdb-user-card [user]="user$ | async">
-        <div class="flex-container flex-justify-end">
-            <etdb-upload-button *ngIf="loggedInUserIsUser$ | async" (filesSelected)="upload($event[0]);" text="Upload profile image"></etdb-upload-button>
-        </div>
-    </etdb-user-card>
+    <etdb-component-loader-overlay [loading]="updating$ | async">
+        <etdb-user-card [user]="user$ | async">
+            <div class="flex-container flex-justify-end">
+                <etdb-upload-button *ngIf="loggedInUserIsUser$ | async" (filesSelected)="upload($event[0]);" text="Upload profile image"></etdb-upload-button>
+            </div>
+        </etdb-user-card>
+    </etdb-component-loader-overlay>
     <div class="card-seperator"></div>
-    <etdb-user-infochange-form [user]="user$ | async" (requestProfileInfoChange)="updateProfileInfo($event);"></etdb-user-infochange-form>
+    <etdb-component-loader-overlay [loading]="updating$ | async">
+        <etdb-user-infochange-form [user]="user$ | async" (requestProfileInfoChange)="updateProfileInfo($event);"></etdb-user-infochange-form>
+    </etdb-component-loader-overlay>
     <div class="card-seperator"></div>
-    <etdb-component-loader-overlay>
-        <etdb-user-pwd-change-form [loading]="loading$ | async" (requestPwdChange)="updatePassword($event);"></etdb-user-pwd-change-form>
+    <etdb-component-loader-overlay [loading]="updating$ | async">
+        <etdb-user-pwd-change-form [loading]="updating$ | async" (requestPwdChange)="updatePassword($event);"></etdb-user-pwd-change-form>
     </etdb-component-loader-overlay>
 </div>
