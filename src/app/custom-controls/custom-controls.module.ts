@@ -5,7 +5,8 @@ import {
     UploadButtonComponent,
     MatStepperExtendedComponent,
     UserCardComponent,
-    PageLoadingIndicatorComponent
+    PageLoadingIndicatorComponent,
+    ComponentLoaderOverlayComponent
 } from '@etdb/custom-controls/container';
 import { MatStepperStepExtendedComponent } from '@etdb/custom-controls/component';
 
@@ -14,7 +15,8 @@ const COMPONENTS = [
     UploadButtonComponent,
     MatStepperExtendedComponent,
     MatStepperStepExtendedComponent,
-    PageLoadingIndicatorComponent
+    PageLoadingIndicatorComponent,
+    ComponentLoaderOverlayComponent
 ];
 
 @NgModule({
@@ -23,4 +25,4 @@ const COMPONENTS = [
     exports: [...COMPONENTS],
     entryComponents: [PageLoadingIndicatorComponent]
 })
-export class CustomControlModule {}
+export class CustomControlModule { }

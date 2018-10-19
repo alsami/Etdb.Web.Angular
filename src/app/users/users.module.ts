@@ -4,7 +4,7 @@ import { MaterialModule } from '@etdb/shared';
 import {
     UserProfileComponent,
     UsersComponent,
-    UserSettingsComponent
+    UserSettingsComponent,
 } from '@etdb/users/containers';
 import { UserEffects } from '@etdb/users/effects';
 import { reducers } from '@etdb/users/reducers';
@@ -38,4 +38,4 @@ import {
     ],
     providers: [UserService]
 })
-export class UsersModule {}
+export class UsersModule { }

@@ -38,7 +38,7 @@ export class PageLoadingIndicatorComponent
         private overlay: Overlay,
         private overlayBuilder: OverlayPositionBuilder,
         private breakpointService: BreakpointService
-    ) {}
+    ) { }
 
     public ngOnInit(): void {
         this.overlayRef = this.buildOverLayRef(56);
@@ -81,6 +81,16 @@ export class PageLoadingIndicatorComponent
                 .top(`${size}px`)
                 .width('100%')
         });
+
+        // console.log(size);
+        // return this.overlay.create({
+        //     positionStrategy: this.overlayBuilder
+        //         .global()
+        //         .height('100%')
+        //         .width('100%'),
+        //     hasBackdrop: true,
+        //     backdropClass: 'cdk-overlay-dark-backdrop'
+        // });
     }
 
     private safeDetach(): void {
