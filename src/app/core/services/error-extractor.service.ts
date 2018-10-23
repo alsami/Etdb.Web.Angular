@@ -17,6 +17,12 @@ export class ErrorExtractorService {
     private extractFromHttpErrorResponse(
         error: HttpErrorResponse
     ): HumanreadableError {
+        if (error.status === 0) {
+            return {
+                message: 'Server unavailable'
+            };
+        }
+
         return {
             message: error.error.message,
             errors: error.error.errors ? error.error.errors : []
