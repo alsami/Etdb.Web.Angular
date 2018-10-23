@@ -1,12 +1,16 @@
 import { User } from '@etdb/models';
-import { UserActionTypes, UserActions } from '@etdb/users/actions/user.actions';
+import { UserActions, UserActionTypes } from '@etdb/users/actions/user.actions';
+import * as userActions from '@etdb/users/actions/user.actions';
 import { EntityState, createEntityAdapter } from '@ngrx/entity';
 
 export interface UserState extends EntityState<User> {
     selectedId: string | null;
     selectedUser: User;
     fetching: boolean;
-    updating: boolean;
+    userNameUpdating: boolean;
+    profileImageUploading: boolean;
+    profileInfoUpdating: boolean;
+    passwordUpdating: boolean;
 }
 
 export const adapter = createEntityAdapter<User>({
@@ -18,7 +22,10 @@ export const initialState: UserState = adapter.getInitialState({
     selectedUser: null,
     selectedId: null,
     fetching: false,
-    updating: false
+    userNameUpdating: false,
+    profileImageUploading: false,
+    profileInfoUpdating: false,
+    passwordUpdating: false
 });
 
 export function reducer(
@@ -26,19 +33,20 @@ export function reducer(
     action: UserActions
 ): UserState {
     switch (action.type) {
-        case UserActionTypes.Load: {
-            return {
-                ...state,
-                fetching: true
-            };
-        }
+        case UserActionTypes.Load:
         case UserActionTypes.UpdateUserName:
         case UserActionTypes.UploadProfileImage:
-        case UserActionTypes.UpdatePassword:
-        case UserActionTypes.UpdateProfileInfo: {
+        case UserActionTypes.UpdateProfileInfo:
+        case UserActionTypes.UpdatePassword: {
             return {
                 ...state,
-                updating: true
+                fetching: action instanceof userActions.Load,
+                userNameUpdating: action instanceof userActions.UpdateUserName,
+                profileImageUploading:
+                    action instanceof userActions.UploadProfileImage,
+                profileInfoUpdating:
+                    action instanceof userActions.UpdateProfileInfo,
+                passwordUpdating: action instanceof userActions.UpdatePassword
             };
         }
 
@@ -48,15 +56,21 @@ export function reducer(
                 ...adapter.upsertOne(action.user, state),
                 selectedUser: action.user,
                 selectedId: action.user.id,
-                fetching: false,
-                updating: false
+                fetching:
+                    action instanceof userActions.Loaded
+                        ? false
+                        : state.fetching,
+                profileImageUploading:
+                    action instanceof userActions.UploadedProfileImage
+                        ? false
+                        : state.userNameUpdating
             };
         }
 
         case UserActionTypes.UpdatedPassword: {
             return {
                 ...state,
-                updating: false
+                passwordUpdating: false
             };
         }
 
@@ -69,20 +83,37 @@ export function reducer(
 
             return {
                 ...adapter.upsertOne(user, state),
-                updating: false
+                profileInfoUpdating: false
             };
         }
 
         case UserActionTypes.LoadFailed:
         case UserActionTypes.UpdateUserNameFailed:
         case UserActionTypes.UploadProfileImageFailed:
-        case UserActionTypes.UpdatePasswordFailed:
-        case UserActionTypes.UpdateProfileInfoFailed: {
-            console.log(action.error);
+        case UserActionTypes.UpdateProfileInfoFailed:
+        case UserActionTypes.UpdatePasswordFailed: {
             return {
                 ...state,
-                fetching: false,
-                updating: false
+                fetching:
+                    action instanceof userActions.LoadFailed
+                        ? false
+                        : state.fetching,
+                userNameUpdating:
+                    action instanceof userActions.UpdateUserNameFailed
+                        ? false
+                        : state.userNameUpdating,
+                profileImageUploading:
+                    action instanceof userActions.UploadProfileImageFailed
+                        ? false
+                        : state.profileImageUploading,
+                profileInfoUpdating:
+                    action instanceof userActions.UpdateProfileInfoFailed
+                        ? false
+                        : state.profileInfoUpdating,
+                passwordUpdating:
+                    action instanceof userActions.UpdatePasswordFailed
+                        ? false
+                        : state.passwordUpdating
             };
         }
 
@@ -93,5 +124,15 @@ export function reducer(
 }
 
 export const selectedId = (state: UserState) => state.selectedId;
+
 export const fetching = (state: UserState) => state.fetching;
-export const updating = (state: UserState) => state.updating;
+
+export const userNameUpdating = (state: UserState) => state.userNameUpdating;
+
+export const profileImageUploading = (state: UserState) =>
+    state.profileImageUploading;
+
+export const profileInfoUpdating = (state: UserState) =>
+    state.profileInfoUpdating;
+
+export const passwordUpdating = (state: UserState) => state.passwordUpdating;

@@ -21,7 +21,10 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
 
     public user$: Observable<User>;
     public fetching$: Observable<boolean>;
-    public updating$: Observable<boolean>;
+    public userNameUpdating$: Observable<boolean>;
+    public profileImageUploading$: Observable<boolean>;
+    public profileInfoUpdating$: Observable<boolean>;
+    public passwordUpdating$: Observable<boolean>;
     public loggedInUserIsUser$: Observable<boolean>;
 
     public paramsSubscription: Subscription;
@@ -30,7 +33,7 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
         private store: Store<fromRoot.AppState>,
         private route: ActivatedRoute,
         private policyService: PolicyService
-    ) { }
+    ) {}
 
     public ngOnInit(): void {
         this.store.dispatch(new titleActions.SetTitle('Users', 'Settings'));
@@ -39,7 +42,21 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
 
         this.fetching$ = this.store.select(fromUsers.getUserFetching);
 
-        this.updating$ = this.store.select(fromUsers.getUserUpdating);
+        this.userNameUpdating$ = this.store.select(
+            fromUsers.getUserNameUpdating
+        );
+
+        this.profileImageUploading$ = this.store.select(
+            fromUsers.getProfileImageUploading
+        );
+
+        this.profileInfoUpdating$ = this.store.select(
+            fromUsers.getProfileInfoUpdating
+        );
+
+        this.passwordUpdating$ = this.store.select(
+            fromUsers.getPasswordUpdating
+        );
 
         this.paramsSubscription = this.route.params
             .pipe(map(params => <string>params['id']))

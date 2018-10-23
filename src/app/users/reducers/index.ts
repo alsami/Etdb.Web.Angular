@@ -1,6 +1,10 @@
 import * as fromRoot from '@etdb/reducers';
 import * as fromUser from '@etdb/users/reducers/user.reducer';
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
+import {
+    ActionReducerMap,
+    createFeatureSelector,
+    createSelector
+} from '@ngrx/store';
 
 export interface UsersState {
     users: fromUser.UserState;
@@ -44,8 +48,22 @@ export const getUserFetching = createSelector(
     fromUser.fetching
 );
 
-export const getUserUpdating = createSelector(
+export const getUserNameUpdating = createSelector(
     getUserEntitiesState,
-    fromUser.updating
+    fromUser.userNameUpdating
 );
 
+export const getProfileImageUploading = createSelector(
+    getUserEntitiesState,
+    fromUser.profileImageUploading
+);
+
+export const getProfileInfoUpdating = createSelector(
+    getUserEntitiesState,
+    fromUser.profileInfoUpdating
+);
+
+export const getPasswordUpdating = createSelector(
+    getUserEntitiesState,
+    fromUser.passwordUpdating
+);

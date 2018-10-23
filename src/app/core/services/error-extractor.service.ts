@@ -19,7 +19,13 @@ export class ErrorExtractorService {
     ): HumanreadableError {
         if (error.status === 0) {
             return {
-                message: 'Server unavailable'
+                message: 'Service currently unavailable'
+            };
+        }
+
+        if (error.status === 401) {
+            return {
+                message: 'Not authorized'
             };
         }
 
