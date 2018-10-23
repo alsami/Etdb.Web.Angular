@@ -6,6 +6,8 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
+import { ErrorExtractorService } from '@etdb/core/services';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable()
 export class UserEffects {
@@ -74,8 +76,40 @@ export class UserEffects {
         })
     );
 
+    @Effect()
+    displayError$: Observable<Action> = this.actions$.pipe(
+        ofType(
+            UserActionTypes.LoadFailed,
+            UserActionTypes.UpdatePasswordFailed,
+            UserActionTypes.UpdateProfileInfoFailed,
+            UserActionTypes.UpdateUserNameFailed,
+            UserActionTypes.UploadProfileImageFailed
+        ),
+        switchMap(
+            (
+                action:
+                    | userActions.LoadFailed
+                    | userActions.UpdateProfileInfoFailed
+                    | userActions.UpdatePasswordFailed
+                    | userActions.UpdateUserNameFailed
+            ) => {
+                const humanreadable = this.errorExtractorService.extractHumanreadableError(
+                    action.error
+                );
+
+                this.snackbar.open(humanreadable.message, undefined, {
+                    duration: 5000
+                });
+
+                return of();
+            }
+        )
+    );
+
     public constructor(
         private userService: UserService,
+        private errorExtractorService: ErrorExtractorService,
+        private snackbar: MatSnackBar,
         private actions$: Actions
     ) {}
 }

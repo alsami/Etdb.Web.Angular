@@ -22,7 +22,8 @@ import {
     LayoutStorageService,
     TokenStorageService,
     BreakpointService,
-    PolicyService
+    PolicyService,
+    ErrorExtractorService
 } from '@etdb/core/services';
 import { MaterialModule } from '@etdb/shared';
 import { CustomControlModule } from '@etdb/custom-controls/custom-controls.module';
@@ -60,6 +61,7 @@ export class CoreModule {
                 TokenStorageService,
                 LayoutStorageService,
                 BreakpointService,
+                ErrorExtractorService,
                 NotAuthorizedAuthGuard,
                 {
                     provide: HTTP_INTERCEPTORS,

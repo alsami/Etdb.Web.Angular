@@ -37,7 +37,7 @@ export class Loaded implements Action {
 
 export class LoadFailed implements Action {
     readonly type = UserActionTypes.LoadFailed;
-    public constructor(public error: Error | any) {}
+    public constructor(public error: Error) {}
 }
 
 export class UpdateUserName implements Action {
@@ -51,7 +51,7 @@ export class UpdatedUserName implements Action {
 
 export class UpdateUserNameFailed implements Action {
     readonly type = UserActionTypes.UpdateUserNameFailed;
-    public constructor(public error: Error | any) {}
+    public constructor(public error: Error) {}
 }
 
 export class UploadProfileImage implements Action {
@@ -66,7 +66,7 @@ export class UploadedProfileImage implements Action {
 
 export class UploadProfileImageFailed implements Action {
     readonly type = UserActionTypes.UploadProfileImageFailed;
-    public constructor(public error: Error | any) {}
+    public constructor(public error: Error) {}
 }
 
 export class UpdatePassword implements Action {
@@ -83,7 +83,7 @@ export class UpdatedPassword implements Action {
 
 export class UpdatePasswordFailed implements Action {
     readonly type = UserActionTypes.UpdatePasswordFailed;
-    public constructor(public error: Error | any) {}
+    public constructor(public error: Error) {}
 }
 
 export class UpdateProfileInfo implements Action {
@@ -104,7 +104,7 @@ export class UpdatedProfileInfo implements Action {
 
 export class UpdateProfileInfoFailed implements Action {
     readonly type = UserActionTypes.UpdateProfileInfoFailed;
-    public constructor(public error: Error | any) {}
+    public constructor(public error: Error) {}
 }
 
 export type UserActions =

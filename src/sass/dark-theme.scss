@@ -1,11 +1,10 @@
 $etdb-dark-primary: mat-palette($mat-grey, 900);
-$etdb-dark-accent:  mat-palette($mat-red, A700);
+$etdb-dark-accent: mat-palette($mat-red, A700);
 
 $etdb-dark-warn: mat-palette($mat-orange, 900);
 
-$etdb-dark-theme: mat-dark-theme($etdb-dark-primary, $etdb-dark-accent, $etdb-dark-warn);$etdb-dark-primary: mat-palette($mat-grey, 900);
-$etdb-dark-accent:  mat-palette($mat-red, A700);
-
-$etdb-dark-warn: mat-palette($mat-orange, 900);
-
-$etdb-dark-theme: mat-dark-theme($etdb-dark-primary, $etdb-dark-accent, $etdb-dark-warn);
+$etdb-dark-theme: mat-dark-theme(
+    $etdb-dark-primary,
+    $etdb-dark-accent,
+    $etdb-dark-warn
+);

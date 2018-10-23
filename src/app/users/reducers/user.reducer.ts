@@ -18,7 +18,7 @@ export const initialState: UserState = adapter.getInitialState({
     selectedUser: null,
     selectedId: null,
     fetching: false,
-    updating: false,
+    updating: false
 });
 
 export function reducer(
@@ -45,10 +45,7 @@ export function reducer(
         case UserActionTypes.Loaded:
         case UserActionTypes.UploadedProfileImage: {
             return {
-                ...adapter.upsertOne(
-                    action.user,
-                    state
-                ),
+                ...adapter.upsertOne(action.user, state),
                 selectedUser: action.user,
                 selectedId: action.user.id,
                 fetching: false,
@@ -81,6 +78,7 @@ export function reducer(
         case UserActionTypes.UploadProfileImageFailed:
         case UserActionTypes.UpdatePasswordFailed:
         case UserActionTypes.UpdateProfileInfoFailed: {
+            console.log(action.error);
             return {
                 ...state,
                 fetching: false,
