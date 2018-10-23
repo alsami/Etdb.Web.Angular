@@ -26,12 +26,12 @@ etdb-sidenav-content mat-expansion-panel .mat-expansion-panel-body {
 }
 
 .page-content {
-    padding: 20px;
+    padding: 16px;
 }
 
 @media #{ $xs } {
     .page-content {
-        padding: 0px;
+        padding: 8px;
     }
 }
 
