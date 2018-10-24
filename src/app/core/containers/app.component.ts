@@ -1,16 +1,9 @@
-import {
-    Overlay,
-    OverlayConfig,
-    OverlayContainer,
-    OverlayRef
-} from '@angular/cdk/overlay';
-import { Portal, TemplatePortalDirective } from '@angular/cdk/portal';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { OverlayContainer } from '@angular/cdk/overlay';
+import { Component, OnInit } from '@angular/core';
 import { PRIMARY_THEME } from '@etdb/core/core.constants';
 import * as fromRoot from '@etdb/reducers';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Subscription } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 import * as authActions from '../actions/auth.actions';
 import * as layoutActions from '../actions/layout.actions';
 
@@ -19,17 +12,12 @@ import * as layoutActions from '../actions/layout.actions';
     templateUrl: 'app.component.html'
 })
 export class AppComponent implements OnInit {
-    private overlayRef: OverlayRef;
     public loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
         true
     );
-    private authLoadingSubscription: Subscription;
     theme = PRIMARY_THEME;
-    @ViewChild(TemplatePortalDirective)
-    templatePortal: Portal<any>;
 
     public constructor(
-        private overlay: Overlay,
         private overlayContainer: OverlayContainer,
         private store: Store<fromRoot.AppState>
     ) {
@@ -39,8 +27,6 @@ export class AppComponent implements OnInit {
 
     public ngOnInit(): void {
         this.subscribeThemeChanges();
-        this.subscribeAuthLoading();
-        this.createLoadingOverlay();
     }
 
     private subscribeThemeChanges(): void {
@@ -53,33 +39,5 @@ export class AppComponent implements OnInit {
             }
             this.overlayContainer.getContainerElement().classList.add(theme);
         });
-    }
-
-    private subscribeAuthLoading(): void {
-        this.authLoadingSubscription = this.store
-            .select(fromRoot.getAuthLoading)
-            .pipe(delay(1000))
-            .subscribe((loading: boolean) => {
-                this.loading$.next(loading);
-                if (!loading) {
-                    this.overlayRef.detach();
-                    this.authLoadingSubscription.unsubscribe();
-                }
-            });
-    }
-
-    private createLoadingOverlay(): void {
-        const config = new OverlayConfig();
-        config.positionStrategy = this.overlay
-            .position()
-            .global()
-            .centerVertically()
-            .centerHorizontally();
-
-        config.hasBackdrop = true;
-        config.backdropClass = 'cdk-overlay-dark-backdrop';
-
-        this.overlayRef = this.overlay.create(config);
-        this.overlayRef.attach(this.templatePortal);
     }
 }
