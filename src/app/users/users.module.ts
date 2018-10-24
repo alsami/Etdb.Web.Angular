@@ -4,7 +4,7 @@ import { MaterialModule } from '@etdb/shared';
 import {
     UserProfileComponent,
     UsersComponent,
-    UserSettingsComponent,
+    UserSettingsComponent
 } from '@etdb/users/containers';
 import { UserEffects } from '@etdb/users/effects';
 import { reducers } from '@etdb/users/reducers';
@@ -16,7 +16,8 @@ import { CustomControlModule } from '@etdb/custom-controls/custom-controls.modul
 import { ReactiveFormsModule } from '@angular/forms';
 import {
     UserPasswordchangeFormComponent,
-    UserInfochangeComponent
+    UserInfochangeComponent,
+    UserSettingsCardComponent
 } from '@etdb/users/components';
 
 @NgModule({
@@ -34,8 +35,9 @@ import {
         UserProfileComponent,
         UserSettingsComponent,
         UserPasswordchangeFormComponent,
-        UserInfochangeComponent
+        UserInfochangeComponent,
+        UserSettingsCardComponent
     ],
     providers: [UserService]
 })
-export class UsersModule { }
+export class UsersModule {}

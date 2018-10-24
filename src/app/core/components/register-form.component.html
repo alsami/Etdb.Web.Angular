@@ -20,7 +20,7 @@
                             <div *ngFor="let email of getEmailFormArray().controls; let i = index; let last = last;"
                                 [@flyInOut]="'in'">
                                 <div [formGroupName]="i" class="flex-container flex-flow-row">
-                                    <mat-form-field class="flex-1-1-auto">
+                                    <mat-form-field class="flex-fill-space">
                                         <input matInput type="email" formControlName="address" placeholder="E-Mail address"
                                             required />
                                         <mat-error *ngIf="hasInvalidEmailError(i);">

@@ -1,0 +1,6 @@
+<mat-card *ngIf="user">
+    <img mat-card-image *ngIf="user.profileImageUrl" [src]="user.profileImageUrl">
+    <mat-card-actions align="end">
+        <etdb-upload-button (filesSelected)="requestProfileImageUpload($event);" text="Upload profile image"></etdb-upload-button>
+    </mat-card-actions>
+</mat-card>

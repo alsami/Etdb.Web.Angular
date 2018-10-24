@@ -1,11 +1,7 @@
 <etdb-page-loading-indicator [loading]="fetching$ | async"></etdb-page-loading-indicator>
-<div class="page-content">
+<div class="page-content page-content-pad-xs">
     <etdb-component-loader-overlay [loading]="profileImageUploading$ | async">
-        <etdb-user-card [user]="user$ | async">
-            <div class="flex-container flex-justify-end">
-                <etdb-upload-button *ngIf="loggedInUserIsUser$ | async" (filesSelected)="upload($event[0]);" text="Upload profile image"></etdb-upload-button>
-            </div>
-        </etdb-user-card>
+        <etdb-user-settings-card [user]="user$ | async" (profileImageUpload)="upload($event);"></etdb-user-settings-card>
     </etdb-component-loader-overlay>
     <div class="card-seperator"></div>
     <etdb-component-loader-overlay [loading]="profileInfoUpdating$ | async">
