@@ -1,6 +1,17 @@
 <mat-card *ngIf="user">
-    <img mat-card-image *ngIf="user.profileImageUrl" [src]="user.profileImageUrl">
-    <mat-card-actions align="end">
+    <img *ngIf="user.profileImageUrl" mat-card-image [src]="user.profileImageUrl">
+    <span *ngIf="!user.profileImageUrl">
+        No image available
+    </span>
+    <mat-card-title>
+        <section class="mat-typography">
+            <h4>Remove or update your profile-image</h4>
+        </section>
+    </mat-card-title>
+    <mat-card-actions align="center">
         <etdb-upload-button (filesSelected)="requestProfileImageUpload($event);" text="Upload profile image"></etdb-upload-button>
+        <button [disabled]="!user.profileImageUrl" mat-button (click)="requestProfileImageRemove();">
+            <mat-icon>delete</mat-icon> Delete Image
+        </button>
     </mat-card-actions>
 </mat-card>

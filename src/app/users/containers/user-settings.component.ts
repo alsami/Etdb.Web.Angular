@@ -47,7 +47,7 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
         );
 
         this.profileImageUploading$ = this.store.select(
-            fromUsers.getProfileImageUploading
+            fromUsers.getProfileImageUpdating
         );
 
         this.profileInfoUpdating$ = this.store.select(
@@ -76,7 +76,7 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
         this.store.dispatch(new userActions.UpdatePassword(this.id, model));
     }
 
-    public upload(file: File): void {
+    public uploadProfileImage(file: File): void {
         if (!this.id) {
             return;
         }
@@ -87,6 +87,10 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
                 file: file
             })
         );
+    }
+
+    public removeProfileImage(id: string): void {
+        this.store.dispatch(new userActions.RemoveProfileImage(id));
     }
 
     public updateProfileInfo(model: UserProfileInfoChange): void {

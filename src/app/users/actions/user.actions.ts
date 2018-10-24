@@ -22,7 +22,10 @@ export enum UserActionTypes {
     UpdatePasswordFailed = '[User API] Update User Password Failed',
     UpdateProfileInfo = '[User API] Update User Profileinfo',
     UpdatedProfileInfo = '[User API] Updated User Profileinfo',
-    UpdateProfileInfoFailed = '[User API] Update User Profileinfo Failed'
+    UpdateProfileInfoFailed = '[User API] Update User Profileinfo Failed',
+    RemoveProfileImage = '[User API] Remove User Profile Image',
+    RemovedProfileImage = '[User API] Removed User Profile Image',
+    RemoveProfileImageFailed = '[User API] Remove User Profile Image Failed'
 }
 
 export class Load implements Action {
@@ -107,6 +110,21 @@ export class UpdateProfileInfoFailed implements Action {
     public constructor(public error: Error) {}
 }
 
+export class RemoveProfileImage implements Action {
+    readonly type = UserActionTypes.RemoveProfileImage;
+    public constructor(public id: string) {}
+}
+
+export class RemovedProfileImage implements Action {
+    readonly type = UserActionTypes.RemovedProfileImage;
+    public constructor(public id: string) {}
+}
+
+export class RemoveProfileImageFailed implements Action {
+    readonly type = UserActionTypes.RemoveProfileImageFailed;
+    public constructor(public error: Error) {}
+}
+
 export type UserActions =
     | Load
     | Loaded
@@ -122,4 +140,7 @@ export type UserActions =
     | UpdatePasswordFailed
     | UpdateProfileInfo
     | UpdatedProfileInfo
-    | UpdateProfileInfoFailed;
+    | UpdateProfileInfoFailed
+    | RemoveProfileImage
+    | RemovedProfileImage
+    | RemoveProfileImageFailed;

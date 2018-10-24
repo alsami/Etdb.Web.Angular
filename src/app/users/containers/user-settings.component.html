@@ -1,7 +1,8 @@
 <etdb-page-loading-indicator [loading]="fetching$ | async"></etdb-page-loading-indicator>
 <div class="page-content page-content-pad-xs">
     <etdb-component-loader-overlay [loading]="profileImageUploading$ | async">
-        <etdb-user-settings-card [user]="user$ | async" (profileImageUpload)="upload($event);"></etdb-user-settings-card>
+        <etdb-user-settings-card [user]="user$ | async" (profileImageUpload)="uploadProfileImage($event);"
+            (profileImageRemove)="removeProfileImage($event);"></etdb-user-settings-card>
     </etdb-component-loader-overlay>
     <div class="card-seperator"></div>
     <etdb-component-loader-overlay [loading]="profileInfoUpdating$ | async">

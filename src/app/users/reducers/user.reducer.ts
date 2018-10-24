@@ -8,7 +8,7 @@ export interface UserState extends EntityState<User> {
     selectedUser: User;
     fetching: boolean;
     userNameUpdating: boolean;
-    profileImageUploading: boolean;
+    profileImageUpdating: boolean;
     profileInfoUpdating: boolean;
     passwordUpdating: boolean;
 }
@@ -23,7 +23,7 @@ export const initialState: UserState = adapter.getInitialState({
     selectedId: null,
     fetching: false,
     userNameUpdating: false,
-    profileImageUploading: false,
+    profileImageUpdating: false,
     profileInfoUpdating: false,
     passwordUpdating: false
 });
@@ -37,13 +37,15 @@ export function reducer(
         case UserActionTypes.UpdateUserName:
         case UserActionTypes.UploadProfileImage:
         case UserActionTypes.UpdateProfileInfo:
-        case UserActionTypes.UpdatePassword: {
+        case UserActionTypes.UpdatePassword:
+        case UserActionTypes.RemoveProfileImage: {
             return {
                 ...state,
                 fetching: action instanceof userActions.Load,
                 userNameUpdating: action instanceof userActions.UpdateUserName,
-                profileImageUploading:
-                    action instanceof userActions.UploadProfileImage,
+                profileImageUpdating:
+                    action instanceof userActions.UploadProfileImage ||
+                    action instanceof userActions.RemoveProfileImage,
                 profileInfoUpdating:
                     action instanceof userActions.UpdateProfileInfo,
                 passwordUpdating: action instanceof userActions.UpdatePassword
@@ -60,10 +62,19 @@ export function reducer(
                     action instanceof userActions.Loaded
                         ? false
                         : state.fetching,
-                profileImageUploading:
+                profileImageUpdating:
                     action instanceof userActions.UploadedProfileImage
                         ? false
                         : state.userNameUpdating
+            };
+        }
+
+        case UserActionTypes.RemovedProfileImage: {
+            const user = state.entities[action.id];
+            user.profileImageUrl = null;
+            return {
+                ...adapter.upsertOne(user, state),
+                profileImageUpdating: false
             };
         }
 
@@ -91,7 +102,8 @@ export function reducer(
         case UserActionTypes.UpdateUserNameFailed:
         case UserActionTypes.UploadProfileImageFailed:
         case UserActionTypes.UpdateProfileInfoFailed:
-        case UserActionTypes.UpdatePasswordFailed: {
+        case UserActionTypes.UpdatePasswordFailed:
+        case UserActionTypes.RemoveProfileImageFailed: {
             return {
                 ...state,
                 fetching:
@@ -102,10 +114,11 @@ export function reducer(
                     action instanceof userActions.UpdateUserNameFailed
                         ? false
                         : state.userNameUpdating,
-                profileImageUploading:
-                    action instanceof userActions.UploadProfileImageFailed
+                profileImageUpdating:
+                    action instanceof userActions.UploadProfileImageFailed ||
+                    action instanceof userActions.RemoveProfileImageFailed
                         ? false
-                        : state.profileImageUploading,
+                        : state.profileImageUpdating,
                 profileInfoUpdating:
                     action instanceof userActions.UpdateProfileInfoFailed
                         ? false
@@ -129,8 +142,8 @@ export const fetching = (state: UserState) => state.fetching;
 
 export const userNameUpdating = (state: UserState) => state.userNameUpdating;
 
-export const profileImageUploading = (state: UserState) =>
-    state.profileImageUploading;
+export const profileImageUpdating = (state: UserState) =>
+    state.profileImageUpdating;
 
 export const profileInfoUpdating = (state: UserState) =>
     state.profileInfoUpdating;

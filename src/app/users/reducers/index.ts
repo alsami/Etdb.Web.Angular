@@ -53,9 +53,9 @@ export const getUserNameUpdating = createSelector(
     fromUser.userNameUpdating
 );
 
-export const getProfileImageUploading = createSelector(
+export const getProfileImageUpdating = createSelector(
     getUserEntitiesState,
-    fromUser.profileImageUploading
+    fromUser.profileImageUpdating
 );
 
 export const getProfileInfoUpdating = createSelector(

@@ -40,4 +40,8 @@ export class UserService {
             headers: BASE_HEADERS
         });
     }
+
+    public removeProfileImage(id: string): Observable<any> {
+        return this.http.delete(`${this.url}${id}/profileimage`);
+    }
 }

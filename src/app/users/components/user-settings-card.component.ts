@@ -12,12 +12,16 @@ export class UserSettingsCardComponent {
     showProfileImageUploadButton: boolean;
     @Output()
     profileImageUpload: EventEmitter<File> = new EventEmitter<File>();
-
-    public userNameEditing: boolean;
+    @Output()
+    profileImageRemove: EventEmitter<string> = new EventEmitter<string>();
 
     public imageLoading: boolean;
 
     public requestProfileImageUpload(files: File[]): void {
         this.profileImageUpload.emit(files[0]);
+    }
+
+    public requestProfileImageRemove(): void {
+        this.profileImageRemove.emit(this.user.id);
     }
 }
