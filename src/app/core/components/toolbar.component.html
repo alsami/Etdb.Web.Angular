@@ -14,8 +14,10 @@
             <mat-divider *ngIf="!last"></mat-divider>
         </ng-template>
     </mat-menu>
-    <button *ngIf="user" mat-icon-button mat-icon-button [matMenuTriggerFor]="usersMenu">
-        <div *ngIf="user" class="profile-picture mat-icon material-icons" [style.backgroundImage]="'url('+ userPictureUrl +')'"></div>
+    <button *ngIf="user" mat-icon-button [matMenuTriggerFor]="usersMenu">
+        <div *ngIf="user.picture" class="profile-picture mat-icon material-icons" [style.backgroundImage]="'url('+ userPictureUrl +')'">
+        </div>
+        <mat-icon *ngIf="!user.picture">person</mat-icon>
     </button>
     <mat-menu #usersMenu="matMenu" yPosition="below" xPosition="before">
         <button mat-menu-item [routerLink]="'users/profile/' + user?.sub" (click)="linkedMenuClicked.emit();">
