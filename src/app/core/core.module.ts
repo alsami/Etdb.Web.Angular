@@ -1,22 +1,23 @@
-import { CommonModule } from '@angular/common';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ModuleWithProviders, NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { CommonModule } from "@angular/common";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { ModuleWithProviders, NgModule } from "@angular/core";
+import { ReactiveFormsModule } from "@angular/forms";
+import { RouterModule } from "@angular/router";
 import {
     LoginFormComponent,
     RegisterFormComponent,
     SidenavContentComponent,
-    ToolbarComponent
-} from '@etdb/core/components';
+    ToolbarComponent,
+    GoogleLoginButton
+} from "@etdb/core/components";
 import {
     AppComponent,
     LayoutComponent,
     LoginComponent,
     RegisterComponent
-} from '@etdb/core/containers';
-import { NotAuthorizedAuthGuard } from '@etdb/core/guards';
-import { TokenInterceptor } from '@etdb/core/interceptors';
+} from "@etdb/core/containers";
+import { NotAuthorizedAuthGuard } from "@etdb/core/guards";
+import { TokenInterceptor } from "@etdb/core/interceptors";
 import {
     AuthService,
     LayoutStorageService,
@@ -24,9 +25,9 @@ import {
     BreakpointService,
     PolicyService,
     ErrorExtractorService
-} from '@etdb/core/services';
-import { MaterialModule } from '@etdb/shared';
-import { CustomControlModule } from '@etdb/custom-controls/custom-controls.module';
+} from "@etdb/core/services";
+import { MaterialModule } from "@etdb/shared";
+import { CustomControlModule } from "@etdb/custom-controls/custom-controls.module";
 
 const COMPONENTS = [
     AppComponent,
@@ -36,7 +37,8 @@ const COMPONENTS = [
     LoginComponent,
     LoginFormComponent,
     RegisterComponent,
-    RegisterFormComponent
+    RegisterFormComponent,
+    GoogleLoginButton
 ];
 
 @NgModule({

@@ -1,16 +1,34 @@
-<form [formGroup]="loginForm" novalidate (ngSubmit)="submit();">
-    <div class="page-content page-content-pad-xs flex-container flex-flow-column flex-center-center">
-        <div class="login-container">
+<div
+    class="page-content page-content-pad-xs flex-container flex-flow-column flex-center-center"
+>
+    <div class="login-container">
+        <form [formGroup]="loginForm" novalidate (ngSubmit)="submit()">
             <mat-card color="primary">
                 <mat-card-title>Login</mat-card-title>
                 <mat-card-content>
                     <div class="flex-container flex-flow-column">
                         <mat-form-field>
-                            <input formControlName="userName" matInput type="text" placeholder="Username or Email">
+                            <input
+                                formControlName="userName"
+                                matInput
+                                type="text"
+                                placeholder="Username or Email"
+                            />
                         </mat-form-field>
                         <mat-form-field>
-                            <input matInput #passwordInput formControlName="password" type="password" placeholder="Password">
-                            <mat-icon (click)="changePasswordVisibility();" class="pointer" matSuffix>remove_red_eye</mat-icon>
+                            <input
+                                matInput
+                                #passwordInput
+                                formControlName="password"
+                                type="password"
+                                placeholder="Password"
+                            />
+                            <mat-icon
+                                (click)="changePasswordVisibility()"
+                                class="pointer"
+                                matSuffix
+                                >remove_red_eye</mat-icon
+                            >
                         </mat-form-field>
                     </div>
                 </mat-card-content>
@@ -18,6 +36,8 @@
                     <button mat-button type="submit">Login</button>
                 </mat-card-actions>
             </mat-card>
-        </div>
+        </form>
+        <div style="margin: 10px"></div>
+        <etdb-google-login-button></etdb-google-login-button>
     </div>
-</form>
+</div>
