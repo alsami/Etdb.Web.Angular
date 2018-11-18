@@ -19,7 +19,7 @@ import { MatStepperStepExtendedComponent } from '@etdb/custom-controls/component
 @Component({
     selector: 'etdb-mat-stepper-extended',
     templateUrl: 'mat-stepper-extended.component.html',
-    changeDetection: ChangeDetectionStrategy.Default
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MatStepperExtendedComponent
     implements AfterViewInit, AfterViewChecked, OnDestroy {
@@ -51,7 +51,7 @@ export class MatStepperExtendedComponent
     public constructor(
         private breakpointObserver: BreakpointObserver,
         private changeDetector: ChangeDetectorRef
-    ) {}
+    ) { }
 
     public ngAfterViewInit(): void {
         this.breakpointSubscriber = this.breakpointObserver

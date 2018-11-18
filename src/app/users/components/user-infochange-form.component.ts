@@ -27,11 +27,11 @@ export class UserInfochangeComponent implements OnInit, OnChanges {
     @Output()
     requestProfileInfoChange: EventEmitter<
         UserProfileInfoChange
-    > = new EventEmitter();
+        > = new EventEmitter();
 
     public infochangeForm: FormGroup;
 
-    public constructor(private formBuilder: FormBuilder) {}
+    public constructor(private formBuilder: FormBuilder) { }
 
     public ngOnInit(): void {
         this.buildForm();

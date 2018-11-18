@@ -1,16 +1,18 @@
-import { Component, AfterViewInit, OnInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit, Output, EventEmitter } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
-    selector: 'etdb-google-login-button',
-    templateUrl: 'google-login-button.component.html'
+    selector: 'etdb-google-signin-button',
+    templateUrl: 'google-signin-button.component.html'
 })
-export class GoogleLoginButton implements OnInit, AfterViewInit {
+export class GoogleSignInButtonComponent implements OnInit, AfterViewInit {
+    @Output() requestSignin: EventEmitter<gapi.auth2.GoogleUser> = new EventEmitter();
+
     public constructor(
         private iconRegistry: MatIconRegistry,
         private sanitizer: DomSanitizer
-    ) {}
+    ) { }
 
     public ngOnInit(): void {
         this.iconRegistry.addSvgIcon(
@@ -34,8 +36,11 @@ export class GoogleLoginButton implements OnInit, AfterViewInit {
                 .attachClickHandler(
                     document.getElementById('google-signin'),
                     {},
-                    x => console.log(x),
-                    f => console.log(f)
+                    user => {
+                        console.log(user);
+                        this.requestSignin.emit(user);
+                    },
+                    f => console.error(f)
                 );
         });
     }

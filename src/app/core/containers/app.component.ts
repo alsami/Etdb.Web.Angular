@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
         private store: Store<fromRoot.AppState>
     ) {
         this.store.dispatch(new layoutActions.RestoreTheme());
-        this.store.dispatch(new authActions.RestoreLogin());
+        this.store.dispatch(new authActions.RestoreSignIn());
     }
 
     public ngOnInit(): void {

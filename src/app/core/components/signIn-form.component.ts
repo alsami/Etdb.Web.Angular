@@ -7,17 +7,16 @@ import {
     ChangeDetectionStrategy
 } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { UserLogin } from '@etdb/core/models';
+import { UserSignIn } from '@etdb/core/models';
 
 @Component({
-    selector: 'etdb-login-form',
-    templateUrl: 'login-form.component.html',
-    styleUrls: ['login-form.component.scss'],
+    selector: 'etdb-signin-form',
+    templateUrl: 'signin-form.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LoginFormComponent {
+export class SignInFormComponent {
     @Output()
-    requestLogin: EventEmitter<UserLogin> = new EventEmitter<UserLogin>();
+    requestSignIn: EventEmitter<UserSignIn> = new EventEmitter<UserSignIn>();
 
     @ViewChild('passwordInput')
     passwordInput: ElementRef;
@@ -43,8 +42,8 @@ export class LoginFormComponent {
             return;
         }
 
-        const userLogin: UserLogin = this.loginForm.value;
-        this.requestLogin.emit(userLogin);
+        const userSignIn: UserSignIn = this.loginForm.value;
+        this.requestSignIn.emit(userSignIn);
     }
 
     private buildForm(): void {

@@ -1,38 +1,44 @@
 import { Action } from '@ngrx/store';
-import { IdentityToken, RegisterUser, IdentityUser, UserLogin } from '@etdb/core/models';
+import { IdentityToken, RegisterUser, IdentityUser, UserSignIn, SignInProviderTypes } from '@etdb/core/models';
 
 export enum AuthActionTypes {
-    Login = '[Auth API] User Login',
-    LoggedIn = '[Auth API] User Logged in',
-    LoginFailed = '[Auth API] User Login failed',
-    Logout = '[Auth API] Logout',
+    CredentialSignIn = '[Auth API] User Credential SignIn',
+    ProviderSignIn = '[Auth API] User Provider SignIn',
+    SignedIn = '[Auth API] User SignedIn',
+    SignInFailed = '[Auth API] User SignIn failed',
+    SignOut = '[Auth API] SignOut',
     Register = '[Auth API] User Register',
     Registered = '[Auth API] User Registered',
     RegisterFailed = '[Auth API] User Register failed',
-    RestoreLogin = '[Auth API] Restore Login',
+    RestoreSignIn = '[Auth API] Restore SignIn',
     RestoreCompleted = '[Auth API] Restore completed',
     IdentityUserLoad = '[Auth API] Identity-User Load',
     IdentityUserLoaded = '[Auth API] Identity-User Loaded',
     IdentityUserLoadFailed = '[Auth API] Identity-User Load failed',
 }
 
-export class Login implements Action {
-    readonly type = AuthActionTypes.Login;
-    public constructor(public login: UserLogin) { }
+export class CredentialSignIn implements Action {
+    readonly type = AuthActionTypes.CredentialSignIn;
+    public constructor(public signIn: UserSignIn) { }
 }
 
-export class LoggedIn implements Action {
-    readonly type = AuthActionTypes.LoggedIn;
+export class ProviderSignIn implements Action {
+    readonly type = AuthActionTypes.ProviderSignIn;
+    public constructor(public provider: SignInProviderTypes, public token: string) { }
+}
+
+export class SignedIn implements Action {
+    readonly type = AuthActionTypes.SignedIn;
     public constructor(public token: IdentityToken, public navigateToRoot = false) { }
 }
 
-export class LoginFailed implements Action {
-    readonly type = AuthActionTypes.LoginFailed;
+export class SignInFailed implements Action {
+    readonly type = AuthActionTypes.SignInFailed;
     public constructor(public error: Error) { }
 }
 
-export class Logout implements Action {
-    readonly type = AuthActionTypes.Logout;
+export class SignOut implements Action {
+    readonly type = AuthActionTypes.SignOut;
 }
 
 export class Register implements Action {
@@ -42,7 +48,7 @@ export class Register implements Action {
 
 export class Registered implements Action {
     readonly type = AuthActionTypes.Registered;
-    public constructor(public login: UserLogin) { }
+    public constructor(public signIn: UserSignIn) { }
 }
 
 export class RegisterFailed implements Action {
@@ -50,8 +56,8 @@ export class RegisterFailed implements Action {
     public constructor(public error: Error) { }
 }
 
-export class RestoreLogin implements Action {
-    readonly type = AuthActionTypes.RestoreLogin;
+export class RestoreSignIn implements Action {
+    readonly type = AuthActionTypes.RestoreSignIn;
 }
 
 export class RestoreCompleted implements Action {
@@ -60,7 +66,7 @@ export class RestoreCompleted implements Action {
 
 export class IdentityUserLoad implements Action {
     readonly type = AuthActionTypes.IdentityUserLoad;
-    public constructor(public identityToken: UserLogin) { }
+    public constructor(public identityToken: UserSignIn) { }
 }
 
 export class IdentityUserLoaded implements Action {
@@ -73,8 +79,17 @@ export class IdentityUserLoadFailed implements Action {
     public constructor(public error: Error) { }
 }
 
-export declare type AuthActions = |
-    Login | LoggedIn | LoginFailed | Logout |
-    RestoreLogin | RestoreCompleted |
-    Register | Registered | RegisterFailed |
-    IdentityUserLoad | IdentityUserLoaded | IdentityUserLoadFailed;
+export declare type AuthActionUnion =
+    | CredentialSignIn
+    | ProviderSignIn
+    | SignedIn
+    | SignInFailed
+    | SignOut
+    | RestoreSignIn
+    | RestoreCompleted
+    | Register
+    | Registered
+    | RegisterFailed
+    | IdentityUserLoad
+    | IdentityUserLoaded
+    | IdentityUserLoadFailed;

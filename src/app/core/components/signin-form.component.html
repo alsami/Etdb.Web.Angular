@@ -1,0 +1,21 @@
+<form [formGroup]="loginForm" novalidate (ngSubmit)="submit()">
+    <mat-card color="primary">
+        <mat-card-title class="mat-typography">
+            <h2>Signin with credentials</h2>
+        </mat-card-title>
+        <mat-card-content>
+            <div class="flex-container flex-flow-column">
+                <mat-form-field>
+                    <input formControlName="userName" matInput type="text" placeholder="Username or Email" />
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput #passwordInput formControlName="password" type="password" placeholder="Password" />
+                    <mat-icon (click)="changePasswordVisibility()" class="pointer" matSuffix>remove_red_eye</mat-icon>
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+        <mat-card-actions align="end">
+            <button mat-button type="submit">Signin</button>
+        </mat-card-actions>
+    </mat-card>
+</form>

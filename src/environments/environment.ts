@@ -8,4 +8,5 @@ export const environment = {
     userserviceUrl: 'http://localhost:5000/api/v1/',
     userserviceAuthUrl: 'http://localhost:5000/connect/token',
     userserviceAuthProfileUrl: 'http://localhost:5000/connect/userinfo',
+    googleClientId: '545313014879-n64aegcj4rrufptpk9vso3pfs0572ae9.apps.googleusercontent.com'
 };

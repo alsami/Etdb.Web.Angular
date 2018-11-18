@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BrowseComponent } from '@etdb/browse/container';
-import { LoginComponent, RegisterComponent } from '@etdb/core/containers';
+import { SignInComponent, RegisterComponent } from '@etdb/core/containers';
 import { NotAuthorizedAuthGuard } from '@etdb/core/guards';
 
 
@@ -10,8 +10,8 @@ const routes: Routes = [{
     redirectTo: 'browse',
     pathMatch: 'full'
 }, {
-    path: 'login',
-    component: LoginComponent,
+    path: 'signin',
+    component: SignInComponent,
     canActivate: [NotAuthorizedAuthGuard]
 }, {
     path: 'register',

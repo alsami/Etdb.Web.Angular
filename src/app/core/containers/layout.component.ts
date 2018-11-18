@@ -45,7 +45,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     }
 
     public logout(): void {
-        this.store.dispatch(new authActions.Logout());
+        this.store.dispatch(new authActions.SignOut());
     }
 
     public toggleSidenav(visible: boolean): void {
