@@ -1,4 +1,4 @@
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { switchMap } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
@@ -9,14 +9,20 @@ import { TitleActionTypes } from '@etdb/core/actions/title.actions';
 
 @Injectable()
 export class TitleEffects {
-    @Effect() tabTitle$: Observable<Action> = this.actions$
-        .ofType(TitleActionTypes.SetTitle)
-        .pipe(
-            switchMap((action: titleActions.SetTitle) => {
-                this.title.setTitle(`ETDB | ${action.section} | ${action.suffix}`);
+    @Effect() tabTitle$: Observable<Action> = this.actions$.pipe(
+        ofType(TitleActionTypes.SetTitle),
+        switchMap((action: titleActions.SetTitle) => {
+            if (action.suffix) {
+                this.title.setTitle(
+                    `ETDB | ${action.section} | ${action.suffix}`
+                );
                 return of();
-            })
-        );
+            }
 
-    public constructor(private actions$: Actions, private title: Title) { }
+            this.title.setTitle(`ETDB | ${action.section}`);
+            return of();
+        })
+    );
+
+    public constructor(private actions$: Actions, private title: Title) {}
 }
