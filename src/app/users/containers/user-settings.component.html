@@ -19,9 +19,7 @@
     <div class="card-seperator"></div>
     <etdb-component-loader-overlay [loading]="passwordUpdating$ | async">
         <etdb-user-pwd-change-form
-            *ngIf="
-                (loggedInUser$ | async)?.idp === siginproviders.UsernamePassword
-            "
+            *ngIf="!(user$ | async)?.isExternalUser"
             (requestPwdChange)="updatePassword($event)"
         ></etdb-user-pwd-change-form>
     </etdb-component-loader-overlay>

@@ -14,10 +14,13 @@ const initialState: AuthState = {
     identityUser: null,
     loggedIn: false,
     loading: false,
-    loaded: false,
+    loaded: false
 };
 
-export function reducer(state = initialState, action: AuthActions.AuthActionUnion): AuthState {
+export function reducer(
+    state = initialState,
+    action: AuthActions.AuthActionUnion
+): AuthState {
     switch (action.type) {
         case AuthActions.AuthActionTypes.CredentialSignIn:
         case AuthActions.AuthActionTypes.ProviderSignIn: {
@@ -88,7 +91,7 @@ export function reducer(state = initialState, action: AuthActions.AuthActionUnio
             return {
                 ...state,
                 loading: true,
-                loaded: false,
+                loaded: false
             };
         }
 
@@ -115,9 +118,8 @@ export function reducer(state = initialState, action: AuthActions.AuthActionUnio
     }
 }
 
-
 export const identityToken = (state: AuthState) => state.identityToken;
 export const identityUser = (state: AuthState) => state.identityUser;
-export const loggedIn = (state: AuthState) => state.loggedIn;
+export const signedIn = (state: AuthState) => state.loggedIn;
 export const loading = (state: AuthState) => state.loading;
 export const loaded = (state: AuthState) => state.loaded;

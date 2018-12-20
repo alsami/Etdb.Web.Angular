@@ -2,7 +2,7 @@
     "compileOnSave": false,
     "compilerOptions": {
         "baseUrl": "./src",
-    "importHelpers": true,
+        "importHelpers": true,
         "paths": {
             "@etdb/*": ["app/*"]
         },

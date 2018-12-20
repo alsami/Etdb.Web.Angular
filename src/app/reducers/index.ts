@@ -1,9 +1,14 @@
-import { ActionReducer, ActionReducerMap, MetaReducer, createFeatureSelector, createSelector } from '@ngrx/store';
+import {
+    ActionReducer,
+    ActionReducerMap,
+    MetaReducer,
+    createFeatureSelector,
+    createSelector
+} from '@ngrx/store';
 import { environment } from '../../environments/environment';
 import * as fromAuth from '../core/reducers/auth.reducer';
 import * as fromLayout from '../core/reducers/layout.reducer';
 import * as fromTitle from '../core/reducers/title.reducer';
-
 
 /**
  * As mentioned, we treat each reducer like a table in a database. This means
@@ -23,12 +28,14 @@ export interface AppState {
 export const reducers: ActionReducerMap<AppState> = {
     layout: fromLayout.reducer,
     title: fromTitle.reducer,
-    auth: fromAuth.reducer,
+    auth: fromAuth.reducer
 };
 
 // console.log all actions
-export function logger(reducer: ActionReducer<AppState>): ActionReducer<AppState> {
-    return function (state: AppState, action: any): AppState {
+export function logger(
+    reducer: ActionReducer<AppState>
+): ActionReducer<AppState> {
+    return function(state: AppState, action: any): AppState {
         console.log('state', state);
         console.log('action', action);
 
@@ -48,11 +55,13 @@ export const metaReducers: MetaReducer<AppState>[] = !environment.production
 /**
  * Layout Reducers
  */
-export const getLayoutState = createFeatureSelector<fromLayout.LayoutState>('layout');
+export const getLayoutState = createFeatureSelector<fromLayout.LayoutState>(
+    'layout'
+);
 
 export const getShowSidenav = createSelector(
     getLayoutState,
-    fromLayout.showSidenav,
+    fromLayout.showSidenav
 );
 
 export const getTheme = createSelector(
@@ -63,7 +72,9 @@ export const getTheme = createSelector(
 /**
  * Title Reducers
  */
-export const getTitleState = createFeatureSelector<fromTitle.TitleState>('title');
+export const getTitleState = createFeatureSelector<fromTitle.TitleState>(
+    'title'
+);
 
 export const getTitle = createSelector(
     getTitleState,
@@ -85,9 +96,9 @@ export const getAuthIdentityUser = createSelector(
     fromAuth.identityUser
 );
 
-export const getAuthLoggedIn = createSelector(
+export const getAuthSignedIn = createSelector(
     getAuthState,
-    fromAuth.loggedIn
+    fromAuth.signedIn
 );
 
 export const getAuthLoading = createSelector(

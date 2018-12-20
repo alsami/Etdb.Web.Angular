@@ -19,6 +19,7 @@ import {
     UserInfochangeComponent,
     UserSettingsCardComponent
 } from '@etdb/users/components';
+import { UserIsSignedInUserGuard } from '@etdb/users/guards/user-is-signedin-user.guard';
 
 @NgModule({
     imports: [
@@ -38,6 +39,6 @@ import {
         UserInfochangeComponent,
         UserSettingsCardComponent
     ],
-    providers: [UserService]
+    providers: [UserService, UserIsSignedInUserGuard]
 })
 export class UsersModule {}

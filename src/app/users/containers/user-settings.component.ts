@@ -10,7 +10,6 @@ import { User } from '@etdb/models';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { UserPasswordChange, UserProfileInfoChange } from '@etdb/users/models';
-import { IdentityUser, SignInProviderTypes } from '@etdb/core/models';
 
 @Component({
     selector: 'etdb-user-settings',
@@ -25,9 +24,6 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
     public profileImageUploading$: Observable<boolean>;
     public profileInfoUpdating$: Observable<boolean>;
     public passwordUpdating$: Observable<boolean>;
-    public loggedInUser$: Observable<IdentityUser>;
-    public siginproviders = SignInProviderTypes;
-
     public paramsSubscription: Subscription;
 
     public constructor(
@@ -65,7 +61,9 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
                 this.store.dispatch(new userActions.Load(id));
             });
 
-        this.loggedInUser$ = this.store.select(fromRoot.getAuthIdentityUser);
+        this.store
+            .select(fromUsers.getSelectedUserIsSignedInUser)
+            .subscribe(x => console.log(x));
     }
 
     public ngOnDestroy(): void {

@@ -8,7 +8,8 @@ import {
     RegisterFormComponent,
     SidenavContentComponent,
     ToolbarComponent,
-    GoogleSignInButtonComponent
+    GoogleSignInButtonComponent,
+    NotAuthorizedComponent
 } from '@etdb/core/components';
 import {
     AppComponent,
@@ -16,7 +17,7 @@ import {
     SignInComponent,
     RegisterComponent
 } from '@etdb/core/containers';
-import { NotAuthorizedAuthGuard } from '@etdb/core/guards';
+import { NotSignedInGuard } from '@etdb/core/guards';
 import { TokenInterceptor } from '@etdb/core/interceptors';
 import {
     AuthService,
@@ -38,7 +39,8 @@ const COMPONENTS = [
     SignInFormComponent,
     RegisterComponent,
     RegisterFormComponent,
-    GoogleSignInButtonComponent
+    GoogleSignInButtonComponent,
+    NotAuthorizedComponent
 ];
 
 @NgModule({
@@ -64,7 +66,7 @@ export class CoreModule {
                 LayoutStorageService,
                 BreakpointService,
                 ErrorExtractorService,
-                NotAuthorizedAuthGuard,
+                NotSignedInGuard,
                 {
                     provide: HTTP_INTERCEPTORS,
                     useClass: TokenInterceptor,

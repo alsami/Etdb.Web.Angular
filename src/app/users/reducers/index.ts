@@ -67,3 +67,12 @@ export const getPasswordUpdating = createSelector(
     getUserEntitiesState,
     fromUser.passwordUpdating
 );
+
+export const getSelectedUserIsSignedInUser = createSelector(
+    fromRoot.getAuthIdentityUser,
+    getSelectedUser,
+    (identityUser, selectedUser) =>
+        identityUser !== null &&
+        selectedUser !== null &&
+        identityUser.sub === selectedUser.id
+);
