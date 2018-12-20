@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import * as authActions from '@etdb/core/actions/auth.actions';
 import { AuthActionTypes } from '@etdb/core/actions/auth.actions';
@@ -13,16 +13,17 @@ export class AuthEffects {
     @Effect()
     signIn$: Observable<Action> = this.actions$.pipe(
         ofType(AuthActionTypes.CredentialSignIn, AuthActionTypes.Registered),
-        switchMap((action: authActions.CredentialSignIn | authActions.Registered) =>
-            this.authService.signInWithCredentials(action.signIn).pipe(
-                map(token => {
-                    this.tokenStorageService.storeToken(token);
-                    return new authActions.SignedIn(token, true);
-                }),
-                catchError((error: Error) =>
-                    of(new authActions.SignInFailed(error))
+        switchMap(
+            (action: authActions.CredentialSignIn | authActions.Registered) =>
+                this.authService.signInWithCredentials(action.signIn).pipe(
+                    map(token => {
+                        this.tokenStorageService.storeToken(token);
+                        return new authActions.SignedIn(token, true);
+                    }),
+                    catchError((error: Error) =>
+                        of(new authActions.SignInFailed(error))
+                    )
                 )
-            )
         )
     );
 
@@ -30,13 +31,18 @@ export class AuthEffects {
     signInWithProvider$: Observable<Action> = this.actions$.pipe(
         ofType(AuthActionTypes.ProviderSignIn),
         switchMap((action: authActions.ProviderSignIn) =>
-            this.authService.signInWithProvider(action.provider, action.token).pipe(
-                map(token => {
-                    this.tokenStorageService.storeToken(token);
-                    return new authActions.SignedIn(token, true);
-                }),
-                catchError((error: Error) => of(new authActions.SignInFailed(error)))
-            ))
+            this.authService
+                .signInWithProvider(action.provider, action.token)
+                .pipe(
+                    map(token => {
+                        this.tokenStorageService.storeToken(token);
+                        return new authActions.SignedIn(token, true);
+                    }),
+                    catchError((error: Error) =>
+                        of(new authActions.SignInFailed(error))
+                    )
+                )
+        )
     );
 
     @Effect()
@@ -44,10 +50,7 @@ export class AuthEffects {
         ofType(AuthActionTypes.SignedIn),
         switchMap((action: authActions.SignedIn) => {
             if (action.navigateToRoot) {
-                // workaround because of https://github.com/angular/angular/issues/25837
-                this.ngZone.run(async () => {
-                    this.router.navigate(['/']);
-                });
+                this.router.navigate(['/']);
             }
             return of();
         })
@@ -104,7 +107,7 @@ export class AuthEffects {
                 | authActions.RestoreCompleted
                 | authActions.SignedIn
                 | authActions.SignInFailed
-                > => {
+            > => {
                 if (!this.tokenStorageService.canRestore()) {
                     return of(new authActions.RestoreCompleted());
                 }
@@ -131,7 +134,6 @@ export class AuthEffects {
         private authService: AuthService,
         private tokenStorageService: TokenStorageService,
         private actions$: Actions,
-        private router: Router,
-        private ngZone: NgZone
-    ) { }
+        private router: Router
+    ) {}
 }

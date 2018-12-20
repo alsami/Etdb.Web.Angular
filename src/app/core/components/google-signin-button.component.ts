@@ -1,4 +1,11 @@
-import { Component, AfterViewInit, OnInit, Output, EventEmitter } from '@angular/core';
+import {
+    Component,
+    AfterViewInit,
+    OnInit,
+    Output,
+    EventEmitter,
+    NgZone
+} from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -7,12 +14,15 @@ import { DomSanitizer } from '@angular/platform-browser';
     templateUrl: 'google-signin-button.component.html'
 })
 export class GoogleSignInButtonComponent implements OnInit, AfterViewInit {
-    @Output() requestSignin: EventEmitter<gapi.auth2.GoogleUser> = new EventEmitter();
+    @Output() requestSignin: EventEmitter<
+        gapi.auth2.GoogleUser
+    > = new EventEmitter<gapi.auth2.GoogleUser>(null);
 
     public constructor(
         private iconRegistry: MatIconRegistry,
-        private sanitizer: DomSanitizer
-    ) { }
+        private sanitizer: DomSanitizer,
+        private ngZone: NgZone
+    ) {}
 
     public ngOnInit(): void {
         this.iconRegistry.addSvgIcon(
@@ -31,17 +41,15 @@ export class GoogleSignInButtonComponent implements OnInit, AfterViewInit {
                 scope: 'profile email openid'
             });
 
-            gapi.auth2
-                .getAuthInstance()
-                .attachClickHandler(
-                    document.getElementById('google-signin'),
-                    {},
-                    user => {
-                        console.log(user);
-                        this.requestSignin.emit(user);
-                    },
-                    f => console.error(f)
-                );
+            gapi.auth2.getAuthInstance().attachClickHandler(
+                document.getElementById('google-signin'),
+                {},
+                user => {
+                    console.log(user);
+                    this.ngZone.run(() => this.requestSignin.emit(user));
+                },
+                f => console.error(f)
+            );
         });
     }
 }
