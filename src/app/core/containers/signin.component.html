@@ -1,14 +1,18 @@
-<mat-progress-bar *ngIf="loading$ | async" color="accent" mode="indeterminate"></mat-progress-bar>
-
-<div class="page-content page-content-pad-xs flex-container flex-flow-column flex-center-center">
+<div
+    class="page-content page-content-pad-xs flex-container flex-flow-column flex-center-center"
+>
     <div class="signin-container">
-        <button mat-raised-button class="max-width" routerLink="/register">
-            Create a new account
-        </button>
-        <div style="margin: 10px"></div>
-        <etdb-google-signin-button (requestSignin)="googleSignIn($event);"></etdb-google-signin-button>
-        <div style="margin: 10px"></div>
-        <etdb-signin-form (requestSignIn)="signIn($event);">
-        </etdb-signin-form>
+        <etdb-component-loader-overlay [loading]="loading$ | async">
+            <button mat-raised-button class="max-width" routerLink="/register">
+                Create a new account
+            </button>
+            <div style="margin: 10px"></div>
+            <etdb-google-signin-button
+                (requestSignin)="googleSignIn($event)"
+            ></etdb-google-signin-button>
+            <div style="margin: 10px"></div>
+            <etdb-signin-form (requestSignIn)="signIn($event)">
+            </etdb-signin-form>
+        </etdb-component-loader-overlay>
     </div>
 </div>
