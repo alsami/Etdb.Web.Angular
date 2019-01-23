@@ -1,4 +1,4 @@
-@import '~sass/partials/_breakpoints.scss';
+@import "~scss/partials/_breakpoints.scss";
 
 .user-profile-container {
     flex-flow: row;
@@ -20,7 +20,6 @@
     }
 }
 
-
 // $xs: 'screen and (max-width: 599px)';
 // $sm: 'screen and (min-width: 600px) and (max-width: 959px)';
 // $md: 'screen and (min-width: 960px) and (max-width: 1279px)';
@@ -36,4 +35,3 @@
 // $gt-sm: 'screen and (min-width: 960px)';
 // $gt-md: 'screen and (min-width: 1280px)';
 // $gt-lg: 'screen and (min-width: 1920px)';
-
