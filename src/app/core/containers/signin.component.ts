@@ -12,7 +12,6 @@ import * as authActions from '../actions/auth.actions';
     templateUrl: 'signin.component.html',
     styleUrls: ['signin.component.scss']
 })
-
 export class SignInComponent {
     private provider = SignInProviderTypes;
     loading$: Observable<boolean>;
@@ -27,6 +26,17 @@ export class SignInComponent {
     }
 
     public googleSignIn(x: gapi.auth2.GoogleUser) {
-        this.store.dispatch(new authActions.ProviderSignIn(this.provider.Google, x.getAuthResponse().access_token));
+        this.store.dispatch(
+            new authActions.ProviderSignIn(
+                this.provider.Google,
+                x.getAuthResponse().access_token
+            )
+        );
+    }
+
+    public facebookSignIn(token: string) {
+        this.store.dispatch(
+            new authActions.ProviderSignIn(SignInProviderTypes.Facebook, token)
+        );
     }
 }

@@ -16,7 +16,7 @@
         "noUnusedParameters": true,
         "target": "es5",
         "typeRoots": ["node_modules/@types"],
-        "types": ["gapi", "gapi.auth2"],
+        "types": ["gapi", "gapi.auth2", "FB"],
         "lib": ["es2017", "dom"]
     }
 }

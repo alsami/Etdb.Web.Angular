@@ -11,7 +11,9 @@
                 (requestSignin)="googleSignIn($event)"
             ></etdb-google-signin-button>
             <div style="margin: 10px"></div>
-            <etdb-facebook-signin-button></etdb-facebook-signin-button>
+            <etdb-facebook-signin-button
+                (requestSignin)="facebookSignIn($event)"
+            ></etdb-facebook-signin-button>
             <div style="margin: 10px"></div>
             <etdb-signin-form (requestSignIn)="signIn($event)">
             </etdb-signin-form>
