@@ -10,7 +10,8 @@ import {
     ToolbarComponent,
     GoogleSignInButtonComponent,
     NotAuthorizedComponent,
-    FacebookSigninButtonComponent
+    FacebookSigninButtonComponent,
+    TwitterSigninButtonComponent
 } from '@etdb/core/components';
 import {
     AppComponent,
@@ -42,6 +43,7 @@ const COMPONENTS = [
     RegisterFormComponent,
     GoogleSignInButtonComponent,
     FacebookSigninButtonComponent,
+    TwitterSigninButtonComponent,
     NotAuthorizedComponent
 ];
 

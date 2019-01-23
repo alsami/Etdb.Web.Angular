@@ -27,7 +27,10 @@
                             "src/scss/styles.scss",
                             "src/scss/material-theme.scss"
                         ],
-                        "scripts": ["src/scripts/facebook-signin.js"]
+                        "scripts": [
+                            "src/scripts/facebook-signin.js",
+                            "src/scripts/twitter-signin.js"
+                        ]
                     },
                     "configurations": {
                         "production": {
