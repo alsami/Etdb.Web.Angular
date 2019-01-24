@@ -2,11 +2,16 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import * as authActions from '@etdb/core/actions/auth.actions';
 import { AuthActionTypes } from '@etdb/core/actions/auth.actions';
-import { AuthService, TokenStorageService } from '@etdb/core/services';
+import {
+    AuthService,
+    TokenStorageService,
+    ErrorExtractorService
+} from '@etdb/core/services';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable()
 export class AuthEffects {
@@ -20,9 +25,13 @@ export class AuthEffects {
                         this.tokenStorageService.storeToken(token);
                         return new authActions.SignedIn(token, true);
                     }),
-                    catchError((error: Error) =>
-                        of(new authActions.SignInFailed(error))
-                    )
+                    catchError((error: Error) => {
+                        if (action instanceof authActions.CredentialSignIn) {
+                            this.showError(error);
+                        }
+
+                        return of(new authActions.SignInFailed(error));
+                    })
                 )
         )
     );
@@ -38,9 +47,10 @@ export class AuthEffects {
                         this.tokenStorageService.storeToken(token);
                         return new authActions.SignedIn(token, true);
                     }),
-                    catchError((error: Error) =>
-                        of(new authActions.SignInFailed(error))
-                    )
+                    catchError((error: Error) => {
+                        this.showError(error);
+                        return of(new authActions.SignInFailed(error));
+                    })
                 )
         )
     );
@@ -130,10 +140,21 @@ export class AuthEffects {
         )
     );
 
+    private showError(error: Error): void {
+        const humanReadableError = this.errorExtractorService.extractHumanreadableError(
+            error
+        );
+        this.snackbar.open(humanReadableError.message, undefined, {
+            duration: 5000
+        });
+    }
+
     public constructor(
         private authService: AuthService,
         private tokenStorageService: TokenStorageService,
         private actions$: Actions,
-        private router: Router
+        private router: Router,
+        private errorExtractorService: ErrorExtractorService,
+        private snackbar: MatSnackBar
     ) {}
 }

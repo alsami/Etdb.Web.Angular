@@ -29,8 +29,19 @@ export class ErrorExtractorService {
             };
         }
 
+        const hasDefaultError = error.error.message !== undefined;
+        const hasIdentityErrorWithDescription =
+            error.error.error_description !== undefined;
+        const hasIdentityError = error.error.error_message !== undefined;
+
         return {
-            message: error.error.message,
+            message: hasDefaultError
+                ? error.error.message
+                : hasIdentityErrorWithDescription
+                ? error.error.error_description
+                : hasIdentityError
+                ? error.error.error_message
+                : 'Unknown error',
             errors: error.error.errors ? error.error.errors : []
         };
     }
