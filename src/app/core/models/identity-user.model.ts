@@ -1,4 +1,4 @@
-import { SignInProviderTypes } from '@etdb/core/models';
+import { AuthenticationProvider } from '@etdb/core/models';
 
 export interface IdentityUser {
     email: string;
@@ -9,5 +9,5 @@ export interface IdentityUser {
     role: string[];
     sub: string;
     picture: string;
-    idp: SignInProviderTypes;
+    idp: AuthenticationProvider;
 }

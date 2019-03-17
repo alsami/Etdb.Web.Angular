@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '@etdb/reducers';
 import { Observable } from 'rxjs';
-import { UserSignIn, SignInProviderTypes } from '@etdb/core/models';
+import { UserSignIn, AuthenticationProvider } from '@etdb/core/models';
 
 import * as titleActions from '../actions/title.actions';
 import * as authActions from '../actions/auth.actions';
@@ -13,7 +13,7 @@ import * as authActions from '../actions/auth.actions';
     styleUrls: ['signin.component.scss']
 })
 export class SignInComponent {
-    private provider = SignInProviderTypes;
+    private provider = AuthenticationProvider;
     loading$: Observable<boolean>;
 
     public constructor(private store: Store<fromRoot.AppState>) {
@@ -36,7 +36,7 @@ export class SignInComponent {
 
     public facebookSignIn(token: string) {
         this.store.dispatch(
-            new authActions.ProviderSignIn(SignInProviderTypes.Facebook, token)
+            new authActions.ProviderSignIn(AuthenticationProvider.Facebook, token)
         );
     }
 }

@@ -1,4 +1,4 @@
-export enum SignInProviderTypes {
+export enum AuthenticationProvider {
     UsernamePassword = 'UsernamePassword',
     Google = 'Google',
     Facebook = 'Facebook',

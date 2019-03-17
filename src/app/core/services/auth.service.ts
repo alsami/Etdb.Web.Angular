@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IdentityToken, IdentityUser, RegisterUser, UserSignIn, SignInProviderTypes } from '@etdb/core/models';
+import { IdentityToken, IdentityUser, RegisterUser, UserSignIn, AuthenticationProvider } from '@etdb/core/models';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 import { BASE_HEADERS } from '@etdb/core/core.constants';
@@ -14,7 +14,7 @@ export class AuthService {
 
     public constructor(private http: HttpClient) { }
 
-    public signInWithProvider(provider: SignInProviderTypes, token: string): Observable<IdentityToken> {
+    public signInWithProvider(provider: AuthenticationProvider, token: string): Observable<IdentityToken> {
         const formData = new FormData();
 
         formData.append('grant_type', 'external');
