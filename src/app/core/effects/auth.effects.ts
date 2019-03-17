@@ -58,7 +58,7 @@ export class AuthEffects {
     @Effect()
     signedIn$: Observable<Action> = this.actions$.pipe(
         ofType(AuthActionTypes.SignedIn),
-        switchMap((action: authActions.SignedIn) => {
+        switchMap((action: authActions.SignedIn): Observable<any> => {
             if (action.navigateToRoot) {
                 this.router.navigate(['/']);
             }
@@ -68,7 +68,7 @@ export class AuthEffects {
     @Effect()
     signOut$: Observable<Action> = this.actions$.pipe(
         ofType(AuthActionTypes.SignOut),
-        switchMap(() => {
+        switchMap((): Observable<any> => {
             this.tokenStorageService.clearToken();
             return of();
         })
@@ -156,5 +156,5 @@ export class AuthEffects {
         private router: Router,
         private errorExtractorService: ErrorExtractorService,
         private snackbar: MatSnackBar
-    ) {}
+    ) { }
 }

@@ -3,11 +3,20 @@
     "compilerOptions": {
         "baseUrl": "./",
         "paths": {
-            "@etdb/*": ["app/*"]
+            "@etdb/*": [
+                "app/*"
+            ]
         },
         "outDir": "../out-tsc/app",
         "module": "es2015",
-        "types": ["gapi", "gapi.auth2", "FB"]
+        "types": [
+            "gapi",
+            "gapi.auth2",
+            "fb"
+        ]
     },
-    "exclude": ["test.ts", "**/*.spec.ts"]
+    "exclude": [
+        "test.ts",
+        "**/*.spec.ts"
+    ]
 }

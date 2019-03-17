@@ -107,7 +107,7 @@ export class UserEffects {
                     | userActions.UpdatePasswordFailed
                     | userActions.UpdateUserNameFailed
                     | userActions.RemoveProfileImageFailed
-            ) => {
+            ): Observable<any> => {
                 const humanreadable = this.errorExtractorService.extractHumanreadableError(
                     action.error
                 );
@@ -126,5 +126,5 @@ export class UserEffects {
         private errorExtractorService: ErrorExtractorService,
         private snackbar: MatSnackBar,
         private actions$: Actions
-    ) {}
+    ) { }
 }

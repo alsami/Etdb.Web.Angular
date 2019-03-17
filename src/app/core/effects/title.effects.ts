@@ -11,7 +11,7 @@ import { TitleActionTypes } from '@etdb/core/actions/title.actions';
 export class TitleEffects {
     @Effect() tabTitle$: Observable<Action> = this.actions$.pipe(
         ofType(TitleActionTypes.SetTitle),
-        switchMap((action: titleActions.SetTitle) => {
+        switchMap((action: titleActions.SetTitle): Observable<any> => {
             if (action.suffix) {
                 this.title.setTitle(
                     `ETDB | ${action.section} | ${action.suffix}`
@@ -24,5 +24,5 @@ export class TitleEffects {
         })
     );
 
-    public constructor(private actions$: Actions, private title: Title) {}
+    public constructor(private actions$: Actions, private title: Title) { }
 }
