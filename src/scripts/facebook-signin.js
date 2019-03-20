@@ -13,9 +13,6 @@ window.fbAsyncInit = function() {
     var js,
         fjs = d.getElementsByTagName(s)[0];
 
-    // console.log("D", d);
-    // console.log("DD", id);
-
     if (d.getElementById(id)) {
         return;
     }

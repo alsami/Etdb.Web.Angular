@@ -6,7 +6,7 @@ import { TokenStorageService } from '@etdb/core/services';
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
 
-    public constructor(private tokenStorageService: TokenStorageService) {}
+    public constructor(private tokenStorageService: TokenStorageService) { }
 
     public intercept(request: HttpRequest<any>, httpHandler: HttpHandler): Observable<HttpEvent<any>> {
         if (request.headers.has('Authorization')) {
@@ -21,11 +21,11 @@ export class TokenInterceptor implements HttpInterceptor {
             return httpHandler.handle(request);
         }
 
-        const token = this.tokenStorageService.restoreToken();
+        const token = this.tokenStorageService.getToken();
 
         const nextRequest = request.clone({
             setHeaders: {
-                'Authorization' : 'Bearer ' + token.access_token
+                'Authorization': 'Bearer ' + token.accessToken
             }
         });
 

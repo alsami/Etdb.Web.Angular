@@ -16,7 +16,7 @@ export class PolicyService {
                     return false;
                 }
 
-                return identityUser.sub === loggedInUser.id;
+                return identityUser.id === loggedInUser.id;
             }));
     }
 }

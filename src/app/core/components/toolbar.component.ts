@@ -28,13 +28,13 @@ export class ToolbarComponent implements OnChanges {
     public constructor(private sanitizer: DomSanitizer) { }
 
     public ngOnChanges(changes: SimpleChanges): void {
-        if (changes['user'] && this.user && this.user.picture) {
-            this.userPictureUrl = this.user.picture;
+        if (changes['user'] && this.user && this.user.profileImageUrl) {
+            this.userPictureUrl = this.user.profileImageUrl;
             this.sanitizer.bypassSecurityTrustResourceUrl(this.userPictureUrl);
         }
     }
 
     public getUserGreeting(): string {
-        return 'Hello ' + this.user.preferred_username;
+        return 'Hello ' + this.user.userName;
     }
 }

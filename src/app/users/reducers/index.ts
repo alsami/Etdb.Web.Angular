@@ -74,5 +74,5 @@ export const getSelectedUserIsSignedInUser = createSelector(
     (identityUser, selectedUser) =>
         identityUser !== null &&
         selectedUser !== null &&
-        identityUser.sub === selectedUser.id
+        identityUser.id === selectedUser.id
 );

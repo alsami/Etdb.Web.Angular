@@ -1,13 +1,13 @@
 import { AuthenticationProvider } from '@etdb/core/models';
 
 export interface IdentityUser {
-    email: string;
-    family_name: string;
-    given_name: string;
-    preferred_username: string;
-    name: string;
+    id: string;
+    emails: string;
+    lastName: string;
+    firstName: string;
+    userName: string;
+    fullName: string;
     role: string[];
-    sub: string;
-    picture: string;
-    idp: AuthenticationProvider;
+    profileImageUrl: string;
+    authenticationProvider: AuthenticationProvider;
 }

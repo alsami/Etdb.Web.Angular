@@ -4,12 +4,10 @@ import { IdentityToken } from '@etdb/core/models';
 @Injectable()
 export class TokenStorageService {
     public storeToken(token: IdentityToken): void {
-        const storeToken: IdentityToken = token;
-        this.setExpiresInTime(storeToken);
-        window.localStorage.setItem('token', JSON.stringify(storeToken));
+        window.localStorage.setItem('token', JSON.stringify(token));
     }
 
-    public restoreToken(): IdentityToken {
+    public getToken(): IdentityToken {
         return this.getTokenFromStorage();
     }
 
@@ -24,13 +22,7 @@ export class TokenStorageService {
 
     public isExpired(): boolean {
         const token = this.getTokenFromStorage();
-        return token.expires_at < new Date();
-    }
-
-    private setExpiresInTime(token: IdentityToken): void {
-        const date = new Date();
-        date.setMinutes(date.getMinutes(), token.expires_in);
-        token.expires_in = date.getTime();
+        return token.expiresAt < new Date();
     }
 
     private getTokenFromStorage(): IdentityToken {
@@ -40,7 +32,6 @@ export class TokenStorageService {
             return undefined;
         }
 
-        token.expires_at = new Date(token.expires_in);
         return token;
     }
 }

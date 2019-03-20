@@ -8,19 +8,12 @@ import { BASE_HEADERS } from '@etdb/core/core.constants';
 
 @Injectable()
 export class UserService {
-    private url = `${environment.userserviceUrl}users/`;
+    private url = `${environment.apiUrls.userService}users/`;
 
-    public constructor(private http: HttpClient) {}
+    public constructor(private http: HttpClient) { }
 
     public getUser(id: string): Observable<User> {
         return this.http.get<User>(`${this.url}${id}`);
-    }
-
-    public uploadProfileImage(id: string, file: File): Observable<User> {
-        const formData = new FormData();
-        formData.append('file', file);
-
-        return this.http.patch<User>(`${this.url}${id}/profileimage`, formData);
     }
 
     public updatePassword(
@@ -42,6 +35,13 @@ export class UserService {
     }
 
     public removeProfileImage(id: string): Observable<any> {
-        return this.http.delete(`${this.url}${id}/profileimage`);
+        return this.http.delete(`${this.url}${id}/profileimages`);
+    }
+
+    public uploadProfileImage(id: string, file: File): Observable<User> {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        return this.http.patch<User>(`${this.url}${id}/profileimages`, formData);
     }
 }

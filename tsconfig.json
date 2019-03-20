@@ -23,10 +23,11 @@
         "types": [
             "gapi",
             "gapi.auth2",
+            "FB",
             "fb"
         ],
         "lib": [
-            "es2017",
+            "es2018",
             "dom"
         ]
     }

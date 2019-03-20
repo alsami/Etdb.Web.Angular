@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
     IdentityToken,
@@ -13,57 +13,31 @@ import { BASE_HEADERS } from '@etdb/core/core.constants';
 
 @Injectable()
 export class AuthService {
-    private basicAuthHeaders: HttpHeaders = new HttpHeaders()
-        .set(
-            'Authorization',
-            'Basic d2ViLmNsaWVudDpnaXg4ZXhrbmY5c3h2bmh2dmtyZ3R6bTVlYjdvNHU3bWtwbW5xODZtbzkwd2plNDlxdQ=='
-        )
-        .set('Accept', 'application/json')
-        .set('cache-control', 'no-cache');
+    public constructor(private http: HttpClient) { }
 
-    public constructor(private http: HttpClient) {}
-
-    public signInWithProvider(
+    public authenticateWithProvider(
         provider: AuthenticationProvider,
         token: string
     ): Observable<IdentityToken> {
-        const formData = new FormData();
-
-        formData.append('grant_type', 'external');
-        formData.append('provider', provider);
-        formData.append('token', token);
-        formData.append(
-            'scope',
-            'UserService FileService IndexService StorageService openid offline_access'
-        );
-
-        return this.http.post<IdentityToken>(
-            environment.userserviceAuthUrl,
-            formData,
-            {
-                headers: this.basicAuthHeaders
-            }
-        );
+        return this.http.post<IdentityToken>(`${environment.apiUrls.userService}auth/external-authentication`, {
+            token: token,
+            provider: provider,
+            clientId: environment.etdbClientId
+        }, { headers: BASE_HEADERS });
     }
 
-    public signInWithCredentials(
+    public authenticateWithCredentials(
         signIn: UserSignIn
     ): Observable<IdentityToken> {
-        const formData = new FormData();
-
-        formData.append('grant_type', 'password');
-        formData.append('username', signIn.userName);
-        formData.append('password', signIn.password);
-        formData.append(
-            'scope',
-            'UserService FileService IndexService StorageService openid offline_access'
-        );
-
         return this.http.post<IdentityToken>(
-            environment.userserviceAuthUrl,
-            formData,
+            `${environment.apiUrls.userService}auth/authentication`,
             {
-                headers: this.basicAuthHeaders
+                username: signIn.userName,
+                password: signIn.password,
+                clientId: environment.etdbClientId
+            },
+            {
+                headers: BASE_HEADERS
             }
         );
     }
@@ -71,25 +45,16 @@ export class AuthService {
     public signInWithRefreshToken(
         token: IdentityToken
     ): Observable<IdentityToken> {
-        const formData = new FormData();
-
-        formData.append('grant_type', 'refresh_token');
-        formData.append('refresh_token', token.refresh_token);
-
-        return this.http.post<IdentityToken>(
-            environment.userserviceAuthUrl,
-            formData,
-            {
-                headers: this.basicAuthHeaders
-            }
+        return this.http.get<IdentityToken>(
+            `${environment.apiUrls.userService}auth/refresh-authentication/${token.refreshToken}/${environment.etdbClientId}`
         );
     }
 
-    public loadIdentityUser(): Observable<IdentityUser> {
+    public loadIdentityUser(accessToken: string): Observable<IdentityUser> {
         const headers = BASE_HEADERS;
 
         return this.http.get<IdentityUser>(
-            environment.userserviceAuthProfileUrl,
+            `${environment.apiUrls.userService}auth/user-identity/${accessToken}`,
             {
                 headers: headers
             }
@@ -99,8 +64,8 @@ export class AuthService {
     public register(registerUser: RegisterUser): Observable<any> {
         const headers = BASE_HEADERS;
         return this.http.post(
-            environment.userserviceUrl + 'auth/registration',
-            JSON.stringify(registerUser),
+            `${environment.apiUrls.userService}auth/registration`,
+            registerUser,
             {
                 headers: headers
             }

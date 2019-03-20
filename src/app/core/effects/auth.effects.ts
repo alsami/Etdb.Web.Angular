@@ -20,7 +20,7 @@ export class AuthEffects {
         ofType(AuthActionTypes.CredentialSignIn, AuthActionTypes.Registered),
         switchMap(
             (action: authActions.CredentialSignIn | authActions.Registered) =>
-                this.authService.signInWithCredentials(action.signIn).pipe(
+                this.authService.authenticateWithCredentials(action.signIn).pipe(
                     map(token => {
                         this.tokenStorageService.storeToken(token);
                         return new authActions.SignedIn(token, true);
@@ -41,7 +41,7 @@ export class AuthEffects {
         ofType(AuthActionTypes.ProviderSignIn),
         switchMap((action: authActions.ProviderSignIn) =>
             this.authService
-                .signInWithProvider(action.provider, action.token)
+                .authenticateWithProvider(action.provider, action.token)
                 .pipe(
                     map(token => {
                         this.tokenStorageService.storeToken(token);
@@ -97,7 +97,7 @@ export class AuthEffects {
     identityUserLoad$: Observable<Action> = this.actions$.pipe(
         ofType(AuthActionTypes.SignedIn),
         switchMap(() =>
-            this.authService.loadIdentityUser().pipe(
+            this.authService.loadIdentityUser(this.tokenStorageService.getToken().accessToken).pipe(
                 map(
                     identityUser =>
                         new authActions.IdentityUserLoaded(identityUser)
@@ -123,7 +123,7 @@ export class AuthEffects {
                 }
                 return this.authService
                     .signInWithRefreshToken(
-                        this.tokenStorageService.restoreToken()
+                        this.tokenStorageService.getToken()
                     )
                     .pipe(
                         map(token => {

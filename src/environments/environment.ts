@@ -5,8 +5,9 @@
 
 export const environment = {
     production: false,
-    userserviceUrl: 'http://localhost:5000/api/v1/',
-    userserviceAuthUrl: 'http://localhost:5000/connect/token',
-    userserviceAuthProfileUrl: 'http://localhost:5000/connect/userinfo',
+    apiUrls: {
+        userService: 'http://localhost:5000/api/v1/'
+    },
+    etdbClientId: 'ZXRkYndlYmNsaWVudDphbmd1bGFyLmNsaWVudA==',
     googleClientId: '545313014879-n64aegcj4rrufptpk9vso3pfs0572ae9.apps.googleusercontent.com'
 };

@@ -15,7 +15,7 @@ export class FacebookSigninButtonComponent implements OnInit {
         private iconRegistry: MatIconRegistry,
         private sanitizer: DomSanitizer,
         private ngZone: NgZone
-    ) {}
+    ) { }
 
     public ngOnInit(): void {
         this.iconRegistry.addSvgIcon(
@@ -31,13 +31,12 @@ export class FacebookSigninButtonComponent implements OnInit {
             scope: 'email public_profile',
             return_scopes: true
         };
+
         FB.login(response => {
             if (response.status !== this.connected) {
                 return;
             }
 
-            console.log(response);
-            console.log('EMITTING');
             this.ngZone.run(() =>
                 this.requestSignin.emit(response.authResponse.accessToken)
             );

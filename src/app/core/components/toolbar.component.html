@@ -17,16 +17,17 @@
         </ng-template>
     </mat-menu>
     <button *ngIf="user" mat-icon-button [matMenuTriggerFor]="usersMenu">
-        <div *ngIf="user.picture" class="profile-picture mat-icon material-icons" [style.backgroundImage]="'url('+ userPictureUrl +')'">
+        <div *ngIf="user.profileImageUrl" class="profile-picture mat-icon material-icons"
+            [style.backgroundImage]="'url('+ userPictureUrl +')'">
         </div>
-        <mat-icon *ngIf="!user.picture">person</mat-icon>
+        <mat-icon *ngIf="!user.profileImageUrl">person</mat-icon>
     </button>
     <mat-menu #usersMenu="matMenu" yPosition="below" xPosition="before">
-        <button mat-menu-item [routerLink]="'users/profile/' + user?.sub" (click)="linkedMenuClicked.emit();">
+        <button mat-menu-item [routerLink]="'users/profile/' + user?.id" (click)="linkedMenuClicked.emit();">
             <mat-icon>person</mat-icon> Profile
         </button>
         <mat-divider></mat-divider>
-        <button mat-menu-item [routerLink]="'users/settings/' + user?.sub" (click)="linkedMenuClicked.emit();">
+        <button mat-menu-item [routerLink]="'users/settings/' + user?.id" (click)="linkedMenuClicked.emit();">
             <mat-icon>settings</mat-icon> Settings
         </button>
         <mat-divider></mat-divider>

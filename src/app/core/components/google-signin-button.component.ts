@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
+import { environment } from 'environments/environment';
 
 @Component({
     selector: 'etdb-google-signin-button',
@@ -36,8 +37,7 @@ export class GoogleSignInButtonComponent implements OnInit, AfterViewInit {
     public ngAfterViewInit(): void {
         gapi.load('auth2', () => {
             gapi.auth2.init({
-                client_id:
-                    '545313014879-n64aegcj4rrufptpk9vso3pfs0572ae9.apps.googleusercontent.com',
+                client_id: environment.googleClientId,
                 scope: 'profile email openid'
             });
 
