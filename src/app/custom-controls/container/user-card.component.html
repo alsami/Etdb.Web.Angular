@@ -1,14 +1,25 @@
 <mat-card *ngIf="user">
-    <img mat-card-image *ngIf="user.profileImageUrl" [src]="user.profileImageUrl">
+    <img
+        mat-card-image
+        *ngIf="user.profileImageMetaInfos.length"
+        [src]="user.profileImageMetaInfos[0].url"
+    />
     <mat-card-title>
         <section class="mat-typography">
             <h2>{{ user.userName }}</h2>
         </section>
     </mat-card-title>
-    <mat-card-subtitle>Member since {{ user.registeredSince | date: 'dd.MM.yyyy' }} </mat-card-subtitle>
+    <mat-card-subtitle
+        >Member since {{ user.registeredSince | date: "dd.MM.yyyy" }}
+    </mat-card-subtitle>
     <mat-divider></mat-divider>
     <mat-card-content style="white-space: pre-wrap; padding: 8px 0px;">
-        <p *ngIf="user.biography" style="white-space: pre-wrap;font-style: italic;">{{ user.biography }}</p>
+        <p
+            *ngIf="user.biography"
+            style="white-space: pre-wrap;font-style: italic;"
+        >
+            {{ user.biography }}
+        </p>
     </mat-card-content>
     <mat-divider></mat-divider>
     <mat-card-actions align="end">

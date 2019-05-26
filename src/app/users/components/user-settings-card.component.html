@@ -1,17 +1,70 @@
-<mat-card *ngIf="user">
-    <img *ngIf="user.profileImageUrl" mat-card-image [src]="user.profileImageUrl">
-    <span *ngIf="!user.profileImageUrl">
-        No image available
-    </span>
-    <mat-card-title>
-        <section class="mat-typography">
-            <h4>Remove or update your profile-image</h4>
-        </section>
-    </mat-card-title>
-    <mat-card-actions align="center">
-        <etdb-upload-button (filesSelected)="requestProfileImageUpload($event);" text="Upload profile image"></etdb-upload-button>
-        <button [disabled]="!user.profileImageUrl" mat-button (click)="requestProfileImageRemove();">
+<div *ngIf="user">
+    <mat-card>
+        <div
+            *ngIf="user.profileImageMetaInfos.length"
+            style="position: relative;"
+        >
+            <img
+                *ngIf="user.profileImageMetaInfos.length"
+                mat-card-image
+                [src]="selectedImage.url"
+                (load)="log('loaded')"
+                (loadstart)="log('load-start')"
+            />
+
+            <div class="flex">
+                <button
+                    mat-icon-button
+                    class="left-image-button"
+                    (click)="selectPrevious()"
+                >
+                    <mat-icon>navigate_before</mat-icon>
+                </button>
+                <button
+                    mat-icon-button
+                    class="right-image-button"
+                    (click)="selectNext()"
+                >
+                    <mat-icon>navigate_next</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div *ngIf="!user.profileImageMetaInfos.length">
+            <span>
+                No image available
+            </span>
+        </div>
+        <mat-card-actions align="end">
+            <button
+                *ngIf="user"
+                mat-icon-button
+                [matMenuTriggerFor]="imageMenu"
+            >
+                <mat-icon>settings</mat-icon>
+            </button>
+        </mat-card-actions>
+    </mat-card>
+    <mat-menu #imageMenu="matMenu" yPosition="above" xPosition="before">
+        <button mat-menu-item>
+            <etdb-upload-button
+                (filesSelected)="requestProfileImageUpload($event)"
+                text="Upload profile image"
+            >
+            </etdb-upload-button>
+        </button>
+        <button mat-menu-item>
+            <mat-icon>profile</mat-icon> Set as profile-image
+        </button>
+        <button
+            mat-menu-item
+            [disabled]="!user.profileImageMetaInfos.length"
+            (click)="
+                requestProfileImageRemove(
+                    user.profileImageMetaInfos[selectedImageIndex]
+                )
+            "
+        >
             <mat-icon>delete</mat-icon> Delete Image
         </button>
-    </mat-card-actions>
-</mat-card>
+    </mat-menu>
+</div>

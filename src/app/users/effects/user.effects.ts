@@ -80,8 +80,14 @@ export class UserEffects {
     removeProfileImage$: Observable<Action> = this.actions$.pipe(
         ofType(UserActionTypes.RemoveProfileImage),
         switchMap((action: userActions.RemoveProfileImage) => {
-            return this.userService.removeProfileImage(action.id).pipe(
-                map(() => new userActions.RemovedProfileImage(action.id)),
+            return this.userService.removeProfileImage(action.url).pipe(
+                map(
+                    () =>
+                        new userActions.RemovedProfileImage(
+                            action.url,
+                            action.userId
+                        )
+                ),
                 catchError((error: Error) =>
                     of(new userActions.RemoveProfileImageFailed(error))
                 )
@@ -126,5 +132,5 @@ export class UserEffects {
         private errorExtractorService: ErrorExtractorService,
         private snackbar: MatSnackBar,
         private actions$: Actions
-    ) { }
+    ) {}
 }

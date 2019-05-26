@@ -23,8 +23,7 @@
         "types": [
             "gapi",
             "gapi.auth2",
-            "FB",
-            "fb"
+            "fb",
         ],
         "lib": [
             "es2018",

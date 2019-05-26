@@ -70,8 +70,10 @@ export function reducer(
         }
 
         case UserActionTypes.RemovedProfileImage: {
-            const user = state.entities[action.id];
-            user.profileImageUrl = null;
+            const user = state.entities[action.userId];
+            user.profileImageMetaInfos = user.profileImageMetaInfos.filter(
+                meta => meta.url !== action.url
+            );
             return {
                 ...adapter.upsertOne(user, state),
                 profileImageUpdating: false

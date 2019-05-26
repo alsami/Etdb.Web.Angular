@@ -16,7 +16,7 @@ import { UserPasswordChange, UserProfileInfoChange } from '@etdb/users/models';
     templateUrl: 'user-settings.component.html'
 })
 export class UserSettingsComponent implements OnInit, OnDestroy {
-    private id: string;
+    private userId: string;
 
     public user$: Observable<User>;
     public fetching$: Observable<boolean>;
@@ -57,7 +57,7 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
         this.paramsSubscription = this.route.params
             .pipe(map(params => <string>params['id']))
             .subscribe(id => {
-                this.id = id;
+                this.userId = id;
                 this.store.dispatch(new userActions.Load(id));
             });
 
@@ -71,27 +71,31 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
     }
 
     public updatePassword(model: UserPasswordChange): void {
-        this.store.dispatch(new userActions.UpdatePassword(this.id, model));
+        this.store.dispatch(new userActions.UpdatePassword(this.userId, model));
     }
 
     public uploadProfileImage(file: File): void {
-        if (!this.id) {
+        if (!this.userId) {
             return;
         }
 
         this.store.dispatch(
             new userActions.UploadProfileImage({
-                id: this.id,
+                id: this.userId,
                 file: file
             })
         );
     }
 
-    public removeProfileImage(id: string): void {
-        this.store.dispatch(new userActions.RemoveProfileImage(id));
+    public removeProfileImage(url: string): void {
+        this.store.dispatch(
+            new userActions.RemoveProfileImage(url, this.userId)
+        );
     }
 
     public updateProfileInfo(model: UserProfileInfoChange): void {
-        this.store.dispatch(new userActions.UpdateProfileInfo(this.id, model));
+        this.store.dispatch(
+            new userActions.UpdateProfileInfo(this.userId, model)
+        );
     }
 }

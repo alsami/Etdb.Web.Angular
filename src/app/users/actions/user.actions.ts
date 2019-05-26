@@ -112,12 +112,12 @@ export class UpdateProfileInfoFailed implements Action {
 
 export class RemoveProfileImage implements Action {
     readonly type = UserActionTypes.RemoveProfileImage;
-    public constructor(public id: string) {}
+    public constructor(public url: string, public userId: string) {}
 }
 
 export class RemovedProfileImage implements Action {
     readonly type = UserActionTypes.RemovedProfileImage;
-    public constructor(public id: string) {}
+    public constructor(public url: string, public userId: string) {}
 }
 
 export class RemoveProfileImageFailed implements Action {
