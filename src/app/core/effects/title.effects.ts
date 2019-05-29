@@ -11,18 +11,17 @@ import { TitleActionTypes } from '@etdb/core/actions/title.actions';
 export class TitleEffects {
     @Effect() tabTitle$: Observable<Action> = this.actions$.pipe(
         ofType(TitleActionTypes.SetTitle),
-        switchMap((action: titleActions.SetTitle): Observable<any> => {
-            if (action.suffix) {
-                this.title.setTitle(
-                    `ETDB | ${action.section} | ${action.suffix}`
-                );
+        switchMap(
+            (action: titleActions.SetTitle): Observable<any> => {
+                const newTitle = action.suffix
+                    ? `ETDB | ${action.section} | ${action.suffix}`
+                    : `ETDB | ${action.section}`;
+
+                this.title.setTitle(newTitle);
                 return of();
             }
-
-            this.title.setTitle(`ETDB | ${action.section}`);
-            return of();
-        })
+        )
     );
 
-    public constructor(private actions$: Actions, private title: Title) { }
+    public constructor(private actions$: Actions, private title: Title) {}
 }

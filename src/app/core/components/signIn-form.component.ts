@@ -5,20 +5,20 @@ import {
     ViewChild,
     ElementRef,
     ChangeDetectionStrategy
-} from "@angular/core";
-import { Validators, FormGroup, FormBuilder } from "@angular/forms";
-import { UserSignIn } from "@etdb/core/models";
+} from '@angular/core';
+import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { UserSignIn } from '@etdb/core/models';
 
 @Component({
-    selector: "etdb-signin-form",
-    templateUrl: "signin-form.component.html",
+    selector: 'etdb-signin-form',
+    templateUrl: 'signin-form.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SignInFormComponent {
     @Output()
     requestSignIn: EventEmitter<UserSignIn> = new EventEmitter<UserSignIn>();
 
-    @ViewChild("passwordInput", { static: false })
+    @ViewChild('passwordInput', { static: false })
     passwordInput: ElementRef;
 
     loginForm: FormGroup;
@@ -32,9 +32,9 @@ export class SignInFormComponent {
     }
 
     public changePasswordVisibility(): void {
-        this.passwordInput.nativeElement.type === "password"
-            ? (this.passwordInput.nativeElement.type = "text")
-            : (this.passwordInput.nativeElement.type = "password");
+        this.passwordInput.nativeElement.type === 'password'
+            ? (this.passwordInput.nativeElement.type = 'text')
+            : (this.passwordInput.nativeElement.type = 'password');
     }
 
     public submit(): void {
@@ -48,8 +48,8 @@ export class SignInFormComponent {
 
     private buildForm(): void {
         this.loginForm = this.formBuilder.group({
-            userName: ["", Validators.required],
-            password: ["", Validators.required]
+            userName: ['', Validators.required],
+            password: ['', Validators.required]
         });
     }
 }

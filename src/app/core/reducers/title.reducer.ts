@@ -1,14 +1,20 @@
-import { TitleActions, TitleActionTypes } from '@etdb/core/actions/title.actions';
+import {
+    TitleActions,
+    TitleActionTypes
+} from '@etdb/core/actions/title.actions';
 
 export interface TitleState {
     title: string;
 }
 
 const initialState: TitleState = {
-    title: '',
+    title: null
 };
 
-export function reducer(state = initialState, action: TitleActions): TitleState {
+export function reducer(
+    state = initialState,
+    action: TitleActions
+): TitleState {
     switch (action.type) {
         case TitleActionTypes.SetTitle:
             return {
