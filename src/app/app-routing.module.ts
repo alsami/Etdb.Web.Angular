@@ -26,7 +26,8 @@ const routes: Routes = [
     },
     {
         path: 'users',
-        loadChildren: () => import('app/users/users.module').then(m => m.UsersModule)
+        loadChildren: async () =>
+            (await import('app/users/users.module')).UsersModule
     }
 ];
 
