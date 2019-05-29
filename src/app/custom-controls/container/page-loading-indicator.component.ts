@@ -27,7 +27,7 @@ export class PageLoadingIndicatorComponent
     @Input()
     loading: boolean;
 
-    @ViewChild(TemplatePortalDirective)
+    @ViewChild(TemplatePortalDirective, { static: false })
     templatePortal: Portal<any>;
 
     private overlayRef: OverlayRef;
@@ -38,7 +38,7 @@ export class PageLoadingIndicatorComponent
         private overlay: Overlay,
         private overlayBuilder: OverlayPositionBuilder,
         private breakpointService: BreakpointService
-    ) { }
+    ) {}
 
     public ngOnInit(): void {
         this.overlayRef = this.buildOverLayRef(56);

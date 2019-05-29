@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
-import { MatStepper } from '@angular/material';
+import { MatStepper } from '@angular/material/stepper';
 import { MatStepperStepExtendedComponent } from '@etdb/custom-controls/component';
 
 @Component({
@@ -43,7 +43,7 @@ export class MatStepperExtendedComponent
     @ContentChildren(MatStepperStepExtendedComponent)
     public steps: QueryList<MatStepperStepExtendedComponent>;
 
-    @ViewChild('stepper')
+    @ViewChild('stepper', { static: false })
     stepper: MatStepper;
 
     private breakpointSubscriber: Subscription;

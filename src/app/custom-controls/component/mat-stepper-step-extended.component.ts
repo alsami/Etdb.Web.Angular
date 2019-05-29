@@ -1,9 +1,9 @@
-import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
-import { FormGroup, FormArray } from '@angular/forms';
+import { Component, Input, TemplateRef, ViewChild } from "@angular/core";
+import { FormGroup, FormArray } from "@angular/forms";
 
 @Component({
-    selector: 'etdb-mat-stepper-step-extended',
-    templateUrl: 'mat-stepper-step-extended.component.html'
+    selector: "etdb-mat-stepper-step-extended",
+    templateUrl: "mat-stepper-step-extended.component.html"
 })
 export class MatStepperStepExtendedComponent {
     @Input()
@@ -13,11 +13,11 @@ export class MatStepperStepExtendedComponent {
     @Input()
     form: FormGroup;
 
-    @ViewChild('matStepperExtendedStep')
+    @ViewChild("matStepperExtendedStep", { static: false })
     template: TemplateRef<any>;
 
     @Input()
-    submitAction: (...args) => void | any = (): void => {}
+    submitAction: (...args) => void | any = (): void => {};
 
     public submit(): void {
         this.markFormControls(this.form);

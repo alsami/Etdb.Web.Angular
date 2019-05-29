@@ -7,7 +7,7 @@ import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { ErrorExtractorService } from '@etdb/core/services';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class UserEffects {
