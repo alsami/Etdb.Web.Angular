@@ -1,20 +1,27 @@
 import { AuthActions } from '@etdb/core/actions/';
 import { IdentityToken, IdentityUser } from '@etdb/core/models';
+import { CredentialSignIn, ProviderSignIn } from '@etdb/core/actions/auth.actions';
 
 export interface AuthState {
     identityToken: IdentityToken;
     identityUser: IdentityUser;
-    loggedIn: boolean;
+    signingIn: boolean;
+    identityUserLoading: boolean;
+    signedIn: boolean;
     loading: boolean;
     loaded: boolean;
+    registering: boolean;
 }
 
 const initialState: AuthState = {
     identityToken: null,
     identityUser: null,
-    loggedIn: false,
+    signingIn: false,
+    identityUserLoading: false,
+    signedIn: false,
     loading: false,
-    loaded: false
+    loaded: true,
+    registering: false,
 };
 
 export function reducer(
@@ -26,16 +33,28 @@ export function reducer(
         case AuthActions.AuthActionTypes.ProviderSignIn: {
             return {
                 ...initialState,
-                loading: true
+                loading: true,
+                signingIn: action instanceof CredentialSignIn,
+                registering: action instanceof ProviderSignIn
             };
         }
+
+        case AuthActions.AuthActionTypes.RestoreSignIn: return {
+            ...state,
+            signingIn: true,
+        };
+
+        case AuthActions.AuthActionTypes.RestoreCompleted: return {
+            ...state,
+            signingIn: false
+        };
 
         case AuthActions.AuthActionTypes.SignedIn: {
             return {
                 ...state,
                 identityToken: action.token,
                 loading: false,
-                loggedIn: true,
+                signedIn: true,
                 loaded: true
             };
         }
@@ -51,7 +70,7 @@ export function reducer(
         case AuthActions.AuthActionTypes.SignOut: {
             return {
                 ...state,
-                loggedIn: false,
+                signedIn: false,
                 identityToken: null,
                 identityUser: null
             };
@@ -67,7 +86,8 @@ export function reducer(
         case AuthActions.AuthActionTypes.Register: {
             return {
                 ...state,
-                loading: true
+                loading: true,
+                registering: true,
             };
         }
 
@@ -75,7 +95,8 @@ export function reducer(
             return {
                 ...state,
                 loaded: true,
-                loading: false
+                loading: false,
+                registering: false,
             };
         }
 
@@ -83,15 +104,17 @@ export function reducer(
             return {
                 ...state,
                 loaded: true,
-                loading: false
+                loading: false,
+                registering: false,
             };
         }
 
         case AuthActions.AuthActionTypes.IdentityUserLoad: {
             return {
                 ...state,
+                loaded: false,
                 loading: true,
-                loaded: false
+                identityUserLoading: true,
             };
         }
 
@@ -100,6 +123,8 @@ export function reducer(
                 ...state,
                 loaded: true,
                 loading: false,
+                identityUserLoading: false,
+                signingIn: false,
                 identityUser: action.identityUser
             };
         }
@@ -107,9 +132,11 @@ export function reducer(
         case AuthActions.AuthActionTypes.IdentityUserLoadFailed: {
             return {
                 ...state,
+                identityUserLoading: false,
+                signingIn: false,
                 loading: false,
                 loaded: true,
-                loggedIn: false
+                signedIn: false
             };
         }
 
@@ -120,6 +147,9 @@ export function reducer(
 
 export const identityToken = (state: AuthState) => state.identityToken;
 export const identityUser = (state: AuthState) => state.identityUser;
-export const signedIn = (state: AuthState) => state.loggedIn;
+export const identityUserLoading = (state: AuthState) => state.identityUserLoading;
+export const signingIn = (state: AuthState) => state.signingIn;
+export const signedIn = (state: AuthState) => state.signedIn;
 export const loading = (state: AuthState) => state.loading;
 export const loaded = (state: AuthState) => state.loaded;
+export const registering = (state: AuthState) => state.registering;

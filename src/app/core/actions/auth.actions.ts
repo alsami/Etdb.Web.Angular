@@ -66,7 +66,6 @@ export class RestoreCompleted implements Action {
 
 export class IdentityUserLoad implements Action {
     readonly type = AuthActionTypes.IdentityUserLoad;
-    public constructor(public identityToken: UserSignIn) { }
 }
 
 export class IdentityUserLoaded implements Action {

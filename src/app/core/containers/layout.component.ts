@@ -3,9 +3,10 @@ import {
     ChangeDetectionStrategy,
     OnInit,
     OnDestroy,
-    AfterViewInit
+    AfterViewInit,
+    ViewChild
 } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, BehaviorSubject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { IdentityUser } from '@etdb/core/models';
 
@@ -13,6 +14,13 @@ import * as fromRoot from '@etdb/reducers';
 import * as layoutActions from '../actions/layout.actions';
 import * as authActions from '../actions/auth.actions';
 import { BreakpointService } from '@etdb/core/services';
+import {
+    Overlay,
+    OverlayPositionBuilder,
+    OverlayRef
+} from '@angular/cdk/overlay';
+import { TemplatePortalDirective, Portal } from '@angular/cdk/portal';
+import { delay } from 'rxjs/operators';
 
 @Component({
     selector: 'etdb-layout',
@@ -21,27 +29,83 @@ import { BreakpointService } from '@etdb/core/services';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
+    private overlayRef: OverlayRef;
+    private interval;
+    private mediaObserver: Subscription;
+
+
+    @ViewChild(TemplatePortalDirective, { static: false })
+    templatePortal: Portal<any>;
+
     showSidenav$: Observable<boolean>;
     title$: Observable<string>;
     user$: Observable<IdentityUser>;
     sidenavMode: string;
     layoutGap: string;
 
-    private mediaObserver: Subscription;
+    public dots$: BehaviorSubject<string> = new BehaviorSubject('');
+
+    public restoringSignIn$: Observable<boolean>;
+
 
     public constructor(
         private store: Store<fromRoot.AppState>,
-        private breakpointService: BreakpointService
-    ) {}
+        private breakpointService: BreakpointService,
+        private overlay: Overlay,
+        private overlayBuilder: OverlayPositionBuilder,
+    ) { }
 
     public ngOnInit(): void {
         this.subscribeLayoutSizeChange();
+        this.overlayRef = this.overlay.create({
+            positionStrategy: this.overlayBuilder
+                .global()
+                .centerHorizontally()
+                .centerVertically(),
+            hasBackdrop: true,
+            backdropClass: 'cdk-overlay-dark-backdrop'
+        });
+
     }
 
     public ngAfterViewInit(): void {
         this.showSidenav$ = this.store.select(fromRoot.getShowSidenav);
         this.title$ = this.store.select(fromRoot.getTitle);
         this.user$ = this.store.select(fromRoot.getAuthIdentityUser);
+        this.restoringSignIn$ = this.store.select(fromRoot.getAuthSigningIn);
+
+        this.restoringSignIn$.pipe(delay(0)) // delaying to make sure expressionchanged exception not thrown
+            .subscribe(restoringSignIn => {
+                if (!restoringSignIn) {
+                    this.safeDetachOverlay();
+                    clearInterval(this.interval);
+                    return;
+                }
+
+                if (this.overlayRef.hasAttached()) {
+                    return;
+                }
+
+                this.overlayRef.attach(this.templatePortal);
+                this.interval = setInterval(() => {
+                    if (this.dots$.getValue().length === 0) {
+                        this.dots$.next('.');
+                        return;
+                    }
+
+                    if (this.dots$.getValue().length === 1) {
+                        this.dots$.next('..');
+                        return;
+                    }
+
+                    if (this.dots$.getValue().length === 2) {
+                        this.dots$.next('...');
+                        return;
+                    }
+
+                    this.dots$.next('');
+                }, 500);
+            });
     }
 
     public ngOnDestroy(): void {
@@ -106,5 +170,13 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
         }
 
         this.layoutGap = '64';
+    }
+
+    private safeDetachOverlay(): void {
+        if (!this.overlayRef || !this.overlayRef.hasAttached()) {
+            return;
+        }
+
+        this.overlayRef.detach();
     }
 }

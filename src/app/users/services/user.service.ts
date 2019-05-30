@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from '@etdb/models';
+import { User, ProfileImageMetaInfo } from '@etdb/models';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 import { UserPasswordChange, UserProfileInfoChange } from '@etdb/users/models';
@@ -10,7 +10,7 @@ import { BASE_HEADERS } from '@etdb/core/core.constants';
 export class UserService {
     private url = `${environment.apiUrls.userService}users/`;
 
-    public constructor(private http: HttpClient) {}
+    public constructor(private http: HttpClient) { }
 
     public getUser(id: string): Observable<User> {
         return this.http.get<User>(`${this.url}${id}`);
@@ -38,12 +38,12 @@ export class UserService {
         return this.http.delete(url);
     }
 
-    public uploadProfileImage(id: string, file: File): Observable<User> {
+    public uploadProfileImage(userId: string, file: File): Observable<ProfileImageMetaInfo> {
         const formData = new FormData();
         formData.append('file', file);
 
-        return this.http.patch<User>(
-            `${this.url}${id}/profileimages`,
+        return this.http.post<ProfileImageMetaInfo>(
+            `${this.url}${userId}/profileimages`,
             formData
         );
     }

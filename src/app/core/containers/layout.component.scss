@@ -1,3 +1,12 @@
+@import '~@angular/material/theming';
+
+@mixin layout-component-theme($theme) {
+    $primary: map-get($map: $theme, $key: primary);
+    .overlay-text-color {
+        color: lighten($color: mat-color($primary), $amount: 50%);
+    }
+}
+
 .main-sidenav-container {
     width: 100%;
     height: calc(100vh - 64px);

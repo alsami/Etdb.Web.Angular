@@ -28,11 +28,11 @@ export class UserEffects {
         switchMap((action: userActions.UploadProfileImage) => {
             return this.userService
                 .uploadProfileImage(
-                    action.profileImage.id,
+                    action.profileImage.userId,
                     action.profileImage.file
                 )
                 .pipe(
-                    map(user => new userActions.UploadedProfileImage(user)),
+                    map(user => new userActions.UploadedProfileImage(action.profileImage.userId, user)),
                     catchError((error: Error) =>
                         of(new userActions.UploadProfileImageFailed(error))
                     )
@@ -132,5 +132,5 @@ export class UserEffects {
         private errorExtractorService: ErrorExtractorService,
         private snackbar: MatSnackBar,
         private actions$: Actions
-    ) {}
+    ) { }
 }

@@ -35,7 +35,7 @@ export const reducers: ActionReducerMap<AppState> = {
 export function logger(
     reducer: ActionReducer<AppState>
 ): ActionReducer<AppState> {
-    return function(state: AppState, action: any): AppState {
+    return function (state: AppState, action: any): AppState {
         console.log('state', state);
         console.log('action', action);
 
@@ -103,10 +103,21 @@ export const getAuthSignedIn = createSelector(
 
 export const getAuthLoading = createSelector(
     getAuthState,
-    fromAuth.loading
+    fromAuth.loading,
 );
 
 export const getAuthLoaded = createSelector(
     getAuthState,
     fromAuth.loaded
 );
+
+export const getAuthSigningIn = createSelector(
+    getAuthState,
+    state => state.identityUserLoading || state.signingIn && !state.registering
+);
+
+export const getAuthRegistering = createSelector(
+    getAuthState,
+    fromAuth.registering
+);
+

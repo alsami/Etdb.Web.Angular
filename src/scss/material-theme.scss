@@ -2,19 +2,19 @@
 @include mat-core();
 @import 'primary-theme.scss';
 @import 'dark-theme.scss';
-// @import '../app/core/containers/layout.component.scss';
+ @import '../app/core/containers/layout.component.scss';
 
-// @mixin component-themes($theme) {
-//     @include etdb-layout($theme);
-// }
+@mixin component-themes($theme) {
+    @include layout-component-theme($theme);
+}
 
 .primary-theme {
     @include angular-material-theme($etdb-light-theme);
-    // @include component-themes($etdb-light-theme);
+    @include component-themes($etdb-light-theme);
 }
 
 
 .dark-theme {
     @include angular-material-theme($etdb-dark-theme);
-    // @include component-themes($etdb-dark-theme);
+    @include component-themes($etdb-dark-theme);
 }

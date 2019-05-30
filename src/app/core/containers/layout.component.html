@@ -9,6 +9,15 @@
         </etdb-sidenav-content>
     </mat-sidenav>
     <mat-sidenav-container>
-        <router-outlet></router-outlet>
+        <ng-template cdkPortal>
+            <div class="flex-container flex-flow-column flex-center-center">
+                <mat-progress-spinner color="accent" mode="indeterminate">
+                </mat-progress-spinner>
+                <span class="overlay-text-color" style="margin-top: 20px;">
+                    Signing you in {{dots$ | async }}
+                </span>
+            </div>
+        </ng-template>
+        <router-outlet *ngIf="!(restoringSignIn$ | async)"></router-outlet>
     </mat-sidenav-container>
 </mat-sidenav-container>

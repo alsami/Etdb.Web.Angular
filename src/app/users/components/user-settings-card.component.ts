@@ -28,10 +28,6 @@ export class UserSettingsCardComponent implements OnChanges {
     public selectedImage: ProfileImageMetaInfo;
     public selectedImageIndex: number;
 
-    public log(str) {
-        console.log('loading:', str);
-    }
-
     public ngOnChanges(changes: SimpleChanges): void {
         if (
             !changes['user'] ||
@@ -44,6 +40,10 @@ export class UserSettingsCardComponent implements OnChanges {
         this.selectedImage = this.user.profileImageMetaInfos.find(
             image => image.isPrimary
         );
+
+        if (!this.selectedImage) {
+            this.selectedImage = this.user.profileImageMetaInfos[0];
+        }
 
         this.selectedImageIndex = this.user.profileImageMetaInfos.indexOf(
             this.selectedImage

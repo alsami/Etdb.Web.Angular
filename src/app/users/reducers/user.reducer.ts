@@ -52,20 +52,25 @@ export function reducer(
             };
         }
 
-        case UserActionTypes.Loaded:
-        case UserActionTypes.UploadedProfileImage: {
+        case UserActionTypes.Loaded: {
             return {
                 ...adapter.upsertOne(action.user, state),
                 selectedUser: action.user,
                 selectedId: action.user.id,
-                fetching:
-                    action instanceof userActions.Loaded
-                        ? false
-                        : state.fetching,
-                profileImageUpdating:
-                    action instanceof userActions.UploadedProfileImage
-                        ? false
-                        : state.userNameUpdating
+                fetching: false
+            };
+        }
+
+        case UserActionTypes.UploadedProfileImage: {
+            const user = state.entities[action.userId];
+            if (!user.profileImageMetaInfos) { user.profileImageMetaInfos = []; }
+            user.profileImageMetaInfos.push(action.profileImageMeta);
+
+            return {
+                ...adapter.upsertOne(user, state),
+                selectedUser: user,
+                selectedId: user.id,
+                profileImageUpdating: false
             };
         }
 
@@ -118,7 +123,7 @@ export function reducer(
                         : state.userNameUpdating,
                 profileImageUpdating:
                     action instanceof userActions.UploadProfileImageFailed ||
-                    action instanceof userActions.RemoveProfileImageFailed
+                        action instanceof userActions.RemoveProfileImageFailed
                         ? false
                         : state.profileImageUpdating,
                 profileInfoUpdating:

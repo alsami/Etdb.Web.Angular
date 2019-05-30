@@ -1,4 +1,4 @@
-import { User } from '@etdb/models';
+import { User, ProfileImageMetaInfo } from '@etdb/models';
 import {
     UserNameUpdate,
     UserProfileImageUpload,
@@ -30,22 +30,22 @@ export enum UserActionTypes {
 
 export class Load implements Action {
     readonly type = UserActionTypes.Load;
-    public constructor(public id: string) {}
+    public constructor(public id: string) { }
 }
 
 export class Loaded implements Action {
     readonly type = UserActionTypes.Loaded;
-    public constructor(public user: User) {}
+    public constructor(public user: User) { }
 }
 
 export class LoadFailed implements Action {
     readonly type = UserActionTypes.LoadFailed;
-    public constructor(public error: Error) {}
+    public constructor(public error: Error) { }
 }
 
 export class UpdateUserName implements Action {
     readonly type = UserActionTypes.UpdateUserName;
-    public constructor(public data: UserNameUpdate) {}
+    public constructor(public data: UserNameUpdate) { }
 }
 
 export class UpdatedUserName implements Action {
@@ -54,22 +54,22 @@ export class UpdatedUserName implements Action {
 
 export class UpdateUserNameFailed implements Action {
     readonly type = UserActionTypes.UpdateUserNameFailed;
-    public constructor(public error: Error) {}
+    public constructor(public error: Error) { }
 }
 
 export class UploadProfileImage implements Action {
     readonly type = UserActionTypes.UploadProfileImage;
-    public constructor(public profileImage: UserProfileImageUpload) {}
+    public constructor(public profileImage: UserProfileImageUpload) { }
 }
 
 export class UploadedProfileImage implements Action {
     readonly type = UserActionTypes.UploadedProfileImage;
-    public constructor(public user: User) {}
+    public constructor(public userId: string, public profileImageMeta: ProfileImageMetaInfo) { }
 }
 
 export class UploadProfileImageFailed implements Action {
     readonly type = UserActionTypes.UploadProfileImageFailed;
-    public constructor(public error: Error) {}
+    public constructor(public error: Error) { }
 }
 
 export class UpdatePassword implements Action {
@@ -77,7 +77,7 @@ export class UpdatePassword implements Action {
     public constructor(
         public id: string,
         public passwordChange: UserPasswordChange
-    ) {}
+    ) { }
 }
 
 export class UpdatedPassword implements Action {
@@ -86,7 +86,7 @@ export class UpdatedPassword implements Action {
 
 export class UpdatePasswordFailed implements Action {
     readonly type = UserActionTypes.UpdatePasswordFailed;
-    public constructor(public error: Error) {}
+    public constructor(public error: Error) { }
 }
 
 export class UpdateProfileInfo implements Action {
@@ -94,7 +94,7 @@ export class UpdateProfileInfo implements Action {
     public constructor(
         public id: string,
         public profileInfoChange: UserProfileInfoChange
-    ) {}
+    ) { }
 }
 
 export class UpdatedProfileInfo implements Action {
@@ -102,27 +102,27 @@ export class UpdatedProfileInfo implements Action {
     public constructor(
         public id: string,
         public profileInfoChange: UserProfileInfoChange
-    ) {}
+    ) { }
 }
 
 export class UpdateProfileInfoFailed implements Action {
     readonly type = UserActionTypes.UpdateProfileInfoFailed;
-    public constructor(public error: Error) {}
+    public constructor(public error: Error) { }
 }
 
 export class RemoveProfileImage implements Action {
     readonly type = UserActionTypes.RemoveProfileImage;
-    public constructor(public url: string, public userId: string) {}
+    public constructor(public url: string, public userId: string) { }
 }
 
 export class RemovedProfileImage implements Action {
     readonly type = UserActionTypes.RemovedProfileImage;
-    public constructor(public url: string, public userId: string) {}
+    public constructor(public url: string, public userId: string) { }
 }
 
 export class RemoveProfileImageFailed implements Action {
     readonly type = UserActionTypes.RemoveProfileImageFailed;
-    public constructor(public error: Error) {}
+    public constructor(public error: Error) { }
 }
 
 export type UserActions =

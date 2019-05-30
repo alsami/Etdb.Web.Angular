@@ -16,23 +16,26 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Injectable()
 export class AuthEffects {
     @Effect()
-    signIn$: Observable<Action> = this.actions$.pipe(
-        ofType(AuthActionTypes.CredentialSignIn, AuthActionTypes.Registered),
-        switchMap(
-            (action: authActions.CredentialSignIn | authActions.Registered) =>
-                this.authService.authenticateWithCredentials(action.signIn).pipe(
-                    map(token => {
-                        this.tokenStorageService.storeToken(token);
-                        return new authActions.SignedIn(token, true);
-                    }),
-                    catchError((error: Error) => {
-                        if (action instanceof authActions.CredentialSignIn) {
-                            this.showError(error);
-                        }
+    registered$: Observable<Action> = this.actions$.pipe(
+        ofType(AuthActionTypes.Registered),
+        map((action: authActions.Registered) => new authActions.CredentialSignIn(action.signIn))
+    );
 
-                        return of(new authActions.SignInFailed(error));
-                    })
-                )
+    @Effect()
+    signIn$: Observable<Action> = this.actions$.pipe(
+        ofType(AuthActionTypes.CredentialSignIn),
+        switchMap((action: authActions.CredentialSignIn) =>
+            this.authService.authenticateWithCredentials(action.signIn).pipe(
+                map(token => {
+                    this.tokenStorageService.storeToken(token);
+                    return new authActions.SignedIn(token, true);
+                }),
+                catchError((error: Error) => {
+                    this.showError(error);
+
+                    return of(new authActions.SignInFailed(error));
+                })
+            )
         )
     );
 
@@ -58,13 +61,33 @@ export class AuthEffects {
     @Effect()
     signedIn$: Observable<Action> = this.actions$.pipe(
         ofType(AuthActionTypes.SignedIn),
-        switchMap((action: authActions.SignedIn): Observable<any> => {
+        map((action: authActions.SignedIn) => {
             if (action.navigateToRoot) {
                 this.router.navigate(['/']);
             }
-            return of();
+
+            return new authActions.IdentityUserLoad();
         })
     );
+
+    @Effect()
+    identityUserLoad$: Observable<Action> = this.actions$.pipe(
+        ofType(AuthActionTypes.IdentityUserLoad),
+        switchMap(() => {
+            return this.authService.loadIdentityUser(this.tokenStorageService.getToken().accessToken).pipe(
+                map(
+                    identityUser =>
+                        new authActions.IdentityUserLoaded(identityUser)
+                ),
+                catchError((error: Error) =>
+                    of(new authActions.IdentityUserLoadFailed(error))
+                )
+            );
+        })
+    );
+
+
+
     @Effect()
     signOut$: Observable<Action> = this.actions$.pipe(
         ofType(AuthActionTypes.SignOut),
@@ -88,22 +111,6 @@ export class AuthEffects {
                 ),
                 catchError((error: Error) =>
                     of(new authActions.RegisterFailed(error))
-                )
-            )
-        )
-    );
-
-    @Effect()
-    identityUserLoad$: Observable<Action> = this.actions$.pipe(
-        ofType(AuthActionTypes.SignedIn),
-        switchMap(() =>
-            this.authService.loadIdentityUser(this.tokenStorageService.getToken().accessToken).pipe(
-                map(
-                    identityUser =>
-                        new authActions.IdentityUserLoaded(identityUser)
-                ),
-                catchError((error: Error) =>
-                    of(new authActions.IdentityUserLoadFailed(error))
                 )
             )
         )

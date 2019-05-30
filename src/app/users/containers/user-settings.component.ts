@@ -29,7 +29,7 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
     public constructor(
         private store: Store<fromRoot.AppState>,
         private route: ActivatedRoute
-    ) {}
+    ) { }
 
     public ngOnInit(): void {
         this.store.dispatch(new titleActions.SetTitle('Users', 'Settings'));
@@ -81,7 +81,7 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
 
         this.store.dispatch(
             new userActions.UploadProfileImage({
-                id: this.userId,
+                userId: this.userId,
                 file: file
             })
         );

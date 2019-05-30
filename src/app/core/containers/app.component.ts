@@ -1,23 +1,25 @@
-import { OverlayContainer } from '@angular/cdk/overlay';
 import { Component, OnInit } from '@angular/core';
 import { PRIMARY_THEME } from '@etdb/core/core.constants';
 import * as fromRoot from '@etdb/reducers';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import * as authActions from '../actions/auth.actions';
 import * as layoutActions from '../actions/layout.actions';
+import {
+    OverlayContainer,
+} from '@angular/cdk/overlay';
 
 @Component({
     selector: 'etdb-root',
     templateUrl: 'app.component.html'
 })
 export class AppComponent implements OnInit {
-    public loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-        true
-    );
-    theme = PRIMARY_THEME;
+    public theme = PRIMARY_THEME;
+
+    public restoringSignIn$: Observable<boolean>;
 
     public constructor(
+
         private overlayContainer: OverlayContainer,
         private store: Store<fromRoot.AppState>
     ) {
@@ -27,6 +29,7 @@ export class AppComponent implements OnInit {
 
     public ngOnInit(): void {
         this.subscribeThemeChanges();
+
     }
 
     private subscribeThemeChanges(): void {
@@ -40,4 +43,6 @@ export class AppComponent implements OnInit {
             this.overlayContainer.getContainerElement().classList.add(theme);
         });
     }
+
+
 }

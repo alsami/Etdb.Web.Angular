@@ -17,7 +17,7 @@ export class RegisterComponent {
 
     public constructor(private store: Store<fromRoot.AppState>) {
         this.store.dispatch(new titleActions.SetTitle('Register'));
-        this.loading$ = this.store.select(fromRoot.getAuthLoading);
+        this.loading$ = this.store.select(fromRoot.getAuthRegistering);
     }
 
     public register(registerUser: RegisterUser) {
