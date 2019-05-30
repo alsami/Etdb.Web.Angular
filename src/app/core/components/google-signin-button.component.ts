@@ -23,7 +23,7 @@ export class GoogleSignInButtonComponent implements OnInit, AfterViewInit {
         private iconRegistry: MatIconRegistry,
         private sanitizer: DomSanitizer,
         private ngZone: NgZone
-    ) {}
+    ) { }
 
     public ngOnInit(): void {
         this.iconRegistry.addSvgIcon(
@@ -45,7 +45,6 @@ export class GoogleSignInButtonComponent implements OnInit, AfterViewInit {
                 document.getElementById('google-signin'),
                 {},
                 user => {
-                    console.log(user);
                     this.ngZone.run(() => this.requestSignin.emit(user));
                 },
                 f => console.error(f)

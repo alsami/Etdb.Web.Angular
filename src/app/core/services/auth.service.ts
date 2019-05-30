@@ -45,9 +45,9 @@ export class AuthService {
     public signInWithRefreshToken(
         token: IdentityToken
     ): Observable<IdentityToken> {
-        return this.http.get<IdentityToken>(
-            `${environment.apiUrls.userService}auth/refresh-authentication/${token.refreshToken}/${environment.etdbClientId}`
-        );
+        let url = `${environment.apiUrls.userService}auth/refresh-authentication/`;
+        url += `${token.refreshToken}/${environment.etdbClientId}/${token.authenticationProvider}`;
+        return this.http.get<IdentityToken>(url);
     }
 
     public loadIdentityUser(accessToken: string): Observable<IdentityUser> {

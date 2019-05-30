@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import * as authActions from '@etdb/core/actions/auth.actions';
 import { AuthActionTypes } from '@etdb/core/actions/auth.actions';
@@ -12,6 +12,7 @@ import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthenticationProvider } from '@etdb/core/models';
 
 @Injectable()
 export class AuthEffects {
@@ -128,10 +129,17 @@ export class AuthEffects {
                 if (!this.tokenStorageService.canRestore()) {
                     return of(new authActions.RestoreCompleted());
                 }
+
+                const restoreToken = this.tokenStorageService.getToken();
+
+                if (restoreToken.authenticationProvider === AuthenticationProvider.Google) {
+                    // this.ngZone.run(() =>
+                    //     gapi.auth2.getAuthInstance().signIn().then((cl: gapi.auth2.GoogleUser) => console.log('google!', cl)));
+                    // return new authActions.ProviderSignIn(AuthenticationProvider.Google, cl.getAuthResponse().access_token);
+                }
+
                 return this.authService
-                    .signInWithRefreshToken(
-                        this.tokenStorageService.getToken()
-                    )
+                    .signInWithRefreshToken(restoreToken)
                     .pipe(
                         map(token => {
                             this.tokenStorageService.clearToken();
@@ -162,6 +170,7 @@ export class AuthEffects {
         private actions$: Actions,
         private router: Router,
         private errorExtractorService: ErrorExtractorService,
-        private snackbar: MatSnackBar
+        private snackbar: MatSnackBar,
+        public ngZone: NgZone
     ) { }
 }
