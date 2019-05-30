@@ -4,7 +4,9 @@ import {
     OnInit,
     OnDestroy,
     AfterViewInit,
-    ViewChild
+    ViewChild,
+    AfterViewChecked,
+    ChangeDetectorRef
 } from '@angular/core';
 import { Observable, Subscription, BehaviorSubject } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -28,7 +30,7 @@ import { delay } from 'rxjs/operators';
     styleUrls: ['layout.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
+export class LayoutComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
     private overlayRef: OverlayRef;
     private interval;
     private mediaObserver: Subscription;
@@ -53,10 +55,12 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
         private breakpointService: BreakpointService,
         private overlay: Overlay,
         private overlayBuilder: OverlayPositionBuilder,
+        private cdr: ChangeDetectorRef
     ) { }
 
     public ngOnInit(): void {
         this.subscribeLayoutSizeChange();
+        this.title$ = this.store.select(fromRoot.getTitle);
         this.overlayRef = this.overlay.create({
             positionStrategy: this.overlayBuilder
                 .global()
@@ -70,7 +74,6 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public ngAfterViewInit(): void {
         this.showSidenav$ = this.store.select(fromRoot.getShowSidenav);
-        this.title$ = this.store.select(fromRoot.getTitle);
         this.user$ = this.store.select(fromRoot.getAuthIdentityUser);
         this.restoringSignIn$ = this.store.select(fromRoot.getAuthSigningIn);
 
@@ -79,6 +82,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
                 if (!restoringSignIn) {
                     this.safeDetachOverlay();
                     clearInterval(this.interval);
+                    this.cdr.markForCheck();
                     return;
                 }
 
@@ -106,6 +110,9 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
                     this.dots$.next('');
                 }, 500);
             });
+    }
+
+    public ngAfterViewChecked(): void {
     }
 
     public ngOnDestroy(): void {
