@@ -1,7 +1,7 @@
-import * as fromRoot from '@etdb/reducers';
+import * as fromRoot from '@etdb/+state';
 import { Store } from '@ngrx/store';
 import { Observable, combineLatest } from 'rxjs';
-import * as fromUsers from '@etdb/users/reducers';
+import * as fromUsers from '@etdb/users/+state/reducers';
 import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 

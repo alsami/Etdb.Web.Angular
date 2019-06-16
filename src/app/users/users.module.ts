@@ -6,8 +6,8 @@ import {
     UsersComponent,
     UserSettingsComponent
 } from '@etdb/users/containers';
-import { UserEffects } from '@etdb/users/effects';
-import { reducers } from '@etdb/users/reducers';
+import { UserEffects } from '@etdb/users/+state/effects';
+import { reducers } from '@etdb/users/+state/reducers';
 import { UserService } from '@etdb/users/services';
 import { UsersRoutingModule } from '@etdb/users/users-routing.module';
 import { EffectsModule } from '@ngrx/effects';
@@ -41,4 +41,4 @@ import { UserIsSignedInUserGuard } from '@etdb/users/guards/user-is-signedin-use
     ],
     providers: [UserService, UserIsSignedInUserGuard]
 })
-export class UsersModule {}
+export class UsersModule { }

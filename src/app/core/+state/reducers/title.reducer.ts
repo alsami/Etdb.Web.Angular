@@ -1,7 +1,7 @@
 import {
     TitleActions,
     TitleActionTypes
-} from '@etdb/core/actions/title.actions';
+} from '@etdb/core/+state/actions/title.actions';
 
 export interface TitleState {
     title: string;

@@ -1,6 +1,6 @@
-import { AuthActions } from '@etdb/core/actions/';
+import { AuthActions } from '@etdb/core/+state/actions';
 import { IdentityToken, IdentityUser } from '@etdb/core/models';
-import { CredentialSignIn, ProviderSignIn } from '@etdb/core/actions/auth.actions';
+import { CredentialSignIn, ProviderSignIn } from '@etdb/core/+state/actions/auth.actions';
 
 export interface AuthState {
     identityToken: IdentityToken;
@@ -63,7 +63,8 @@ export function reducer(
             return {
                 ...state,
                 loaded: true,
-                loading: false
+                loading: false,
+                signingIn: false
             };
         }
 

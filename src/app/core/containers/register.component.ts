@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as fromRoot from '@etdb/reducers';
+import * as fromRoot from '@etdb/+state';
 import { Observable } from 'rxjs';
 import { RegisterUser } from '@etdb/core/models';
 
-import * as titleActions from '../actions/title.actions';
-import * as authActions from '../actions/auth.actions';
+import * as titleActions from '../+state/actions/title.actions';
+import * as authActions from '../+state/actions/auth.actions';
 
 @Component({
     selector: 'etdb-register',

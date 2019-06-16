@@ -1,14 +1,15 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { PRIMARY_THEME } from '@etdb/core/core.constants';
-import * as fromRoot from '@etdb/reducers';
+import * as fromRoot from '@etdb/+state';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, combineLatest } from 'rxjs';
-import * as authActions from '../actions/auth.actions';
-import * as layoutActions from '../actions/layout.actions';
+import * as authActions from '../+state/actions/auth.actions';
+import * as layoutActions from '../+state/actions/layout.actions';
 import {
     OverlayContainer,
 } from '@angular/cdk/overlay';
 import { environment } from 'environments/environment';
+import { TokenStorageService } from '@etdb/core/services';
 
 @Component({
     selector: 'etdb-root',
@@ -24,7 +25,8 @@ export class AppComponent implements OnInit {
 
         private overlayContainer: OverlayContainer,
         private store: Store<fromRoot.AppState>,
-        private ngZone: NgZone
+        private ngZone: NgZone,
+        private tokenStorageService: TokenStorageService
     ) {
         this.loadGoogleApi();
         this.subscribeThemeChanges();
@@ -35,6 +37,10 @@ export class AppComponent implements OnInit {
         combineLatest(this.googleInitialized$, this.facebookInitialized$)
             .subscribe(([a, b]) => {
                 if (!a || !b) {
+                    return;
+                }
+
+                if (!this.tokenStorageService.canRestore()) {
                     return;
                 }
 

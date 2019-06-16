@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import * as fromRoot from '@etdb/reducers';
-import * as titleActions from '@etdb/core/actions/title.actions';
-import * as fromUsers from '@etdb/users/reducers';
-import * as userActions from '@etdb/users/actions/user.actions';
+import * as fromRoot from '@etdb/+state';
+import * as titleActions from '@etdb/core/+state/actions/title.actions';
+import * as fromUsers from '@etdb/users/+state/reducers';
+import * as userActions from '@etdb/users/+state/actions/user.actions';
 import { Observable, Subscription } from 'rxjs';
 import { User } from '@etdb/models';
 import { ActivatedRoute } from '@angular/router';

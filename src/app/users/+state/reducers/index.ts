@@ -1,5 +1,5 @@
-import * as fromRoot from '@etdb/reducers';
-import * as fromUser from '@etdb/users/reducers/user.reducer';
+import * as fromRoot from '@etdb/+state';
+import * as fromUser from '@etdb/users/+state/reducers/user.reducer';
 import {
     ActionReducerMap,
     createFeatureSelector,

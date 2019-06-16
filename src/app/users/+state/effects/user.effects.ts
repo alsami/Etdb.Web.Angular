@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import * as userActions from '@etdb/users/actions/user.actions';
-import { UserActionTypes } from '@etdb/users/actions/user.actions';
+import * as userActions from '@etdb/users/+state/actions/user.actions';
+import { UserActionTypes } from '@etdb/users/+state/actions/user.actions';
 import { UserService } from '@etdb/users/services';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';

@@ -4,8 +4,8 @@ import { switchMap } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { Action } from '@ngrx/store';
-import * as titleActions from '@etdb/core/actions/title.actions';
-import { TitleActionTypes } from '@etdb/core/actions/title.actions';
+import * as titleActions from '@etdb/core/+state/actions/title.actions';
+import { TitleActionTypes } from '@etdb/core/+state/actions/title.actions';
 
 @Injectable()
 export class TitleEffects {
@@ -23,5 +23,5 @@ export class TitleEffects {
         )
     );
 
-    public constructor(private actions$: Actions, private title: Title) {}
+    public constructor(private actions$: Actions, private title: Title) { }
 }

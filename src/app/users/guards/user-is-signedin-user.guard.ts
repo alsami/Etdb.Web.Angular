@@ -1,12 +1,12 @@
 import { WaitingForAuthGuard } from '@etdb/abstractions/guards';
 import { Injectable } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import * as fromRoot from '@etdb/reducers';
-import * as fromUsers from '@etdb/users/reducers';
+import * as fromRoot from '@etdb/+state';
+import * as fromUsers from '@etdb/users/+state/reducers';
 import { Store, select } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { switchMap, filter, take } from 'rxjs/operators';
-import { UserApiActions } from '@etdb/users/actions';
+import { UserApiActions } from '@etdb/users/+state/actions';
 
 @Injectable()
 export class UserIsSignedInUserGuard extends WaitingForAuthGuard {

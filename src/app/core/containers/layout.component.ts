@@ -12,9 +12,9 @@ import { Observable, Subscription, BehaviorSubject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { IdentityUser } from '@etdb/core/models';
 
-import * as fromRoot from '@etdb/reducers';
-import * as layoutActions from '../actions/layout.actions';
-import * as authActions from '../actions/auth.actions';
+import * as fromRoot from '@etdb/+state';
+import * as layoutActions from '../+state/actions/layout.actions';
+import * as authActions from '../+state/actions/auth.actions';
 import { BreakpointService } from '@etdb/core/services';
 import {
     Overlay,

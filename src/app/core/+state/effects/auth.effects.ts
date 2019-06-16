@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
-import * as authActions from '@etdb/core/actions/auth.actions';
-import { AuthActionTypes } from '@etdb/core/actions/auth.actions';
+import * as authActions from '@etdb/core/+state/actions/auth.actions';
+import { AuthActionTypes } from '@etdb/core/+state/actions/auth.actions';
 import {
     AuthService,
     TokenStorageService,

@@ -1,6 +1,6 @@
 import { User } from '@etdb/models';
-import { UserActions, UserActionTypes } from '@etdb/users/actions/user.actions';
-import * as userActions from '@etdb/users/actions/user.actions';
+import { UserActions, UserActionTypes } from '@etdb/users/+state/actions/user.actions';
+import * as userActions from '@etdb/users/+state/actions/user.actions';
 import { EntityState, createEntityAdapter } from '@ngrx/entity';
 
 export interface UserState extends EntityState<User> {

@@ -7,8 +7,8 @@ import { AppRoutingModule } from '@etdb/app-routing.module';
 import { BrowseModule } from '@etdb/browse/browse.module';
 import { AppComponent } from '@etdb/core/containers';
 import { CoreModule } from '@etdb/core/core.module';
-import { AuthEffects, LayoutEffects, TitleEffects } from '@etdb/core/effects';
-import { reducers, metaReducers } from '@etdb/reducers';
+import { AuthEffects, LayoutEffects, TitleEffects } from '@etdb/core/+state/effects';
+import { reducers, metaReducers } from '@etdb/+state';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 

@@ -1,6 +1,6 @@
 import { PRIMARY_THEME } from '@etdb/core/core.constants';
-import { LayoutActions, LayoutActionTypes } from '@etdb/core/actions/layout.actions';
-import * as layoutActions from '@etdb/core/actions/layout.actions';
+import { LayoutActions, LayoutActionTypes } from '@etdb/core/+state/actions/layout.actions';
+import * as layoutActions from '@etdb/core/+state/actions/layout.actions';
 
 export interface LayoutState {
     showSidenav: boolean;

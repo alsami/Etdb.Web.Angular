@@ -6,9 +6,7 @@ import {
     createSelector
 } from '@ngrx/store';
 import { environment } from '../../environments/environment';
-import * as fromAuth from '../core/reducers/auth.reducer';
-import * as fromLayout from '../core/reducers/layout.reducer';
-import * as fromTitle from '../core/reducers/title.reducer';
+import { fromAuth, fromLayout, fromTitle } from '@etdb/core/+state/reducers';
 
 /**
  * As mentioned, we treat each reducer like a table in a database. This means
