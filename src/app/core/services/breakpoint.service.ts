@@ -3,11 +3,13 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class BreakpointService {
     private readonly allBreakpoints: string[] = Object.values(Breakpoints);
 
-    public constructor(private breakpointObserver: BreakpointObserver) {}
+    public constructor(private breakpointObserver: BreakpointObserver) { }
 
     public hasBreakpointChanged(
         breakpoints: string | string[] = null

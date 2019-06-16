@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { HumanreadableError } from '@etdb/core/models';
 import { HttpErrorResponse } from '@angular/common/http';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class ErrorExtractorService {
     public extractHumanreadableError(error: Error): HumanreadableError {
         if (error instanceof HttpErrorResponse) {
@@ -38,10 +40,10 @@ export class ErrorExtractorService {
             message: hasDefaultError
                 ? error.error.message
                 : hasIdentityErrorWithDescription
-                ? error.error.error_description
-                : hasIdentityError
-                ? error.error.error_message
-                : 'Unknown error',
+                    ? error.error.error_description
+                    : hasIdentityError
+                        ? error.error.error_message
+                        : 'Unknown error',
             errors: error.error.errors ? error.error.errors : []
         };
     }

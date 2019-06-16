@@ -5,7 +5,9 @@ import * as fromUsers from '@etdb/users/+state/reducers';
 import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class PolicyService {
     public constructor(private store: Store<fromRoot.AppState>) { }
 

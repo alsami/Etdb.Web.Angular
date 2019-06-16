@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { VALID_THEMES, PRIMARY_THEME } from '@etdb/core/core.constants';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class LayoutStorageService {
-    public storeTheme(theme: string): void  {
+    public storeTheme(theme: string): void {
         window.localStorage.setItem('theme', theme);
     }
 

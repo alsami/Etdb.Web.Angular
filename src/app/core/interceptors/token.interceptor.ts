@@ -3,7 +3,9 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { TokenStorageService } from '@etdb/core/services';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class TokenInterceptor implements HttpInterceptor {
 
     public constructor(private tokenStorageService: TokenStorageService) { }

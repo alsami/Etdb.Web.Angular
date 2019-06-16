@@ -11,7 +11,9 @@ import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 import { BASE_HEADERS } from '@etdb/core/core.constants';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class AuthService {
     public constructor(private http: HttpClient) { }
 

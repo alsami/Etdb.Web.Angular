@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { IdentityToken } from '@etdb/core/models';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class TokenStorageService {
     public storeToken(token: IdentityToken): void {
         window.localStorage.setItem('token', JSON.stringify(token));
