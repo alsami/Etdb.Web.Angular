@@ -13,7 +13,6 @@ export class UploadButtonComponent {
 
     public triggerFileDialog(): void {
         const element: HTMLElement = document.querySelector('input[type=file]');
-        console.log(element);
         element.click();
     }
 

@@ -28,6 +28,7 @@ export class UserSettingsCardComponent implements OnChanges {
     public selectedImage: ProfileImageMetaInfo;
     public selectedImageIndex: number;
 
+
     public ngOnChanges(changes: SimpleChanges): void {
         if (
             !changes['user'] ||
@@ -48,6 +49,23 @@ export class UserSettingsCardComponent implements OnChanges {
         this.selectedImageIndex = this.user.profileImageMetaInfos.indexOf(
             this.selectedImage
         );
+
+        // this.sanitizer.bypassSecurityTrustResourceUrl(this.selectedImage.url);
+    }
+
+    public triggerFileDialog(): void {
+        const element: HTMLElement = document.querySelector('input[type=file]');
+        element.click();
+    }
+
+    public emitSelection($event): void {
+        const files = $event.target.files as File[];
+
+        if (!files || files.length === 0) {
+            return;
+        }
+
+        this.requestProfileImageUpload(files[0]);
     }
 
     public selectNext(): void {
@@ -82,8 +100,8 @@ export class UserSettingsCardComponent implements OnChanges {
         ];
     }
 
-    public requestProfileImageUpload(files: File[]): void {
-        this.profileImageUpload.emit(files[0]);
+    public requestProfileImageUpload(files: File): void {
+        this.profileImageUpload.emit(files);
     }
 
     public requestProfileImageRemove(imageMeta: ProfileImageMetaInfo): void {

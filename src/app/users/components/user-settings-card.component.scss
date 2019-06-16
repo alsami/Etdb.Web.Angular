@@ -2,7 +2,7 @@
     position: absolute;
     right: 0%;
     transform: translate(-50%, -50%);
-    margin: 0px -32px 16px -16px;
+    margin: 0px -32px -16px -16px;
     bottom: 0%;
 }
 
@@ -10,6 +10,26 @@
     position: absolute;
     left: 0%;
     transform: translate(-50%, -50%);
-    margin: -0px -32px 16px 8px;
+    margin: -0px -32px -16px 8px;
     bottom: 0%;
+}
+
+.settings-image-button {
+    top: 0%;
+    right: 0%;
+    position: absolute;
+    margin: -14px;
+}
+
+.image-card {
+    transition: box-shadow 280ms cubic-bezier(.4,0,.2,1);
+    display: block;
+    position: relative;
+    padding: 16px 16px 0px 16px;
+    border-radius: 4px;
+}
+
+.card-image {
+    margin-bottom: 0px;
+    border-radius: 4px;
 }
