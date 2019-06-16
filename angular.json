@@ -22,14 +22,42 @@
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
                         "tsConfig": "src/tsconfig.app.json",
-                        "assets": ["src/assets"],
+                        "assets": [
+                            "src/assets"
+                        ],
                         "styles": [
                             "src/scss/styles.scss",
                             "src/scss/material-theme.scss"
                         ],
-                        "scripts": ["src/scripts/facebook-signin.js"]
+                        "scripts": [
+                            "src/scripts/facebook-signin.js"
+                        ]
                     },
                     "configurations": {
+                        "local": {
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.local.ts"
+                                }
+                            ],
+                            "optimization": true,
+                            "outputHashing": "all",
+                            "sourceMap": true,
+                            "extractCss": true,
+                            "namedChunks": false,
+                            "aot": true,
+                            "extractLicenses": true,
+                            "vendorChunk": false,
+                            "buildOptimizer": true,
+                            "budgets": [
+                                {
+                                    "type": "initial",
+                                    "maximumWarning": "2mb",
+                                    "maximumError": "5mb"
+                                }
+                            ]
+                        },
                         "production": {
                             "fileReplacements": [
                                 {
@@ -84,8 +112,12 @@
                             "src/scss/styles.scss",
                             "src/scss/material-theme.scss"
                         ],
-                        "scripts": ["src/scripts/facebook-signin.js"],
-                        "assets": ["src/assets"]
+                        "scripts": [
+                            "src/scripts/facebook-signin.js"
+                        ],
+                        "assets": [
+                            "src/assets"
+                        ]
                     }
                 },
                 "lint": {
@@ -95,7 +127,9 @@
                             "src/tsconfig.app.json",
                             "src/tsconfig.spec.json"
                         ],
-                        "exclude": ["**/node_modules/**"]
+                        "exclude": [
+                            "**/node_modules/**"
+                        ]
                     }
                 }
             }
@@ -121,7 +155,9 @@
                     "builder": "@angular-devkit/build-angular:tslint",
                     "options": {
                         "tsConfig": "e2e/tsconfig.e2e.json",
-                        "exclude": ["**/node_modules/**"]
+                        "exclude": [
+                            "**/node_modules/**"
+                        ]
                     }
                 }
             }
