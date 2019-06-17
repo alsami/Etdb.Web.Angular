@@ -9,11 +9,11 @@ import {
 import { User, ProfileImageMetaInfo } from '@etdb/models';
 
 @Component({
-    selector: 'etdb-user-settings-card',
-    templateUrl: 'user-settings-card.component.html',
-    styleUrls: ['user-settings-card.component.scss']
+    selector: 'etdb-user-image-control',
+    templateUrl: 'user-image-control.component.html',
+    styleUrls: ['user-image-control.component.scss']
 })
-export class UserSettingsCardComponent implements OnChanges {
+export class UserImageControlComponent implements OnChanges {
     @Input()
     user: User;
     @Input()

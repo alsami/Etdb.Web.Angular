@@ -17,7 +17,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {
     UserPasswordchangeFormComponent,
     UserInfochangeComponent,
-    UserSettingsCardComponent
+    UserImageControlComponent
 } from '@etdb/users/components';
 import { UserIsSignedInUserGuard } from '@etdb/users/guards/user-is-signedin-user.guard';
 
@@ -37,7 +37,7 @@ import { UserIsSignedInUserGuard } from '@etdb/users/guards/user-is-signedin-use
         UserSettingsComponent,
         UserPasswordchangeFormComponent,
         UserInfochangeComponent,
-        UserSettingsCardComponent
+        UserImageControlComponent
     ],
     providers: [UserService, UserIsSignedInUserGuard]
 })
