@@ -8,7 +8,7 @@ import {
     PageLoadingIndicatorComponent,
     ComponentLoaderOverlayComponent
 } from '@etdb/custom-controls/container';
-import { MatStepperStepExtendedComponent } from '@etdb/custom-controls/component';
+import { MatStepperStepExtendedComponent } from '@etdb/custom-controls/components';
 
 const COMPONENTS = [
     UserCardComponent,

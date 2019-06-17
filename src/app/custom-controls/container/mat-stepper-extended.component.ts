@@ -14,7 +14,7 @@ import {
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
 import { MatStepper } from '@angular/material/stepper';
-import { MatStepperStepExtendedComponent } from '@etdb/custom-controls/component';
+import { MatStepperStepExtendedComponent } from '@etdb/custom-controls/components';
 
 @Component({
     selector: 'etdb-mat-stepper-extended',
