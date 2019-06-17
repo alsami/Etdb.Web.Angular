@@ -1,66 +1,36 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { PRIMARY_THEME } from '@etdb/core/core.constants';
-import * as fromRoot from '@etdb/+state';
-import { Store } from '@ngrx/store';
-import { BehaviorSubject, combineLatest } from 'rxjs';
-import * as authActions from '../+state/actions/auth.actions';
-import * as layoutActions from '../+state/actions/layout.actions';
 import {
     OverlayContainer,
 } from '@angular/cdk/overlay';
-import { environment } from 'environments/environment';
-import { TokenStorageService } from '@etdb/core/services';
+import { AuthFacadeService, LayoutFacadeService } from '@etdb/core/+state/facades';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'etdb-root',
     templateUrl: 'app.component.html'
 })
-export class AppComponent implements OnInit {
-    private googleInitialized$: BehaviorSubject<boolean> = new BehaviorSubject(false);
-    private facebookInitialized$: BehaviorSubject<boolean> = new BehaviorSubject(true);
+export class AppComponent implements OnDestroy {
+    private themeSub: Subscription;
 
     public theme = PRIMARY_THEME;
 
     public constructor(
 
         private overlayContainer: OverlayContainer,
-        private store: Store<fromRoot.AppState>,
-        private ngZone: NgZone,
-        private tokenStorageService: TokenStorageService
+        private authFacadeService: AuthFacadeService,
+        private layoutFacadeService: LayoutFacadeService
     ) {
-        this.loadGoogleApi();
         this.subscribeThemeChanges();
-        this.store.dispatch(new layoutActions.RestoreTheme());
+        this.authFacadeService.initialize();
     }
 
-    public ngOnInit(): void {
-        combineLatest(this.googleInitialized$, this.facebookInitialized$)
-            .subscribe(([a, b]) => {
-                if (!a || !b) {
-                    return;
-                }
-
-                if (!this.tokenStorageService.canRestore()) {
-                    return;
-                }
-
-                this.store.dispatch(new authActions.RestoreSignIn());
-            });
-    }
-
-    private loadGoogleApi(): void {
-        gapi.load('auth2', async () => {
-            console.log('LOADED GAPI');
-            gapi.auth2.init({
-                client_id: environment.googleClientId,
-                scope: 'profile email openid'
-            });
-            this.ngZone.run(() => this.googleInitialized$.next(true));
-        });
+    public ngOnDestroy(): void {
+        this.themeSub.unsubscribe();
     }
 
     private subscribeThemeChanges(): void {
-        this.store.select(fromRoot.getTheme).subscribe(theme => {
+        this.themeSub = this.layoutFacadeService.currentTheme$.subscribe(theme => {
             if (theme !== this.theme) {
                 this.overlayContainer
                     .getContainerElement()
