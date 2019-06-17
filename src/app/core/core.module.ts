@@ -31,7 +31,7 @@ import {
 } from '@etdb/core/services';
 import { MaterialModule } from '@etdb/shared';
 import { CustomControlModule } from '@etdb/custom-controls/custom-controls.module';
-import { AuthFacadeService, LayoutFacadeService } from '@etdb/core/+state/facades';
+import { AuthFacadeService, LayoutFacadeService, TitleFacadeService } from '@etdb/core/+state/facades';
 
 const COMPONENTS = [
     AppComponent,
@@ -74,6 +74,7 @@ export class CoreModule {
                 NotSignedInGuard,
                 AuthFacadeService,
                 LayoutFacadeService,
+                TitleFacadeService,
                 {
                     provide: HTTP_INTERCEPTORS,
                     useClass: TokenInterceptor,

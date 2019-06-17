@@ -9,12 +9,8 @@ import {
     ChangeDetectorRef
 } from '@angular/core';
 import { Observable, Subscription, BehaviorSubject } from 'rxjs';
-import { Store } from '@ngrx/store';
 import { IdentityUser } from '@etdb/core/models';
 
-import * as fromRoot from '@etdb/+state';
-import * as layoutActions from '../+state/actions/layout.actions';
-import * as authActions from '../+state/actions/auth.actions';
 import { BreakpointService } from '@etdb/core/services';
 import {
     Overlay,
@@ -23,6 +19,7 @@ import {
 } from '@angular/cdk/overlay';
 import { TemplatePortalDirective, Portal } from '@angular/cdk/portal';
 import { delay } from 'rxjs/operators';
+import { LayoutFacadeService, AuthFacadeService, TitleFacadeService } from '@etdb/core/+state/facades';
 
 @Component({
     selector: 'etdb-layout',
@@ -51,16 +48,18 @@ export class LayoutComponent implements OnInit, AfterViewInit, AfterViewChecked,
 
 
     public constructor(
-        private store: Store<fromRoot.AppState>,
         private breakpointService: BreakpointService,
         private overlay: Overlay,
         private overlayBuilder: OverlayPositionBuilder,
-        private cdr: ChangeDetectorRef
+        private cdr: ChangeDetectorRef,
+        private layoutFacadeService: LayoutFacadeService,
+        private authFacadeService: AuthFacadeService,
+        private titleFacadeService: TitleFacadeService,
     ) { }
 
     public ngOnInit(): void {
         this.subscribeLayoutSizeChange();
-        this.title$ = this.store.select(fromRoot.getTitle);
+        this.title$ = this.titleFacadeService.currentTitle$;
         this.overlayRef = this.overlay.create({
             positionStrategy: this.overlayBuilder
                 .global()
@@ -73,9 +72,9 @@ export class LayoutComponent implements OnInit, AfterViewInit, AfterViewChecked,
     }
 
     public ngAfterViewInit(): void {
-        this.showSidenav$ = this.store.select(fromRoot.getShowSidenav);
-        this.user$ = this.store.select(fromRoot.getAuthIdentityUser);
-        this.restoringSignIn$ = this.store.select(fromRoot.getAuthSigningIn);
+        this.showSidenav$ = this.layoutFacadeService.showSidenav$;
+        this.user$ = this.authFacadeService.authenticatedUser$;
+        this.restoringSignIn$ = this.authFacadeService.signingIn$;
 
         this.restoringSignIn$.pipe(delay(0)) // delaying to make sure expressionchanged exception not thrown
             .subscribe(restoringSignIn => {
@@ -91,6 +90,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, AfterViewChecked,
                 }
 
                 this.overlayRef.attach(this.templatePortal);
+
                 this.interval = setInterval(() => {
                     if (this.dots$.getValue().length === 0) {
                         this.dots$.next('.');
@@ -120,17 +120,15 @@ export class LayoutComponent implements OnInit, AfterViewInit, AfterViewChecked,
     }
 
     public changeTheme(theme: string): void {
-        this.store.dispatch(new layoutActions.SwitchTheme(theme));
+        this.layoutFacadeService.changeTheme(theme);
     }
 
     public logout(): void {
-        this.store.dispatch(new authActions.SignOut());
+        this.authFacadeService.signOut();
     }
 
-    public toggleSidenav(visible: boolean): void {
-        visible
-            ? this.store.dispatch(new layoutActions.OpenSidenav())
-            : this.store.dispatch(new layoutActions.CloseSidenav());
+    public toggleSidenav(show: boolean): void {
+        this.layoutFacadeService.toggleSidenav(show);
     }
 
     public toggleSidenavBasesOnSize(): void {
@@ -141,7 +139,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, AfterViewChecked,
             return;
         }
 
-        this.store.dispatch(new layoutActions.CloseSidenav());
+        this.layoutFacadeService.toggleSidenav(false);
     }
 
     private subscribeLayoutSizeChange(): void {
@@ -163,7 +161,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, AfterViewChecked,
             this.breakpointService.isSmallDevice()
         ) {
             this.sidenavMode = 'over';
-            this.toggleSidenav(false);
+            this.layoutFacadeService.toggleSidenav(false);
             return;
         }
 
