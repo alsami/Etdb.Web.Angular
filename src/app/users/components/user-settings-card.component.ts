@@ -28,8 +28,12 @@ export class UserSettingsCardComponent implements OnChanges {
     public selectedImage: ProfileImageMetaInfo;
     public selectedImageIndex: number;
 
+    public imageCount = 0;
+
 
     public ngOnChanges(changes: SimpleChanges): void {
+        this.selectedImage = null;
+        this.imageCount = 0;
         if (
             !changes['user'] ||
             !this.user ||
@@ -37,6 +41,8 @@ export class UserSettingsCardComponent implements OnChanges {
         ) {
             return;
         }
+
+        this.imageCount = this.user.profileImageMetaInfos.length;
 
         this.selectedImage = this.user.profileImageMetaInfos.find(
             image => image.isPrimary
@@ -49,8 +55,6 @@ export class UserSettingsCardComponent implements OnChanges {
         this.selectedImageIndex = this.user.profileImageMetaInfos.indexOf(
             this.selectedImage
         );
-
-        // this.sanitizer.bypassSecurityTrustResourceUrl(this.selectedImage.url);
     }
 
     public triggerFileDialog(): void {
