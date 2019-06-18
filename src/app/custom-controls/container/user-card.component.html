@@ -1,28 +1,20 @@
-<mat-card *ngIf="user">
-    <img
-        mat-card-image
-        *ngIf="user.profileImageMetaInfos.length"
-        [src]="user.profileImageMetaInfos[0].url"
-    />
-    <mat-card-title>
-        <section class="mat-typography">
-            <h2>{{ user.userName }}</h2>
-        </section>
-    </mat-card-title>
-    <mat-card-subtitle
-        >Member since {{ user.registeredSince | date: "dd.MM.yyyy" }}
-    </mat-card-subtitle>
-    <mat-divider></mat-divider>
-    <mat-card-content style="white-space: pre-wrap; padding: 8px 0px;">
-        <p
-            *ngIf="user.biography"
-            style="white-space: pre-wrap;font-style: italic;"
-        >
-            {{ user.biography }}
-        </p>
-    </mat-card-content>
-    <mat-divider></mat-divider>
-    <mat-card-actions align="end">
-        <ng-content></ng-content>
-    </mat-card-actions>
-</mat-card>
+<ng-container *ngIf="user">
+    <mat-card>
+        <mat-card-header>
+            <div *ngIf="profileImageUrl?.length" mat-card-avatar [style.backgroundImage]="'url('+ profileImageUrl +')'"
+                style="background-size: cover;">
+            </div>
+            <mat-card-title>{{ user.userName }}</mat-card-title>
+            <mat-card-subtitle>Member since {{ user.registeredSince | date: "dd.MM.yyyy" }}
+            </mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image *ngIf="profileImageUrl?.length" [src]="profileImageUrl" />
+        <mat-card-content>
+            <div class="flex-container flex-justify-center" style="white-space: pre-wrap; padding: 8px 0px;">
+                <p *ngIf="user.biography" style="white-space: pre-wrap;font-style: italic;">
+                    {{ user.biography }}
+                </p>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</ng-container>

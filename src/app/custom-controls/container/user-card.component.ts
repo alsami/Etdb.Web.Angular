@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { User } from '@etdb/models';
 
 @Component({
@@ -6,14 +6,28 @@ import { User } from '@etdb/models';
     templateUrl: 'user-card.component.html',
 })
 
-export class UserCardComponent {
+export class UserCardComponent implements OnChanges {
     @Input() user: User;
     @Input() showProfileImageUploadButton: boolean;
-    @Output() profileImageUpload: EventEmitter<File> = new EventEmitter<File>();
 
-    public imageLoading: boolean;
+    public profileImageUrl = null;
 
-    public requestProfileImageUpload(files: File[]): void {
-        this.profileImageUpload.emit(files[0]);
+    public ngOnChanges(changes: SimpleChanges): void {
+        if (!changes['user'] || !this.user) {
+            return;
+        }
+
+        if (!this.user.profileImageMetaInfos || this.user.profileImageMetaInfos.length === 0) {
+            this.profileImageUrl = null;
+            return;
+        }
+
+        let imageMeta = this.user.profileImageMetaInfos.find(profileImage => profileImage.isPrimary);
+
+        if (imageMeta !== null) {
+            this.profileImageUrl = imageMeta.url;
+        }
+
+        imageMeta = this.user.profileImageMetaInfos.find(profileImage => profileImage.isPrimary);
     }
 }
