@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 
 @Component({
     selector: 'etdb-users',
-    templateUrl: 'users.component.html'
+    templateUrl: 'users-routing.component.html'
 })
 
-export class UsersComponent {
+export class UsersRoutingComponent {
 
 }

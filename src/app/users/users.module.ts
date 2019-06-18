@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { MaterialModule } from '@etdb/shared';
 import {
     UserProfileComponent,
-    UsersComponent,
+    UsersRoutingComponent,
     UserSettingsComponent
 } from '@etdb/users/containers';
 import { UserEffects } from '@etdb/users/+state/effects';
@@ -33,7 +33,7 @@ import { UsersFacadeService } from '@etdb/users/+state/facades';
         ReactiveFormsModule
     ],
     declarations: [
-        UsersComponent,
+        UsersRoutingComponent,
         UserProfileComponent,
         UserSettingsComponent,
         UserPasswordchangeFormComponent,
