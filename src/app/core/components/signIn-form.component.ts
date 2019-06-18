@@ -7,7 +7,7 @@ import {
     ChangeDetectionStrategy
 } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { UserSignIn } from '@etdb/core/models';
+import { UserCredentials } from '@etdb/core/models';
 
 @Component({
     selector: 'etdb-signin-form',
@@ -16,7 +16,7 @@ import { UserSignIn } from '@etdb/core/models';
 })
 export class SignInFormComponent {
     @Output()
-    requestSignIn: EventEmitter<UserSignIn> = new EventEmitter<UserSignIn>();
+    requestSignIn: EventEmitter<UserCredentials> = new EventEmitter<UserCredentials>();
 
     @ViewChild('passwordInput', { static: false })
     passwordInput: ElementRef;
@@ -42,7 +42,7 @@ export class SignInFormComponent {
             return;
         }
 
-        const userSignIn: UserSignIn = this.loginForm.value;
+        const userSignIn: UserCredentials = this.loginForm.value;
         this.requestSignIn.emit(userSignIn);
     }
 

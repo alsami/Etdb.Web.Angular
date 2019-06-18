@@ -5,7 +5,7 @@ import { AuthActions } from '@etdb/core/+state/actions';
 import { TokenStorageService } from '@etdb/core/services';
 import { BehaviorSubject, combineLatest, Subscription, Observable } from 'rxjs';
 import { environment } from 'environments/environment';
-import { IdentityUser, RegisterUser } from '@etdb/core/models';
+import { IdentityUser, RegisterUser, UserCredentials, AuthenticationProvider } from '@etdb/core/models';
 
 @Injectable({
     providedIn: 'root'
@@ -17,6 +17,7 @@ export class AuthFacadeService implements OnDestroy {
     public signingIn$: Observable<boolean>;
     public authenticatedUser$: Observable<IdentityUser>;
     public registering$: Observable<boolean>;
+    public authLoading$: Observable<boolean>;
 
 
     public constructor(private store: Store<fromRoot.AppState>,
@@ -24,10 +25,23 @@ export class AuthFacadeService implements OnDestroy {
         this.signingIn$ = this.store.select(fromRoot.getAuthSigningIn);
         this.authenticatedUser$ = this.store.select(fromRoot.getAuthIdentityUser);
         this.registering$ = this.store.select(fromRoot.getAuthRegistering);
+        this.authLoading$ = this.store.select(fromRoot.getAuthLoading);
     }
 
     public ngOnDestroy(): void {
         this.authIniSubscription.unsubscribe();
+    }
+
+    public signIn(userSignIn: UserCredentials): void {
+        this.store.dispatch(new AuthActions.CredentialSignIn(userSignIn));
+    }
+
+    public googleSignIn(user: gapi.auth2.GoogleUser): void {
+        this.store.dispatch(new AuthActions.ProviderSignIn(AuthenticationProvider.Google, user.getAuthResponse().access_token));
+    }
+
+    public facebookSignIn(token: string): void {
+        this.store.dispatch(new AuthActions.ProviderSignIn(AuthenticationProvider.Facebook, token));
     }
 
     public signOut(): void {

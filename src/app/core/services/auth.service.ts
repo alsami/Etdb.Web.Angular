@@ -4,7 +4,7 @@ import {
     IdentityToken,
     IdentityUser,
     RegisterUser,
-    UserSignIn,
+    UserCredentials,
     AuthenticationProvider
 } from '@etdb/core/models';
 import { environment } from 'environments/environment';
@@ -29,7 +29,7 @@ export class AuthService {
     }
 
     public authenticateWithCredentials(
-        signIn: UserSignIn
+        signIn: UserCredentials
     ): Observable<IdentityToken> {
         return this.http.post<IdentityToken>(
             `${environment.apiUrls.userService}auth/authentication`,

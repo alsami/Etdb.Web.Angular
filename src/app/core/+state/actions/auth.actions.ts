@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { IdentityToken, RegisterUser, IdentityUser, UserSignIn, AuthenticationProvider } from '@etdb/core/models';
+import { IdentityToken, RegisterUser, IdentityUser, UserCredentials, AuthenticationProvider } from '@etdb/core/models';
 
 export enum AuthActionTypes {
     CredentialSignIn = '[Auth API] User Credential SignIn',
@@ -19,7 +19,7 @@ export enum AuthActionTypes {
 
 export class CredentialSignIn implements Action {
     readonly type = AuthActionTypes.CredentialSignIn;
-    public constructor(public signIn: UserSignIn) { }
+    public constructor(public signIn: UserCredentials) { }
 }
 
 export class ProviderSignIn implements Action {
@@ -48,7 +48,7 @@ export class Register implements Action {
 
 export class Registered implements Action {
     readonly type = AuthActionTypes.Registered;
-    public constructor(public signIn: UserSignIn) { }
+    public constructor(public signIn: UserCredentials) { }
 }
 
 export class RegisterFailed implements Action {
