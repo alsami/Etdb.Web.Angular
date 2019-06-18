@@ -20,6 +20,7 @@ import {
     UserImageControlComponent
 } from '@etdb/users/components';
 import { UserIsSignedInUserGuard } from '@etdb/users/guards/user-is-signedin-user.guard';
+import { UsersFacadeService } from '@etdb/users/+state/facades';
 
 @NgModule({
     imports: [
@@ -39,6 +40,6 @@ import { UserIsSignedInUserGuard } from '@etdb/users/guards/user-is-signedin-use
         UserInfochangeComponent,
         UserImageControlComponent
     ],
-    providers: [UserService, UserIsSignedInUserGuard]
+    providers: [UserService, UserIsSignedInUserGuard, UsersFacadeService]
 })
 export class UsersModule { }

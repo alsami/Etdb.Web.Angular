@@ -6,7 +6,7 @@ import * as fromUsers from '@etdb/users/+state/reducers';
 import { Store, select } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { switchMap, filter, take } from 'rxjs/operators';
-import { UserApiActions } from '@etdb/users/+state/actions';
+import { UserActions } from '@etdb/users/+state/actions';
 
 @Injectable()
 export class UserIsSignedInUserGuard extends WaitingForAuthGuard {
@@ -21,7 +21,7 @@ export class UserIsSignedInUserGuard extends WaitingForAuthGuard {
     public canActivate(): Observable<boolean> {
         const id = this.route.snapshot.params['id'] as string;
 
-        this.store.dispatch(new UserApiActions.Load(id));
+        this.store.dispatch(new UserActions.Load(id));
 
         return this.waitForAuthToLoad().pipe(
             switchMap(x => {

@@ -1,15 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Store } from '@ngrx/store';
-
-import * as fromRoot from '@etdb/+state';
-import * as titleActions from '@etdb/core/+state/actions/title.actions';
-import * as fromUsers from '@etdb/users/+state/reducers';
-import * as userActions from '@etdb/users/+state/actions/user.actions';
 import { Observable, Subscription } from 'rxjs';
 import { User } from '@etdb/models';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { UserPasswordChange, UserProfileInfoChange } from '@etdb/users/models';
+import { UsersFacadeService } from '@etdb/users/+state/facades';
+import { TitleFacadeService } from '@etdb/core/+state/facades';
 
 @Component({
     selector: 'etdb-user-settings',
@@ -27,51 +23,40 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
     public paramsSubscription: Subscription;
 
     public constructor(
-        private store: Store<fromRoot.AppState>,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private usersFacadeService: UsersFacadeService,
+        private titleFacadeService: TitleFacadeService
     ) { }
 
     public ngOnInit(): void {
-        this.store.dispatch(new titleActions.SetTitle('Users', 'Settings'));
+        this.titleFacadeService.setTitle('User | Settings');
 
-        this.user$ = this.store.select(fromUsers.getSelectedUser);
+        this.user$ = this.usersFacadeService.selectedUser$;
 
-        this.fetching$ = this.store.select(fromUsers.getUserFetching);
+        this.fetching$ = this.usersFacadeService.fetching$;
 
-        this.userNameUpdating$ = this.store.select(
-            fromUsers.getUserNameUpdating
-        );
+        this.userNameUpdating$ = this.usersFacadeService.userNameUpdating$;
 
-        this.profileImageUploading$ = this.store.select(
-            fromUsers.getProfileImageUpdating
-        );
+        this.profileImageUploading$ = this.usersFacadeService.profileImageUploading$;
 
-        this.profileInfoUpdating$ = this.store.select(
-            fromUsers.getProfileInfoUpdating
-        );
+        this.profileInfoUpdating$ = this.usersFacadeService.profileInfoUpdating$;
 
-        this.passwordUpdating$ = this.store.select(
-            fromUsers.getPasswordUpdating
-        );
+        this.passwordUpdating$ = this.usersFacadeService.passwordUpdating$;
 
         this.paramsSubscription = this.route.params
             .pipe(map(params => <string>params['id']))
             .subscribe(id => {
                 this.userId = id;
-                this.store.dispatch(new userActions.Load(id));
+                this.usersFacadeService.load(this.userId);
             });
-
-        this.store
-            .select(fromUsers.getSelectedUserIsSignedInUser)
-            .subscribe(x => console.log(x));
     }
 
     public ngOnDestroy(): void {
         this.paramsSubscription.unsubscribe();
     }
 
-    public updatePassword(model: UserPasswordChange): void {
-        this.store.dispatch(new userActions.UpdatePassword(this.userId, model));
+    public updatePassword(userPasswordChange: UserPasswordChange): void {
+        this.usersFacadeService.changePassword(this.userId, userPasswordChange);
     }
 
     public uploadProfileImage(file: File): void {
@@ -79,23 +64,17 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
             return;
         }
 
-        this.store.dispatch(
-            new userActions.UploadProfileImage({
-                userId: this.userId,
-                file: file
-            })
-        );
+        this.usersFacadeService.uploadProfileImage({
+            userId: this.userId,
+            file: file
+        });
     }
 
     public removeProfileImage(url: string): void {
-        this.store.dispatch(
-            new userActions.RemoveProfileImage(url, this.userId)
-        );
+        this.usersFacadeService.removeProfileImage(this.userId, url);
     }
 
-    public updateProfileInfo(model: UserProfileInfoChange): void {
-        this.store.dispatch(
-            new userActions.UpdateProfileInfo(this.userId, model)
-        );
+    public updateProfileInfo(profileInfoChange: UserProfileInfoChange): void {
+        this.usersFacadeService.updateProfileInfo(this.userId, profileInfoChange);
     }
 }

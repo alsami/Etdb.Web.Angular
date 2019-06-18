@@ -1,5 +1,3 @@
-import * as UserApiActions from './user-api.actions';
+import * as UserActions from './user.actions';
 
-export {
-    UserApiActions
-};
+export { UserActions };
