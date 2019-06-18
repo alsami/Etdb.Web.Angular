@@ -5,7 +5,7 @@ import { AuthActions } from '@etdb/core/+state/actions';
 import { TokenStorageService } from '@etdb/core/services';
 import { BehaviorSubject, combineLatest, Subscription, Observable } from 'rxjs';
 import { environment } from 'environments/environment';
-import { IdentityUser } from '@etdb/core/models';
+import { IdentityUser, RegisterUser } from '@etdb/core/models';
 
 @Injectable({
     providedIn: 'root'
@@ -16,12 +16,14 @@ export class AuthFacadeService implements OnDestroy {
     private facebookInitialized$: BehaviorSubject<boolean> = new BehaviorSubject(true);
     public signingIn$: Observable<boolean>;
     public authenticatedUser$: Observable<IdentityUser>;
+    public registering$: Observable<boolean>;
 
 
     public constructor(private store: Store<fromRoot.AppState>,
         private tokenStorageService: TokenStorageService, private ngZone: NgZone) {
         this.signingIn$ = this.store.select(fromRoot.getAuthSigningIn);
         this.authenticatedUser$ = this.store.select(fromRoot.getAuthIdentityUser);
+        this.registering$ = this.store.select(fromRoot.getAuthRegistering);
     }
 
     public ngOnDestroy(): void {
@@ -30,6 +32,10 @@ export class AuthFacadeService implements OnDestroy {
 
     public signOut(): void {
         this.store.dispatch(new AuthActions.SignOut());
+    }
+
+    public registerUser(registerUser: RegisterUser) {
+        this.store.dispatch(new AuthActions.Register(registerUser));
     }
 
     public initialize(): void {
