@@ -2,6 +2,6 @@ import { Component } from '@angular/core';
 
 @Component({
     selector: 'etdb-not-authorized',
-    templateUrl: 'not-authorized.component.html'
+    templateUrl: 'unauthorized.component.html'
 })
-export class NotAuthorizedComponent {}
+export class UnauthorizedComponent { }

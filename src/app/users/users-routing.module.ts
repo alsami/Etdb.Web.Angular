@@ -5,7 +5,7 @@ import {
     UsersRoutingComponent,
     UserSettingsComponent
 } from '@etdb/users/containers';
-// import { UserIsSignedInUserGuard } from '@etdb/users/guards';
+import { UserIsSignedInUserGuard } from '@etdb/users/guards';
 
 const routes: Routes = [
     {
@@ -18,8 +18,8 @@ const routes: Routes = [
             },
             {
                 path: 'settings/:id',
-                component: UserSettingsComponent
-                // canActivate: [UserIsSignedInUserGuard]
+                component: UserSettingsComponent,
+                canActivate: [UserIsSignedInUserGuard],
             }
         ]
     }

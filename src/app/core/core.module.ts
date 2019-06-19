@@ -9,15 +9,15 @@ import {
     SidenavContentComponent,
     ToolbarComponent,
     GoogleSignInButtonComponent,
-    NotAuthorizedComponent,
     FacebookSigninButtonComponent,
-    TwitterSigninButtonComponent
+    TwitterSigninButtonComponent,
 } from '@etdb/core/components';
 import {
     AppComponent,
     LayoutComponent,
     SignInComponent,
-    RegisterComponent
+    RegisterComponent,
+    UnauthorizedComponent,
 } from '@etdb/core/containers';
 import { NotSignedInGuard } from '@etdb/core/guards';
 import { TokenInterceptor } from '@etdb/core/interceptors';
@@ -45,7 +45,7 @@ const COMPONENTS = [
     GoogleSignInButtonComponent,
     FacebookSigninButtonComponent,
     TwitterSigninButtonComponent,
-    NotAuthorizedComponent
+    UnauthorizedComponent
 ];
 
 @NgModule({
