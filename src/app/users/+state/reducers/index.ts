@@ -76,3 +76,8 @@ export const getSelectedUserIsSignedInUser = createSelector(
         selectedUser !== null &&
         identityUser.id === selectedUser.id
 );
+
+export const getUserLoaded = createSelector(
+    getUserEntitiesState,
+    fromUser.loaded
+);

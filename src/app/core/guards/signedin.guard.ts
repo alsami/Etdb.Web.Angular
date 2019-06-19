@@ -1,32 +1,28 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import * as fromRoot from '@etdb/+state';
-import { Store, select } from '@ngrx/store';
+import { Router, CanActivate } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { WaitingForAuthGuard } from '@etdb/abstractions/guards';
+import { AuthFacadeService } from '@etdb/core/+state/facades';
 
 @Injectable()
-export class SignedInGuard extends WaitingForAuthGuard {
+export class SignedInGuard implements CanActivate {
     public constructor(
         private router: Router,
-        protected store: Store<fromRoot.AppState>
+        private authFacadeService: AuthFacadeService,
     ) {
-        super(store);
     }
     public canActivate(): Observable<boolean> {
-        return this.waitForAuthToLoad().pipe(
+        return this.authFacadeService.awaitAuthenticated().pipe(
             switchMap(() => this.checkSignedIn())
         );
     }
     private checkSignedIn(): Observable<boolean> {
-        return this.store.pipe(
-            select(fromRoot.getAuthSignedIn),
-            switchMap(loggedIn => {
-                if (!loggedIn) {
+        return this.authFacadeService.signedIn$.pipe(
+            switchMap(signedIn => {
+                if (!signedIn) {
                     this.router.navigate(['/signin']);
                 }
-                return of(loggedIn);
+                return of(signedIn);
             })
         );
     }

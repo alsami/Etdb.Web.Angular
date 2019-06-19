@@ -11,6 +11,7 @@ export interface UserState extends EntityState<User> {
     profileImageUpdating: boolean;
     profileInfoUpdating: boolean;
     passwordUpdating: boolean;
+    loaded: boolean;
 }
 
 export const adapter = createEntityAdapter<User>({
@@ -25,7 +26,8 @@ export const initialState: UserState = adapter.getInitialState({
     userNameUpdating: false,
     profileImageUpdating: false,
     profileInfoUpdating: false,
-    passwordUpdating: false
+    passwordUpdating: false,
+    loaded: false,
 });
 
 export function reducer(
@@ -48,7 +50,8 @@ export function reducer(
                     action instanceof userActions.RemoveProfileImage,
                 profileInfoUpdating:
                     action instanceof userActions.UpdateProfileInfo,
-                passwordUpdating: action instanceof userActions.UpdatePassword
+                passwordUpdating: action instanceof userActions.UpdatePassword,
+                loaded: action instanceof userActions.Load ? false : state.loaded,
             };
         }
 
@@ -57,7 +60,8 @@ export function reducer(
                 ...adapter.upsertOne(action.user, state),
                 selectedUser: action.user,
                 selectedId: action.user.id,
-                fetching: false
+                fetching: false,
+                loaded: true,
             };
         }
 
@@ -156,3 +160,5 @@ export const profileInfoUpdating = (state: UserState) =>
     state.profileInfoUpdating;
 
 export const passwordUpdating = (state: UserState) => state.passwordUpdating;
+
+export const loaded = (state: UserState) => state.loaded;

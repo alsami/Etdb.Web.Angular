@@ -1,58 +1,46 @@
-import { WaitingForAuthGuard } from '@etdb/abstractions/guards';
 import { Injectable } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import * as fromRoot from '@etdb/+state';
-import * as fromUsers from '@etdb/users/+state/reducers';
-import { Store, select } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
-import { switchMap, filter, take } from 'rxjs/operators';
-import { UserActions } from '@etdb/users/+state/actions';
+import { Router, ActivatedRoute, CanActivate } from '@angular/router';
+import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { AuthFacadeService } from '@etdb/core/+state/facades';
+import { UsersFacadeService } from '@etdb/users/+state/facades';
 
 @Injectable()
-export class UserIsSignedInUserGuard extends WaitingForAuthGuard {
+export class UserIsSignedInUserGuard implements CanActivate {
     public constructor(
         private router: Router,
         private route: ActivatedRoute,
-        protected store: Store<fromRoot.AppState>
+        private authFacadeService: AuthFacadeService,
+        private userFacadeService: UsersFacadeService,
     ) {
-        super(store);
     }
 
     public canActivate(): Observable<boolean> {
         const id = this.route.snapshot.params['id'] as string;
 
-        this.store.dispatch(new UserActions.Load(id));
+        this.userFacadeService.load(id);
 
-        return this.waitForAuthToLoad().pipe(
-            switchMap(x => {
-                console.log('hi1111', x);
-                return this.waitForUserToLoad().pipe(
-                    switchMap(() => {
-                        console.log('hi');
-                        return this.checkSelectedUserIsSignedInUser();
-                    })
-                );
-            })
-        );
+        return this.authFacadeService.awaitAuthenticated()
+            .pipe(
+                switchMap(() => {
+                    return this.userFacadeService.awaitUserLoaded().pipe(
+                        switchMap(() => {
+                            return this.checkSelectedUserIsSignedInUser();
+                        })
+                    );
+                })
+            );
     }
 
     private checkSelectedUserIsSignedInUser(): Observable<boolean> {
-        return this.store.select(fromUsers.getSelectedUserIsSignedInUser).pipe(
+        return this.userFacadeService.selectedUserIsSignedInUser$.pipe(
             switchMap(selectedUserIsSignedInUser => {
                 if (!selectedUserIsSignedInUser) {
                     this.router.navigate(['unauthorized']);
                 }
 
-                return of(!selectedUserIsSignedInUser);
+                return this.userFacadeService.selectedUserIsSignedInUser$;
             })
-        );
-    }
-
-    private waitForUserToLoad(): Observable<boolean> {
-        return this.store.pipe(
-            select(fromUsers.getUserFetching),
-            filter(fetching => fetching),
-            take(1)
         );
     }
 }

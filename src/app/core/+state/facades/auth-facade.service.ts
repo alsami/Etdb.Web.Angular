@@ -1,11 +1,12 @@
 import { Injectable, NgZone, OnDestroy } from '@angular/core';
 import * as fromRoot from '@etdb/+state';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { AuthActions } from '@etdb/core/+state/actions';
 import { TokenStorageService } from '@etdb/core/services';
 import { BehaviorSubject, combineLatest, Subscription, Observable } from 'rxjs';
 import { environment } from 'environments/environment';
 import { IdentityUser, RegisterUser, UserCredentials, AuthenticationProvider } from '@etdb/core/models';
+import { take, filter } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -18,18 +19,28 @@ export class AuthFacadeService implements OnDestroy {
     public authenticatedUser$: Observable<IdentityUser>;
     public registering$: Observable<boolean>;
     public authLoading$: Observable<boolean>;
+    public signedIn$: Observable<boolean>;
 
 
     public constructor(private store: Store<fromRoot.AppState>,
         private tokenStorageService: TokenStorageService, private ngZone: NgZone) {
-        this.signingIn$ = this.store.select(fromRoot.getAuthSigningIn);
-        this.authenticatedUser$ = this.store.select(fromRoot.getAuthIdentityUser);
-        this.registering$ = this.store.select(fromRoot.getAuthRegistering);
-        this.authLoading$ = this.store.select(fromRoot.getAuthLoading);
+        this.signingIn$ = this.store.pipe(select(fromRoot.getAuthSigningIn));
+        this.authenticatedUser$ = this.store.pipe(select(fromRoot.getAuthIdentityUser));
+        this.registering$ = this.store.pipe(select(fromRoot.getAuthRegistering));
+        this.authLoading$ = this.store.pipe(select(fromRoot.getAuthLoading));
+        this.signedIn$ = this.store.pipe(select(fromRoot.getAuthSignedIn));
     }
 
     public ngOnDestroy(): void {
         this.authIniSubscription.unsubscribe();
+    }
+
+    public awaitAuthenticated(): Observable<boolean> {
+        return this.store.pipe(
+            select(fromRoot.getAuthLoaded),
+            filter(loaded => loaded),
+            take(1)
+        );
     }
 
     public signIn(userSignIn: UserCredentials): void {
