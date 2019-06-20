@@ -6,6 +6,7 @@ import {
     UserSettingsComponent
 } from '@etdb/users/containers';
 import { UserIsSignedInUserGuard } from '@etdb/users/guards';
+import { UserResolver } from '@etdb/users/resolver/user-loader.resolver';
 
 const routes: Routes = [
     {
@@ -14,7 +15,10 @@ const routes: Routes = [
         children: [
             {
                 path: 'profile/:id',
-                component: UserProfileComponent
+                component: UserProfileComponent,
+                resolve: {
+                    user: UserResolver
+                },
             },
             {
                 path: 'settings/:id',
@@ -27,6 +31,7 @@ const routes: Routes = [
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+    exports: [RouterModule],
+    providers: [UserResolver]
 })
 export class UsersRoutingModule { }

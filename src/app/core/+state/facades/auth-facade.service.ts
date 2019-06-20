@@ -6,7 +6,7 @@ import { TokenStorageService } from '@etdb/core/services';
 import { BehaviorSubject, combineLatest, Subscription, Observable } from 'rxjs';
 import { environment } from 'environments/environment';
 import { IdentityUser, RegisterUser, UserCredentials, AuthenticationProvider } from '@etdb/core/models';
-import { take, filter } from 'rxjs/operators';
+import { take, filter, switchMap } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -15,6 +15,7 @@ export class AuthFacadeService implements OnDestroy {
     private authIniSubscription: Subscription;
     private googleInitialized$: BehaviorSubject<boolean> = new BehaviorSubject(false);
     private facebookInitialized$: BehaviorSubject<boolean> = new BehaviorSubject(true);
+    private initializing$: BehaviorSubject<boolean> = new BehaviorSubject(true);
     public signingIn$: Observable<boolean>;
     public authenticatedUser$: Observable<IdentityUser>;
     public registering$: Observable<boolean>;
@@ -36,19 +37,27 @@ export class AuthFacadeService implements OnDestroy {
     }
 
     public awaitAuthenticated(): Observable<boolean> {
-        return this.store.pipe(
-            select(fromRoot.getAuthLoaded),
-            filter(loaded => loaded),
-            take(1)
-        );
+        return this.initializing$.pipe(
+            filter(initializing => !initializing),
+            switchMap(() => {
+                return this.store.pipe(
+                    select(fromRoot.getAuthSigningIn),
+                    filter(signingIn => !signingIn),
+                    take(1),
+                    switchMap(() => this.store.pipe(
+                        select(fromRoot.getAuthLoaded),
+                        filter(loaded => loaded),
+                        take(1)
+                    )));
+            }));
     }
 
     public signIn(userSignIn: UserCredentials): void {
         this.store.dispatch(new AuthActions.CredentialSignIn(userSignIn));
     }
 
-    public googleSignIn(user: gapi.auth2.GoogleUser): void {
-        this.store.dispatch(new AuthActions.ProviderSignIn(AuthenticationProvider.Google, user.getAuthResponse().access_token));
+    public googleSignIn(acessToken: string): void {
+        this.store.dispatch(new AuthActions.ProviderSignIn(AuthenticationProvider.Google, acessToken));
     }
 
     public facebookSignIn(token: string): void {
@@ -72,10 +81,12 @@ export class AuthFacadeService implements OnDestroy {
                 }
 
                 if (!this.tokenStorageService.canRestore()) {
+                    this.initializing$.next(false);
                     return;
                 }
 
                 this.store.dispatch(new AuthActions.RestoreSignIn());
+                this.initializing$.next(false);
             });
     }
 

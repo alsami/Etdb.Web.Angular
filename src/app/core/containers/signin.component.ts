@@ -22,7 +22,7 @@ export class SignInComponent {
     }
 
     public googleSignIn(user: gapi.auth2.GoogleUser) {
-        this.authFacadeService.googleSignIn(user);
+        this.authFacadeService.googleSignIn(user.getAuthResponse().access_token);
     }
 
     public facebookSignIn(token: string) {

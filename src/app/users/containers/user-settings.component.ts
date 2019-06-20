@@ -47,7 +47,6 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
             .pipe(map(params => <string>params['id']))
             .subscribe(id => {
                 this.userId = id;
-                this.usersFacadeService.load(this.userId);
             });
     }
 

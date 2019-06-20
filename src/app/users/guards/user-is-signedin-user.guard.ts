@@ -16,7 +16,7 @@ export class UserIsSignedInUserGuard implements CanActivate {
     }
 
     public canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
-        this.userFacadeService.load(route.params['id']);
+        this.userFacadeService.load(route.paramMap.get('id'));
 
         return this.authFacadeService.awaitAuthenticated()
             .pipe(
