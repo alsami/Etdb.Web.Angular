@@ -1,6 +1,6 @@
 <div class="page-content page-content-pad-xs flex-container flex-flow-column flex-center-center">
     <div class="signin-container">
-        <etdb-component-loader-overlay [loading]="loading$ | async">
+        <etdb-component-loader-overlay [loading]="loading$ | async" [message]="loaderMessage$ | async">
             <button mat-raised-button class="max-width" routerLink="/register">
                 Create a new account
             </button>
