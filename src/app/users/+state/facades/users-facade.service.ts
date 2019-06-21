@@ -17,7 +17,7 @@ export class UsersFacadeService {
     public profileImageUploading$: Observable<boolean>;
     public profileInfoUpdating$: Observable<boolean>;
     public passwordUpdating$: Observable<boolean>;
-    public selectedUserIsSignedInUser$: Observable<boolean>;
+    public selectedUserIsAuthenticatedUser$: Observable<boolean>;
 
     public constructor(private store: Store<fromUsers.UsersState>) {
         this.fetching$ = this.store.pipe(select(fromUsers.getUserFetching));
@@ -40,7 +40,7 @@ export class UsersFacadeService {
             fromUsers.getPasswordUpdating
         ));
 
-        this.selectedUserIsSignedInUser$ = this.store.pipe(select(fromUsers.getSelectedUserIsSignedInUser));
+        this.selectedUserIsAuthenticatedUser$ = this.store.pipe(select(fromUsers.getSelectedUserIsAuthenticatedUser));
     }
 
     public load(userId: string): void {

@@ -25,11 +25,11 @@ export class AuthFacadeService implements OnDestroy {
 
     public constructor(private store: Store<fromRoot.AppState>,
         private tokenStorageService: TokenStorageService, private ngZone: NgZone) {
-        this.signingIn$ = this.store.pipe(select(fromRoot.getAuthSigningIn));
-        this.authenticatedUser$ = this.store.pipe(select(fromRoot.getAuthIdentityUser));
+        this.signingIn$ = this.store.pipe(select(fromRoot.getAuthAuthenticating));
+        this.authenticatedUser$ = this.store.pipe(select(fromRoot.getAuthenticatedUser));
         this.registering$ = this.store.pipe(select(fromRoot.getAuthRegistering));
         this.authLoading$ = this.store.pipe(select(fromRoot.getAuthLoading));
-        this.signedIn$ = this.store.pipe(select(fromRoot.getAuthSignedIn));
+        this.signedIn$ = this.store.pipe(select(fromRoot.getAuthAuthenticated));
     }
 
     public ngOnDestroy(): void {
@@ -41,7 +41,7 @@ export class AuthFacadeService implements OnDestroy {
             filter(initializing => !initializing),
             switchMap(() => {
                 return this.store.pipe(
-                    select(fromRoot.getAuthSigningIn),
+                    select(fromRoot.getAuthAuthenticating),
                     filter(signingIn => !signingIn),
                     take(1),
                     switchMap(() => this.store.pipe(

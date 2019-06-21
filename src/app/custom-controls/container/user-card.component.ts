@@ -22,12 +22,12 @@ export class UserCardComponent implements OnChanges {
             return;
         }
 
-        let imageMeta = this.user.profileImageMetaInfos.find(profileImage => profileImage.isPrimary);
+        const imageMeta = this.user.profileImageMetaInfos.find(profileImage => profileImage.isPrimary);
 
-        if (imageMeta !== null) {
+        if (imageMeta !== undefined) {
             this.profileImageUrl = imageMeta.url;
         }
 
-        imageMeta = this.user.profileImageMetaInfos.find(profileImage => profileImage.isPrimary);
+        this.profileImageUrl = this.user.profileImageMetaInfos[0].url;
     }
 }

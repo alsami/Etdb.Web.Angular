@@ -68,8 +68,8 @@ export const getPasswordUpdating = createSelector(
     fromUser.passwordUpdating
 );
 
-export const getSelectedUserIsSignedInUser = createSelector(
-    fromRoot.getAuthIdentityUser,
+export const getSelectedUserIsAuthenticatedUser = createSelector(
+    fromRoot.getAuthenticatedUser,
     getSelectedUser,
     (identityUser, selectedUser) =>
         identityUser !== null &&

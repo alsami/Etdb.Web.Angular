@@ -89,14 +89,14 @@ export const getAuthIdentityToken = createSelector(
     fromAuth.identityToken
 );
 
-export const getAuthIdentityUser = createSelector(
+export const getAuthenticatedUser = createSelector(
     getAuthState,
-    fromAuth.identityUser
+    fromAuth.authenticatedUser
 );
 
-export const getAuthSignedIn = createSelector(
+export const getAuthAuthenticated = createSelector(
     getAuthState,
-    fromAuth.signedIn
+    fromAuth.authenticated
 );
 
 export const getAuthLoading = createSelector(
@@ -109,9 +109,9 @@ export const getAuthLoaded = createSelector(
     fromAuth.loaded
 );
 
-export const getAuthSigningIn = createSelector(
+export const getAuthAuthenticating = createSelector(
     getAuthState,
-    state => state.identityUserLoading || state.signingIn && !state.registering
+    state => state.loadingAuthenticatedUser || state.authenticating && !state.registering
 );
 
 export const getAuthRegistering = createSelector(

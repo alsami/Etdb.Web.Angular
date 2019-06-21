@@ -12,7 +12,7 @@ export class PolicyService {
     public constructor(private store: Store<fromRoot.AppState>) { }
 
     public isSelectedUserIsLoggedInUser(): Observable<boolean> {
-        return combineLatest(this.store.select(fromRoot.getAuthIdentityUser), this.store.select(fromUsers.getSelectedUser))
+        return combineLatest(this.store.select(fromRoot.getAuthenticatedUser), this.store.select(fromUsers.getSelectedUser))
             .pipe(map(([identityUser, loggedInUser]) => {
                 if ((!identityUser && !loggedInUser) || !identityUser || !loggedInUser) {
                     return false;

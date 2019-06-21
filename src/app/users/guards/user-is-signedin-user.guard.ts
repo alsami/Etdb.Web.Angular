@@ -31,13 +31,13 @@ export class UserIsSignedInUserGuard implements CanActivate {
     }
 
     private checkSelectedUserIsSignedInUser(): Observable<boolean> {
-        return this.userFacadeService.selectedUserIsSignedInUser$.pipe(
+        return this.userFacadeService.selectedUserIsAuthenticatedUser$.pipe(
             switchMap(selectedUserIsSignedInUser => {
                 if (!selectedUserIsSignedInUser) {
                     this.router.navigate(['/unauthorized']);
                 }
 
-                return this.userFacadeService.selectedUserIsSignedInUser$;
+                return this.userFacadeService.selectedUserIsAuthenticatedUser$;
             })
         );
     }
