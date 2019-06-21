@@ -1,8 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import * as titleActions from '@etdb/core/+state/actions/title.actions';
 import { User } from '@etdb/models';
-import * as userActions from '@etdb/users/+state/actions/user.actions';
 import * as fromUser from '@etdb/users/+state/reducers';
 import * as fromRoot from '@etdb/+state';
 import { Store } from '@ngrx/store';
@@ -10,6 +8,7 @@ import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { IdentityUser } from '@etdb/core/models';
 import { PolicyService } from '@etdb/core/services';
+import { TitleFacadeService } from '@etdb/core/+state/facades';
 
 @Component({
     selector: 'etdb-user',
@@ -28,7 +27,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     public constructor(
         private store: Store<fromUser.State>,
         private route: ActivatedRoute,
-        private policyService: PolicyService
+        private policyService: PolicyService,
+        private titleFacadeService: TitleFacadeService,
     ) { }
 
     public ngOnInit(): void {
@@ -38,17 +38,21 @@ export class UserProfileComponent implements OnInit, OnDestroy {
             .pipe(map(params => <string>params['id']))
             .subscribe(id => {
                 this.userId = id;
-                this.store.dispatch(new userActions.Load(this.userId));
+                console.log(this.userId);
+                // this.store.dispatch(new userActions.Load(this.userId));
             });
 
-        this.user$ = this.store.select(fromUser.getSelectedUser).pipe(
-            map(user => {
-                if (user) {
-                    this.store.dispatch(
-                        new titleActions.SetTitle('Users', user.userName)
-                    );
+        this.route.data.subscribe(data => console.log('data', data));
+
+        this.user$ = this.route.data.pipe(
+            map((userData: { user: User }) => {
+                console.log('user', userData);
+                if (!userData.user) {
+                    return;
                 }
-                return user;
+
+                this.titleFacadeService.setTitle(`User | ${userData.user.name}`);
+                return userData.user;
             })
         );
 
