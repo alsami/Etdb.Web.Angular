@@ -53,19 +53,24 @@ export const getUserNameUpdating = createSelector(
     fromUser.userNameUpdating
 );
 
-export const getProfileImageUpdating = createSelector(
+export const getUploadingProfileImage = createSelector(
     getUserEntitiesState,
-    fromUser.profileImageUpdating
+    fromUser.uploadingProfileImage
 );
 
-export const getProfileInfoUpdating = createSelector(
+export const getRemovingProfileImage = createSelector(
+    getUserEntitiesState,
+    fromUser.removingProfileImage
+);
+
+export const getUpdatingProfileInfo = createSelector(
     getUserEntitiesState,
     fromUser.profileInfoUpdating
 );
 
-export const getPasswordUpdating = createSelector(
+export const getUpdatingPassword = createSelector(
     getUserEntitiesState,
-    fromUser.passwordUpdating
+    fromUser.updatingPassword
 );
 
 export const getSelectedUserIsAuthenticatedUser = createSelector(

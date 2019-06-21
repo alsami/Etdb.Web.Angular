@@ -19,8 +19,14 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
     public userNameUpdating$: Observable<boolean>;
     public profileImageUploading$: Observable<boolean>;
     public profileInfoUpdating$: Observable<boolean>;
-    public passwordUpdating$: Observable<boolean>;
+    public updatingPassword$: Observable<boolean>;
+    public removingProfileImage$: Observable<boolean>;
     public paramsSubscription: Subscription;
+
+    public uploadImageMessage$: Observable<string>;
+    public updateProfileMessage$: Observable<string>;
+    public removeProfileImageMessage$: Observable<string>;
+    public updatePasswordMessage$: Observable<string>;
 
     public constructor(
         private route: ActivatedRoute,
@@ -37,11 +43,21 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
 
         this.userNameUpdating$ = this.usersFacadeService.userNameUpdating$;
 
-        this.profileImageUploading$ = this.usersFacadeService.profileImageUploading$;
+        this.profileImageUploading$ = this.usersFacadeService.uploadingProfileImage$;
 
-        this.profileInfoUpdating$ = this.usersFacadeService.profileInfoUpdating$;
+        this.uploadImageMessage$ = this.applyLoadingMessage(this.profileImageUploading$, 'Uploading image');
 
-        this.passwordUpdating$ = this.usersFacadeService.passwordUpdating$;
+        this.removingProfileImage$ = this.usersFacadeService.removingProfileImage$;
+
+        this.removeProfileImageMessage$ = this.applyLoadingMessage(this.removingProfileImage$, 'Removing image');
+
+        this.profileInfoUpdating$ = this.usersFacadeService.updatingProfileInfo$;
+
+        this.updateProfileMessage$ = this.applyLoadingMessage(this.profileInfoUpdating$, 'Updating profile');
+
+        this.updatingPassword$ = this.usersFacadeService.updatingPassword$;
+
+        this.updatePasswordMessage$ = this.applyLoadingMessage(this.updatingPassword$, 'Updating password');
 
         this.paramsSubscription = this.route.params
             .pipe(map(params => <string>params['id']))
@@ -75,5 +91,11 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
 
     public updateProfileInfo(profileInfoChange: UserProfileInfoChange): void {
         this.usersFacadeService.updateProfileInfo(this.userId, profileInfoChange);
+    }
+
+    private applyLoadingMessage(observer: Observable<boolean>, message: string): Observable<string> {
+        return observer.pipe(
+            map(updating => updating ? message : null)
+        );
     }
 }

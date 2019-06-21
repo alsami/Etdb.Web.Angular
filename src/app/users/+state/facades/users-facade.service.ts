@@ -14,9 +14,10 @@ export class UsersFacadeService {
     public fetching$: Observable<boolean>;
     public selectedUser$: Observable<User>;
     public userNameUpdating$: Observable<boolean>;
-    public profileImageUploading$: Observable<boolean>;
-    public profileInfoUpdating$: Observable<boolean>;
-    public passwordUpdating$: Observable<boolean>;
+    public uploadingProfileImage$: Observable<boolean>;
+    public updatingProfileInfo$: Observable<boolean>;
+    public updatingPassword$: Observable<boolean>;
+    public removingProfileImage$: Observable<boolean>;
     public selectedUserIsAuthenticatedUser$: Observable<boolean>;
 
     public constructor(private store: Store<fromUsers.UsersState>) {
@@ -28,16 +29,20 @@ export class UsersFacadeService {
             fromUsers.getUserNameUpdating
         ));
 
-        this.profileImageUploading$ = this.store.pipe(select(
-            fromUsers.getProfileImageUpdating
+        this.uploadingProfileImage$ = this.store.pipe(select(
+            fromUsers.getUploadingProfileImage
         ));
 
-        this.profileInfoUpdating$ = this.store.pipe(select(
-            fromUsers.getProfileInfoUpdating
+        this.updatingProfileInfo$ = this.store.pipe(select(
+            fromUsers.getUpdatingProfileInfo
         ));
 
-        this.passwordUpdating$ = this.store.pipe(select(
-            fromUsers.getPasswordUpdating
+        this.updatingPassword$ = this.store.pipe(select(
+            fromUsers.getUpdatingPassword
+        ));
+
+        this.removingProfileImage$ = this.store.pipe(select(
+            fromUsers.getRemovingProfileImage
         ));
 
         this.selectedUserIsAuthenticatedUser$ = this.store.pipe(select(fromUsers.getSelectedUserIsAuthenticatedUser));

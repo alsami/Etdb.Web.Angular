@@ -1,20 +1,21 @@
 import { User } from '@etdb/models';
 import { UserActions, UserActionTypes } from '@etdb/users/+state/actions/user.actions';
 import * as userActions from '@etdb/users/+state/actions/user.actions';
-import { EntityState, createEntityAdapter } from '@ngrx/entity';
+import { EntityState, createEntityAdapter, EntityAdapter } from '@ngrx/entity';
 
 export interface UserState extends EntityState<User> {
     selectedId: string | null;
     selectedUser: User;
     fetching: boolean;
     userNameUpdating: boolean;
-    profileImageUpdating: boolean;
+    uploadingProfileImage: boolean;
+    removingProfileImage: boolean;
     profileInfoUpdating: boolean;
-    passwordUpdating: boolean;
+    updatingPassword: boolean;
     loaded: boolean;
 }
 
-export const adapter = createEntityAdapter<User>({
+export const adapter: EntityAdapter<User> = createEntityAdapter<User>({
     selectId: (user: User) => user.id,
     sortComparer: (a: User, b: User) => a.userName.localeCompare(b.userName)
 });
@@ -24,9 +25,10 @@ export const initialState: UserState = adapter.getInitialState({
     selectedId: null,
     fetching: false,
     userNameUpdating: false,
-    profileImageUpdating: false,
+    uploadingProfileImage: false,
+    removingProfileImage: false,
     profileInfoUpdating: false,
-    passwordUpdating: false,
+    updatingPassword: false,
     loaded: false,
 });
 
@@ -45,12 +47,12 @@ export function reducer(
                 ...state,
                 fetching: action instanceof userActions.Load,
                 userNameUpdating: action instanceof userActions.UpdateUserName,
-                profileImageUpdating:
-                    action instanceof userActions.UploadProfileImage ||
-                    action instanceof userActions.RemoveProfileImage,
+                uploadingProfileImage:
+                    action instanceof userActions.UploadProfileImage,
+                removingProfileImage: action instanceof userActions.RemoveProfileImage,
                 profileInfoUpdating:
                     action instanceof userActions.UpdateProfileInfo,
-                passwordUpdating: action instanceof userActions.UpdatePassword,
+                updatingPassword: action instanceof userActions.UpdatePassword,
                 loaded: action instanceof userActions.Load ? false : state.loaded,
             };
         }
@@ -74,7 +76,7 @@ export function reducer(
                 ...adapter.upsertOne(user, state),
                 selectedUser: user,
                 selectedId: user.id,
-                profileImageUpdating: false
+                uploadingProfileImage: false
             };
         }
 
@@ -85,14 +87,14 @@ export function reducer(
             );
             return {
                 ...adapter.upsertOne(user, state),
-                profileImageUpdating: false
+                removingProfileImage: false
             };
         }
 
         case UserActionTypes.UpdatedPassword: {
             return {
                 ...state,
-                passwordUpdating: false
+                updatingPassword: false
             };
         }
 
@@ -125,19 +127,22 @@ export function reducer(
                     action instanceof userActions.UpdateUserNameFailed
                         ? false
                         : state.userNameUpdating,
-                profileImageUpdating:
-                    action instanceof userActions.UploadProfileImageFailed ||
-                        action instanceof userActions.RemoveProfileImageFailed
+                uploadingProfileImage:
+                    action instanceof userActions.UploadProfileImageFailed
                         ? false
-                        : state.profileImageUpdating,
+                        : state.uploadingProfileImage,
+                removingProfileImage:
+                    action instanceof userActions.RemoveProfileImageFailed
+                        ? false
+                        : state.removingProfileImage,
                 profileInfoUpdating:
                     action instanceof userActions.UpdateProfileInfoFailed
                         ? false
                         : state.profileInfoUpdating,
-                passwordUpdating:
+                updatingPassword:
                     action instanceof userActions.UpdatePasswordFailed
                         ? false
-                        : state.passwordUpdating
+                        : state.updatingPassword
             };
         }
 
@@ -153,12 +158,15 @@ export const fetching = (state: UserState) => state.fetching;
 
 export const userNameUpdating = (state: UserState) => state.userNameUpdating;
 
-export const profileImageUpdating = (state: UserState) =>
-    state.profileImageUpdating;
+export const uploadingProfileImage = (state: UserState) =>
+    state.uploadingProfileImage;
+
+export const removingProfileImage = (state: UserState) =>
+    state.removingProfileImage;
 
 export const profileInfoUpdating = (state: UserState) =>
     state.profileInfoUpdating;
 
-export const passwordUpdating = (state: UserState) => state.passwordUpdating;
+export const updatingPassword = (state: UserState) => state.updatingPassword;
 
 export const loaded = (state: UserState) => state.loaded;

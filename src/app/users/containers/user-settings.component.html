@@ -1,17 +1,20 @@
 <etdb-page-loading-indicator [loading]="fetching$ | async"></etdb-page-loading-indicator>
 <div class="page-content page-content-pad-xs">
-    <etdb-component-loader-overlay [loading]="profileImageUploading$ | async">
+    <etdb-component-loader-overlay [loading]="(profileImageUploading$ | async) || (removingProfileImage$ | async)"
+        [message]="(uploadImageMessage$ | async) || (removeProfileImageMessage$ | async)">
         <etdb-user-image-control [user]="user$ | async" (profileImageUpload)="uploadProfileImage($event)"
             (profileImageRemove)="removeProfileImage($event)"></etdb-user-image-control>
     </etdb-component-loader-overlay>
     <div class="card-seperator"></div>
-    <etdb-component-loader-overlay [loading]="profileInfoUpdating$ | async">
+    <etdb-component-loader-overlay [loading]="profileInfoUpdating$ | async" [message]="updateProfileMessage$ | async">
         <etdb-user-infochange-form [user]="user$ | async" (requestProfileInfoChange)="updateProfileInfo($event)">
         </etdb-user-infochange-form>
     </etdb-component-loader-overlay>
     <div class="card-seperator"></div>
-    <etdb-component-loader-overlay [loading]="passwordUpdating$ | async">
-        <etdb-user-pwd-change-form *ngIf="!(user$ | async)?.isExternalUser" (requestPwdChange)="updatePassword($event)">
-        </etdb-user-pwd-change-form>
-    </etdb-component-loader-overlay>
+    <ng-container *ngIf="!(user$ | async)?.isExternalUser">
+        <etdb-component-loader-overlay [loading]="updatingPassword$ | async" [message]="updatePasswordMessage$ | async">
+            <etdb-user-pwd-change-form (requestPwdChange)="updatePassword($event)">
+            </etdb-user-pwd-change-form>
+        </etdb-component-loader-overlay>
+    </ng-container>
 </div>
