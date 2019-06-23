@@ -32,7 +32,7 @@ export class UserProfileComponent implements OnInit {
                     return;
                 }
 
-                this.titleFacadeService.setTitle(`User | ${userData.user.name}`);
+                this.titleFacadeService.setTitle(`User | ${userData.user.userName}`);
                 return userData.user;
             })
         );
