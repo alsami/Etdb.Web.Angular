@@ -26,6 +26,7 @@ export class UserCardComponent implements OnChanges {
 
         if (imageMeta !== undefined) {
             this.profileImageUrl = imageMeta.url;
+            return;
         }
 
         this.profileImageUrl = this.user.profileImageMetaInfos[0].url;
