@@ -2,7 +2,7 @@
     <mat-card>
         <mat-card-header>
             <div *ngIf="profileImageUrl?.length" mat-card-avatar [style.backgroundImage]="'url('+ profileImageUrl +')'"
-                style="background-size: cover;">
+                style="background-size: cover; background-position: 50% 50%">
             </div>
             <mat-card-title>{{ user.userName }}</mat-card-title>
             <mat-card-subtitle>Member since {{ user.registeredSince | date: "dd.MM.yyyy" }}
