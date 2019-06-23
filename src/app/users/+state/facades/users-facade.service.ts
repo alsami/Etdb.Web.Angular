@@ -19,6 +19,7 @@ export class UsersFacadeService {
     public updatingPassword$: Observable<boolean>;
     public removingProfileImage$: Observable<boolean>;
     public selectedUserIsAuthenticatedUser$: Observable<boolean>;
+    public markingPrimaryProfileImage$: Observable<boolean>;
 
     public constructor(private store: Store<fromUsers.UsersState>) {
         this.fetching$ = this.store.pipe(select(fromUsers.getUserFetching));
@@ -45,6 +46,8 @@ export class UsersFacadeService {
             fromUsers.getRemovingProfileImage
         ));
 
+        this.markingPrimaryProfileImage$ = this.store.pipe(select(fromUsers.getMarkingPrimaryProfileImage));
+
         this.selectedUserIsAuthenticatedUser$ = this.store.pipe(select(fromUsers.getSelectedUserIsAuthenticatedUser));
     }
 
@@ -62,6 +65,10 @@ export class UsersFacadeService {
 
     public removeProfileImage(userId: string, url: string): void {
         this.store.dispatch(new UserActions.RemoveProfileImage(url, userId));
+    }
+
+    public markPrimaryProfileImage(id: string, userId: string): void {
+        this.store.dispatch(new UserActions.MarkPrimaryProfileImage(id, userId));
     }
 
     public updateProfileInfo(userId: string, profileInfoChange: UserProfileInfoChange): void {

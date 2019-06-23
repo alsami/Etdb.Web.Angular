@@ -22,6 +22,8 @@ export class UserImageControlComponent implements OnChanges {
     profileImageUpload: EventEmitter<File> = new EventEmitter<File>();
     @Output()
     profileImageRemove: EventEmitter<string> = new EventEmitter<string>();
+    @Output()
+    profileImagePrimary: EventEmitter<string> = new EventEmitter<string>();
 
     public imageLoading: boolean;
 
@@ -110,5 +112,9 @@ export class UserImageControlComponent implements OnChanges {
 
     public requestProfileImageRemove(imageMeta: ProfileImageMetaInfo): void {
         this.profileImageRemove.emit(imageMeta.removeUrl);
+    }
+
+    public requestMarkPrimaryProfileImage(imageMeta: ProfileImageMetaInfo): void {
+        this.profileImagePrimary.emit(imageMeta.id);
     }
 }

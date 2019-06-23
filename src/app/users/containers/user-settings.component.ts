@@ -21,12 +21,14 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
     public profileInfoUpdating$: Observable<boolean>;
     public updatingPassword$: Observable<boolean>;
     public removingProfileImage$: Observable<boolean>;
+    public markingPrimaryProfileImage$: Observable<boolean>;
     public paramsSubscription: Subscription;
 
     public uploadImageMessage$: Observable<string>;
     public updateProfileMessage$: Observable<string>;
     public removeProfileImageMessage$: Observable<string>;
     public updatePasswordMessage$: Observable<string>;
+    public markingPrimaryProfileImageMessage$: Observable<string>;
 
     public constructor(
         private route: ActivatedRoute,
@@ -59,6 +61,11 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
 
         this.updatePasswordMessage$ = this.applyLoadingMessage(this.updatingPassword$, 'Updating password');
 
+        this.markingPrimaryProfileImage$ = this.usersFacadeService.markingPrimaryProfileImage$;
+
+        this.markingPrimaryProfileImageMessage$
+            = this.applyLoadingMessage(this.markingPrimaryProfileImage$, 'Setting selected image as primary');
+
         this.paramsSubscription = this.route.params
             .pipe(map(params => <string>params['id']))
             .subscribe(id => {
@@ -87,6 +94,10 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
 
     public removeProfileImage(url: string): void {
         this.usersFacadeService.removeProfileImage(this.userId, url);
+    }
+
+    public markPrimaryProfileImage(id: string): void {
+        this.usersFacadeService.markPrimaryProfileImage(id, this.userId);
     }
 
     public updateProfileInfo(profileInfoChange: UserProfileInfoChange): void {

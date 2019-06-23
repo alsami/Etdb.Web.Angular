@@ -1,9 +1,11 @@
 <etdb-page-loading-indicator [loading]="fetching$ | async"></etdb-page-loading-indicator>
 <div class="page-content page-content-pad-xs">
-    <etdb-component-loader-overlay [loading]="(profileImageUploading$ | async) || (removingProfileImage$ | async)"
-        [message]="(uploadImageMessage$ | async) || (removeProfileImageMessage$ | async)">
+    <etdb-component-loader-overlay
+        [loading]="(profileImageUploading$ | async) || (removingProfileImage$ | async) || (markingPrimaryProfileImage$ | async)"
+        [message]="(uploadImageMessage$ | async) || (removeProfileImageMessage$ | async) || (markingPrimaryProfileImageMessage$ | async)">
         <etdb-user-image-control [user]="user$ | async" (profileImageUpload)="uploadProfileImage($event)"
-            (profileImageRemove)="removeProfileImage($event)"></etdb-user-image-control>
+            (profileImageRemove)="removeProfileImage($event)" (profileImagePrimary)="markPrimaryProfileImage($event);">
+        </etdb-user-image-control>
     </etdb-component-loader-overlay>
     <div class="card-seperator"></div>
     <etdb-component-loader-overlay [loading]="profileInfoUpdating$ | async" [message]="updateProfileMessage$ | async">

@@ -47,4 +47,8 @@ export class UserService {
             formData
         );
     }
+
+    public markPrimaryProfileImage(id: string, userId: string): Observable<any> {
+        return this.http.patch(`${this.url}${userId}/profileimages/${id}`, null);
+    }
 }

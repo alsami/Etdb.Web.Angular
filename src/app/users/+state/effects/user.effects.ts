@@ -96,6 +96,17 @@ export class UserEffects {
     );
 
     @Effect()
+    markPrimaryProfileImage$: Observable<Action> = this.actions$.pipe(
+        ofType(UserActionTypes.MarkPrimaryProfileImage),
+        switchMap((action: userActions.MarkPrimaryProfileImage) => {
+            return this.userService.markPrimaryProfileImage(action.id, action.userId).pipe(
+                map(() => new userActions.MarkedPrimaryProfileImage(action.id, action.userId)),
+                catchError((error: Error) => of(new userActions.MarkPrimaryProfileImageFailed(error)))
+            );
+        })
+    );
+
+    @Effect()
     displayError$: Observable<Action> = this.actions$.pipe(
         ofType(
             UserActionTypes.LoadFailed,
@@ -103,7 +114,8 @@ export class UserEffects {
             UserActionTypes.UpdateProfileInfoFailed,
             UserActionTypes.UpdateUserNameFailed,
             UserActionTypes.UploadProfileImageFailed,
-            UserActionTypes.RemoveProfileImageFailed
+            UserActionTypes.RemoveProfileImageFailed,
+            UserActionTypes.MarkPrimaryProfileImageFailed
         ),
         switchMap(
             (
@@ -113,6 +125,7 @@ export class UserEffects {
                     | userActions.UpdatePasswordFailed
                     | userActions.UpdateUserNameFailed
                     | userActions.RemoveProfileImageFailed
+                    | userActions.MarkPrimaryProfileImageFailed
             ): Observable<any> => {
                 const humanreadable = this.errorExtractorService.extractHumanreadableError(
                     action.error

@@ -14,18 +14,21 @@ export enum UserActionTypes {
     UpdateUserName = '[User API] Update User Name',
     UpdatedUserName = '[User API] Updated User Name',
     UpdateUserNameFailed = '[User API] Update User Name Failed',
-    UploadProfileImage = '[User API] Upload User Profile Image',
-    UploadedProfileImage = '[User API] Uploaded User Profile Image',
-    UploadProfileImageFailed = '[User API] Upload User Profil Image Failed',
     UpdatePassword = '[User API] Update User Password',
     UpdatedPassword = '[User API] Updated User Password',
     UpdatePasswordFailed = '[User API] Update User Password Failed',
     UpdateProfileInfo = '[User API] Update User Profileinfo',
     UpdatedProfileInfo = '[User API] Updated User Profileinfo',
     UpdateProfileInfoFailed = '[User API] Update User Profileinfo Failed',
+    UploadProfileImage = '[User API] Upload User Profile Image',
+    UploadedProfileImage = '[User API] Uploaded User Profile Image',
+    UploadProfileImageFailed = '[User API] Upload User Profil Image Failed',
     RemoveProfileImage = '[User API] Remove User Profile Image',
     RemovedProfileImage = '[User API] Removed User Profile Image',
-    RemoveProfileImageFailed = '[User API] Remove User Profile Image Failed'
+    RemoveProfileImageFailed = '[User API] Remove User Profile Image Failed',
+    MarkPrimaryProfileImage = '[User API] Mark User Primary Profile Image',
+    MarkedPrimaryProfileImage = '[User API] Marked User Primary Profile Image',
+    MarkPrimaryProfileImageFailed = '[User API] Marked User Primary Profile Image Failed',
 }
 
 export class Load implements Action {
@@ -57,20 +60,7 @@ export class UpdateUserNameFailed implements Action {
     public constructor(public error: Error) { }
 }
 
-export class UploadProfileImage implements Action {
-    readonly type = UserActionTypes.UploadProfileImage;
-    public constructor(public profileImage: UserProfileImageUpload) { }
-}
 
-export class UploadedProfileImage implements Action {
-    readonly type = UserActionTypes.UploadedProfileImage;
-    public constructor(public userId: string, public profileImageMeta: ProfileImageMetaInfo) { }
-}
-
-export class UploadProfileImageFailed implements Action {
-    readonly type = UserActionTypes.UploadProfileImageFailed;
-    public constructor(public error: Error) { }
-}
 
 export class UpdatePassword implements Action {
     readonly type = UserActionTypes.UpdatePassword;
@@ -110,6 +100,21 @@ export class UpdateProfileInfoFailed implements Action {
     public constructor(public error: Error) { }
 }
 
+export class UploadProfileImage implements Action {
+    readonly type = UserActionTypes.UploadProfileImage;
+    public constructor(public profileImage: UserProfileImageUpload) { }
+}
+
+export class UploadedProfileImage implements Action {
+    readonly type = UserActionTypes.UploadedProfileImage;
+    public constructor(public userId: string, public profileImageMeta: ProfileImageMetaInfo) { }
+}
+
+export class UploadProfileImageFailed implements Action {
+    readonly type = UserActionTypes.UploadProfileImageFailed;
+    public constructor(public error: Error) { }
+}
+
 export class RemoveProfileImage implements Action {
     readonly type = UserActionTypes.RemoveProfileImage;
     public constructor(public url: string, public userId: string) { }
@@ -125,6 +130,21 @@ export class RemoveProfileImageFailed implements Action {
     public constructor(public error: Error) { }
 }
 
+export class MarkPrimaryProfileImage implements Action {
+    readonly type = UserActionTypes.MarkPrimaryProfileImage;
+    public constructor(public id: string, public userId: string) { }
+}
+
+export class MarkedPrimaryProfileImage implements Action {
+    readonly type = UserActionTypes.MarkedPrimaryProfileImage;
+    public constructor(public id: string, public userId: string) { }
+}
+
+export class MarkPrimaryProfileImageFailed implements Action {
+    readonly type = UserActionTypes.MarkPrimaryProfileImageFailed;
+    public constructor(public error: Error) { }
+}
+
 export type UserActions =
     | Load
     | Loaded
@@ -132,9 +152,6 @@ export type UserActions =
     | UpdateUserName
     | UpdatedUserName
     | UpdateUserNameFailed
-    | UploadProfileImage
-    | UploadedProfileImage
-    | UploadProfileImageFailed
     | UpdatePassword
     | UpdatedPassword
     | UpdatePasswordFailed
@@ -143,4 +160,10 @@ export type UserActions =
     | UpdateProfileInfoFailed
     | RemoveProfileImage
     | RemovedProfileImage
-    | RemoveProfileImageFailed;
+    | RemoveProfileImageFailed
+    | UploadProfileImage
+    | UploadedProfileImage
+    | UploadProfileImageFailed
+    | MarkPrimaryProfileImage
+    | MarkedPrimaryProfileImage
+    | MarkPrimaryProfileImageFailed;

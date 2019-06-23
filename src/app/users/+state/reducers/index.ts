@@ -63,6 +63,11 @@ export const getRemovingProfileImage = createSelector(
     fromUser.removingProfileImage
 );
 
+export const getMarkingPrimaryProfileImage = createSelector(
+    getUserEntitiesState,
+    fromUser.markingPrimaryProfileImage
+);
+
 export const getUpdatingProfileInfo = createSelector(
     getUserEntitiesState,
     fromUser.profileInfoUpdating

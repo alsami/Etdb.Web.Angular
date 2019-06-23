@@ -12,6 +12,7 @@ export interface UserState extends EntityState<User> {
     removingProfileImage: boolean;
     profileInfoUpdating: boolean;
     updatingPassword: boolean;
+    markingPrimaryProfileImage: boolean;
     loaded: boolean;
 }
 
@@ -29,6 +30,7 @@ export const initialState: UserState = adapter.getInitialState({
     removingProfileImage: false,
     profileInfoUpdating: false,
     updatingPassword: false,
+    markingPrimaryProfileImage: false,
     loaded: false,
 });
 
@@ -42,7 +44,8 @@ export function reducer(
         case UserActionTypes.UploadProfileImage:
         case UserActionTypes.UpdateProfileInfo:
         case UserActionTypes.UpdatePassword:
-        case UserActionTypes.RemoveProfileImage: {
+        case UserActionTypes.RemoveProfileImage:
+        case UserActionTypes.MarkPrimaryProfileImage: {
             return {
                 ...state,
                 fetching: action instanceof userActions.Load,
@@ -53,6 +56,7 @@ export function reducer(
                 profileInfoUpdating:
                     action instanceof userActions.UpdateProfileInfo,
                 updatingPassword: action instanceof userActions.UpdatePassword,
+                markingPrimaryProfileImage: action instanceof userActions.MarkPrimaryProfileImage,
                 loaded: action instanceof userActions.Load ? false : state.loaded,
             };
         }
@@ -111,12 +115,24 @@ export function reducer(
             };
         }
 
+        case UserActionTypes.MarkedPrimaryProfileImage: {
+            const user = state.entities[action.userId];
+
+            user.profileImageMetaInfos.forEach(meta => meta.isPrimary = meta.id === action.id);
+
+            return {
+                ...adapter.upsertOne(user, state),
+                markingPrimaryProfileImage: false
+            };
+        }
+
         case UserActionTypes.LoadFailed:
         case UserActionTypes.UpdateUserNameFailed:
         case UserActionTypes.UploadProfileImageFailed:
         case UserActionTypes.UpdateProfileInfoFailed:
         case UserActionTypes.UpdatePasswordFailed:
-        case UserActionTypes.RemoveProfileImageFailed: {
+        case UserActionTypes.RemoveProfileImageFailed:
+        case UserActionTypes.MarkPrimaryProfileImageFailed: {
             return {
                 ...state,
                 fetching:
@@ -142,7 +158,11 @@ export function reducer(
                 updatingPassword:
                     action instanceof userActions.UpdatePasswordFailed
                         ? false
-                        : state.updatingPassword
+                        : state.updatingPassword,
+                markingPrimaryProfileImage:
+                    action instanceof userActions.MarkPrimaryProfileImageFailed
+                        ? false
+                        : state.markingPrimaryProfileImage
             };
         }
 
@@ -170,3 +190,5 @@ export const profileInfoUpdating = (state: UserState) =>
 export const updatingPassword = (state: UserState) => state.updatingPassword;
 
 export const loaded = (state: UserState) => state.loaded;
+
+export const markingPrimaryProfileImage = (state: UserState) => state.markingPrimaryProfileImage;
