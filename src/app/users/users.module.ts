@@ -6,9 +6,9 @@ import {
     UsersRoutingComponent,
     UserSettingsComponent
 } from '@etdb/users/containers';
-import { UserEffects } from '@etdb/users/+state/effects';
+import { UserEffects, UserSearchEffects } from '@etdb/users/+state/effects';
 import { reducers } from '@etdb/users/+state/reducers';
-import { UserService } from '@etdb/users/services';
+import { UserService, UserSearchService } from '@etdb/users/services';
 import { UsersRoutingModule } from '@etdb/users/users-routing.module';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -17,16 +17,16 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {
     UserPasswordchangeFormComponent,
     UserInfochangeComponent,
-    UserImageControlComponent
+    UserImageControlComponent,
+    UserNameUpdateComponent
 } from '@etdb/users/components';
-import { UserIsSignedInUserGuard } from '@etdb/users/guards/user-is-signedin-user.guard';
-import { UsersFacadeService } from '@etdb/users/+state/facades';
+import { UsersFacadeService, UsersSearchFacadeService } from '@etdb/users/+state/facades';
 
 @NgModule({
     imports: [
         CommonModule,
         StoreModule.forFeature('users', reducers),
-        EffectsModule.forFeature([UserEffects]),
+        EffectsModule.forFeature([UserEffects, UserSearchEffects]),
         MaterialModule,
         UsersRoutingModule,
         CustomControlModule,
@@ -38,8 +38,9 @@ import { UsersFacadeService } from '@etdb/users/+state/facades';
         UserSettingsComponent,
         UserPasswordchangeFormComponent,
         UserInfochangeComponent,
-        UserImageControlComponent
+        UserImageControlComponent,
+        UserNameUpdateComponent,
     ],
-    providers: [UserService, UserIsSignedInUserGuard, UsersFacadeService]
+    providers: [UserService, UserSearchService, UsersFacadeService, UsersSearchFacadeService]
 })
 export class UsersModule { }

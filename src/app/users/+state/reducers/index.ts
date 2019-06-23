@@ -1,5 +1,6 @@
 import * as fromRoot from '@etdb/+state';
 import * as fromUser from '@etdb/users/+state/reducers/user.reducer';
+import * as fromSearch from '@etdb/users/+state/reducers/user-search.reducer';
 import {
     ActionReducerMap,
     createFeatureSelector,
@@ -8,6 +9,7 @@ import {
 
 export interface UsersState {
     users: fromUser.UserState;
+    search: fromSearch.UserSearchState;
 }
 
 export interface State extends fromRoot.AppState {
@@ -15,11 +17,15 @@ export interface State extends fromRoot.AppState {
 }
 
 export const reducers: ActionReducerMap<UsersState> = {
-    users: fromUser.reducer
+    users: fromUser.reducer,
+    search: fromSearch.reducer,
 };
 
 export const getUsersState = createFeatureSelector<UsersState>('users');
 
+/**
+ * The user-entities-state
+ */
 export const getUserEntitiesState = createSelector(
     getUsersState,
     state => state.users
@@ -90,4 +96,28 @@ export const getSelectedUserIsAuthenticatedUser = createSelector(
 export const getUserLoaded = createSelector(
     getUserEntitiesState,
     fromUser.loaded
+);
+
+/**
+ * The user-search state
+ */
+
+export const getSearchState = createSelector(
+    getUsersState,
+    (state: UsersState) => state.search
+);
+
+export const getSearchCheckingUserNameAvailability = createSelector(
+    getSearchState,
+    fromSearch.checkingUserNameAvailability,
+);
+
+export const getSearchUserNameAvailable = createSelector(
+    getSearchState,
+    fromSearch.userNameAvailable
+);
+
+export const getSearchUserNameAvailibilityCheckCompleted = createSelector(
+    getSearchState,
+    fromSearch.userNameAvailibilityCheckCompleted
 );

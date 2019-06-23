@@ -1,0 +1,22 @@
+<form [formGroup]="userNameChangeForm" novalidate>
+    <mat-card>
+        <mat-card-title class="mat-typography mat-card-title">
+            <h2>Change your user-name</h2>
+        </mat-card-title>
+        <mat-card-content>
+            <mat-form-field class="max-width">
+                <input matInput placeholder="Enter the new user-name" type="text" formControlName="userName" />
+                <mat-error *ngIf="hasUserNameTakenError();">
+                    The user-name is already taken!
+                </mat-error>
+                <mat-error *ngIf="hasMinLengthError()">Four characters are required for a valid user-name!</mat-error>
+                <mat-error *ngIf="hasMaxLengthError()">Twelve characters are maximum for a valid user-name!</mat-error>
+            </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions align="end">
+            <button mat-button [disabled]="!isValid()">
+                Change user-name
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</form>

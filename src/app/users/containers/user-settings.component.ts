@@ -4,7 +4,7 @@ import { User } from '@etdb/models';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { UserPasswordChange, UserProfileInfoChange } from '@etdb/users/models';
-import { UsersFacadeService } from '@etdb/users/+state/facades';
+import { UsersFacadeService, UsersSearchFacadeService } from '@etdb/users/+state/facades';
 import { TitleFacadeService } from '@etdb/core/+state/facades';
 
 @Component({
@@ -13,6 +13,7 @@ import { TitleFacadeService } from '@etdb/core/+state/facades';
 })
 export class UserSettingsComponent implements OnInit, OnDestroy {
     private userId: string;
+    private paramsSubscription: Subscription;
 
     public user$: Observable<User>;
     public fetching$: Observable<boolean>;
@@ -22,7 +23,7 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
     public updatingPassword$: Observable<boolean>;
     public removingProfileImage$: Observable<boolean>;
     public markingPrimaryProfileImage$: Observable<boolean>;
-    public paramsSubscription: Subscription;
+    public checkingUserNameAvailability$: Observable<boolean>;
 
     public uploadImageMessage$: Observable<string>;
     public updateProfileMessage$: Observable<string>;
@@ -33,6 +34,7 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
     public constructor(
         private route: ActivatedRoute,
         private usersFacadeService: UsersFacadeService,
+        private usersSearchFacadeService: UsersSearchFacadeService,
         private titleFacadeService: TitleFacadeService
     ) { }
 
@@ -65,6 +67,8 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
 
         this.markingPrimaryProfileImageMessage$
             = this.applyLoadingMessage(this.markingPrimaryProfileImage$, 'Setting selected image as primary');
+
+        this.checkingUserNameAvailability$ = this.usersSearchFacadeService.checkingUserNameAvailability$;
 
         this.paramsSubscription = this.route.params
             .pipe(map(params => <string>params['id']))
