@@ -8,9 +8,12 @@
         </etdb-user-image-control>
     </etdb-component-loader-overlay>
     <div class="card-seperator"></div>
-    <mat-progress-bar *ngIf="checkingUserNameAvailability$ | async" color="accent" mode="indeterminate">
-    </mat-progress-bar>
-    <etdb-user-name-update></etdb-user-name-update>
+    <etdb-component-loader-overlay [loading]="changingUserName$ | async" [message]="changingUserNameMessage$ | async">
+        <mat-progress-bar *ngIf="checkingUserNameAvailability$ | async" color="accent" mode="indeterminate">
+        </mat-progress-bar>
+        <etdb-user-name-change [user]="user$ | async" (requestUserNameChange)="changeUserName($event);">
+        </etdb-user-name-change>
+    </etdb-component-loader-overlay>
     <div class="card-seperator"></div>
     <etdb-component-loader-overlay [loading]="profileInfoUpdating$ | async" [message]="updateProfileMessage$ | async">
         <etdb-user-infochange-form [user]="user$ | async" (requestProfileInfoChange)="updateProfileInfo($event)">

@@ -1,6 +1,6 @@
 import { User, ProfileImageMetaInfo } from '@etdb/models';
 import {
-    UserNameUpdate,
+    UserNameChange,
     UserProfileImageUpload,
     UserPasswordChange,
     UserProfileInfoChange
@@ -11,9 +11,9 @@ export enum UserActionTypes {
     Load = '[User API] Load User',
     Loaded = '[User API] Loaded User',
     LoadFailed = '[User API] Load User Failed',
-    UpdateUserName = '[User API] Update User Name',
-    UpdatedUserName = '[User API] Updated User Name',
-    UpdateUserNameFailed = '[User API] Update User Name Failed',
+    ChangeUserName = '[User API] Change User Name',
+    ChangedUserName = '[User API] Changed User Name',
+    ChangeUserNameFailed = '[User API] Change User Name Failed',
     UpdatePassword = '[User API] Update User Password',
     UpdatedPassword = '[User API] Updated User Password',
     UpdatePasswordFailed = '[User API] Update User Password Failed',
@@ -46,21 +46,20 @@ export class LoadFailed implements Action {
     public constructor(public error: Error) { }
 }
 
-export class UpdateUserName implements Action {
-    readonly type = UserActionTypes.UpdateUserName;
-    public constructor(public data: UserNameUpdate) { }
+export class ChangeUserName implements Action {
+    readonly type = UserActionTypes.ChangeUserName;
+    public constructor(public data: UserNameChange) { }
 }
 
-export class UpdatedUserName implements Action {
-    readonly type = UserActionTypes.UpdatedUserName;
+export class ChangedUserName implements Action {
+    readonly type = UserActionTypes.ChangedUserName;
+    public constructor(public data: UserNameChange) { }
 }
 
-export class UpdateUserNameFailed implements Action {
-    readonly type = UserActionTypes.UpdateUserNameFailed;
+export class ChangeUserNameFailed implements Action {
+    readonly type = UserActionTypes.ChangeUserNameFailed;
     public constructor(public error: Error) { }
 }
-
-
 
 export class UpdatePassword implements Action {
     readonly type = UserActionTypes.UpdatePassword;
@@ -149,9 +148,9 @@ export type UserActions =
     | Load
     | Loaded
     | LoadFailed
-    | UpdateUserName
-    | UpdatedUserName
-    | UpdateUserNameFailed
+    | ChangeUserName
+    | ChangedUserName
+    | ChangeUserNameFailed
     | UpdatePassword
     | UpdatedPassword
     | UpdatePasswordFailed

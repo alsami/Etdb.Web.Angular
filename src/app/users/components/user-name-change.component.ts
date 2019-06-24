@@ -1,21 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy, Input } from '@angular/core';
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { userNameAvailableAsyncValidator } from '@etdb/users/validators';
 import { UsersSearchFacadeService } from '@etdb/users/+state/facades';
+import { User } from '@etdb/models';
 
 @Component({
-    selector: 'etdb-user-name-update',
-    templateUrl: 'user-name-update.component.html',
+    selector: 'etdb-user-name-change',
+    templateUrl: 'user-name-change.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserNameUpdateComponent implements OnInit {
+export class UserNameChangeComponent implements OnInit {
 
     public constructor(private usersSearchFacadeService: UsersSearchFacadeService, private formBuilder: FormBuilder) { }
 
     public userNameChangeForm: FormGroup;
 
-    public searchControl: FormControl;
-
-
+    @Output() requestUserNameChange: EventEmitter<string> = new EventEmitter<string>();
+    @Input() user: User;
 
     public ngOnInit(): void {
         this.userNameChangeForm = this.formBuilder.group({
@@ -27,14 +28,16 @@ export class UserNameUpdateComponent implements OnInit {
                     userNameAvailableAsyncValidator(this.usersSearchFacadeService)
                 ])
         });
+    }
 
-        this.searchControl = new FormControl(null, [
-            Validators.required,
-            Validators.minLength(4),
-            Validators.maxLength(12)
-        ], [
-                userNameAvailableAsyncValidator(this.usersSearchFacadeService)
-            ]);
+    public submit(): void {
+        if (!this.userNameChangeForm.valid) {
+            return;
+        }
+
+        const userName = this.userNameChangeForm.get('userName').value;
+
+        this.requestUserNameChange.emit(userName);
     }
 
     public isValid(): boolean {

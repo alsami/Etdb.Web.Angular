@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { User, ProfileImageMetaInfo } from '@etdb/models';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
-import { UserPasswordChange, UserProfileInfoChange } from '@etdb/users/models';
+import { UserPasswordChange, UserProfileInfoChange, UserNameChange } from '@etdb/users/models';
 import { BASE_HEADERS } from '@etdb/core/core.constants';
 
 @Injectable()
@@ -50,5 +50,9 @@ export class UserService {
 
     public markPrimaryProfileImage(id: string, userId: string): Observable<any> {
         return this.http.patch(`${this.url}${userId}/profileimages/${id}`, null);
+    }
+
+    public changeUserName(userNameChange: UserNameChange): Observable<any> {
+        return this.http.patch(`${this.url}${userNameChange.id}/username/${encodeURIComponent(userNameChange.userName)}`, null);
     }
 }

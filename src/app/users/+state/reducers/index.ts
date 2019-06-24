@@ -84,6 +84,11 @@ export const getUpdatingPassword = createSelector(
     fromUser.updatingPassword
 );
 
+export const getChangingUserName = createSelector(
+    getUserEntitiesState,
+    fromUser.changingUserName
+);
+
 export const getSelectedUserIsAuthenticatedUser = createSelector(
     fromRoot.getAuthenticatedUser,
     getSelectedUser,

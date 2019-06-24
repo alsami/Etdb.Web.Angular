@@ -17,7 +17,7 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
 
     public user$: Observable<User>;
     public fetching$: Observable<boolean>;
-    public userNameUpdating$: Observable<boolean>;
+    public changingUserName$: Observable<boolean>;
     public profileImageUploading$: Observable<boolean>;
     public profileInfoUpdating$: Observable<boolean>;
     public updatingPassword$: Observable<boolean>;
@@ -30,6 +30,7 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
     public removeProfileImageMessage$: Observable<string>;
     public updatePasswordMessage$: Observable<string>;
     public markingPrimaryProfileImageMessage$: Observable<string>;
+    public changingUserNameMessage$: Observable<string>;
 
     public constructor(
         private route: ActivatedRoute,
@@ -45,7 +46,7 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
 
         this.fetching$ = this.usersFacadeService.fetching$;
 
-        this.userNameUpdating$ = this.usersFacadeService.userNameUpdating$;
+        this.changingUserName$ = this.usersFacadeService.userNameUpdating$;
 
         this.profileImageUploading$ = this.usersFacadeService.uploadingProfileImage$;
 
@@ -69,6 +70,10 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
             = this.applyLoadingMessage(this.markingPrimaryProfileImage$, 'Setting selected image as primary');
 
         this.checkingUserNameAvailability$ = this.usersSearchFacadeService.checkingUserNameAvailability$;
+
+        this.changingUserName$ = this.usersFacadeService.changingUserName$;
+
+        this.changingUserNameMessage$ = this.applyLoadingMessage(this.changingUserName$, 'Changing user-name');
 
         this.paramsSubscription = this.route.params
             .pipe(map(params => <string>params['id']))
@@ -106,6 +111,10 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
 
     public updateProfileInfo(profileInfoChange: UserProfileInfoChange): void {
         this.usersFacadeService.updateProfileInfo(this.userId, profileInfoChange);
+    }
+
+    public changeUserName(userName: string): void {
+        this.usersFacadeService.changeUserName(this.userId, userName);
     }
 
     private applyLoadingMessage(observer: Observable<boolean>, message: string): Observable<string> {

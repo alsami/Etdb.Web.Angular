@@ -1,4 +1,4 @@
-export interface UserNameUpdate {
+export interface UserNameChange {
     id: string;
     userName: string;
 }

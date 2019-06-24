@@ -13,6 +13,7 @@ export interface UserState extends EntityState<User> {
     profileInfoUpdating: boolean;
     updatingPassword: boolean;
     markingPrimaryProfileImage: boolean;
+    changingUserName: boolean;
     loaded: boolean;
 }
 
@@ -31,6 +32,7 @@ export const initialState: UserState = adapter.getInitialState({
     profileInfoUpdating: false,
     updatingPassword: false,
     markingPrimaryProfileImage: false,
+    changingUserName: false,
     loaded: false,
 });
 
@@ -40,16 +42,17 @@ export function reducer(
 ): UserState {
     switch (action.type) {
         case UserActionTypes.Load:
-        case UserActionTypes.UpdateUserName:
+        case UserActionTypes.ChangeUserName:
         case UserActionTypes.UploadProfileImage:
         case UserActionTypes.UpdateProfileInfo:
         case UserActionTypes.UpdatePassword:
         case UserActionTypes.RemoveProfileImage:
-        case UserActionTypes.MarkPrimaryProfileImage: {
+        case UserActionTypes.MarkPrimaryProfileImage:
+        case UserActionTypes.ChangeUserName: {
             return {
                 ...state,
                 fetching: action instanceof userActions.Load,
-                userNameUpdating: action instanceof userActions.UpdateUserName,
+                userNameUpdating: action instanceof userActions.ChangeUserName,
                 uploadingProfileImage:
                     action instanceof userActions.UploadProfileImage,
                 removingProfileImage: action instanceof userActions.RemoveProfileImage,
@@ -57,6 +60,7 @@ export function reducer(
                     action instanceof userActions.UpdateProfileInfo,
                 updatingPassword: action instanceof userActions.UpdatePassword,
                 markingPrimaryProfileImage: action instanceof userActions.MarkPrimaryProfileImage,
+                changingUserName: action instanceof userActions.ChangeUserName,
                 loaded: action instanceof userActions.Load ? false : state.loaded,
             };
         }
@@ -126,13 +130,25 @@ export function reducer(
             };
         }
 
+        case UserActionTypes.ChangedUserName: {
+            const user = state.entities[action.data.id];
+
+            user.userName = action.data.userName;
+
+            return {
+                ...adapter.upsertOne(user, state),
+                changingUserName: false
+            };
+        }
+
         case UserActionTypes.LoadFailed:
-        case UserActionTypes.UpdateUserNameFailed:
+        case UserActionTypes.ChangeUserNameFailed:
         case UserActionTypes.UploadProfileImageFailed:
         case UserActionTypes.UpdateProfileInfoFailed:
         case UserActionTypes.UpdatePasswordFailed:
         case UserActionTypes.RemoveProfileImageFailed:
-        case UserActionTypes.MarkPrimaryProfileImageFailed: {
+        case UserActionTypes.MarkPrimaryProfileImageFailed:
+        case UserActionTypes.ChangeUserNameFailed: {
             return {
                 ...state,
                 fetching:
@@ -140,7 +156,7 @@ export function reducer(
                         ? false
                         : state.fetching,
                 userNameUpdating:
-                    action instanceof userActions.UpdateUserNameFailed
+                    action instanceof userActions.ChangeUserNameFailed
                         ? false
                         : state.userNameUpdating,
                 uploadingProfileImage:
@@ -162,7 +178,11 @@ export function reducer(
                 markingPrimaryProfileImage:
                     action instanceof userActions.MarkPrimaryProfileImageFailed
                         ? false
-                        : state.markingPrimaryProfileImage
+                        : state.markingPrimaryProfileImage,
+                changingUserName:
+                    action instanceof userActions.ChangeUserNameFailed
+                        ? false
+                        : state.changingUserName
             };
         }
 
@@ -192,3 +212,5 @@ export const updatingPassword = (state: UserState) => state.updatingPassword;
 export const loaded = (state: UserState) => state.loaded;
 
 export const markingPrimaryProfileImage = (state: UserState) => state.markingPrimaryProfileImage;
+
+export const changingUserName = (state: UserState) => state.changingUserName;

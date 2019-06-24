@@ -107,12 +107,21 @@ export class UserEffects {
     );
 
     @Effect()
+    changeUserName$: Observable<Action> = this.actions$.pipe(
+        ofType(UserActionTypes.ChangeUserName),
+        switchMap((action: userActions.ChangeUserName) => this.userService.changeUserName(action.data).pipe(
+            map(() => new userActions.ChangedUserName(action.data)),
+            catchError((error: Error) => of(new userActions.ChangeUserNameFailed(error)))
+        ))
+    );
+
+    @Effect()
     displayError$: Observable<Action> = this.actions$.pipe(
         ofType(
             UserActionTypes.LoadFailed,
             UserActionTypes.UpdatePasswordFailed,
             UserActionTypes.UpdateProfileInfoFailed,
-            UserActionTypes.UpdateUserNameFailed,
+            UserActionTypes.ChangeUserNameFailed,
             UserActionTypes.UploadProfileImageFailed,
             UserActionTypes.RemoveProfileImageFailed,
             UserActionTypes.MarkPrimaryProfileImageFailed
@@ -123,7 +132,7 @@ export class UserEffects {
                     | userActions.LoadFailed
                     | userActions.UpdateProfileInfoFailed
                     | userActions.UpdatePasswordFailed
-                    | userActions.UpdateUserNameFailed
+                    | userActions.ChangeUserNameFailed
                     | userActions.RemoveProfileImageFailed
                     | userActions.MarkPrimaryProfileImageFailed
             ): Observable<any> => {
