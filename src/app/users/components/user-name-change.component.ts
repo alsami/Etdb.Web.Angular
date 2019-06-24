@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ChangeDetectionStrategy, Input, ChangeDetectorRef } from '@angular/core';
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { userNameAvailableAsyncValidator } from '@etdb/users/validators';
 import { UsersSearchFacadeService } from '@etdb/users/+state/facades';
@@ -11,7 +11,9 @@ import { User } from '@etdb/models';
 })
 export class UserNameChangeComponent implements OnInit {
 
-    public constructor(private usersSearchFacadeService: UsersSearchFacadeService, private formBuilder: FormBuilder) { }
+    public constructor(private usersSearchFacadeService: UsersSearchFacadeService,
+        private formBuilder: FormBuilder,
+        private cdr: ChangeDetectorRef) { }
 
     public userNameChangeForm: FormGroup;
 
@@ -20,12 +22,12 @@ export class UserNameChangeComponent implements OnInit {
 
     public ngOnInit(): void {
         this.userNameChangeForm = this.formBuilder.group({
-            'userName': new FormControl('', [
+            'userName': new FormControl(null, [
                 Validators.required,
                 Validators.minLength(4),
                 Validators.maxLength(12)
             ], [
-                    userNameAvailableAsyncValidator(this.usersSearchFacadeService)
+                    userNameAvailableAsyncValidator(this.usersSearchFacadeService, this.cdr)
                 ])
         });
     }
