@@ -1,4 +1,5 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { IdentityUser } from '@etdb/core/models';
 
 @Component({
     selector: 'etdb-sidenav-content',
@@ -10,6 +11,8 @@ import { Component, Output, EventEmitter } from '@angular/core';
 
 export class SidenavContentComponent {
     @Output() linkClicked = new EventEmitter();
+
+    @Input() authenticatedUser: IdentityUser;
 
     public adminLinks: any[] = [
         {

@@ -5,7 +5,7 @@
 <mat-sidenav-container class="main-sidenav-container" (backdropClick)="toggleSidenav(false);">
     <mat-sidenav color="accent" #sidenav [mode]="sidenavMode" [opened]="showSidenav$ | async" [fixedInViewport]="true"
         [fixedTopGap]="layoutGap" style="box-shadow: 3px 0 6px rgba(0, 0, 0, 0.2);">
-        <etdb-sidenav-content (linkClicked)="toggleSidenavBasesOnSize();">
+        <etdb-sidenav-content [authenticatedUser]="user$ | async" (linkClicked)="toggleSidenavBasesOnSize();">
         </etdb-sidenav-content>
     </mat-sidenav>
     <mat-sidenav-container>

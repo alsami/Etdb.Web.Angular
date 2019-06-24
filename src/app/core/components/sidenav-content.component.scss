@@ -1,0 +1,11 @@
+.profile-picture {
+    background-size: cover;
+    width: 24px;
+    height: 24px;
+    background-position: 50% 50%;
+    border-radius: 50%;
+}
+
+.mat-expansion-panel:not([class*=mat-elevation-z]) {
+    box-shadow: none;
+}
