@@ -2,6 +2,7 @@
 <mat-tab-group mat-stretch-tabs (selectedTabChange)="tabChanged($event)">
     <mat-tab label="Profile">
         <div class="page-content page-content-pad-xs page-profile-container">
+
             <div class="user-card-container">
                 <etdb-user-card [user]="user$ | async"></etdb-user-card>
             </div>
@@ -12,9 +13,11 @@
     <ng-container *ngIf="(selectedUserIsAuthenticatedUser$ | async)">
         <mat-tab label="Contacts"></mat-tab>
         <mat-tab label="Sign-In Logs">
-            <div *ngFor="let logs of authenticationLogs$ | async">
-                {{ logs | json }}
-                <br /><br />
+            <div class="page-content page-content-pad-xs page-profile-container">
+                <div *ngFor="let logs of authenticationLogs$ | async">
+                    {{ logs | json }}
+                    <br /><br />
+                </div>
             </div>
         </mat-tab>
     </ng-container>

@@ -17,7 +17,8 @@ export function reducer(state: AuthenticationLogState = inialState,
         case AuthenticationLogActions.AuthenticationLogActionTypes.Load: {
             return {
                 ...state,
-                loadingAuthenticationLogs: true
+                loadingAuthenticationLogs: true,
+                authenticationLogs: []
             };
         }
 
