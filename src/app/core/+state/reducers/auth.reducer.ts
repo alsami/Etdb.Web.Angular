@@ -55,7 +55,8 @@ export function reducer(
                 identityToken: action.token,
                 loading: false,
                 authenticated: true,
-                loaded: true
+                loaded: true,
+                registering: false
             };
         }
 
