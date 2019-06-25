@@ -25,7 +25,7 @@ export class UserNameChangeComponent implements OnInit {
             'userName': new FormControl(null, [
                 Validators.required,
                 Validators.minLength(4),
-                Validators.maxLength(12)
+                Validators.maxLength(32)
             ], [
                     userNameAvailableAsyncValidator(this.usersSearchFacadeService, this.cdr)
                 ])
