@@ -11,6 +11,7 @@
             <span style="font-size: small">{{ authenticatedUser.firstName}}</span>
         </div>
     </div>
+    <mat-divider></mat-divider>
 </ng-container>
 <mat-expansion-panel>
     <mat-expansion-panel-header>
@@ -19,13 +20,10 @@
         </mat-panel-title>
     </mat-expansion-panel-header>
 
-    <mat-nav-list style="padding: 0px;">
-        <mat-list-item *ngFor="let link of adminLinks" [routerLink]="link.path"
-            routerLinkActive="active-sidenav-menu-link">
-            <mat-icon mdListIcon>{{ link.icon }}</mat-icon>
-            <span style="font-size: 14px;">{{ link.displayName }}</span>
-        </mat-list-item>
-    </mat-nav-list>
+    <a mat-button type="button" class="max-width" *ngFor="let link of adminLinks" [routerLink]="link.path"
+        routerLinkActive="active-sidenav-menu-link" (click)="linkClicked.emit();">
+        <mat-icon>{{ link.icon }}</mat-icon> <span style="font-size: 14px;">{{ link.displayName }}</span>
+    </a>
 </mat-expansion-panel>
 <mat-expansion-panel>
     <mat-expansion-panel-header>
@@ -34,11 +32,8 @@
         </mat-panel-title>
     </mat-expansion-panel-header>
 
-    <mat-nav-list style="padding: 0px;">
-        <mat-list-item *ngFor="let link of discoverLinks" [routerLink]="link.path"
-            routerLinkActive="active-sidenav-menu-link" (click)="linkClicked.emit();">
-            <mat-icon mdListIcon>{{ link.icon }}</mat-icon>
-            <span style="font-size: 14px;">{{ link.displayName }}</span>
-        </mat-list-item>
-    </mat-nav-list>
+    <a mat-button type="button" class="max-width" *ngFor="let link of discoverLinks" [routerLink]="link.path"
+        routerLinkActive="active-sidenav-menu-link" (click)="linkClicked.emit();">
+        <mat-icon>{{ link.icon }}</mat-icon> <span style="font-size: 14px;">{{ link.displayName }}</span>
+    </a>
 </mat-expansion-panel>

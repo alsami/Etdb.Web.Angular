@@ -25,6 +25,17 @@ etdb-sidenav-content mat-expansion-panel .mat-expansion-panel-body {
     padding: 0px;
 }
 
+
+etdb-sidenav-content mat-nav-list .mat-list-item-content {
+    padding: 0px;
+    justify-content: center;
+}
+
+etdb-sidenav-content mat-nav-list mat-list-item .mat-list-item {
+    height: auto !important;
+    color: green !important;
+}
+
 .page-content {
     padding: 16px;
 }
