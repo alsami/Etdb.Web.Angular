@@ -1,5 +1,5 @@
 <etdb-page-loading-indicator [loading]="loading$ | async"></etdb-page-loading-indicator>
-<mat-tab-group mat-stretch-tabs>
+<mat-tab-group mat-stretch-tabs (selectedTabChange)="tabChanged($event)">
     <mat-tab label="Profile">
         <div class="page-content page-content-pad-xs page-profile-container">
             <div class="user-card-container">
@@ -7,7 +7,15 @@
             </div>
         </div>
     </mat-tab>
-    <mat-tab *ngIf="(loggedInUserIsUser$ | async)" label="Contacts"></mat-tab>
     <mat-tab label="Ratings"></mat-tab>
     <mat-tab label="Activity"></mat-tab>
+    <ng-container *ngIf="(selectedUserIsAuthenticatedUser$ | async)">
+        <mat-tab label="Contacts"></mat-tab>
+        <mat-tab label="Sign-In Logs">
+            <div *ngFor="let logs of authenticationLogs$ | async">
+                {{ logs | json }}
+                <br /><br />
+            </div>
+        </mat-tab>
+    </ng-container>
 </mat-tab-group>

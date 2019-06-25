@@ -1,6 +1,8 @@
 import * as fromRoot from '@etdb/+state';
 import * as fromUser from '@etdb/users/+state/reducers/user.reducer';
 import * as fromSearch from '@etdb/users/+state/reducers/user-search.reducer';
+import * as fromAuthenticationLogs from '@etdb/users/+state/reducers/authentication-log.reducer';
+
 import {
     ActionReducerMap,
     createFeatureSelector,
@@ -10,6 +12,7 @@ import {
 export interface UsersState {
     users: fromUser.UserState;
     search: fromSearch.UserSearchState;
+    authenticationLogs: fromAuthenticationLogs.AuthenticationLogState;
 }
 
 export interface State extends fromRoot.AppState {
@@ -19,6 +22,7 @@ export interface State extends fromRoot.AppState {
 export const reducers: ActionReducerMap<UsersState> = {
     users: fromUser.reducer,
     search: fromSearch.reducer,
+    authenticationLogs: fromAuthenticationLogs.reducer,
 };
 
 export const getUsersState = createFeatureSelector<UsersState>('users');
@@ -125,4 +129,23 @@ export const getSearchUserNameAvailable = createSelector(
 export const getSearchUserNameAvailibilityCheckCompleted = createSelector(
     getSearchState,
     fromSearch.userNameAvailibilityCheckCompleted
+);
+
+/**
+ * authentication-log state
+ */
+
+export const getAuthenticationLogsState = createSelector(
+    getUsersState,
+    (state: UsersState) => state.authenticationLogs
+);
+
+export const getAuthenticationLogsLoadingLogs = createSelector(
+    getAuthenticationLogsState,
+    fromAuthenticationLogs.loadingAuthenticationLogs
+);
+
+export const getAuthenticationLogs = createSelector(
+    getAuthenticationLogsState,
+    fromAuthenticationLogs.authenticationLogs
 );
