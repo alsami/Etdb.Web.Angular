@@ -72,7 +72,7 @@ export class RegisterFormComponent {
     @Output()
     requestRegister: EventEmitter<RegisterUser> = new EventEmitter<
         RegisterUser
-        >();
+    >();
 
     public nameForm: FormGroup;
     public emailsForm: FormGroup;
@@ -144,6 +144,14 @@ export class RegisterFormComponent {
         );
     }
 
+    public hasMinLengthError(): boolean {
+        return this.userNamePasswordForm.get('userName').hasError('minlength');
+    }
+
+    public hasMaxLengthError(): boolean {
+        return this.userNamePasswordForm.get('userName').hasError('maxlength');
+    }
+
     private buildForms(): void {
         this.nameForm = this.formBuilder.group({
             name: [null],
@@ -159,7 +167,11 @@ export class RegisterFormComponent {
 
         this.userNamePasswordForm = this.formBuilder.group(
             {
-                userName: [null, Validators.required],
+                userName: [null, [
+                    Validators.required,
+                    Validators.minLength(4),
+                    Validators.maxLength(32)
+                ]],
                 password: [
                     null,
                     [Validators.required, Validators.minLength(8)]

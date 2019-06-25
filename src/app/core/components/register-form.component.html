@@ -21,22 +21,24 @@
                                 [@flyInOut]="'in'">
                                 <div [formGroupName]="i" class="flex-container flex-flow-row">
                                     <mat-form-field class="flex-fill-space">
-                                        <input matInput type="email" formControlName="address" placeholder="E-Mail address"
-                                            required />
+                                        <input matInput type="email" formControlName="address"
+                                            placeholder="E-Mail address" required />
                                         <mat-error *ngIf="hasInvalidEmailError(i);">
                                             Not a valid email-address!
                                         </mat-error>
                                     </mat-form-field>
                                     <div style="padding-top: 10px;">
-                                        <mat-slide-toggle formControlName="isPrimary" labelPosition="before" color="accent">Primary</mat-slide-toggle>
+                                        <mat-slide-toggle formControlName="isPrimary" labelPosition="before"
+                                            color="accent">Primary</mat-slide-toggle>
                                     </div>
                                     <div class="flex-container flex-flow-column">
-                                        <button *ngIf="getEmailFormArray().controls.length !== 1" (click)="removeEmailGroupFromFormArray(i);"
+                                        <button *ngIf="getEmailFormArray().controls.length !== 1"
+                                            (click)="removeEmailGroupFromFormArray(i);"
                                             matTooltip="Remove email-address" type="button" mat-icon-button>
                                             <mat-icon>delete</mat-icon>
                                         </button>
-                                        <button *ngIf="last" (click)="appendEmailFormArray();" matTooltip="Add emai-address"
-                                            type="button" mat-icon-button>
+                                        <button *ngIf="last" (click)="appendEmailFormArray();"
+                                            matTooltip="Add emai-address" type="button" mat-icon-button>
                                             <mat-icon>add</mat-icon>
                                         </button>
                                     </div>
@@ -52,19 +54,25 @@
                     </form>
                 </div>
             </etdb-mat-stepper-step-extended>
-            <etdb-mat-stepper-step-extended label="Username and password" [form]="userNamePasswordForm" [submitAction]="submit">
+            <etdb-mat-stepper-step-extended label="Username and password" [form]="userNamePasswordForm"
+                [submitAction]="submit">
                 <form #userNamePasswordFormTempl [formGroup]="userNamePasswordForm" novalidate>
                     <div class="flex-container flex-flow-column">
                         <mat-form-field>
                             <input formControlName="userName" matInput type="text" placeholder="Choose a username"
                                 required />
+                            <mat-error *ngIf="hasMinLengthError()">Four characters are required for a valid user-name!
+                            </mat-error>
+                            <mat-error *ngIf="hasMaxLengthError()">32 characters are maximum for a valid user-name!
+                            </mat-error>
                         </mat-form-field>
                     </div>
                     <div class="flex-container flex-flow-column">
                         <mat-form-field>
-                            <input matInput #passwordInput formControlName="password" type="password" placeholder="Password"
-                                required />
-                            <mat-icon (click)="changePasswordVisibility(passwordInput);" class="pointer" matSuffix>remove_red_eye</mat-icon>
+                            <input matInput #passwordInput formControlName="password" type="password"
+                                placeholder="Password" required />
+                            <mat-icon (click)="changePasswordVisibility(passwordInput);" class="pointer" matSuffix>
+                                remove_red_eye</mat-icon>
                             <mat-error *ngIf="hasMinLengthPasswordError();">
                                 Password must contain at least 8 letters!
                             </mat-error>
