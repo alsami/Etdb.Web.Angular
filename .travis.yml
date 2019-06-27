@@ -1,0 +1,30 @@
+dist: bionic
+sudo: required
+language: node_js
+node_js: 12
+stages:
+  - build
+  - test
+  - publish
+jobs:
+  include:
+    - stage: build
+      name: build etdb-app
+      before_script: npm i
+      script: ng build
+    - stage: test
+      name: run-tests
+      script: echo currently not running scripts
+    - stage: publish
+      name: publish-etdb-app
+      if: tag IS present
+      before_script:
+        - curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+        - echo current-directory
+        - ls
+        - sleep 5
+        - sh create-environment-prod-file.sh "$ETDB_USERSERVICE_URL" "$ETDB_CLIENT_ID" "$GOOGLE_CLIENT_ID"
+        - sleep 5
+        - sh create-facebook-oauth-file.sh "$FACEBOOK_CLIENT_ID"
+        - npm i
+      script: sh publish.sh "$CONTAINER_NAME" "$ACCOUNT_NAME" "$ACCOUNT_KEY"
