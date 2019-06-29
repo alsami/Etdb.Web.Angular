@@ -18,7 +18,8 @@ import {
     UserPasswordchangeFormComponent,
     UserInfochangeComponent,
     UserImageControlComponent,
-    UserNameChangeComponent
+    UserNameChangeComponent,
+    AuthenticationLogOverviewComponent
 } from '@etdb/users/components';
 import { UsersFacadeService, UsersSearchFacadeService, AuthenticationLogFacadeService } from '@etdb/users/+state/facades';
 
@@ -40,6 +41,7 @@ import { UsersFacadeService, UsersSearchFacadeService, AuthenticationLogFacadeSe
         UserInfochangeComponent,
         UserImageControlComponent,
         UserNameChangeComponent,
+        AuthenticationLogOverviewComponent,
     ],
     providers: [UserService, UserSearchService, AuthenticationLogService,
         UsersFacadeService, UsersSearchFacadeService, AuthenticationLogFacadeService]
