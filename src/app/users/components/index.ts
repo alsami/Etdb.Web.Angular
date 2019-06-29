@@ -1,3 +1,4 @@
+export * from './authentication-log-overview.component';
 export * from './user-image-control.component';
 export * from './user-infochange-form.component';
 export * from './user-name-change.component';

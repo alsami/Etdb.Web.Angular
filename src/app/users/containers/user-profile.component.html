@@ -13,12 +13,8 @@
     <ng-container *ngIf="(selectedUserIsAuthenticatedUser$ | async)">
         <!-- <mat-tab label="Contacts"></mat-tab> -->
         <mat-tab label="Sign-In Logs">
-            <div class="page-content page-content-pad-xs page-profile-container">
-                <div *ngFor="let logs of authenticationLogs$ | async">
-                    {{ logs | json }}
-                    <br /><br />
-                </div>
-            </div>
+            <etdb-authentication-log-overview [authenticationLogs]="authenticationLogs$ | async">
+            </etdb-authentication-log-overview>
         </mat-tab>
     </ng-container>
 </mat-tab-group>

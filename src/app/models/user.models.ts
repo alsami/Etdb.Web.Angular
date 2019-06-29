@@ -20,9 +20,14 @@ export interface ProfileImageMetaInfo {
     isPrimary: boolean;
 }
 
+export enum AuthenticationLogType {
+    Succeeded = 'Succeeded',
+    Failed = 'Failed'
+}
+
 export interface AuthenticationLog {
     loggedAt: Date;
-    authenticationLogType: string;
+    authenticationLogType: AuthenticationLogType;
     ipAddress: string;
     additionalInformation: string;
 }
