@@ -8,10 +8,10 @@
             </div>
         </div>
     </mat-tab>
-    <mat-tab label="Ratings"></mat-tab>
-    <mat-tab label="Activity"></mat-tab>
+    <!-- <mat-tab label="Ratings"></mat-tab>
+    <mat-tab label="Activity"></mat-tab> -->
     <ng-container *ngIf="(selectedUserIsAuthenticatedUser$ | async)">
-        <mat-tab label="Contacts"></mat-tab>
+        <!-- <mat-tab label="Contacts"></mat-tab> -->
         <mat-tab label="Sign-In Logs">
             <div class="page-content page-content-pad-xs page-profile-container">
                 <div *ngFor="let logs of authenticationLogs$ | async">

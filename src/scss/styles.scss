@@ -57,3 +57,7 @@ etdb-sidenav-content mat-nav-list mat-list-item .mat-list-item {
 .max-width {
     width: 100%;
 }
+
+.fill-available-height {
+    min-height: stretch;
+}

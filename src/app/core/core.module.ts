@@ -45,7 +45,7 @@ const COMPONENTS = [
     GoogleSignInButtonComponent,
     FacebookSigninButtonComponent,
     TwitterSigninButtonComponent,
-    UnauthorizedComponent
+    UnauthorizedComponent,
 ];
 
 @NgModule({
