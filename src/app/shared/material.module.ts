@@ -20,6 +20,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTableModule } from '@angular/material/table';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 import { OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
@@ -49,7 +50,8 @@ const modules = [
     PortalModule,
     LayoutModule,
     MatTableModule,
-    MatChipsModule
+    MatChipsModule,
+    MatGridListModule,
 ];
 
 @NgModule({

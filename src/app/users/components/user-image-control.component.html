@@ -1,5 +1,38 @@
 <ng-container *ngIf="user">
-    <div class="image-card">
+    <div class="flex-container flex-flow-column">
+        <mat-grid-list *ngIf="tiles.length" [cols]="2" rowHeight="100px">
+            <mat-grid-tile *ngFor="let tile of tiles; let i = index;" [colspan]="tile.cols" [rowspan]="1"
+                [matMenuTriggerFor]="imageMenu" (click)="setSelected(i);">
+                <div class="grid-tile-image" [style.backgroundImage]="'url(' + tile.url +')'"></div>
+            </mat-grid-tile>
+        </mat-grid-list>
+        <span *ngIf="!tiles.length">
+            No image available
+        </span>
+        <div class="flex-container flex-justify-end" style="margin-top: 1em; margin-right: 1em;">
+            <button mat-fab color="accent" [matMenuTriggerFor]="uploadMenu">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+    </div>
+    <mat-menu #imageMenu="matMenu" yPosition="above" xPosition="before">
+        <button mat-menu-item [disabled]="tiles.length === 0" (click)="requestMarkPrimaryProfileImage();">
+            <mat-icon>photo</mat-icon> Set as profile-image
+        </button>
+        <button mat-menu-item [disabled]="tiles.length === 0" (click)="
+                requestProfileImageRemove();
+            ">
+            <mat-icon>delete</mat-icon> Delete Image
+        </button>
+    </mat-menu>
+    <mat-menu #uploadMenu="matMenu" yPosition="above" xPosition="before">
+        <button mat-menu-item (click)="triggerFileDialog();">
+            <mat-icon>add_a_photo</mat-icon> Upload an image
+            <input hidden accept="image/*" multiple="false" type="file" (change)="emitSelection($event);" />
+        </button>
+    </mat-menu>
+</ng-container>
+<!-- <div class="image-card">
         <div style="position: relative;">
             <span *ngIf="!selectedImage">
                 No image available
@@ -19,21 +52,4 @@
                 <mat-icon>more_vert</mat-icon>
             </button>
         </div>
-    </div>
-    <mat-menu #imageMenu="matMenu" yPosition="above" xPosition="before">
-        <button mat-menu-item (click)="triggerFileDialog();">
-            <mat-icon>add_a_photo</mat-icon> Upload an image
-            <input hidden accept="image/*" multiple="false" type="file" (change)="emitSelection($event);" />
-        </button>
-        <button mat-menu-item [disabled]="imageCount === 0" (click)="requestMarkPrimaryProfileImage(selectedImage);">
-            <mat-icon>photo</mat-icon> Set as profile-image
-        </button>
-        <button mat-menu-item [disabled]="imageCount === 0" (click)="
-                requestProfileImageRemove(
-                    user.profileImageMetaInfos[selectedImageIndex]
-                )
-            ">
-            <mat-icon>delete</mat-icon> Delete Image
-        </button>
-    </mat-menu>
-</ng-container>
+    </div> -->

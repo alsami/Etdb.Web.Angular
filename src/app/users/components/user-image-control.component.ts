@@ -27,14 +27,13 @@ export class UserImageControlComponent implements OnChanges {
 
     public imageLoading: boolean;
 
-    public selectedImage: ProfileImageMetaInfo;
-    public selectedImageIndex: number;
+    private selectedIndex: number;
 
     public imageCount = 0;
 
+    public tiles: { url: string, cols: number, rows: number }[] = [];
 
     public ngOnChanges(changes: SimpleChanges): void {
-        this.selectedImage = null;
         this.imageCount = 0;
         if (
             !changes['user'] ||
@@ -44,19 +43,17 @@ export class UserImageControlComponent implements OnChanges {
             return;
         }
 
-        this.imageCount = this.user.profileImageMetaInfos.length;
+        this.computeTiles(this.user.profileImageMetaInfos);
 
-        this.selectedImage = this.user.profileImageMetaInfos.find(
-            image => image.isPrimary
-        );
+        const primaryImageIndex = this.user.profileImageMetaInfos
+            .findIndex(image => image.isPrimary);
 
-        if (!this.selectedImage) {
-            this.selectedImage = this.user.profileImageMetaInfos[0];
+        if (primaryImageIndex) {
+            this.setSelected(primaryImageIndex);
+            return;
         }
 
-        this.selectedImageIndex = this.user.profileImageMetaInfos.indexOf(
-            this.selectedImage
-        );
+        this.setSelected(0);
     }
 
     public triggerFileDialog(): void {
@@ -74,47 +71,61 @@ export class UserImageControlComponent implements OnChanges {
         this.requestProfileImageUpload(files[0]);
     }
 
-    public selectNext(): void {
-        if (
-            this.selectedImageIndex ===
-            this.user.profileImageMetaInfos.length - 1
-        ) {
-            this.selectedImageIndex = 0;
-            this.selectedImage = this.user.profileImageMetaInfos[0];
-            return;
-        }
-
-        this.selectedImageIndex += 1;
-        this.selectedImage = this.user.profileImageMetaInfos[
-            this.selectedImageIndex
-        ];
-    }
-
-    public selectPrevious(): void {
-        if (this.selectedImageIndex === 0) {
-            this.selectedImageIndex =
-                this.user.profileImageMetaInfos.length - 1;
-            this.selectedImage = this.user.profileImageMetaInfos[
-                this.selectedImageIndex
-            ];
-            return;
-        }
-
-        this.selectedImageIndex -= 1;
-        this.selectedImage = this.user.profileImageMetaInfos[
-            this.selectedImageIndex
-        ];
-    }
-
     public requestProfileImageUpload(files: File): void {
         this.profileImageUpload.emit(files);
     }
 
-    public requestProfileImageRemove(imageMeta: ProfileImageMetaInfo): void {
-        this.profileImageRemove.emit(imageMeta.removeUrl);
+    public requestProfileImageRemove(): void {
+        this.profileImageRemove.emit(this.user.profileImageMetaInfos[this.selectedIndex].removeUrl);
     }
 
-    public requestMarkPrimaryProfileImage(imageMeta: ProfileImageMetaInfo): void {
-        this.profileImagePrimary.emit(imageMeta.id);
+    public requestMarkPrimaryProfileImage(): void {
+        this.profileImagePrimary.emit(this.user.profileImageMetaInfos[this.selectedIndex].id);
+    }
+
+    public setSelected(index: number): void {
+        if (!this.tiles || !this.tiles.length) {
+            return;
+        }
+
+        this.selectedIndex = index;
+    }
+
+    private computeTiles(profileImageMetaInfos: ProfileImageMetaInfo[]): void {
+        this.tiles = [];
+        if (!profileImageMetaInfos || !profileImageMetaInfos.length) {
+            return;
+        }
+
+        const totalLength = profileImageMetaInfos.length;
+
+        profileImageMetaInfos.forEach((meta, index) => {
+            if (totalLength === 1) {
+                this.tiles.push({
+                    url: meta.url,
+                    cols: 1,
+                    rows: 1,
+                });
+                return;
+            }
+
+            if (index < (totalLength - 1)) {
+                this.tiles.push({
+                    url: meta.url,
+                    cols: 1,
+                    rows: 1,
+                });
+            }
+
+            const factor = profileImageMetaInfos.length % 2 === 0 ? 1 : 2;
+
+            if (index === (totalLength - 1)) {
+                this.tiles.push({
+                    url: meta.url,
+                    cols: factor,
+                    rows: factor,
+                });
+            }
+        });
     }
 }
