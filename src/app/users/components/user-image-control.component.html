@@ -1,15 +1,19 @@
 <ng-container *ngIf="user">
     <div class="flex-container flex-flow-column">
-        <mat-grid-list *ngIf="tiles.length" [cols]="2" rowHeight="100px">
-            <mat-grid-tile *ngFor="let tile of tiles; let i = index;" [colspan]="tile.cols" [rowspan]="1"
-                [matMenuTriggerFor]="imageMenu" (click)="setSelected(i);">
-                <div class="grid-tile-image" [style.backgroundImage]="'url(' + tile.url +')'"></div>
-            </mat-grid-tile>
-        </mat-grid-list>
-        <span *ngIf="!tiles.length">
-            No image available
-        </span>
-        <div class="flex-container flex-justify-end" style="margin-top: 1em; margin-right: 1em;">
+        <ng-container *ngIf="tiles.length">
+            <mat-grid-list [cols]="2" rowHeight="150px">
+                <mat-grid-tile *ngFor="let tile of tiles; let i = index;" [colspan]="tile.cols" [rowspan]="1"
+                    [matMenuTriggerFor]="imageMenu" (click)="setSelected(i);">
+                    <div class="grid-tile-image" [style.backgroundImage]="'url(' + tile.url +')'"></div>
+                </mat-grid-tile>
+            </mat-grid-list>
+        </ng-container>
+        <div class="flex-container flex-justify-center">
+            <span *ngIf="!tiles.length">
+                No image available
+            </span>
+        </div>
+        <div class="flex-container flex-flow-row flex-justify-end" style="margin-top: 1em; margin-right: 1em;">
             <button mat-fab color="accent" [matMenuTriggerFor]="uploadMenu">
                 <mat-icon>add</mat-icon>
             </button>
@@ -25,7 +29,7 @@
             <mat-icon>delete</mat-icon> Delete Image
         </button>
     </mat-menu>
-    <mat-menu #uploadMenu="matMenu" yPosition="above" xPosition="before">
+    <mat-menu #uploadMenu="matMenu" yPosition="below" xPosition="before">
         <button mat-menu-item (click)="triggerFileDialog();">
             <mat-icon>add_a_photo</mat-icon> Upload an image
             <input hidden accept="image/*" multiple="false" type="file" (change)="emitSelection($event);" />

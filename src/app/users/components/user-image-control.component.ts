@@ -29,17 +29,28 @@ export class UserImageControlComponent implements OnChanges {
 
     private selectedIndex: number;
 
+    private totalLength;
+
     public tiles: { url: string, cols: number, rows: number }[] = [];
 
     public ngOnChanges(changes: SimpleChanges): void {
-        this.tiles = [];
+        const userChange = changes['user'];
         if (
-            !changes['user'] ||
+            !userChange ||
             !this.user ||
             !this.user.profileImageMetaInfos.length
         ) {
+            this.tiles = [];
             return;
         }
+
+        if (userChange.previousValue && (<User>userChange.previousValue).profileImageMetaInfos.length === this.totalLength) {
+            return;
+        }
+
+        this.tiles = [];
+
+        this.totalLength = this.user.profileImageMetaInfos.length;
 
         this.computeTiles(this.user.profileImageMetaInfos);
 
@@ -94,29 +105,28 @@ export class UserImageControlComponent implements OnChanges {
             return;
         }
 
-        const totalLength = profileImageMetaInfos.length;
 
         profileImageMetaInfos.forEach((meta, index) => {
-            if (totalLength === 1) {
+            if (this.totalLength === 1) {
                 this.tiles.push({
                     url: meta.url,
                     cols: 2,
-                    rows: 1,
+                    rows: 2,
                 });
                 return;
             }
 
-            if (index < (totalLength - 1)) {
+            if (index < (this.totalLength - 1)) {
                 this.tiles.push({
                     url: meta.url,
                     cols: 1,
-                    rows: 1,
+                    rows: 2,
                 });
             }
 
             const factor = profileImageMetaInfos.length % 2 === 0 ? 1 : 2;
 
-            if (index === (totalLength - 1)) {
+            if (index === (this.totalLength - 1)) {
                 this.tiles.push({
                     url: meta.url,
                     cols: factor,
