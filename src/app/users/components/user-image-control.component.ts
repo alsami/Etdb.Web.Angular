@@ -29,12 +29,10 @@ export class UserImageControlComponent implements OnChanges {
 
     private selectedIndex: number;
 
-    public imageCount = 0;
-
     public tiles: { url: string, cols: number, rows: number }[] = [];
 
     public ngOnChanges(changes: SimpleChanges): void {
-        this.imageCount = 0;
+        this.tiles = [];
         if (
             !changes['user'] ||
             !this.user ||
@@ -92,7 +90,6 @@ export class UserImageControlComponent implements OnChanges {
     }
 
     private computeTiles(profileImageMetaInfos: ProfileImageMetaInfo[]): void {
-        this.tiles = [];
         if (!profileImageMetaInfos || !profileImageMetaInfos.length) {
             return;
         }
@@ -103,7 +100,7 @@ export class UserImageControlComponent implements OnChanges {
             if (totalLength === 1) {
                 this.tiles.push({
                     url: meta.url,
-                    cols: 1,
+                    cols: 2,
                     rows: 1,
                 });
                 return;
