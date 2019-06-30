@@ -2,6 +2,9 @@ import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges, Chang
 import { VALID_THEMES_DESC } from '@etdb/core/core.constants';
 import { IdentityUser } from '@etdb/core/models';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 
 @Component({
@@ -21,11 +24,17 @@ export class ToolbarComponent implements OnChanges {
     @Input() sidenavVisible: boolean;
     @Input() user: IdentityUser;
 
+    public isSignInPage$: Observable<boolean>;
+
     public userPictureUrl: string;
 
     public themes = VALID_THEMES_DESC;
 
-    public constructor(private sanitizer: DomSanitizer) { }
+    public constructor(private sanitizer: DomSanitizer, private router: Router) {
+        this.isSignInPage$ = this.router.events.pipe(
+            map(() => this.router.url.indexOf('signin') > -1)
+        );
+    }
 
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes['user'] && this.user && this.user.profileImageUrl) {

@@ -6,7 +6,8 @@
         {{ title }}
     </span>
     <span style="flex: 1 1 auto;"></span>
-    <button *ngIf="!user" mat-button routerLink="/signin" (click)="linkedMenuClicked.emit();">Signin</button>
+    <button *ngIf="!user && !(isSignInPage$ | async)" mat-button routerLink="/signin"
+        (click)="linkedMenuClicked.emit();">Signin</button>
     <button mat-icon-button [matMenuTriggerFor]="themeMenu">
         <mat-icon>color_lens</mat-icon>
     </button>
