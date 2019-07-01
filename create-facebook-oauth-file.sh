@@ -7,7 +7,7 @@ echo adding new file
 
 echo "window.fbAsyncInit = function () {
     FB.init({
-        appId: '1966842620278015',
+        appId: '${1}',
         cookie: true,
         xfbml: true,
         version: 'v3.2'
