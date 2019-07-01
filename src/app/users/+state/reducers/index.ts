@@ -68,6 +68,11 @@ export const getUploadingProfileImage = createSelector(
     fromUser.uploadingProfileImage
 );
 
+export const getUploadingProfileImages = createSelector(
+    getUserEntitiesState,
+    fromUser.uploadingProfileImages
+);
+
 export const getRemovingProfileImage = createSelector(
     getUserEntitiesState,
     fromUser.removingProfileImage

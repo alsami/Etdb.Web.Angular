@@ -15,6 +15,7 @@ export class UsersFacadeService {
     public selectedUser$: Observable<User>;
     public userNameUpdating$: Observable<boolean>;
     public uploadingProfileImage$: Observable<boolean>;
+    public uploadingProfileImages$: Observable<boolean>;
     public updatingProfileInfo$: Observable<boolean>;
     public updatingPassword$: Observable<boolean>;
     public removingProfileImage$: Observable<boolean>;
@@ -33,6 +34,10 @@ export class UsersFacadeService {
 
         this.uploadingProfileImage$ = this.store.pipe(select(
             fromUsers.getUploadingProfileImage
+        ));
+
+        this.uploadingProfileImages$ = this.store.pipe(select(
+            fromUsers.getUploadingProfileImages
         ));
 
         this.updatingProfileInfo$ = this.store.pipe(select(
@@ -64,6 +69,10 @@ export class UsersFacadeService {
 
     public uploadProfileImage(profileImage: UserProfileImageUpload): void {
         this.store.dispatch(new UserActions.UploadProfileImage(profileImage));
+    }
+
+    public uploadProfileImages(userId: string, files: File[]): void {
+        this.store.dispatch(new UserActions.UploadProfileImages(userId, files));
     }
 
     public removeProfileImage(userId: string, url: string): void {

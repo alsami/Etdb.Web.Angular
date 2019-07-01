@@ -9,6 +9,7 @@ export interface UserState extends EntityState<User> {
     fetching: boolean;
     userNameUpdating: boolean;
     uploadingProfileImage: boolean;
+    uploadingProfileImages: boolean;
     removingProfileImage: boolean;
     profileInfoUpdating: boolean;
     updatingPassword: boolean;
@@ -28,6 +29,7 @@ export const initialState: UserState = adapter.getInitialState({
     fetching: false,
     userNameUpdating: false,
     uploadingProfileImage: false,
+    uploadingProfileImages: false,
     removingProfileImage: false,
     profileInfoUpdating: false,
     updatingPassword: false,
@@ -44,6 +46,7 @@ export function reducer(
         case UserActionTypes.Load:
         case UserActionTypes.ChangeUserName:
         case UserActionTypes.UploadProfileImage:
+        case UserActionTypes.UploadProfileImages:
         case UserActionTypes.UpdateProfileInfo:
         case UserActionTypes.UpdatePassword:
         case UserActionTypes.RemoveProfileImage:
@@ -55,6 +58,7 @@ export function reducer(
                 userNameUpdating: action instanceof userActions.ChangeUserName,
                 uploadingProfileImage:
                     action instanceof userActions.UploadProfileImage,
+                uploadingProfileImages: action instanceof userActions.UploadProfileImages,
                 removingProfileImage: action instanceof userActions.RemoveProfileImage,
                 profileInfoUpdating:
                     action instanceof userActions.UpdateProfileInfo,
@@ -85,6 +89,19 @@ export function reducer(
                 selectedUser: user,
                 selectedId: user.id,
                 uploadingProfileImage: false
+            };
+        }
+
+        case UserActionTypes.UploadedProfileImages: {
+            const user = state.entities[action.userId];
+            if (!user.profileImageMetaInfos) { user.profileImageMetaInfos = []; }
+            user.profileImageMetaInfos = user.profileImageMetaInfos.concat(action.profileImageMetainfos);
+
+            return {
+                ...adapter.upsertOne(user, state),
+                selectedUser: user,
+                selectedId: user.id,
+                uploadingProfileImages: false
             };
         }
 
@@ -144,6 +161,7 @@ export function reducer(
         case UserActionTypes.LoadFailed:
         case UserActionTypes.ChangeUserNameFailed:
         case UserActionTypes.UploadProfileImageFailed:
+        case UserActionTypes.UploadProfileImagesFailed:
         case UserActionTypes.UpdateProfileInfoFailed:
         case UserActionTypes.UpdatePasswordFailed:
         case UserActionTypes.RemoveProfileImageFailed:
@@ -163,6 +181,10 @@ export function reducer(
                     action instanceof userActions.UploadProfileImageFailed
                         ? false
                         : state.uploadingProfileImage,
+                uploadingProfileImages:
+                    action instanceof userActions.UploadProfileImagesFailed
+                        ? false
+                        : state.uploadingProfileImages,
                 removingProfileImage:
                     action instanceof userActions.RemoveProfileImageFailed
                         ? false
@@ -200,6 +222,9 @@ export const userNameUpdating = (state: UserState) => state.userNameUpdating;
 
 export const uploadingProfileImage = (state: UserState) =>
     state.uploadingProfileImage;
+
+export const uploadingProfileImages = (state: UserState) =>
+    state.uploadingProfileImages;
 
 export const removingProfileImage = (state: UserState) =>
     state.removingProfileImage;

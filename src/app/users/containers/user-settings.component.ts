@@ -19,6 +19,7 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
     public fetching$: Observable<boolean>;
     public changingUserName$: Observable<boolean>;
     public profileImageUploading$: Observable<boolean>;
+    public profileImagesUploading$: Observable<boolean>;
     public profileInfoUpdating$: Observable<boolean>;
     public updatingPassword$: Observable<boolean>;
     public removingProfileImage$: Observable<boolean>;
@@ -26,6 +27,7 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
     public checkingUserNameAvailability$: Observable<boolean>;
 
     public uploadImageMessage$: Observable<string>;
+    public uploadImagesMessage$: Observable<string>;
     public updateProfileMessage$: Observable<string>;
     public removeProfileImageMessage$: Observable<string>;
     public updatePasswordMessage$: Observable<string>;
@@ -51,6 +53,10 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
         this.profileImageUploading$ = this.usersFacadeService.uploadingProfileImage$;
 
         this.uploadImageMessage$ = this.applyLoadingMessage(this.profileImageUploading$, 'Uploading image');
+
+        this.profileImagesUploading$ = this.usersFacadeService.uploadingProfileImages$;
+
+        this.uploadImagesMessage$ = this.applyLoadingMessage(this.profileImagesUploading$, 'Uploading images');
 
         this.removingProfileImage$ = this.usersFacadeService.removingProfileImage$;
 
@@ -99,6 +105,16 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
             userId: this.userId,
             file: file
         });
+    }
+
+    public uploadProfileImages(files: File[]): void {
+        if (!this.userId) {
+            return;
+        }
+
+        console.log(typeof files);
+
+        this.usersFacadeService.uploadProfileImages(this.userId, files);
     }
 
     public removeProfileImage(url: string): void {

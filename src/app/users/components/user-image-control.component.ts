@@ -21,6 +21,8 @@ export class UserImageControlComponent implements OnChanges {
     @Output()
     profileImageUpload: EventEmitter<File> = new EventEmitter<File>();
     @Output()
+    profileImagesUpload: EventEmitter<File[]> = new EventEmitter<File[]>();
+    @Output()
     profileImageRemove: EventEmitter<string> = new EventEmitter<string>();
     @Output()
     profileImagePrimary: EventEmitter<string> = new EventEmitter<string>();
@@ -71,17 +73,26 @@ export class UserImageControlComponent implements OnChanges {
     }
 
     public emitSelection($event): void {
-        const files = $event.target.files as File[];
+        const files = [...$event.target.files];
 
         if (!files || files.length === 0) {
             return;
         }
 
-        this.requestProfileImageUpload(files[0]);
+        if (files.length === 1) {
+            this.requestProfileImageUpload(files[0]);
+            return;
+        }
+
+        this.requestProfileImagesUpload(files);
     }
 
     public requestProfileImageUpload(files: File): void {
         this.profileImageUpload.emit(files);
+    }
+
+    public requestProfileImagesUpload(files: File[]): void {
+        this.profileImagesUpload.emit(files);
     }
 
     public requestProfileImageRemove(): void {
