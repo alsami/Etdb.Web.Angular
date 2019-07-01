@@ -1,31 +1,38 @@
 <ng-container *ngIf="user">
     <div class="flex-container flex-flow-column">
-        <ng-container *ngIf="tiles.length">
-            <mat-grid-list [cols]="2" rowHeight="150px">
-                <mat-grid-tile *ngFor="let tile of tiles; let i = index;" [colspan]="tile.cols" [rowspan]="1"
-                    [matMenuTriggerFor]="imageMenu" (click)="setSelected(i);">
-                    <div class="grid-tile-image" [style.backgroundImage]="'url(' + tile.url +')'"></div>
-                </mat-grid-tile>
-            </mat-grid-list>
-        </ng-container>
-        <div class="flex-container flex-justify-center">
-            <span *ngIf="!tiles.length">
-                No image available
-            </span>
-        </div>
-        <div class="flex-container flex-flow-row flex-justify-end" style="margin-top: 1em; margin-right: 1em;">
-            <button mat-fab color="accent" [matMenuTriggerFor]="uploadMenu">
-                <mat-icon>add</mat-icon>
-            </button>
-        </div>
+        <mat-card>
+            <mat-card-title class="mat-typography mat-card-title">
+                <h2>Manage your images</h2>
+            </mat-card-title>
+            <mat-card-content>
+                <ng-container *ngIf="tiles.length">
+                    <mat-grid-list [cols]="2" rowHeight="150px">
+                        <mat-grid-tile *ngFor="let tile of tiles; let i = index;" [colspan]="tile.cols" [rowspan]="1"
+                            [matMenuTriggerFor]="imageMenu" (click)="setSelected(i);">
+                            <div class="grid-tile-image" [style.backgroundImage]="'url(' + tile.url +')'"></div>
+                        </mat-grid-tile>
+                    </mat-grid-list>
+                </ng-container>
+                <div class="flex-container flex-justify-center">
+                    <span *ngIf="!tiles.length">
+                        No image available
+                    </span>
+                </div>
+                <div class="flex-container flex-flow-row flex-justify-end" style="margin-top: .5em; margin-right: 1em;">
+                    <button mat-fab color="accent" [matMenuTriggerFor]="uploadMenu">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </div>
+            </mat-card-content>
+        </mat-card>
     </div>
     <mat-menu #imageMenu="matMenu" yPosition="above" xPosition="before">
         <button mat-menu-item [disabled]="tiles.length === 0" (click)="requestMarkPrimaryProfileImage();">
             <mat-icon>photo</mat-icon> Set as profile-image
         </button>
         <button mat-menu-item [disabled]="tiles.length === 0" (click)="
-                requestProfileImageRemove();
-            ">
+                    requestProfileImageRemove();
+                ">
             <mat-icon>delete</mat-icon> Delete Image
         </button>
     </mat-menu>
@@ -36,7 +43,10 @@
         </button>
     </mat-menu>
 </ng-container>
-<!-- <div class="image-card">
+
+
+<!--
+    <div class="image-card">
         <div style="position: relative;">
             <span *ngIf="!selectedImage">
                 No image available
@@ -56,4 +66,28 @@
                 <mat-icon>more_vert</mat-icon>
             </button>
         </div>
-    </div> -->
+    </div>
+-->
+
+<!--
+    <div class="flex-container flex-flow-column">
+        <ng-container *ngIf="tiles.length">
+            <mat-grid-list [cols]="2" rowHeight="150px">
+                <mat-grid-tile *ngFor="let tile of tiles; let i = index;" [colspan]="tile.cols" [rowspan]="1"
+                    [matMenuTriggerFor]="imageMenu" (click)="setSelected(i);">
+                    <div class="grid-tile-image" [style.backgroundImage]="'url(' + tile.url +')'"></div>
+                </mat-grid-tile>
+            </mat-grid-list>
+        </ng-container>
+        <div class="flex-container flex-justify-center">
+            <span *ngIf="!tiles.length">
+                No image available
+            </span>
+        </div>
+        <div class="flex-container flex-flow-row flex-justify-end" style="margin-top: 1em; margin-right: 1em;">
+            <button mat-fab color="accent" [matMenuTriggerFor]="uploadMenu">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+    </div>
+-->

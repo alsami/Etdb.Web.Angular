@@ -29,7 +29,7 @@ export class UserImageControlComponent implements OnChanges {
 
     private selectedIndex: number;
 
-    private totalLength;
+    private totalLength: number;
 
     public tiles: { url: string, cols: number, rows: number }[] = [];
 
