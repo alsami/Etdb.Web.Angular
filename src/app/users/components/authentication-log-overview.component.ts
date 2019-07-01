@@ -22,7 +22,6 @@ export class AuthenticationLogOverviewComponent implements OnChanges {
         this.authenticationLogs.forEach(authLog => authLog.loggedAt = new Date(authLog.loggedAt));
 
         this.dataSource.data = this.authenticationLogs;
-        console.log(this.dataSource.data);
     }
 
     public isSuccessType(authenticationLog: AuthenticationLog): boolean {
