@@ -19,11 +19,7 @@ export class TokenStorageService {
 
     public canRestore(): boolean {
         const token = this.getTokenFromStorage();
-        return token !== undefined && this.isValid(token);
-    }
-
-    private isValid(token: IdentityToken): boolean {
-        return token.expiresAt.getTime() > new Date().getTime();
+        return token !== undefined;
     }
 
     private getTokenFromStorage(): IdentityToken {
