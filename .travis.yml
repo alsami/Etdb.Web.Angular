@@ -12,9 +12,11 @@ jobs:
       name: build etdb-app
       before_script: npm i
       script: ng build
+      if: tag IS NOT present
     - stage: test
       name: run-tests
       script: echo currently not running scripts
+      if: tag IS NOT present
     - stage: publish
       name: publish-etdb-app
       if: tag IS present
