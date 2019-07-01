@@ -38,8 +38,8 @@
     </mat-menu>
     <mat-menu #uploadMenu="matMenu" yPosition="below" xPosition="before">
         <button mat-menu-item (click)="triggerFileDialog();">
-            <mat-icon>add_a_photo</mat-icon> Upload an image
-            <input hidden accept="image/*" multiple="false" type="file" (change)="emitSelection($event);" />
+            <mat-icon>add_a_photo</mat-icon> Upload image(s)
+            <input hidden accept="image/*" multiple type="file" (change)="emitSelection($event);" />
         </button>
     </mat-menu>
 </ng-container>

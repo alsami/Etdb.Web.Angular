@@ -23,6 +23,9 @@ export enum UserActionTypes {
     UploadProfileImage = '[User API] Upload User Profile Image',
     UploadedProfileImage = '[User API] Uploaded User Profile Image',
     UploadProfileImageFailed = '[User API] Upload User Profil Image Failed',
+    UploadProfileImages = '[User API] Upload User Profile Images',
+    UploadedProfileImages = '[User API] Uploaded User Profile Images',
+    UploadProfileImagesFailed = '[User API] Upload User Profil Images Failed',
     RemoveProfileImage = '[User API] Remove User Profile Image',
     RemovedProfileImage = '[User API] Removed User Profile Image',
     RemoveProfileImageFailed = '[User API] Remove User Profile Image Failed',
@@ -114,6 +117,21 @@ export class UploadProfileImageFailed implements Action {
     public constructor(public error: Error) { }
 }
 
+export class UploadProfileImages implements Action {
+    readonly type = UserActionTypes.UploadProfileImages;
+    public constructor(public userId: string, public files: File[]) { }
+}
+
+export class UploadedProfileImages implements Action {
+    readonly type = UserActionTypes.UploadedProfileImages;
+    public constructor(public userId: string, public profileImageMetainfos: ProfileImageMetaInfo[]) { }
+}
+
+export class UploadProfileImagesFailed implements Action {
+    readonly type = UserActionTypes.UploadProfileImagesFailed;
+    public constructor(public error: Error) { }
+}
+
 export class RemoveProfileImage implements Action {
     readonly type = UserActionTypes.RemoveProfileImage;
     public constructor(public url: string, public userId: string) { }
@@ -163,6 +181,9 @@ export type UserActions =
     | UploadProfileImage
     | UploadedProfileImage
     | UploadProfileImageFailed
+    | UploadProfileImages
+    | UploadedProfileImages
+    | UploadProfileImagesFailed
     | MarkPrimaryProfileImage
     | MarkedPrimaryProfileImage
     | MarkPrimaryProfileImageFailed;

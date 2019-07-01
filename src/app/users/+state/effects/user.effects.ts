@@ -32,9 +32,28 @@ export class UserEffects {
                     action.profileImage.file
                 )
                 .pipe(
-                    map(user => new userActions.UploadedProfileImage(action.profileImage.userId, user)),
+                    map(profileImagemetaInfo => new userActions.UploadedProfileImage(action.profileImage.userId, profileImagemetaInfo)),
                     catchError((error: Error) =>
                         of(new userActions.UploadProfileImageFailed(error))
+                    )
+                );
+        })
+    );
+
+    @Effect()
+    uploadProfileImages$: Observable<Action> = this.actions$.pipe(
+        ofType(UserActionTypes.UploadProfileImages),
+        switchMap((action: userActions.UploadProfileImages) => {
+            return this.userService
+                .uploadProfileImages(
+                    action.userId,
+                    action.files
+                )
+                .pipe(
+                    map(profileImageMetaInfos =>
+                        new userActions.UploadedProfileImages(action.userId, profileImageMetaInfos)),
+                    catchError((error: Error) =>
+                        of(new userActions.UploadProfileImagesFailed(error))
                     )
                 );
         })

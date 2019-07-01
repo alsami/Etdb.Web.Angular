@@ -48,6 +48,17 @@ export class UserService {
         );
     }
 
+    public uploadProfileImages(userId: string, files: File[]): Observable<ProfileImageMetaInfo[]> {
+        const formData = new FormData();
+
+        files.forEach(file => formData.append('files', file));
+
+        return this.http.post<ProfileImageMetaInfo[]>(
+            `${this.url}${userId}/profileimages/multiple`,
+            formData
+        );
+    }
+
     public markPrimaryProfileImage(id: string, userId: string): Observable<any> {
         return this.http.patch(`${this.url}${userId}/profileimages/${id}`, null);
     }
