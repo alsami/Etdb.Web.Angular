@@ -20,7 +20,7 @@ jobs:
         - echo current-directory
         - ls
         - sleep 5
-        - sh create-environment-prod-file.sh "$ETDB_USERSERVICE_URL" "$ETDB_CLIENT_ID" "$GOOGLE_CLIENT_ID"
+        - sh create-environment-prod-file.sh "$ETDB_USERSERVICE_URL" "$ETDB_CLIENT_ID" "$GOOGLE_CLIENT_ID" "${TRAVIS_TAG}"
         - sleep 5
         - sh create-facebook-oauth-file.sh "$FACEBOOK_CLIENT_ID"
         - npm i

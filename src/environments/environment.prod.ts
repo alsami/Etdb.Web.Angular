@@ -4,5 +4,6 @@ export const environment = {
         userService: ''
     },
     etdbClientId: '',
-    googleClientId: ''
+    googleClientId: '',
+    version: ''
 };

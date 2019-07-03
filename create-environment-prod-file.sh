@@ -11,5 +11,6 @@ echo "export const environment = {
         userService: '${1}'
     },
     etdbClientId: '${2}',
-    googleClientId: '${3}'
+    googleClientId: '${3}',
+    version: '${4}'
 };" > src/environments/environment.prod.ts
