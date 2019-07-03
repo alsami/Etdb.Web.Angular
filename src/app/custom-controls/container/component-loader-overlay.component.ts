@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, OnChanges } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
@@ -16,13 +16,9 @@ export class ComponentLoaderOverlayComponent implements OnChanges {
 
     @Input() message = null;
 
-    public ngOnChanges(changes: SimpleChanges): void {
-        if (changes['loading'] && this.loading) {
-            this.safeClearInterval();
-            this.changedDotsIntervaled();
-        } else {
-            this.safeClearInterval();
-        }
+    public ngOnChanges(): void {
+        this.safeClearInterval();
+        this.changedDotsIntervaled();
     }
 
 
