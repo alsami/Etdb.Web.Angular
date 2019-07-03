@@ -5,6 +5,8 @@ import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 import { UserPasswordChange, UserProfileInfoChange, UserNameChange } from '@etdb/users/models';
 import { BASE_HEADERS } from '@etdb/core/core.constants';
+import { map } from 'rxjs/operators';
+import { uploadProgressReporter } from '@etdb/functions';
 
 @Injectable()
 export class UserService {
@@ -38,24 +40,34 @@ export class UserService {
         return this.http.delete(url);
     }
 
-    public uploadProfileImage(userId: string, file: File): Observable<ProfileImageMetaInfo> {
+    public uploadProfileImage(userId: string, file: File): Observable<ProfileImageMetaInfo | number> {
         const formData = new FormData();
         formData.append('file', file);
 
-        return this.http.post<ProfileImageMetaInfo>(
+        return this.http.post<any>(
             `${this.url}${userId}/profileimages`,
-            formData
+            formData, {
+                reportProgress: true,
+                observe: 'events'
+            }
+        ).pipe(
+            map(uploadProgressReporter)
         );
     }
 
-    public uploadProfileImages(userId: string, files: File[]): Observable<ProfileImageMetaInfo[]> {
+    public uploadProfileImages(userId: string, files: File[]): Observable<ProfileImageMetaInfo[] | number> {
         const formData = new FormData();
 
         files.forEach(file => formData.append('files', file));
 
-        return this.http.post<ProfileImageMetaInfo[]>(
+        return this.http.post<any[]>(
             `${this.url}${userId}/profileimages/multiple`,
-            formData
+            formData, {
+                reportProgress: true,
+                observe: 'events'
+            }
+        ).pipe(
+            map(uploadProgressReporter)
         );
     }
 

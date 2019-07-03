@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, combineLatest } from 'rxjs';
 import { User } from '@etdb/models';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
@@ -52,11 +52,13 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
 
         this.profileImageUploading$ = this.usersFacadeService.uploadingProfileImage$;
 
-        this.uploadImageMessage$ = this.applyLoadingMessage(this.profileImageUploading$, 'Uploading image');
+        this.uploadImageMessage$ = this.applyLoadingMessageWithProgress(this.profileImageUploading$,
+            this.usersFacadeService.uploadProgress$);
 
         this.profileImagesUploading$ = this.usersFacadeService.uploadingProfileImages$;
 
-        this.uploadImagesMessage$ = this.applyLoadingMessage(this.profileImagesUploading$, 'Uploading images');
+        this.uploadImagesMessage$ = this.applyLoadingMessageWithProgress(this.profileImagesUploading$,
+            this.usersFacadeService.uploadProgress$, true);
 
         this.removingProfileImage$ = this.usersFacadeService.removingProfileImage$;
 
@@ -136,6 +138,25 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
     private applyLoadingMessage(observer: Observable<boolean>, message: string): Observable<string> {
         return observer.pipe(
             map(updating => updating ? message : null)
+        );
+    }
+
+    private applyLoadingMessageWithProgress(uploadObserver: Observable<boolean>,
+        progressObserver: Observable<number>, isMultiUpload: boolean = false) {
+        return combineLatest(uploadObserver, progressObserver).pipe(
+            map(([uploading, progress]) => {
+                if (!uploading) {
+                    return null;
+                }
+
+                if (progress === 100) {
+                    return 'Processing';
+                }
+
+                const prefix = isMultiUpload ? 'Uploading images' : 'Uploading image';
+
+                return `${prefix} ${progress}%`;
+            })
         );
     }
 }

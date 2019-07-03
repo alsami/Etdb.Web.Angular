@@ -26,6 +26,7 @@ export enum UserActionTypes {
     UploadProfileImages = '[User API] Upload User Profile Images',
     UploadedProfileImages = '[User API] Uploaded User Profile Images',
     UploadProfileImagesFailed = '[User API] Upload User Profil Images Failed',
+    ReportUploadProgress = '[User API] Report Upload Progress',
     RemoveProfileImage = '[User API] Remove User Profile Image',
     RemovedProfileImage = '[User API] Removed User Profile Image',
     RemoveProfileImageFailed = '[User API] Remove User Profile Image Failed',
@@ -147,6 +148,11 @@ export class RemoveProfileImageFailed implements Action {
     public constructor(public error: Error) { }
 }
 
+export class ReportUploadProgress implements Action {
+    readonly type = UserActionTypes.ReportUploadProgress;
+    public constructor(public progress: number) { }
+}
+
 export class MarkPrimaryProfileImage implements Action {
     readonly type = UserActionTypes.MarkPrimaryProfileImage;
     public constructor(public id: string, public userId: string) { }
@@ -184,6 +190,7 @@ export type UserActions =
     | UploadProfileImages
     | UploadedProfileImages
     | UploadProfileImagesFailed
+    | ReportUploadProgress
     | MarkPrimaryProfileImage
     | MarkedPrimaryProfileImage
     | MarkPrimaryProfileImageFailed;

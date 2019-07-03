@@ -1,23 +1,25 @@
 import { Injectable } from '@angular/core';
-import * as userActions from '@etdb/users/+state/actions/user.actions';
 import { UserActionTypes } from '@etdb/users/+state/actions/user.actions';
 import { UserService } from '@etdb/users/services';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap, last, tap } from 'rxjs/operators';
 import { ErrorExtractorService } from '@etdb/core/services';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ProfileImageMetaInfo } from '@etdb/models';
+import * as fromUsers from '@etdb/users/+state/reducers';
+import { UserActions } from '@etdb/users/+state/actions';
 
 @Injectable()
 export class UserEffects {
     @Effect()
     loadUser$: Observable<Action> = this.actions$.pipe(
         ofType(UserActionTypes.Load),
-        switchMap((action: userActions.Load) => {
+        switchMap((action: UserActions.Load) => {
             return this.userService.getUser(action.id).pipe(
-                map(user => new userActions.Loaded(user)),
-                catchError(error => of(new userActions.LoadFailed(error)))
+                map(user => new UserActions.Loaded(user)),
+                catchError(error => of(new UserActions.LoadFailed(error)))
             );
         })
     );
@@ -25,16 +27,25 @@ export class UserEffects {
     @Effect()
     uploadProfileImage$: Observable<Action> = this.actions$.pipe(
         ofType(UserActionTypes.UploadProfileImage),
-        switchMap((action: userActions.UploadProfileImage) => {
+        switchMap((action: UserActions.UploadProfileImage) => {
             return this.userService
                 .uploadProfileImage(
                     action.profileImage.userId,
                     action.profileImage.file
                 )
                 .pipe(
-                    map(profileImagemetaInfo => new userActions.UploadedProfileImage(action.profileImage.userId, profileImagemetaInfo)),
+                    tap(currentValue => {
+                        if (typeof currentValue !== 'number') {
+                            return;
+                        }
+
+                        this.store.dispatch(new UserActions.ReportUploadProgress(currentValue));
+                    }),
+                    map(profileImagemetaInfo =>
+                        new UserActions.UploadedProfileImage(action.profileImage.userId, profileImagemetaInfo as ProfileImageMetaInfo)),
+                    last(),
                     catchError((error: Error) =>
-                        of(new userActions.UploadProfileImageFailed(error))
+                        of(new UserActions.UploadProfileImageFailed(error))
                     )
                 );
         })
@@ -43,17 +54,25 @@ export class UserEffects {
     @Effect()
     uploadProfileImages$: Observable<Action> = this.actions$.pipe(
         ofType(UserActionTypes.UploadProfileImages),
-        switchMap((action: userActions.UploadProfileImages) => {
+        switchMap((action: UserActions.UploadProfileImages) => {
             return this.userService
                 .uploadProfileImages(
                     action.userId,
                     action.files
                 )
                 .pipe(
+                    tap(currentValue => {
+                        if (typeof currentValue !== 'number') {
+                            return;
+                        }
+
+                        this.store.dispatch(new UserActions.ReportUploadProgress(currentValue));
+                    }),
                     map(profileImageMetaInfos =>
-                        new userActions.UploadedProfileImages(action.userId, profileImageMetaInfos)),
+                        new UserActions.UploadedProfileImages(action.userId, profileImageMetaInfos as ProfileImageMetaInfo[])),
+                    last(),
                     catchError((error: Error) =>
-                        of(new userActions.UploadProfileImagesFailed(error))
+                        of(new UserActions.UploadProfileImagesFailed(error))
                     )
                 );
         })
@@ -62,13 +81,13 @@ export class UserEffects {
     @Effect()
     patchPassword$: Observable<Action> = this.actions$.pipe(
         ofType(UserActionTypes.UpdatePassword),
-        switchMap((action: userActions.UpdatePassword) => {
+        switchMap((action: UserActions.UpdatePassword) => {
             return this.userService
                 .updatePassword(action.id, action.passwordChange)
                 .pipe(
-                    map(() => new userActions.UpdatedPassword()),
+                    map(() => new UserActions.UpdatedPassword()),
                     catchError((error: Error) =>
-                        of(new userActions.UpdatePasswordFailed(error))
+                        of(new UserActions.UpdatePasswordFailed(error))
                     )
                 );
         })
@@ -77,19 +96,19 @@ export class UserEffects {
     @Effect()
     patchProfileInfo$: Observable<Action> = this.actions$.pipe(
         ofType(UserActionTypes.UpdateProfileInfo),
-        switchMap((action: userActions.UpdateProfileInfo) => {
+        switchMap((action: UserActions.UpdateProfileInfo) => {
             return this.userService
                 .updateProfileInfo(action.id, action.profileInfoChange)
                 .pipe(
                     map(
                         () =>
-                            new userActions.UpdatedProfileInfo(
+                            new UserActions.UpdatedProfileInfo(
                                 action.id,
                                 action.profileInfoChange
                             )
                     ),
                     catchError((error: Error) =>
-                        of(new userActions.UpdateProfileInfoFailed(error))
+                        of(new UserActions.UpdateProfileInfoFailed(error))
                     )
                 );
         })
@@ -98,17 +117,17 @@ export class UserEffects {
     @Effect()
     removeProfileImage$: Observable<Action> = this.actions$.pipe(
         ofType(UserActionTypes.RemoveProfileImage),
-        switchMap((action: userActions.RemoveProfileImage) => {
+        switchMap((action: UserActions.RemoveProfileImage) => {
             return this.userService.removeProfileImage(action.url).pipe(
                 map(
                     () =>
-                        new userActions.RemovedProfileImage(
+                        new UserActions.RemovedProfileImage(
                             action.url,
                             action.userId
                         )
                 ),
                 catchError((error: Error) =>
-                    of(new userActions.RemoveProfileImageFailed(error))
+                    of(new UserActions.RemoveProfileImageFailed(error))
                 )
             );
         })
@@ -117,10 +136,10 @@ export class UserEffects {
     @Effect()
     markPrimaryProfileImage$: Observable<Action> = this.actions$.pipe(
         ofType(UserActionTypes.MarkPrimaryProfileImage),
-        switchMap((action: userActions.MarkPrimaryProfileImage) => {
+        switchMap((action: UserActions.MarkPrimaryProfileImage) => {
             return this.userService.markPrimaryProfileImage(action.id, action.userId).pipe(
-                map(() => new userActions.MarkedPrimaryProfileImage(action.id, action.userId)),
-                catchError((error: Error) => of(new userActions.MarkPrimaryProfileImageFailed(error)))
+                map(() => new UserActions.MarkedPrimaryProfileImage(action.id, action.userId)),
+                catchError((error: Error) => of(new UserActions.MarkPrimaryProfileImageFailed(error)))
             );
         })
     );
@@ -128,9 +147,9 @@ export class UserEffects {
     @Effect()
     changeUserName$: Observable<Action> = this.actions$.pipe(
         ofType(UserActionTypes.ChangeUserName),
-        switchMap((action: userActions.ChangeUserName) => this.userService.changeUserName(action.data).pipe(
-            map(() => new userActions.ChangedUserName(action.data)),
-            catchError((error: Error) => of(new userActions.ChangeUserNameFailed(error)))
+        switchMap((action: UserActions.ChangeUserName) => this.userService.changeUserName(action.data).pipe(
+            map(() => new UserActions.ChangedUserName(action.data)),
+            catchError((error: Error) => of(new UserActions.ChangeUserNameFailed(error)))
         ))
     );
 
@@ -148,12 +167,12 @@ export class UserEffects {
         switchMap(
             (
                 action:
-                    | userActions.LoadFailed
-                    | userActions.UpdateProfileInfoFailed
-                    | userActions.UpdatePasswordFailed
-                    | userActions.ChangeUserNameFailed
-                    | userActions.RemoveProfileImageFailed
-                    | userActions.MarkPrimaryProfileImageFailed
+                    | UserActions.LoadFailed
+                    | UserActions.UpdateProfileInfoFailed
+                    | UserActions.UpdatePasswordFailed
+                    | UserActions.ChangeUserNameFailed
+                    | UserActions.RemoveProfileImageFailed
+                    | UserActions.MarkPrimaryProfileImageFailed
             ): Observable<any> => {
                 const humanreadable = this.errorExtractorService.extractHumanreadableError(
                     action.error
@@ -172,6 +191,7 @@ export class UserEffects {
         private userService: UserService,
         private errorExtractorService: ErrorExtractorService,
         private snackbar: MatSnackBar,
-        private actions$: Actions
+        private actions$: Actions,
+        private store: Store<fromUsers.UsersState>
     ) { }
 }

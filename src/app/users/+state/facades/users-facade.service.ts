@@ -22,6 +22,7 @@ export class UsersFacadeService {
     public selectedUserIsAuthenticatedUser$: Observable<boolean>;
     public markingPrimaryProfileImage$: Observable<boolean>;
     public changingUserName$: Observable<boolean>;
+    public uploadProgress$: Observable<number>;
 
     public constructor(private store: Store<fromUsers.UsersState>) {
         this.fetching$ = this.store.pipe(select(fromUsers.getUserFetching));
@@ -57,6 +58,8 @@ export class UsersFacadeService {
         this.selectedUserIsAuthenticatedUser$ = this.store.pipe(select(fromUsers.getSelectedUserIsAuthenticatedUser));
 
         this.changingUserName$ = this.store.pipe(select(fromUsers.getChangingUserName));
+
+        this.uploadProgress$ = this.store.pipe(select(fromUsers.getUploadProgress));
     }
 
     public load(userId: string): void {

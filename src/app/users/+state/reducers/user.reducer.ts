@@ -10,6 +10,7 @@ export interface UserState extends EntityState<User> {
     userNameUpdating: boolean;
     uploadingProfileImage: boolean;
     uploadingProfileImages: boolean;
+    uploadProgress: number;
     removingProfileImage: boolean;
     profileInfoUpdating: boolean;
     updatingPassword: boolean;
@@ -30,6 +31,7 @@ export const initialState: UserState = adapter.getInitialState({
     userNameUpdating: false,
     uploadingProfileImage: false,
     uploadingProfileImages: false,
+    uploadProgress: 0,
     removingProfileImage: false,
     profileInfoUpdating: false,
     updatingPassword: false,
@@ -59,6 +61,11 @@ export function reducer(
                 uploadingProfileImage:
                     action instanceof userActions.UploadProfileImage,
                 uploadingProfileImages: action instanceof userActions.UploadProfileImages,
+                uploadProgress:
+                    action instanceof userActions.UploadProfileImage ||
+                        action instanceof userActions.UploadProfileImages
+                        ? 0
+                        : state.uploadProgress,
                 removingProfileImage: action instanceof userActions.RemoveProfileImage,
                 profileInfoUpdating:
                     action instanceof userActions.UpdateProfileInfo,
@@ -113,6 +120,13 @@ export function reducer(
             return {
                 ...adapter.upsertOne(user, state),
                 removingProfileImage: false
+            };
+        }
+
+        case UserActionTypes.ReportUploadProgress: {
+            return {
+                ...state,
+                uploadProgress: action.progress
             };
         }
 
@@ -228,6 +242,9 @@ export const uploadingProfileImages = (state: UserState) =>
 
 export const removingProfileImage = (state: UserState) =>
     state.removingProfileImage;
+
+export const uploadProgress = (state: UserState) =>
+    state.uploadProgress;
 
 export const profileInfoUpdating = (state: UserState) =>
     state.profileInfoUpdating;
