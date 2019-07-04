@@ -4,11 +4,11 @@
             <mat-card-title class="mat-typography mat-card-title">
                 <h2>Manage your images</h2>
             </mat-card-title>
-            <mat-card-content>
+            <mat-card-content class="grid-tile-container">
                 <ng-container *ngIf="tiles.length">
-                    <mat-grid-list [cols]="2" rowHeight="150px" gutterSize="1px">
+                    <mat-grid-list [cols]="2" rowHeight="150px" guterSize="1em" class="mat-elevation-z6">
                         <mat-grid-tile *ngFor="let tile of tiles; let i = index;" [colspan]="tile.cols" [rowspan]="1"
-                            [matMenuTriggerFor]="imageMenu" (click)="setSelected(i);">
+                            [matMenuTriggerFor]="imageMenu" (click)="setSelected(i);" class="tile-border">
                             <div class="grid-tile-image" [style.backgroundImage]="'url(' + tile.url +')'"></div>
                         </mat-grid-tile>
                     </mat-grid-list>

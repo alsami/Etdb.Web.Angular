@@ -2,10 +2,12 @@
 @include mat-core();
 @import 'primary-theme.scss';
 @import 'dark-theme.scss';
- @import '../app/core/containers/layout.component.scss';
+@import '../app/core/containers/layout.component.scss';
+@import '../app/users/components/user-image-control.component.scss';
 
 @mixin component-themes($theme) {
     @include layout-component-theme($theme);
+    @include user-image-control-component-theme($theme);
 }
 
 .primary-theme {
