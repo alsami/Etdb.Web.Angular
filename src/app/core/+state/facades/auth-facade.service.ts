@@ -72,6 +72,10 @@ export class AuthFacadeService implements OnDestroy {
         this.store.dispatch(new AuthActions.Register(registerUser));
     }
 
+    public restoreSignin(): void {
+        this.store.dispatch(new AuthActions.RestoreSignIn());
+    }
+
     public initialize(): void {
         this.loadGoogleApi();
         this.authIniSubscription = combineLatest(this.googleInitialized$, this.facebookInitialized$)

@@ -20,7 +20,7 @@ import {
     UnauthorizedComponent,
 } from '@etdb/core/containers';
 import { NotSignedInGuard } from '@etdb/core/guards';
-import { TokenInterceptor, ErrorInterceptor } from '@etdb/core/interceptors';
+import { TokenInterceptor, ErrorRetryHandlerInterceptor } from '@etdb/core/interceptors';
 import {
     AuthService,
     LayoutStorageService,
@@ -82,9 +82,15 @@ export class CoreModule {
                 },
                 {
                     provide: HTTP_INTERCEPTORS,
-                    useClass: ErrorInterceptor,
+                    useClass: ErrorRetryHandlerInterceptor,
                     multi: true
                 }
+                // ,
+                // {
+                //     provide: HTTP_INTERCEPTORS,
+                //     useClass: ErrorInterceptor,
+                //     multi: true
+                // }
             ]
         };
     }
