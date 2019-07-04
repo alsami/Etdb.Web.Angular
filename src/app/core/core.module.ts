@@ -11,6 +11,7 @@ import {
     GoogleSignInButtonComponent,
     FacebookSigninButtonComponent,
     TwitterSigninButtonComponent,
+    ToasterComponent,
 } from '@etdb/core/components';
 import {
     AppComponent,
@@ -27,7 +28,8 @@ import {
     TokenStorageService,
     BreakpointService,
     PolicyService,
-    ErrorExtractorService
+    ErrorExtractorService,
+    ToasterService
 } from '@etdb/core/services';
 import { MaterialModule } from '@etdb/shared';
 import { CustomControlModule } from '@etdb/custom-controls/custom-controls.module';
@@ -46,6 +48,7 @@ const COMPONENTS = [
     FacebookSigninButtonComponent,
     TwitterSigninButtonComponent,
     UnauthorizedComponent,
+    ToasterComponent,
 ];
 
 @NgModule({
@@ -75,6 +78,7 @@ export class CoreModule {
                 AuthFacadeService,
                 LayoutFacadeService,
                 TitleFacadeService,
+                ToasterService,
                 {
                     provide: HTTP_INTERCEPTORS,
                     useClass: TokenInterceptor,
