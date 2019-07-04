@@ -6,7 +6,7 @@
             </mat-card-title>
             <mat-card-content>
                 <ng-container *ngIf="tiles.length">
-                    <mat-grid-list [cols]="2" rowHeight="150px">
+                    <mat-grid-list [cols]="2" rowHeight="150px" gutterSize="1px">
                         <mat-grid-tile *ngFor="let tile of tiles; let i = index;" [colspan]="tile.cols" [rowspan]="1"
                             [matMenuTriggerFor]="imageMenu" (click)="setSelected(i);">
                             <div class="grid-tile-image" [style.backgroundImage]="'url(' + tile.url +')'"></div>
@@ -39,7 +39,7 @@
     <mat-menu #uploadMenu="matMenu" yPosition="below" xPosition="before">
         <button mat-menu-item (click)="triggerFileDialog();">
             <mat-icon>add_a_photo</mat-icon> Upload image(s)
-            <input hidden accept="image/*" multiple type="file" (change)="emitSelection($event);" />
         </button>
     </mat-menu>
+    <input #fileInput hidden accept="image/*" multiple type="file" (change)="emitSelection($event);" />
 </ng-container>

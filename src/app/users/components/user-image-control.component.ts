@@ -4,7 +4,9 @@ import {
     Output,
     EventEmitter,
     OnChanges,
-    SimpleChanges
+    SimpleChanges,
+    ViewChild,
+    ElementRef
 } from '@angular/core';
 import { User, ProfileImageMetaInfo } from '@etdb/models';
 
@@ -27,13 +29,17 @@ export class UserImageControlComponent implements OnChanges {
     @Output()
     profileImagePrimary: EventEmitter<string> = new EventEmitter<string>();
 
+    @ViewChild('fileInput', {
+        static: false
+    }) fileInput: ElementRef;
+
     public imageLoading: boolean;
+
+    public tiles: { url: string, cols: number, rows: number }[] = [];
 
     private selectedIndex: number;
 
     private totalLength: number;
-
-    public tiles: { url: string, cols: number, rows: number }[] = [];
 
     public ngOnChanges(changes: SimpleChanges): void {
         const userChange = changes['user'];
@@ -68,13 +74,12 @@ export class UserImageControlComponent implements OnChanges {
     }
 
     public triggerFileDialog(): void {
-        const element: HTMLElement = document.querySelector('input[type=file]');
-        element.click();
+        this.fileInput.nativeElement.click();
     }
 
     public emitSelection($event): void {
         const files = [...$event.target.files];
-
+        this.fileInput.nativeElement.value = null;
         if (!files || files.length === 0) {
             return;
         }
