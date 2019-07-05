@@ -5,13 +5,11 @@ import { AuthActionTypes } from '@etdb/core/+state/actions/auth.actions';
 import {
     AuthService,
     TokenStorageService,
-    ErrorExtractorService
 } from '@etdb/core/services';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthenticationProvider } from '@etdb/core/models';
 
 @Injectable()
@@ -32,8 +30,6 @@ export class AuthEffects {
                     return new authActions.SignedIn(token, true);
                 }),
                 catchError((error: Error) => {
-                    this.showError(error);
-
                     return of(new authActions.SignInFailed(error));
                 })
             )
@@ -52,7 +48,6 @@ export class AuthEffects {
                         return new authActions.SignedIn(token, true);
                     }),
                     catchError((error: Error) => {
-                        this.showError(error);
                         return of(new authActions.SignInFailed(error));
                     })
                 )
@@ -155,22 +150,11 @@ export class AuthEffects {
         )
     );
 
-    private showError(error: Error): void {
-        const humanReadableError = this.errorExtractorService.extractHumanreadableError(
-            error
-        );
-        this.snackbar.open(humanReadableError.message, undefined, {
-            duration: 5000
-        });
-    }
-
     public constructor(
         private authService: AuthService,
         private tokenStorageService: TokenStorageService,
         private actions$: Actions,
         private router: Router,
-        private errorExtractorService: ErrorExtractorService,
-        private snackbar: MatSnackBar,
         public ngZone: NgZone
     ) { }
 }
