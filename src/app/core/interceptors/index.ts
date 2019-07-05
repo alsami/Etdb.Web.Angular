@@ -1,2 +1,2 @@
-export * from './error-retry-handler.interceptor';
+export * from './error-handler.interceptor';
 export * from './token.interceptor';

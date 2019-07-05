@@ -21,17 +21,17 @@ export class ErrorRetryHandlerInterceptor implements HttpInterceptor {
             catchError((error: HttpErrorResponse) => {
                 if (error.status !== 401) {
                     this.showError(error);
-                    return httpHandler.handle(nextRequest.clone());
+                    return this.complete(httpHandler);
                 }
 
                 if (!this.tokenStorageService.canRestore()) {
                     this.whenEverythingHasFailed(error);
-                    return httpHandler.handle(nextRequest.clone());
+                    return this.complete(httpHandler);
                 }
 
                 if (nextRequest.url.indexOf('auth') > -1) {
                     this.whenEverythingHasFailed(error);
-                    return httpHandler.handle(nextRequest.clone());
+                    return this.complete(httpHandler);
                 }
 
                 this.authFacadeService.restoreSignin(false);
@@ -52,6 +52,10 @@ export class ErrorRetryHandlerInterceptor implements HttpInterceptor {
         );
     }
 
+    private complete(httpHandler: HttpHandler): Observable<HttpEvent<any>> {
+        return httpHandler.handle(null);
+    }
+
     private showError(error: HttpErrorResponse): void {
         const humanreadable = this.errorExtractorService.extractHumanreadableError(error);
         this.snackbar.open(humanreadable.message, undefined, {
@@ -64,3 +68,5 @@ export class ErrorRetryHandlerInterceptor implements HttpInterceptor {
         this.router.navigate(['/signin']);
     }
 }
+
+
