@@ -74,7 +74,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, AfterViewChecked,
     public ngAfterViewInit(): void {
         this.showSidenav$ = this.layoutFacadeService.showSidenav$;
         this.user$ = this.authFacadeService.authenticatedUser$;
-        this.restoringSignIn$ = this.authFacadeService.signingIn$;
+        this.restoringSignIn$ = this.authFacadeService.authenticating$;
 
         this.restoringSignIn$.pipe(delay(0)) // delaying to make sure expressionchanged exception not thrown
             .subscribe(restoringSignIn => {

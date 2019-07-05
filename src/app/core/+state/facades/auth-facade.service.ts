@@ -16,7 +16,7 @@ export class AuthFacadeService implements OnDestroy {
     private googleInitialized$: BehaviorSubject<boolean> = new BehaviorSubject(false);
     private facebookInitialized$: BehaviorSubject<boolean> = new BehaviorSubject(true);
     private initializing$: BehaviorSubject<boolean> = new BehaviorSubject(true);
-    public signingIn$: Observable<boolean>;
+    public authenticating$: Observable<boolean>;
     public authenticatedUser$: Observable<IdentityUser>;
     public registering$: Observable<boolean>;
     public authLoading$: Observable<boolean>;
@@ -25,7 +25,7 @@ export class AuthFacadeService implements OnDestroy {
 
     public constructor(private store: Store<fromRoot.AppState>,
         private tokenStorageService: TokenStorageService, private ngZone: NgZone) {
-        this.signingIn$ = this.store.pipe(select(fromRoot.getAuthAuthenticating));
+        this.authenticating$ = this.store.pipe(select(fromRoot.getAuthAuthenticating));
         this.authenticatedUser$ = this.store.pipe(select(fromRoot.getAuthenticatedUser));
         this.registering$ = this.store.pipe(select(fromRoot.getAuthRegistering));
         this.authLoading$ = this.store.pipe(select(fromRoot.getAuthLoading));
@@ -42,7 +42,7 @@ export class AuthFacadeService implements OnDestroy {
             switchMap(() => {
                 return this.store.pipe(
                     select(fromRoot.getAuthAuthenticating),
-                    filter(signingIn => !signingIn),
+                    filter(authenticating => !authenticating),
                     take(1),
                     switchMap(() => this.store.pipe(
                         select(fromRoot.getAuthLoaded),
@@ -72,8 +72,8 @@ export class AuthFacadeService implements OnDestroy {
         this.store.dispatch(new AuthActions.Register(registerUser));
     }
 
-    public restoreSignin(): void {
-        this.store.dispatch(new AuthActions.RestoreSignIn());
+    public restoreSignin(emitAuthenticatingState: boolean = true): void {
+        this.store.dispatch(new AuthActions.RestoreAuthentication(emitAuthenticatingState));
     }
 
     public initialize(): void {
@@ -89,7 +89,7 @@ export class AuthFacadeService implements OnDestroy {
                     return;
                 }
 
-                this.store.dispatch(new AuthActions.RestoreSignIn());
+                this.restoreSignin();
                 this.initializing$.next(false);
             });
     }

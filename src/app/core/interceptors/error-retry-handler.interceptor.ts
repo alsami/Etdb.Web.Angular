@@ -34,7 +34,7 @@ export class ErrorRetryHandlerInterceptor implements HttpInterceptor {
                     return httpHandler.handle(nextRequest.clone());
                 }
 
-                this.authFacadeService.restoreSignin();
+                this.authFacadeService.restoreSignin(false);
 
                 return this.authFacadeService.awaitAuthenticated().pipe(switchMap(authenticated => {
                     if (!authenticated) {

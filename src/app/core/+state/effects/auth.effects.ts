@@ -61,7 +61,7 @@ export class AuthEffects {
 
     @Effect()
     signedIn$: Observable<Action> = this.actions$.pipe(
-        ofType(AuthActionTypes.SignedIn),
+        ofType(AuthActionTypes.Authenticated),
         map((action: authActions.SignedIn) => {
             if (action.navigateToRoot) {
                 this.router.navigate(['/']);
@@ -119,15 +119,15 @@ export class AuthEffects {
 
     @Effect()
     restoreSignIn$: Observable<Action> = this.actions$.pipe(
-        ofType(AuthActionTypes.RestoreSignIn),
+        ofType(AuthActionTypes.RestoreAuthentication),
         switchMap(
             (): Observable<
-                | authActions.RestoreCompleted
+                | authActions.RestoreAuthenticationCompleted
                 | authActions.SignedIn
                 | authActions.SignInFailed
             > => {
                 if (!this.tokenStorageService.canRestore()) {
-                    return of(new authActions.RestoreCompleted());
+                    return of(new authActions.RestoreAuthenticationCompleted());
                 }
 
                 const restoreToken = this.tokenStorageService.getToken();

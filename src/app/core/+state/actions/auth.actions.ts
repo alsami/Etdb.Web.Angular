@@ -4,14 +4,14 @@ import { IdentityToken, RegisterUser, IdentityUser, UserCredentials, Authenticat
 export enum AuthActionTypes {
     CredentialSignIn = '[Auth API] User Credential SignIn',
     ProviderSignIn = '[Auth API] User Provider SignIn',
-    SignedIn = '[Auth API] User SignedIn',
-    SignInFailed = '[Auth API] User SignIn failed',
+    Authenticated = '[Auth API] User SignedIn',
+    AuthenticationFailed = '[Auth API] User SignIn failed',
     SignOut = '[Auth API] SignOut',
     Register = '[Auth API] User Register',
     Registered = '[Auth API] User Registered',
     RegisterFailed = '[Auth API] User Register failed',
-    RestoreSignIn = '[Auth API] Restore SignIn',
-    RestoreCompleted = '[Auth API] Restore completed',
+    RestoreAuthentication = '[Auth API] Restore SignIn',
+    RestoreAuthenticationCompleted = '[Auth API] Restore completed',
     IdentityUserLoad = '[Auth API] Identity-User Load',
     IdentityUserLoaded = '[Auth API] Identity-User Loaded',
     IdentityUserLoadFailed = '[Auth API] Identity-User Load failed',
@@ -28,12 +28,12 @@ export class ProviderSignIn implements Action {
 }
 
 export class SignedIn implements Action {
-    readonly type = AuthActionTypes.SignedIn;
+    readonly type = AuthActionTypes.Authenticated;
     public constructor(public token: IdentityToken, public navigateToRoot = false) { }
 }
 
 export class SignInFailed implements Action {
-    readonly type = AuthActionTypes.SignInFailed;
+    readonly type = AuthActionTypes.AuthenticationFailed;
     public constructor(public error: Error) { }
 }
 
@@ -56,12 +56,13 @@ export class RegisterFailed implements Action {
     public constructor(public error: Error) { }
 }
 
-export class RestoreSignIn implements Action {
-    readonly type = AuthActionTypes.RestoreSignIn;
+export class RestoreAuthentication implements Action {
+    readonly type = AuthActionTypes.RestoreAuthentication;
+    public constructor(public emitAuthenticationState: boolean) { }
 }
 
-export class RestoreCompleted implements Action {
-    readonly type = AuthActionTypes.RestoreCompleted;
+export class RestoreAuthenticationCompleted implements Action {
+    readonly type = AuthActionTypes.RestoreAuthenticationCompleted;
 }
 
 export class IdentityUserLoad implements Action {
@@ -84,8 +85,8 @@ export declare type AuthActionUnion =
     | SignedIn
     | SignInFailed
     | SignOut
-    | RestoreSignIn
-    | RestoreCompleted
+    | RestoreAuthentication
+    | RestoreAuthenticationCompleted
     | Register
     | Registered
     | RegisterFailed

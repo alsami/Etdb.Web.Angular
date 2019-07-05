@@ -111,7 +111,8 @@ export const getAuthLoaded = createSelector(
 
 export const getAuthAuthenticating = createSelector(
     getAuthState,
-    state => state.loadingAuthenticatedUser || state.authenticating && !state.registering
+    // state => state.loadingAuthenticatedUser || state.authenticating && !state.registering
+    state => state.authenticating && !state.registering
 );
 
 export const getAuthRegistering = createSelector(

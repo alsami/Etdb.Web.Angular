@@ -39,17 +39,17 @@ export function reducer(
             };
         }
 
-        case AuthActions.AuthActionTypes.RestoreSignIn: return {
+        case AuthActions.AuthActionTypes.RestoreAuthentication: return {
             ...state,
-            authenticating: true,
+            authenticating: action.emitAuthenticationState,
         };
 
-        case AuthActions.AuthActionTypes.RestoreCompleted: return {
+        case AuthActions.AuthActionTypes.RestoreAuthenticationCompleted: return {
             ...state,
             authenticating: false
         };
 
-        case AuthActions.AuthActionTypes.SignedIn: {
+        case AuthActions.AuthActionTypes.Authenticated: {
             return {
                 ...state,
                 identityToken: action.token,
@@ -60,7 +60,7 @@ export function reducer(
             };
         }
 
-        case AuthActions.AuthActionTypes.SignInFailed: {
+        case AuthActions.AuthActionTypes.AuthenticationFailed: {
             return {
                 ...state,
                 loaded: true,
@@ -75,13 +75,6 @@ export function reducer(
                 authenticated: false,
                 identityToken: null,
                 authenticatedUser: null
-            };
-        }
-
-        case AuthActions.AuthActionTypes.RestoreCompleted: {
-            return {
-                ...state,
-                loaded: true
             };
         }
 
