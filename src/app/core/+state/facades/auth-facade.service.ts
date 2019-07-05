@@ -1,11 +1,14 @@
 import { Injectable, NgZone, OnDestroy } from '@angular/core';
 import * as fromRoot from '@etdb/+state';
 import { Store, select } from '@ngrx/store';
-import { AuthActions } from '@etdb/core/+state/actions';
+import { AuthActions, AppNotificationActions } from '@etdb/core/+state/actions';
 import { TokenStorageService } from '@etdb/core/services';
 import { BehaviorSubject, combineLatest, Subscription, Observable } from 'rxjs';
 import { environment } from 'environments/environment';
-import { IdentityUser, RegisterUser, UserCredentials, AuthenticationProvider } from '@etdb/core/models';
+import {
+    IdentityUser, RegisterUser, UserCredentials,
+    AuthenticationProvider, ProgressNotification, AppNotificationType
+} from '@etdb/core/models';
 import { take, filter, switchMap } from 'rxjs/operators';
 
 @Injectable({
@@ -25,6 +28,7 @@ export class AuthFacadeService implements OnDestroy {
 
     public constructor(private store: Store<fromRoot.AppState>,
         private tokenStorageService: TokenStorageService, private ngZone: NgZone) {
+        this.store.dispatch(new AppNotificationActions.Add(new ProgressNotification(AppNotificationType.Progress, 'SSSSS', 0)));
         this.authenticating$ = this.store.pipe(select(fromRoot.getAuthAuthenticating));
         this.authenticatedUser$ = this.store.pipe(select(fromRoot.getAuthenticatedUser));
         this.registering$ = this.store.pipe(select(fromRoot.getAuthRegistering));
