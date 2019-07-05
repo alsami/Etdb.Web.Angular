@@ -61,3 +61,11 @@ etdb-sidenav-content mat-nav-list mat-list-item .mat-list-item {
 .fill-available-height {
     min-height: stretch;
 }
+
+.app-notification-message-body {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    height: 40px;
+    padding: 10px;
+}

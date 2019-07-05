@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { AppNotification } from '@etdb/core/models';
+import { AppNotification } from '@etdb/app-notification/models';
 
 export enum AppNotificationActionTypes {
     Add = '[App-Notifications] Add notification',
@@ -22,7 +22,7 @@ export class Remove implements Action {
     public constructor(public id: string) { }
 }
 
-export type NoticationActionsUnion =
+export type AppNoticationActionsUnion =
     | Add<AppNotification>
     | Update<AppNotification>
     | Remove;

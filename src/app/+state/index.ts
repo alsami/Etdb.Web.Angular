@@ -6,8 +6,7 @@ import {
     createSelector
 } from '@ngrx/store';
 import { environment } from '../../environments/environment';
-import { fromAuth, fromLayout, fromTitle, fromAppNotification } from '@etdb/core/+state/reducers';
-import { notifications } from '@etdb/core/+state/reducers/app-notification.reducer';
+import { fromAuth, fromLayout, fromTitle } from '@etdb/core/+state/reducers';
 
 /**
  * As mentioned, we treat each reducer like a table in a database. This means
@@ -17,7 +16,6 @@ export interface AppState {
     layout: fromLayout.LayoutState;
     title: fromTitle.TitleState;
     auth: fromAuth.AuthState;
-    appNotification: fromAppNotification.AppNotificationState;
 }
 
 /**
@@ -29,7 +27,6 @@ export const reducers: ActionReducerMap<AppState> = {
     layout: fromLayout.reducer,
     title: fromTitle.reducer,
     auth: fromAuth.reducer,
-    appNotification: fromAppNotification.reducer,
 };
 
 // console.log all actions
@@ -121,14 +118,5 @@ export const getAuthAuthenticating = createSelector(
 export const getAuthRegistering = createSelector(
     getAuthState,
     fromAuth.registering
-);
-
-export const getAppNotificationState = createFeatureSelector<fromAppNotification.AppNotificationState>('appNotification');
-
-export const getAppNotifications = createSelector(
-    getAppNotificationState,
-    fromAppNotification.notifications,
-    (state) => state.notifications.sort(notification =>
-        notification.createdAt.getDate())
 );
 

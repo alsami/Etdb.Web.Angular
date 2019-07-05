@@ -20,6 +20,7 @@ import {
 import { TemplatePortalDirective, Portal } from '@angular/cdk/portal';
 import { delay } from 'rxjs/operators';
 import { LayoutFacadeService, AuthFacadeService, TitleFacadeService } from '@etdb/core/+state/facades';
+import { AppNotification } from '@etdb/app-notification/models';
 
 @Component({
     selector: 'etdb-layout',
@@ -39,6 +40,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, AfterViewChecked,
     showSidenav$: Observable<boolean>;
     title$: Observable<string>;
     user$: Observable<IdentityUser>;
+    notifications$: Observable<AppNotification[]>;
     sidenavMode: string;
     layoutGap: string;
 

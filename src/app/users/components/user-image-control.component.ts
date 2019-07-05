@@ -84,10 +84,10 @@ export class UserImageControlComponent implements OnChanges {
             return;
         }
 
-        if (files.length === 1) {
-            this.requestProfileImageUpload(files[0]);
-            return;
-        }
+        // if (files.length === 1) {
+        //     this.requestProfileImageUpload(files[0]);
+        //     return;
+        // }
 
         this.requestProfileImagesUpload(files);
     }

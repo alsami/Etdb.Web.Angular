@@ -2,6 +2,7 @@ import * as fromRoot from '@etdb/+state';
 import * as fromUser from '@etdb/users/+state/reducers/user.reducer';
 import * as fromSearch from '@etdb/users/+state/reducers/user-search.reducer';
 import * as fromAuthenticationLogs from '@etdb/users/+state/reducers/authentication-log.reducer';
+import * as fromProfileImageUploadQueue from '@etdb/users/+state/reducers/profileimage-upload-queue.reducer';
 
 import {
     ActionReducerMap,
@@ -13,6 +14,7 @@ export interface UsersState {
     users: fromUser.UserState;
     search: fromSearch.UserSearchState;
     authenticationLogs: fromAuthenticationLogs.AuthenticationLogState;
+    profileImageUploadQueue: fromProfileImageUploadQueue.ProfileImageUploadQueueState;
 }
 
 export interface State extends fromRoot.AppState {
@@ -23,6 +25,7 @@ export const reducers: ActionReducerMap<UsersState> = {
     users: fromUser.reducer,
     search: fromSearch.reducer,
     authenticationLogs: fromAuthenticationLogs.reducer,
+    profileImageUploadQueue: fromProfileImageUploadQueue.reducer,
 };
 
 export const getUsersState = createFeatureSelector<UsersState>('users');
@@ -61,21 +64,6 @@ export const getUserFetching = createSelector(
 export const getUserNameUpdating = createSelector(
     getUserEntitiesState,
     fromUser.userNameUpdating
-);
-
-export const getUploadingProfileImage = createSelector(
-    getUserEntitiesState,
-    fromUser.uploadingProfileImage
-);
-
-export const getUploadingProfileImages = createSelector(
-    getUserEntitiesState,
-    fromUser.uploadingProfileImages
-);
-
-export const getUploadProgress = createSelector(
-    getUserEntitiesState,
-    fromUser.uploadProgress
 );
 
 export const getRemovingProfileImage = createSelector(

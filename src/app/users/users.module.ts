@@ -6,7 +6,7 @@ import {
     UsersRoutingComponent,
     UserSettingsComponent
 } from '@etdb/users/containers';
-import { UserEffects, UserSearchEffects, AuthenticationLogEffects } from '@etdb/users/+state/effects';
+import { UserEffects, UserSearchEffects, AuthenticationLogEffects, ProfileImageUploadQueueEffects } from '@etdb/users/+state/effects';
 import { reducers } from '@etdb/users/+state/reducers';
 import { UserService, UserSearchService, AuthenticationLogService } from '@etdb/users/services';
 import { UsersRoutingModule } from '@etdb/users/users-routing.module';
@@ -21,13 +21,20 @@ import {
     UserNameChangeComponent,
     AuthenticationLogOverviewComponent
 } from '@etdb/users/components';
-import { UsersFacadeService, UsersSearchFacadeService, AuthenticationLogFacadeService } from '@etdb/users/+state/facades';
+import {
+    UsersFacadeService, UsersSearchFacadeService,
+    AuthenticationLogFacadeService, ProfileImageQueueFacadeService
+} from '@etdb/users/+state/facades';
 
 @NgModule({
     imports: [
         CommonModule,
         StoreModule.forFeature('users', reducers),
-        EffectsModule.forFeature([UserEffects, UserSearchEffects, AuthenticationLogEffects]),
+        EffectsModule.forFeature([
+            UserEffects,
+            UserSearchEffects,
+            AuthenticationLogEffects,
+            ProfileImageUploadQueueEffects]),
         MaterialModule,
         UsersRoutingModule,
         CustomControlModule,
@@ -44,6 +51,6 @@ import { UsersFacadeService, UsersSearchFacadeService, AuthenticationLogFacadeSe
         AuthenticationLogOverviewComponent,
     ],
     providers: [UserService, UserSearchService, AuthenticationLogService,
-        UsersFacadeService, UsersSearchFacadeService, AuthenticationLogFacadeService]
+        UsersFacadeService, UsersSearchFacadeService, AuthenticationLogFacadeService, ProfileImageQueueFacadeService]
 })
 export class UsersModule { }

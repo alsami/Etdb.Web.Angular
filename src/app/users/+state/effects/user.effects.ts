@@ -2,11 +2,9 @@ import { Injectable } from '@angular/core';
 import { UserActionTypes } from '@etdb/users/+state/actions/user.actions';
 import { UserService } from '@etdb/users/services';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap, last, tap } from 'rxjs/operators';
-import { ProfileImageMetaInfo } from '@etdb/models';
-import * as fromUsers from '@etdb/users/+state/reducers';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { UserActions } from '@etdb/users/+state/actions';
 
 @Injectable()
@@ -19,60 +17,6 @@ export class UserEffects {
                 map(user => new UserActions.Loaded(user)),
                 catchError(error => of(new UserActions.LoadFailed(error)))
             );
-        })
-    );
-
-    @Effect()
-    uploadProfileImage$: Observable<Action> = this.actions$.pipe(
-        ofType(UserActionTypes.UploadProfileImage),
-        switchMap((action: UserActions.UploadProfileImage) => {
-            return this.userService
-                .uploadProfileImage(
-                    action.profileImage.userId,
-                    action.profileImage.file
-                )
-                .pipe(
-                    tap(currentValue => {
-                        if (typeof currentValue !== 'number') {
-                            return;
-                        }
-
-                        this.store.dispatch(new UserActions.ReportUploadProgress(currentValue));
-                    }),
-                    map(profileImagemetaInfo =>
-                        new UserActions.UploadedProfileImage(action.profileImage.userId, profileImagemetaInfo as ProfileImageMetaInfo)),
-                    last(),
-                    catchError((error: Error) =>
-                        of(new UserActions.UploadProfileImageFailed(error))
-                    )
-                );
-        })
-    );
-
-    @Effect()
-    uploadProfileImages$: Observable<Action> = this.actions$.pipe(
-        ofType(UserActionTypes.UploadProfileImages),
-        switchMap((action: UserActions.UploadProfileImages) => {
-            return this.userService
-                .uploadProfileImages(
-                    action.userId,
-                    action.files
-                )
-                .pipe(
-                    tap(currentValue => {
-                        if (typeof currentValue !== 'number') {
-                            return;
-                        }
-
-                        this.store.dispatch(new UserActions.ReportUploadProgress(currentValue));
-                    }),
-                    map(profileImageMetaInfos =>
-                        new UserActions.UploadedProfileImages(action.userId, profileImageMetaInfos as ProfileImageMetaInfo[])),
-                    last(),
-                    catchError((error: Error) =>
-                        of(new UserActions.UploadProfileImagesFailed(error))
-                    )
-                );
         })
     );
 
@@ -153,7 +97,6 @@ export class UserEffects {
 
     public constructor(
         private userService: UserService,
-        private actions$: Actions,
-        private store: Store<fromUsers.UsersState>
+        private actions$: Actions
     ) { }
 }

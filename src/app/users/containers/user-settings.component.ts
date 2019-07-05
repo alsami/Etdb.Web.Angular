@@ -1,11 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable, Subscription, combineLatest } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { User } from '@etdb/models';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { UserPasswordChange, UserProfileInfoChange } from '@etdb/users/models';
-import { UsersFacadeService, UsersSearchFacadeService } from '@etdb/users/+state/facades';
+import { UserPasswordChange, UserProfileInfoChange, ProfileImagesUploadQueueItem } from '@etdb/users/models';
+import { UsersFacadeService, UsersSearchFacadeService, ProfileImageQueueFacadeService } from '@etdb/users/+state/facades';
 import { TitleFacadeService } from '@etdb/core/+state/facades';
+import { ProfileImageQueueActions } from '@etdb/users/+state/actions';
 
 @Component({
     selector: 'etdb-user-settings',
@@ -26,8 +27,6 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
     public markingPrimaryProfileImage$: Observable<boolean>;
     public checkingUserNameAvailability$: Observable<boolean>;
 
-    public uploadImageMessage$: Observable<string>;
-    public uploadImagesMessage$: Observable<string>;
     public updateProfileMessage$: Observable<string>;
     public removeProfileImageMessage$: Observable<string>;
     public updatePasswordMessage$: Observable<string>;
@@ -38,7 +37,8 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private usersFacadeService: UsersFacadeService,
         private usersSearchFacadeService: UsersSearchFacadeService,
-        private titleFacadeService: TitleFacadeService
+        private titleFacadeService: TitleFacadeService,
+        private profileImageQueueFacadeService: ProfileImageQueueFacadeService
     ) { }
 
     public ngOnInit(): void {
@@ -49,16 +49,6 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
         this.fetching$ = this.usersFacadeService.fetching$;
 
         this.changingUserName$ = this.usersFacadeService.userNameUpdating$;
-
-        this.profileImageUploading$ = this.usersFacadeService.uploadingProfileImage$;
-
-        this.uploadImageMessage$ = this.applyLoadingMessageWithProgress(this.profileImageUploading$,
-            this.usersFacadeService.uploadProgress$);
-
-        this.profileImagesUploading$ = this.usersFacadeService.uploadingProfileImages$;
-
-        this.uploadImagesMessage$ = this.applyLoadingMessageWithProgress(this.profileImagesUploading$,
-            this.usersFacadeService.uploadProgress$, true);
 
         this.removingProfileImage$ = this.usersFacadeService.removingProfileImage$;
 
@@ -98,25 +88,12 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
         this.usersFacadeService.changePassword(this.userId, userPasswordChange);
     }
 
-    public uploadProfileImage(file: File): void {
-        if (!this.userId) {
-            return;
-        }
-
-        this.usersFacadeService.uploadProfileImage({
-            userId: this.userId,
-            file: file
-        });
-    }
-
     public uploadProfileImages(files: File[]): void {
         if (!this.userId) {
             return;
         }
 
-        console.log(typeof files);
-
-        this.usersFacadeService.uploadProfileImages(this.userId, files);
+        this.profileImageQueueFacadeService.add(new ProfileImagesUploadQueueItem(this.userId, files));
     }
 
     public removeProfileImage(url: string): void {
@@ -138,25 +115,6 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
     private applyLoadingMessage(observer: Observable<boolean>, message: string): Observable<string> {
         return observer.pipe(
             map(updating => updating ? message : null)
-        );
-    }
-
-    private applyLoadingMessageWithProgress(uploadObserver: Observable<boolean>,
-        progressObserver: Observable<number>, isMultiUpload: boolean = false) {
-        return combineLatest(uploadObserver, progressObserver).pipe(
-            map(([uploading, progress]) => {
-                if (!uploading) {
-                    return null;
-                }
-
-                if (progress === 100) {
-                    return 'Processing';
-                }
-
-                const prefix = isMultiUpload ? 'Uploading images' : 'Uploading image';
-
-                return `${prefix} ${progress}%`;
-            })
         );
     }
 }

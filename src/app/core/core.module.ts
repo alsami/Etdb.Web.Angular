@@ -32,6 +32,7 @@ import {
 import { MaterialModule } from '@etdb/shared';
 import { CustomControlModule } from '@etdb/custom-controls/custom-controls.module';
 import { AuthFacadeService, LayoutFacadeService, TitleFacadeService } from '@etdb/core/+state/facades';
+import { AppNotificationModule } from '@etdb/app-notification/app-notification.module';
 
 const COMPONENTS = [
     AppComponent,
@@ -56,7 +57,8 @@ const COMPONENTS = [
         RouterModule,
         ReactiveFormsModule,
         CustomControlModule,
-        MaterialModule
+        MaterialModule,
+        AppNotificationModule,
     ],
     exports: [COMPONENTS]
 })
@@ -85,12 +87,6 @@ export class CoreModule {
                     useClass: ErrorRetryHandlerInterceptor,
                     multi: true
                 }
-                // ,
-                // {
-                //     provide: HTTP_INTERCEPTORS,
-                //     useClass: ErrorInterceptor,
-                //     multi: true
-                // }
             ]
         };
     }

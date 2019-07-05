@@ -1,0 +1,6 @@
+<div class="app-notification-message-body">
+    <span style="font-size: smaller;">{{ notification.createdAt | date: 'dd.MM.yyyy hh:mm:ss' }}</span>
+    <span>{{ notification.message}} {{notification.progress}}%</span>
+</div>
+<mat-progress-bar *ngIf="notification.progress < 100" color="accent" mode="determinate" [value]="notification.progress">
+</mat-progress-bar>

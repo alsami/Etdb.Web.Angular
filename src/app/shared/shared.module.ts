@@ -11,4 +11,4 @@ const COMPONENTS = [
     imports: [MaterialModule],
     exports: COMPONENTS
 })
-export class ShareModule { }
+export class SharedModule { }

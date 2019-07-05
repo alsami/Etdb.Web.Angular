@@ -1,0 +1,14 @@
+@import '~@angular/material/theming';
+
+.placeholder {
+    padding: 0 16px;
+}
+
+@mixin app-notification-overview-theme($theme) {
+    $foreground-palette: map-get($theme, foreground);
+    $default-color: mat-color($foreground-palette, base);
+
+    .notification-container {
+        color: $default-color;
+    }
+}

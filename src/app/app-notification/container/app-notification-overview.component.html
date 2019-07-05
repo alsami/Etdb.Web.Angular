@@ -1,0 +1,16 @@
+<div class="mat-menu-panel mat-elevation-z4" style="min-height: auto;">
+    <div *ngIf="(notifications$ | async)?.length === 0" class="notification-container app-notification-message-body">
+        Currently no notifications!
+    </div>
+    <ng-template ngFor let-notification let-last="last" [ngForOf]="notifications$ | async">
+        <div class="notification-container">
+            <ng-container [ngSwitch]="notification.type">
+                <etdb-progress-notification *ngSwitchCase="AppNotificationTypes.Progress" [notification]="notification">
+                </etdb-progress-notification>
+                <etdb-simple-notification *ngSwitchCase="AppNotificationTypes.Simple" [notification]="notification">
+                </etdb-simple-notification>
+            </ng-container>
+        </div>
+        <mat-divider *ngIf="!last"></mat-divider>
+    </ng-template>
+</div>

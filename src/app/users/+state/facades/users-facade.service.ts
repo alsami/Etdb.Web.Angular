@@ -4,7 +4,7 @@ import * as fromUsers from '@etdb/users/+state/reducers';
 import { Observable } from 'rxjs';
 import { User } from '@etdb/models';
 import { UserActions } from '@etdb/users/+state/actions';
-import { UserPasswordChange, UserProfileImageUpload, UserProfileInfoChange } from '@etdb/users/models';
+import { UserPasswordChange, UserProfileInfoChange } from '@etdb/users/models';
 import { filter, take } from 'rxjs/operators';
 
 @Injectable({
@@ -14,15 +14,12 @@ export class UsersFacadeService {
     public fetching$: Observable<boolean>;
     public selectedUser$: Observable<User>;
     public userNameUpdating$: Observable<boolean>;
-    public uploadingProfileImage$: Observable<boolean>;
-    public uploadingProfileImages$: Observable<boolean>;
     public updatingProfileInfo$: Observable<boolean>;
     public updatingPassword$: Observable<boolean>;
     public removingProfileImage$: Observable<boolean>;
     public selectedUserIsAuthenticatedUser$: Observable<boolean>;
     public markingPrimaryProfileImage$: Observable<boolean>;
     public changingUserName$: Observable<boolean>;
-    public uploadProgress$: Observable<number>;
 
     public constructor(private store: Store<fromUsers.UsersState>) {
         this.fetching$ = this.store.pipe(select(fromUsers.getUserFetching));
@@ -31,14 +28,6 @@ export class UsersFacadeService {
 
         this.userNameUpdating$ = this.store.pipe(select(
             fromUsers.getUserNameUpdating
-        ));
-
-        this.uploadingProfileImage$ = this.store.pipe(select(
-            fromUsers.getUploadingProfileImage
-        ));
-
-        this.uploadingProfileImages$ = this.store.pipe(select(
-            fromUsers.getUploadingProfileImages
         ));
 
         this.updatingProfileInfo$ = this.store.pipe(select(
@@ -58,8 +47,6 @@ export class UsersFacadeService {
         this.selectedUserIsAuthenticatedUser$ = this.store.pipe(select(fromUsers.getSelectedUserIsAuthenticatedUser));
 
         this.changingUserName$ = this.store.pipe(select(fromUsers.getChangingUserName));
-
-        this.uploadProgress$ = this.store.pipe(select(fromUsers.getUploadProgress));
     }
 
     public load(userId: string): void {
@@ -68,14 +55,6 @@ export class UsersFacadeService {
 
     public changePassword(userId: string, passwordChange: UserPasswordChange): void {
         this.store.dispatch(new UserActions.UpdatePassword(userId, passwordChange));
-    }
-
-    public uploadProfileImage(profileImage: UserProfileImageUpload): void {
-        this.store.dispatch(new UserActions.UploadProfileImage(profileImage));
-    }
-
-    public uploadProfileImages(userId: string, files: File[]): void {
-        this.store.dispatch(new UserActions.UploadProfileImages(userId, files));
     }
 
     public removeProfileImage(userId: string, url: string): void {

@@ -1,7 +1,6 @@
 import { User, ProfileImageMetaInfo } from '@etdb/models';
 import {
     UserNameChange,
-    UserProfileImageUpload,
     UserPasswordChange,
     UserProfileInfoChange
 } from '@etdb/users/models';
@@ -20,10 +19,6 @@ export enum UserActionTypes {
     UpdateProfileInfo = '[User API] Update User Profileinfo',
     UpdatedProfileInfo = '[User API] Updated User Profileinfo',
     UpdateProfileInfoFailed = '[User API] Update User Profileinfo Failed',
-    UploadProfileImage = '[User API] Upload User Profile Image',
-    UploadedProfileImage = '[User API] Uploaded User Profile Image',
-    UploadProfileImageFailed = '[User API] Upload User Profil Image Failed',
-    UploadProfileImages = '[User API] Upload User Profile Images',
     UploadedProfileImages = '[User API] Uploaded User Profile Images',
     UploadProfileImagesFailed = '[User API] Upload User Profil Images Failed',
     ReportUploadProgress = '[User API] Report Upload Progress',
@@ -103,26 +98,6 @@ export class UpdateProfileInfoFailed implements Action {
     public constructor(public error: Error) { }
 }
 
-export class UploadProfileImage implements Action {
-    readonly type = UserActionTypes.UploadProfileImage;
-    public constructor(public profileImage: UserProfileImageUpload) { }
-}
-
-export class UploadedProfileImage implements Action {
-    readonly type = UserActionTypes.UploadedProfileImage;
-    public constructor(public userId: string, public profileImageMeta: ProfileImageMetaInfo) { }
-}
-
-export class UploadProfileImageFailed implements Action {
-    readonly type = UserActionTypes.UploadProfileImageFailed;
-    public constructor(public error: Error) { }
-}
-
-export class UploadProfileImages implements Action {
-    readonly type = UserActionTypes.UploadProfileImages;
-    public constructor(public userId: string, public files: File[]) { }
-}
-
 export class UploadedProfileImages implements Action {
     readonly type = UserActionTypes.UploadedProfileImages;
     public constructor(public userId: string, public profileImageMetainfos: ProfileImageMetaInfo[]) { }
@@ -184,10 +159,6 @@ export type UserActions =
     | RemoveProfileImage
     | RemovedProfileImage
     | RemoveProfileImageFailed
-    | UploadProfileImage
-    | UploadedProfileImage
-    | UploadProfileImageFailed
-    | UploadProfileImages
     | UploadedProfileImages
     | UploadProfileImagesFailed
     | ReportUploadProgress
