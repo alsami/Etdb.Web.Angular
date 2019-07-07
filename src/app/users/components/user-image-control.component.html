@@ -6,12 +6,16 @@
             </mat-card-title>
             <mat-card-content class="grid-tile-container">
                 <ng-container *ngIf="tiles.length">
-                    <mat-grid-list [cols]="2" rowHeight="150px" guterSize="1em" class="mat-elevation-z6">
-                        <mat-grid-tile *ngFor="let tile of tiles; let i = index;" [colspan]="tile.cols" [rowspan]="1"
-                            [matMenuTriggerFor]="imageMenu" (click)="setSelected(i);" class="tile-border">
-                            <div class="grid-tile-image" [style.backgroundImage]="'url(' + tile.url +')'"></div>
-                        </mat-grid-tile>
-                    </mat-grid-list>
+                    <cdk-virtual-scroll-viewport [itemSize]="(tiles$ | async).length" class="image-viewport"
+                        (scrolledIndexChange)="viewPortScrolled($event);">
+                        <mat-grid-list [cols]="2" rowHeight="150px" guterSize="1em" class="mat-elevation-z6">
+                            <mat-grid-tile *cdkVirtualFor="let tile of tiles$ | async; let i = index;"
+                                [colspan]="tile.cols" [rowspan]="1" [matMenuTriggerFor]="imageMenu"
+                                (click)="setSelected(i);" class="tile-border">
+                                <div class="grid-tile-image" [style.backgroundImage]="'url(' + tile.url +')'"></div>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                    </cdk-virtual-scroll-viewport>
                 </ng-container>
                 <div class="flex-container flex-justify-center">
                     <span *ngIf="!tiles.length">
