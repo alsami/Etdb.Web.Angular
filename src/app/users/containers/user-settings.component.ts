@@ -6,7 +6,6 @@ import { map } from 'rxjs/operators';
 import { UserPasswordChange, UserProfileInfoChange, ProfileImagesUploadQueueItem } from '@etdb/users/models';
 import { UsersFacadeService, UsersSearchFacadeService, ProfileImageQueueFacadeService } from '@etdb/users/+state/facades';
 import { TitleFacadeService } from '@etdb/core/+state/facades';
-import { ProfileImageQueueActions } from '@etdb/users/+state/actions';
 
 @Component({
     selector: 'etdb-user-settings',
