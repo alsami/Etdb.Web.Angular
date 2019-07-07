@@ -2,9 +2,8 @@
 <div class="page-content page-content-pad-xs">
     <etdb-component-loader-overlay [loading]="(removingProfileImage$ | async) || (markingPrimaryProfileImage$ | async)"
         [message]="(removeProfileImageMessage$ | async) || (markingPrimaryProfileImageMessage$ | async)">
-        <etdb-user-image-control [user]="user$ | async" (profileImageUpload)="uploadProfileImage($event)"
-            (profileImagesUpload)="uploadProfileImages($event)" (profileImageRemove)="removeProfileImage($event)"
-            (profileImagePrimary)="markPrimaryProfileImage($event);">
+        <etdb-user-image-control [user]="user$ | async" (profileImagesUpload)="uploadProfileImages($event)"
+            (profileImageRemove)="removeProfileImage($event)" (profileImagePrimary)="markPrimaryProfileImage($event);">
         </etdb-user-image-control>
     </etdb-component-loader-overlay>
     <div class="card-seperator"></div>
