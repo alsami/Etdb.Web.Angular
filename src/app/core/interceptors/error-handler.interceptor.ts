@@ -29,7 +29,7 @@ export class ErrorRetryHandlerInterceptor implements HttpInterceptor {
                     return this.complete(httpHandler);
                 }
 
-                if (nextRequest.url.indexOf('auth') > -1) {
+                if (nextRequest.url.indexOf('/auth/') > -1) {
                     this.whenEverythingHasFailed(error);
                     return this.complete(httpHandler);
                 }
