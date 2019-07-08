@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { User } from '@etdb/models';
+import { User, ProfileImageMetaInfo } from '@etdb/models';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { UserPasswordChange, UserProfileInfoChange, ProfileImagesUploadQueueItem } from '@etdb/users/models';
@@ -16,6 +16,7 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
     private paramsSubscription: Subscription;
 
     public user$: Observable<User>;
+    public profileImages$: Observable<ProfileImageMetaInfo[]>;
     public fetching$: Observable<boolean>;
     public changingUserName$: Observable<boolean>;
     public profileImageUploading$: Observable<boolean>;
@@ -71,6 +72,13 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
         this.changingUserName$ = this.usersFacadeService.changingUserName$;
 
         this.changingUserNameMessage$ = this.applyLoadingMessage(this.changingUserName$, 'Changing user-name');
+
+        this.profileImages$ = this.user$.pipe(
+            map(user => {
+                console.log(user);
+                return user.profileImageMetaInfos;
+            })
+        );
 
         this.paramsSubscription = this.route.params
             .pipe(map(params => <string>params['id']))

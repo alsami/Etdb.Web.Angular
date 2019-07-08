@@ -1,49 +1,52 @@
-<ng-container *ngIf="user">
-    <div class="flex-container flex-flow-column">
-        <mat-card>
-            <mat-card-title class="mat-typography mat-card-title">
-                <h2>Manage your images</h2>
-            </mat-card-title>
-            <mat-card-content class="grid-tile-container">
-                <ng-container *ngIf="tiles.length">
-                    <cdk-virtual-scroll-viewport [itemSize]="(tiles$ | async).length" class="image-viewport"
-                        (scrolledIndexChange)="viewPortScrolled($event);">
-                        <mat-grid-list [cols]="2" rowHeight="150px" guterSize="1em" class="mat-elevation-z6">
-                            <mat-grid-tile *cdkVirtualFor="let tile of tiles$ | async; let i = index;"
-                                [colspan]="tile.cols" [rowspan]="1" [matMenuTriggerFor]="imageMenu"
-                                (click)="setSelected(i);" class="tile-border">
-                                <div class="grid-tile-image" [style.backgroundImage]="'url(' + tile.url +')'"></div>
+<div class="flex-container flex-flow-column">
+    <mat-card>
+        <mat-card-title class="mat-typography mat-card-title">
+            <h2>Manage your images</h2>
+        </mat-card-title>
+        <mat-card-content class="grid-tile-container">
+            <ng-container *ngIf="profileImages$.getValue().length">
+                <cdk-virtual-scroll-viewport [itemSize]="profileImages.length" class="image-viewport">
+                    <mat-grid-list [cols]="2" rowHeight="150px" guterSize="1em">
+                        <ng-template cdkVirtualFor let-tile let-i="index" let-last="last"
+                            [cdkVirtualForOf]="profileImages$ | async" [cdkVirtualForTrackBy]="trackByFn">
+                            <mat-grid-tile [colspan]="calculateColSpan(i)" [rowspan]="1" [matMenuTriggerFor]="imageMenu"
+                                (click)="setSelected(i);" class="tile-border grid-tile-image"
+                                [style.backgroundImage]="'url(' + tile.url +')'">
+                                <mat-grid-tile-footer *ngIf="isDevelopment">
+                                    index: {{ i }} cols-calc: {{ calculateColSpan(i) }} length:
+                                    {{ totalLength }} last: {{ last }}
+                                </mat-grid-tile-footer>
                             </mat-grid-tile>
-                        </mat-grid-list>
-                    </cdk-virtual-scroll-viewport>
-                </ng-container>
-                <div class="flex-container flex-justify-center">
-                    <span *ngIf="!tiles.length">
-                        No image available
-                    </span>
-                </div>
-                <div class="flex-container flex-flow-row flex-justify-end" style="margin-top: .5em; margin-right: 1em;">
-                    <button mat-fab color="accent" [matMenuTriggerFor]="uploadMenu">
-                        <mat-icon>add</mat-icon>
-                    </button>
-                </div>
-            </mat-card-content>
-        </mat-card>
-    </div>
-    <mat-menu #imageMenu="matMenu" yPosition="above" xPosition="before">
-        <button mat-menu-item [disabled]="tiles.length === 0" (click)="requestMarkPrimaryProfileImage();">
-            <mat-icon>photo</mat-icon> Set as profile-image
-        </button>
-        <button mat-menu-item [disabled]="tiles.length === 0" (click)="
-                    requestProfileImageRemove();
-                ">
-            <mat-icon>delete</mat-icon> Delete Image
-        </button>
-    </mat-menu>
-    <mat-menu #uploadMenu="matMenu" yPosition="below" xPosition="before">
-        <button mat-menu-item (click)="triggerFileDialog();">
-            <mat-icon>add_a_photo</mat-icon> Upload image(s)
-        </button>
-    </mat-menu>
-    <input #fileInput hidden accept="image/*" multiple type="file" (change)="emitSelection($event);" />
-</ng-container>
+                        </ng-template>
+                    </mat-grid-list>
+                </cdk-virtual-scroll-viewport>
+            </ng-container>
+            <div class="flex-container flex-justify-center">
+                <span *ngIf="!profileImages.length">
+                    No image available
+                </span>
+            </div>
+            <div class="flex-container flex-flow-row flex-justify-end" style="margin-top: .5em; margin-right: 1em;">
+                <button mat-fab color="accent" [matMenuTriggerFor]="uploadMenu">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
+<mat-menu #imageMenu="matMenu" yPosition="above" xPosition="before">
+    <button mat-menu-item [disabled]="profileImages.length === 0" (click)="requestMarkPrimaryProfileImage();">
+        <mat-icon>photo</mat-icon> Set as profile-image
+    </button>
+    <button mat-menu-item [disabled]="profileImages.length === 0" (click)="
+                        requestProfileImageRemove();
+                    ">
+        <mat-icon>delete</mat-icon> Delete Image
+    </button>
+</mat-menu>
+<mat-menu #uploadMenu="matMenu" yPosition="below" xPosition="before">
+    <button mat-menu-item (click)="triggerFileDialog();">
+        <mat-icon>add_a_photo</mat-icon> Upload image(s)
+    </button>
+</mat-menu>
+<input #fileInput hidden accept="image/*" multiple type="file" (change)="emitSelection($event);" />

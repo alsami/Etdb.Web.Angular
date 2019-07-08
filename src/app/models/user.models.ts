@@ -18,6 +18,7 @@ export interface ProfileImageMetaInfo {
     url: string;
     removeUrl: string;
     isPrimary: boolean;
+    createdAt: Date;
 }
 
 export enum AuthenticationLogType {
