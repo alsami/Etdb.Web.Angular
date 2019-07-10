@@ -8,23 +8,20 @@ import {
     ViewChild,
     ElementRef,
     ChangeDetectionStrategy,
-    AfterViewChecked,
     OnDestroy,
-    NgZone,
 } from '@angular/core';
 import { ProfileImageMetaInfo } from '@etdb/models';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { environment } from 'environments/environment';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { delay, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
     selector: 'etdb-user-image-control',
     templateUrl: 'user-image-control.component.html',
     styleUrls: ['user-image-control.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.Default
 })
-export class UserImageControlComponent implements OnChanges, AfterViewChecked, OnDestroy {
+export class UserImageControlComponent implements OnChanges, OnDestroy {
     @Input()
     profileImages: ProfileImageMetaInfo[] = [];
 
@@ -47,24 +44,15 @@ export class UserImageControlComponent implements OnChanges, AfterViewChecked, O
 
     private selectedIndex: number;
 
-    private currentIndex: number;
-
-    private pageSize = 4;
-
-    private pages: number;
-
-    private currentPage = 0;
-
-    public imageLoading: boolean;
-
     public totalLength: number;
 
     public profileImages$: BehaviorSubject<ProfileImageMetaInfo[]> = new BehaviorSubject([]);
 
     public isDevelopment = !environment.production;
+
     private subscription: Subscription = null;
 
-    public constructor(private ngZone: NgZone) { }
+    public imagesLoadedState: { url: string, loaded: boolean }[] = [];
 
     public ngOnChanges(changes: SimpleChanges): void {
         const profileImagesChange = changes['profileImages'];
@@ -77,28 +65,11 @@ export class UserImageControlComponent implements OnChanges, AfterViewChecked, O
             return;
         }
 
-        console.log(this.profileImages);
-
         this.totalLength = this.profileImages.length;
 
-        this.pages = Math.ceil(this.totalLength / this.pageSize);
+        this.calculateImagesLoadState(this.profileImages);
 
-        console.log('PAGES', this.pages);
-
-        this.ngZone.run(() => this.viewPortScrolled(this.currentIndex));
-    }
-
-    public ngAfterViewChecked(): void {
-        if (this.viewPort && !this.subscription) {
-            this.subscription = this.viewPort.scrolledIndexChange.pipe(
-                distinctUntilChanged(),
-                delay(100)
-            ).subscribe(index => this.ngZone.run(() => this.viewPortScrolled(index)));
-        }
-
-        if (!this.viewPort && this.subscription) {
-            this.subscription.unsubscribe();
-        }
+        this.profileImages$.next(this.profileImages);
     }
 
     public ngOnDestroy(): void {
@@ -117,7 +88,6 @@ export class UserImageControlComponent implements OnChanges, AfterViewChecked, O
         }
 
         if (indexPlusOne % 2 !== 0) {
-            console.log('CALC COLSPAN 2! AT index:', index);
             return 2;
         }
 
@@ -164,45 +134,42 @@ export class UserImageControlComponent implements OnChanges, AfterViewChecked, O
         this.selectedIndex = index;
     }
 
-    public viewPortScrolled(index: number): void {
-        console.log('NEW INDEX', index);
-        console.log('CURRENT INDEX', this.currentIndex);
+    public isImageLoaded(url: string): boolean {
+        const wanted = this.imagesLoadedState.find(state => state.url === url);
 
-        const currentValue = this.profileImages$.getValue();
-        const currentLength = currentValue.length;
+        if (!wanted) {
+            return false;
+        }
 
-        if (currentLength === 0) {
-            this.profileImages$.next(this.profileImages.slice(0, 4));
-            this.currentIndex = index;
+        return wanted.loaded;
+    }
+
+    public imageLoaded(url: string) {
+        const searchState = this.imagesLoadedState.find(state => state.url === url);
+        if (!searchState) {
             return;
         }
 
-        if (currentLength > this.totalLength) {
-            this.profileImages$.next(this.profileImages);
-            return;
-        }
-
-        if (currentLength === this.totalLength) {
-            this.currentIndex = index;
-            return;
-        }
-
-        console.log('ADDING SOMETHING');
-
-        const nonZeroIndex = (isNaN(index) ? 0 : index) + 1;
-        const nextItemCount = Math.max(nonZeroIndex, Math.max(this.pageSize, this.currentPage * this.pageSize));
-
-        const nextSliceEnd = Math.max(nextItemCount, this.currentPage * this.pageSize);
-
-        const nextSlice = this.profileImages.slice(currentLength, nextSliceEnd);
-        const nextValue = currentValue.concat(nextSlice);
-
-        this.currentPage++;
-        this.currentIndex = index;
-        this.profileImages$.next(nextValue);
+        searchState.loaded = true;
     }
 
     public trackByFn(_index: number, meta: ProfileImageMetaInfo): number {
         return new Date(meta.createdAt).getDate();
+    }
+
+    private calculateImagesLoadState(profileImages: ProfileImageMetaInfo[]): void {
+        this.imagesLoadedState = this.imagesLoadedState
+            .filter(state => profileImages.findIndex(image => image.url === state.url) !== -1);
+
+        profileImages
+            .filter(image => this.imagesLoadedState.findIndex(state => state.url === image.url) === -1)
+            .forEach(image => {
+                this.imagesLoadedState.push({
+                    url: image.url,
+                    loaded: false
+                });
+            });
+
+        console.log(this.imagesLoadedState);
     }
 }
