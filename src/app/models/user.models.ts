@@ -16,6 +16,7 @@ export interface User {
 export interface ProfileImageMetaInfo {
     id: string;
     url: string;
+    resizeUrl: string;
     removeUrl: string;
     isPrimary: boolean;
     createdAt: Date;

@@ -1,7 +1,7 @@
 <ng-container *ngIf="user">
     <mat-card>
         <mat-card-header>
-            <div *ngIf="profileImageUrl?.length" mat-card-avatar [style.backgroundImage]="'url('+ profileImageUrl +')'"
+            <div *ngIf="profileImageUrl?.length" mat-card-avatar [style.backgroundImage]="'url('+ resizedImageUrl +')'"
                 style="background-size: cover; background-position: 50% 50%">
             </div>
             <mat-card-title>{{ user.userName }}</mat-card-title>

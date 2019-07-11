@@ -11,6 +11,7 @@ export class UserCardComponent implements OnChanges {
     @Input() showProfileImageUploadButton: boolean;
 
     public profileImageUrl = null;
+    public resizedImageUrl = null;
 
     public ngOnChanges(changes: SimpleChanges): void {
         if (!changes['user'] || !this.user) {
@@ -19,6 +20,7 @@ export class UserCardComponent implements OnChanges {
 
         if (!this.user.profileImageMetaInfos || this.user.profileImageMetaInfos.length === 0) {
             this.profileImageUrl = null;
+            this.resizedImageUrl = null;
             return;
         }
 
@@ -26,9 +28,12 @@ export class UserCardComponent implements OnChanges {
 
         if (imageMeta !== undefined) {
             this.profileImageUrl = imageMeta.url;
+            this.resizedImageUrl = imageMeta.resizeUrl;
             return;
         }
 
-        this.profileImageUrl = this.user.profileImageMetaInfos[0].url;
+        const firstProfileImageMeta = this.user.profileImageMetaInfos[0];
+        this.profileImageUrl = firstProfileImageMeta.url;
+        this.resizedImageUrl = firstProfileImageMeta.resizeUrl;
     }
 }

@@ -12,11 +12,12 @@
                             [cdkVirtualForOf]="profileImages$ | async" [cdkVirtualForTrackBy]="trackByFn">
                             <mat-grid-tile [colspan]="calculateColSpan(i)" [rowspan]="1" [matMenuTriggerFor]="imageMenu"
                                 (click)="setSelected(i);" class="tile-border">
-                                <ng-container *ngIf="!isImageLoaded(tile.url); then loaderTemplate else tileTemplate">
+                                <ng-container
+                                    *ngIf="!isImageLoaded(tile.resizeUrl); then loaderTemplate else tileTemplate">
                                 </ng-container>
                                 <ng-template #tileTemplate>
                                     <div class="grid-tile-background-image"
-                                        [style.backgroundImage]="'url(' + tile.url +')'"></div>
+                                        [style.backgroundImage]="'url(' + tile.resizeUrl +')'"></div>
                                     <mat-grid-tile-footer *ngIf="isDevelopment">
                                         index: {{ i }} cols-calc: {{ calculateColSpan(i) }} length:
                                         {{ totalLength }} last: {{ last }}
@@ -25,7 +26,7 @@
                                 <ng-template #loaderTemplate>
                                     <mat-progress-spinner color="accent" mode="indeterminate"></mat-progress-spinner>
                                 </ng-template>
-                                <img [src]="tile.url" [hidden]="true" (load)="imageLoaded(tile.url);"
+                                <img [src]="tile.resizeUrl" [hidden]="true" (load)="imageLoaded(tile.resizeUrl);"
                                     class="grid-tile-image" />
                             </mat-grid-tile>
                         </ng-template>

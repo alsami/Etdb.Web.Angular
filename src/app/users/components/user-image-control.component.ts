@@ -52,7 +52,7 @@ export class UserImageControlComponent implements OnChanges, OnDestroy {
 
     private subscription: Subscription = null;
 
-    public imagesLoadedState: { url: string, loaded: boolean }[] = [];
+    public imagesLoadedState: { resizeUrl: string, loaded: boolean }[] = [];
 
     public ngOnChanges(changes: SimpleChanges): void {
         const profileImagesChange = changes['profileImages'];
@@ -134,8 +134,8 @@ export class UserImageControlComponent implements OnChanges, OnDestroy {
         this.selectedIndex = index;
     }
 
-    public isImageLoaded(url: string): boolean {
-        const wanted = this.imagesLoadedState.find(state => state.url === url);
+    public isImageLoaded(resizeUrl: string): boolean {
+        const wanted = this.imagesLoadedState.find(state => state.resizeUrl === resizeUrl);
 
         if (!wanted) {
             return false;
@@ -144,8 +144,8 @@ export class UserImageControlComponent implements OnChanges, OnDestroy {
         return wanted.loaded;
     }
 
-    public imageLoaded(url: string) {
-        const searchState = this.imagesLoadedState.find(state => state.url === url);
+    public imageLoaded(resizeUrl: string) {
+        const searchState = this.imagesLoadedState.find(state => state.resizeUrl === resizeUrl);
         if (!searchState) {
             return;
         }
@@ -159,13 +159,13 @@ export class UserImageControlComponent implements OnChanges, OnDestroy {
 
     private calculateImagesLoadState(profileImages: ProfileImageMetaInfo[]): void {
         this.imagesLoadedState = this.imagesLoadedState
-            .filter(state => profileImages.findIndex(image => image.url === state.url) !== -1);
+            .filter(state => profileImages.findIndex(image => image.resizeUrl === state.resizeUrl) !== -1);
 
         profileImages
-            .filter(image => this.imagesLoadedState.findIndex(state => state.url === image.url) === -1)
+            .filter(image => this.imagesLoadedState.findIndex(state => state.resizeUrl === image.resizeUrl) === -1)
             .forEach(image => {
                 this.imagesLoadedState.push({
-                    url: image.url,
+                    resizeUrl: image.resizeUrl,
                     loaded: false
                 });
             });
