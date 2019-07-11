@@ -21,6 +21,7 @@ import { TemplatePortalDirective, Portal } from '@angular/cdk/portal';
 import { delay } from 'rxjs/operators';
 import { LayoutFacadeService, AuthFacadeService, TitleFacadeService } from '@etdb/core/+state/facades';
 import { AppNotification } from '@etdb/app-notification/models';
+import { AppNotificationsFacadeService } from '@etdb/app-notification/+state/facades';
 
 @Component({
     selector: 'etdb-layout',
@@ -41,6 +42,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, AfterViewChecked,
     title$: Observable<string>;
     user$: Observable<IdentityUser>;
     notifications$: Observable<AppNotification[]>;
+    unreadAppNotificationsCount$: Observable<number>;
     sidenavMode: string;
     layoutGap: string;
 
@@ -57,11 +59,13 @@ export class LayoutComponent implements OnInit, AfterViewInit, AfterViewChecked,
         private layoutFacadeService: LayoutFacadeService,
         private authFacadeService: AuthFacadeService,
         private titleFacadeService: TitleFacadeService,
+        private appNotificationsFacade: AppNotificationsFacadeService,
     ) { }
 
     public ngOnInit(): void {
         this.subscribeLayoutSizeChange();
         this.title$ = this.titleFacadeService.currentTitle$;
+        this.unreadAppNotificationsCount$ = this.appNotificationsFacade.unreadAppNotifications$;
         this.overlayRef = this.overlay.create({
             positionStrategy: this.overlayBuilder
                 .global()

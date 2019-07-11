@@ -15,7 +15,6 @@ import {
 } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 
-
 @Component({
     selector: 'etdb-toolbar',
     templateUrl: 'toolbar.component.html',
@@ -32,6 +31,7 @@ export class ToolbarComponent implements OnInit, OnChanges {
     @Input() title = '';
     @Input() sidenavVisible: boolean;
     @Input() user: IdentityUser;
+    @Input() unreadAppNotificationsCount: number;
 
     @ViewChild(CdkOverlayOrigin, { static: false }) overlayOrigin: CdkOverlayOrigin;
     @ViewChild('notificationTemplate', { static: false }) overlayTemplate: TemplateRef<any>;
@@ -58,6 +58,7 @@ export class ToolbarComponent implements OnInit, OnChanges {
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
+        console.log('unread', changes['unreadNotificationsCount']);
         if (!changes['user'] || !this.user || !this.user.profileImageUrl) {
             return;
         }
@@ -97,5 +98,9 @@ export class ToolbarComponent implements OnInit, OnChanges {
 
     public getUserGreeting(): string {
         return 'Hello ' + this.user.userName;
+    }
+
+    public getAppNotificationsIcon(): string {
+        return this.unreadAppNotificationsCount === 0 ? 'notifications_none' : 'notifications';
     }
 }

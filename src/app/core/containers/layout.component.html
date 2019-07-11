@@ -1,6 +1,7 @@
 <etdb-toolbar [user]="user$ | async" [sidenavVisible]="showSidenav$ | async" [title]="title$ | async"
-    (requestThemeChange)="changeTheme($event);" (requestLogout)="logout();"
-    (linkedMenuClicked)="toggleSidenavBasesOnSize();" (hamburgerMenuClicked)="toggleSidenav($event);">
+    [unreadAppNotificationsCount]="unreadAppNotificationsCount$ | async" (requestThemeChange)="changeTheme($event);"
+    (requestLogout)="logout();" (linkedMenuClicked)="toggleSidenavBasesOnSize();"
+    (hamburgerMenuClicked)="toggleSidenav($event);">
     <etdb-app-notification-overview></etdb-app-notification-overview>
 </etdb-toolbar>
 <mat-sidenav-container class="main-sidenav-container" (backdropClick)="toggleSidenav(false);">

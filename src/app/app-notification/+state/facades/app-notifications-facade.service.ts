@@ -11,9 +11,11 @@ import { AppNotificationActions } from '@etdb/app-notification/+state/actions';
 })
 export class AppNotificationsFacadeService {
     public appNotifications$: Observable<AppNotification[]>;
+    public unreadAppNotifications$: Observable<number>;
 
     public constructor(private store: Store<fromAppNotifications.AppNotificationState>) {
         this.appNotifications$ = this.store.pipe(select(fromAppNotifications.getAllAppNotifications));
+        this.unreadAppNotifications$ = this.store.pipe(select(fromAppNotifications.getUnreadAppNotificationsCount));
     }
 
     public create<TAppNotifcation extends AppNotification>(notification: TAppNotifcation): void {

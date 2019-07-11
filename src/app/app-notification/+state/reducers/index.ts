@@ -26,5 +26,11 @@ export const getAppNotificationEntitiesState = createSelector(
 );
 
 export const {
-    selectAll: getAllAppNotifications
+    selectAll: getAllAppNotifications,
+    selectEntities: getAppNotificationsEntities
 } = fromAppNotifications.adapter.getSelectors(getAppNotificationEntitiesState);
+
+export const getUnreadAppNotificationsCount = createSelector(
+    getAllAppNotifications,
+    notifications => notifications.filter(notification => !notification.read).length
+);
