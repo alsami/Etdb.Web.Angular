@@ -4,11 +4,11 @@ import {
     OnInit,
     Output,
     EventEmitter,
-    NgZone
+    NgZone,
+    Input
 } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { environment } from 'environments/environment';
 
 @Component({
     selector: 'etdb-google-signin-button',
@@ -18,6 +18,8 @@ export class GoogleSignInButtonComponent implements OnInit, AfterViewInit {
     @Output() requestSignin: EventEmitter<
         gapi.auth2.GoogleUser
     > = new EventEmitter<gapi.auth2.GoogleUser>(null);
+
+    @Input() googleAuthAvailable: boolean;
 
     public constructor(
         private iconRegistry: MatIconRegistry,
@@ -35,12 +37,7 @@ export class GoogleSignInButtonComponent implements OnInit, AfterViewInit {
     }
 
     public ngAfterViewInit(): void {
-        gapi.load('auth2', () => {
-            gapi.auth2.init({
-                client_id: environment.googleClientId,
-                scope: 'profile email openid'
-            });
-
+        try {
             gapi.auth2.getAuthInstance().attachClickHandler(
                 document.getElementById('google-signin'),
                 {},
@@ -49,6 +46,8 @@ export class GoogleSignInButtonComponent implements OnInit, AfterViewInit {
                 },
                 f => console.error(f)
             );
-        });
+        } catch (error) {
+            console.warn(error);
+        }
     }
 }

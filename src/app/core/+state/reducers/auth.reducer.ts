@@ -11,6 +11,8 @@ export interface AuthState {
     loading: boolean;
     loaded: boolean;
     registering: boolean;
+    googleAuthAvailable: boolean;
+    facebookAuthAvailable: boolean;
 }
 
 const initialState: AuthState = {
@@ -22,6 +24,8 @@ const initialState: AuthState = {
     loading: false,
     loaded: true,
     registering: false,
+    googleAuthAvailable: false,
+    facebookAuthAvailable: false,
 };
 
 export function reducer(
@@ -32,7 +36,9 @@ export function reducer(
         case AuthActions.AuthActionTypes.CredentialSignIn:
         case AuthActions.AuthActionTypes.ProviderSignIn: {
             return {
-                ...initialState,
+                ...state,
+                identityToken: null,
+                authenticatedUser: null,
                 loading: true,
                 authenticating: action instanceof CredentialSignIn,
                 registering: action instanceof ProviderSignIn
@@ -135,6 +141,20 @@ export function reducer(
             };
         }
 
+        case AuthActions.AuthActionTypes.SetGoogleAuthAvailable: {
+            return {
+                ...state,
+                googleAuthAvailable: action.available
+            };
+        }
+
+        case AuthActions.AuthActionTypes.SetFacebookAuthAvailable: {
+            return {
+                ...state,
+                facebookAuthAvailable: action.available
+            };
+        }
+
         default:
             return state;
     }
@@ -148,3 +168,5 @@ export const authenticated = (state: AuthState) => state.authenticated;
 export const loading = (state: AuthState) => state.loading;
 export const loaded = (state: AuthState) => state.loaded;
 export const registering = (state: AuthState) => state.registering;
+export const googleAuthAvailable = (state: AuthState) => state.googleAuthAvailable;
+export const facebookAuthAvailable = (state: AuthState) => state.facebookAuthAvailable;

@@ -17,7 +17,7 @@ export class SignedInGuard implements CanActivate {
         );
     }
     private checkSignedIn(): Observable<boolean> {
-        return this.authFacadeService.signedIn$.pipe(
+        return this.authFacadeService.authenticated$.pipe(
             switchMap(signedIn => {
                 if (!signedIn) {
                     this.router.navigate(['/signin']);

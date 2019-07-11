@@ -19,7 +19,7 @@ export class NotSignedInGuard implements CanActivate {
     }
 
     private checkNotSignedIn(): Observable<boolean> {
-        return this.authFacadeService.signedIn$.pipe(
+        return this.authFacadeService.authenticated$.pipe(
             switchMap(loggedIn => {
                 if (loggedIn) {
                     this.router.navigate(['']);

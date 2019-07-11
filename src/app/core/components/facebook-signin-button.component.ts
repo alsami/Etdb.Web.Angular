@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, NgZone, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -10,6 +10,8 @@ export class FacebookSigninButtonComponent implements OnInit {
     private readonly connected: string = 'connected';
 
     @Output() requestSignin: EventEmitter<string> = new EventEmitter();
+
+    @Input() facebookAuthAvailable: boolean;
 
     public constructor(
         private iconRegistry: MatIconRegistry,
@@ -32,14 +34,18 @@ export class FacebookSigninButtonComponent implements OnInit {
             return_scopes: true
         };
 
-        FB.login(response => {
-            if (response.status !== this.connected) {
-                return;
-            }
+        try {
+            FB.login(response => {
+                if (response.status !== this.connected) {
+                    return;
+                }
 
-            this.ngZone.run(() =>
-                this.requestSignin.emit(response.authResponse.accessToken)
-            );
-        }, config);
+                this.ngZone.run(() =>
+                    this.requestSignin.emit(response.authResponse.accessToken)
+                );
+            }, config);
+        } catch (error) {
+            console.warn(error);
+        }
     }
 }

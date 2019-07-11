@@ -15,6 +15,8 @@ export enum AuthActionTypes {
     IdentityUserLoad = '[Auth API] Identity-User Load',
     IdentityUserLoaded = '[Auth API] Identity-User Loaded',
     IdentityUserLoadFailed = '[Auth API] Identity-User Load failed',
+    SetGoogleAuthAvailable = '[Auth API] Set Google-Auth available',
+    SetFacebookAuthAvailable = '[Auth API] Set Facebook-Auth available',
 }
 
 export class CredentialSignIn implements Action {
@@ -79,6 +81,16 @@ export class IdentityUserLoadFailed implements Action {
     public constructor(public error: Error) { }
 }
 
+export class SetGoogleAuthAvailable implements Action {
+    readonly type = AuthActionTypes.SetGoogleAuthAvailable;
+    public constructor(public available: boolean = true) { }
+}
+
+export class SetFacebookAuthAvailable implements Action {
+    readonly type = AuthActionTypes.SetFacebookAuthAvailable;
+    public constructor(public available: boolean = true) { }
+}
+
 export declare type AuthActionUnion =
     | CredentialSignIn
     | ProviderSignIn
@@ -92,4 +104,6 @@ export declare type AuthActionUnion =
     | RegisterFailed
     | IdentityUserLoad
     | IdentityUserLoaded
-    | IdentityUserLoadFailed;
+    | IdentityUserLoadFailed
+    | SetGoogleAuthAvailable
+    | SetFacebookAuthAvailable;

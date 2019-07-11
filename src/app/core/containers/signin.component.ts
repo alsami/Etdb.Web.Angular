@@ -13,11 +13,15 @@ import { map } from 'rxjs/operators';
 export class SignInComponent {
     loading$: Observable<boolean>;
     loaderMessage$: Observable<string>;
+    googleAuthAvailable$: Observable<boolean>;
+    facebookAuthAvailable$: Observable<boolean>;
 
     public constructor(private titleFacadeService: TitleFacadeService, private authFacadeService: AuthFacadeService) {
         this.titleFacadeService.setTitle('Sign-In');
         this.loading$ = this.authFacadeService.authLoading$;
         this.loaderMessage$ = this.loading$.pipe(map(loading => loading ? 'Validating' : null));
+        this.googleAuthAvailable$ = this.authFacadeService.googleAuthAvailable$;
+        this.facebookAuthAvailable$ = this.authFacadeService.facebookAuthAvailable$;
     }
 
     public signIn(userCredentials: UserCredentials) {

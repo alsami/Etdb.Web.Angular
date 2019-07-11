@@ -17,14 +17,15 @@ import { take, filter, switchMap } from 'rxjs/operators';
 export class AuthFacadeService implements OnDestroy {
     private authIniSubscription: Subscription;
     private googleInitialized$: BehaviorSubject<boolean> = new BehaviorSubject(false);
-    private facebookInitialized$: BehaviorSubject<boolean> = new BehaviorSubject(true);
+    private facebookInitialized$: BehaviorSubject<boolean> = new BehaviorSubject(false);
     private initializing$: BehaviorSubject<boolean> = new BehaviorSubject(true);
     public authenticating$: Observable<boolean>;
     public authenticatedUser$: Observable<IdentityUser>;
     public registering$: Observable<boolean>;
     public authLoading$: Observable<boolean>;
-    public signedIn$: Observable<boolean>;
-
+    public authenticated$: Observable<boolean>;
+    public googleAuthAvailable$: Observable<boolean>;
+    public facebookAuthAvailable$: Observable<boolean>;
 
     public constructor(private store: Store<fromRoot.AppState>,
         private tokenStorageService: TokenStorageService, private ngZone: NgZone) {
@@ -32,7 +33,9 @@ export class AuthFacadeService implements OnDestroy {
         this.authenticatedUser$ = this.store.pipe(select(fromRoot.getAuthenticatedUser));
         this.registering$ = this.store.pipe(select(fromRoot.getAuthRegistering));
         this.authLoading$ = this.store.pipe(select(fromRoot.getAuthLoading));
-        this.signedIn$ = this.store.pipe(select(fromRoot.getAuthAuthenticated));
+        this.authenticated$ = this.store.pipe(select(fromRoot.getAuthAuthenticated));
+        this.googleAuthAvailable$ = this.store.pipe(select(fromRoot.getAuthGoogleAuthAvailable));
+        this.facebookAuthAvailable$ = this.store.pipe(select(fromRoot.getAuthFacebookAuthAvailable));
     }
 
     public ngOnDestroy(): void {
@@ -81,9 +84,10 @@ export class AuthFacadeService implements OnDestroy {
 
     public initialize(): void {
         this.loadGoogleApi();
+        this.checkFacebookApiAvailability();
         this.authIniSubscription = combineLatest(this.googleInitialized$, this.facebookInitialized$)
-            .subscribe(([a, b]) => {
-                if (!a || !b) {
+            .subscribe(([googleInitialized, facebookInitialized]) => {
+                if (!googleInitialized || !facebookInitialized) {
                     return;
                 }
 
@@ -98,12 +102,32 @@ export class AuthFacadeService implements OnDestroy {
     }
 
     private loadGoogleApi(): void {
+        if (gapi === undefined || gapi.load === undefined) {
+            this.store.dispatch(new AuthActions.SetGoogleAuthAvailable(false));
+            this.googleInitialized$.next(true);
+            return;
+        }
+
         gapi.load('auth2', async () => {
             gapi.auth2.init({
                 client_id: environment.googleClientId,
                 scope: 'profile email openid'
             });
-            this.ngZone.run(() => this.googleInitialized$.next(true));
+            this.ngZone.run(() => {
+                this.store.dispatch(new AuthActions.SetGoogleAuthAvailable(true));
+                this.googleInitialized$.next(true);
+            });
         });
+    }
+
+    private checkFacebookApiAvailability(): void {
+        try {
+            FB.getLoginStatus(() => { });
+            this.store.dispatch(new AuthActions.SetFacebookAuthAvailable(true));
+            this.facebookInitialized$.next(true);
+        } catch (error) {
+            this.store.dispatch(new AuthActions.SetFacebookAuthAvailable(false));
+            this.facebookInitialized$.next(true);
+        }
     }
 }

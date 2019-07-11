@@ -5,9 +5,18 @@
                 Create a new account
             </button>
             <div style="margin: 10px"></div>
-            <etdb-google-signin-button (requestSignin)="googleSignIn($event)"></etdb-google-signin-button>
+            <etdb-google-signin-button [googleAuthAvailable]="googleAuthAvailable$ | async"
+                (requestSignin)="googleSignIn($event)">
+            </etdb-google-signin-button>
+            <div *ngIf="!(googleAuthAvailable$ | async)" style="text-align: center; font-size: smaller">
+                Your client is blocking required java-script to enable authentication via google.
+            </div>
             <div style="margin: 10px"></div>
-            <etdb-facebook-signin-button (requestSignin)="facebookSignIn($event)"></etdb-facebook-signin-button>
+            <etdb-facebook-signin-button [facebookAuthAvailable]="facebookAuthAvailable$ | async"
+                (requestSignin)="facebookSignIn($event)"></etdb-facebook-signin-button>
+            <div *ngIf="!(facebookAuthAvailable$ | async)" style="text-align: center; font-size: smaller">
+                Your client is blocking required java-script to enable authentication via google.
+            </div>
             <div style="margin: 10px"></div>
             <etdb-signin-form (requestSignIn)="signIn($event)">
             </etdb-signin-form>
