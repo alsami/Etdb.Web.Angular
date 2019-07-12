@@ -14,6 +14,7 @@ import { ProfileImageMetaInfo } from '@etdb/models';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { environment } from 'environments/environment';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { ImageSliderOverlayService } from '@etdb/custom-controls/services';
 
 @Component({
     selector: 'etdb-user-image-control',
@@ -54,6 +55,8 @@ export class UserImageControlComponent implements OnChanges, OnDestroy {
 
     public imagesLoadedState: { resizeUrl: string, loaded: boolean }[] = [];
 
+    public constructor(private imageSliderOverlayService: ImageSliderOverlayService) { }
+
     public ngOnChanges(changes: SimpleChanges): void {
         const profileImagesChange = changes['profileImages'];
         if (
@@ -78,6 +81,13 @@ export class UserImageControlComponent implements OnChanges, OnDestroy {
         }
 
         this.subscription.unsubscribe();
+    }
+
+    public showDialog(): void {
+        this.imageSliderOverlayService.open({
+            urls: this.profileImages.map(image => image.url),
+            thumbnails: this.profileImages.map(image => image.resizeUrl)
+        });
     }
 
     public calculateColSpan(index: number): number {

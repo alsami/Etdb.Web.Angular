@@ -5,11 +5,13 @@
 @import '../app/core/containers/layout.component.scss';
 @import '../app/users/components/user-image-control.component.scss';
 @import '../app/app-notification/container/app-notification-overview.component.scss';
+@import '../app/custom-controls/container/image-slider-overlay.component.scss';
 
 @mixin component-themes($theme) {
     @include layout-component-theme($theme);
     @include user-image-control-component-theme($theme);
     @include app-notification-overview-theme($theme);
+    @include image-slider-overlay-component-theme($theme);
 }
 
 .primary-theme {

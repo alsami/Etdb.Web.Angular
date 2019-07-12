@@ -1,0 +1,16 @@
+<div class="flex-container flex-center-center flex-flow-row">
+    <button mat-icon-button class="control" (click)="previous();">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+    <img [src]="selectedImageUrl" style="width: 50%;" />
+    <button mat-icon-button (click)="next()" class="control">
+        <mat-icon>arrow_forward</mat-icon>
+    </button>
+</div>
+<div class="thumbnail-container flex-container flex-center-center">
+    <cdk-virtual-scroll-viewport orientation="horizontal" [itemSize]="50" [minBufferPx]="minBufferWidth"
+        [maxBufferPx]="maxBufferWidth" style="height: 75px" [style.width.px]="viewPortWidth">
+        <img *cdkVirtualFor="let thumbUrl of imageSliderConfig.thumbnails" [src]="thumbUrl"
+            class="thumbnail mat-elevation-z6" />
+    </cdk-virtual-scroll-viewport>
+</div>

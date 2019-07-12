@@ -6,9 +6,11 @@ import {
     MatStepperExtendedComponent,
     UserCardComponent,
     PageLoadingIndicatorComponent,
-    ComponentLoaderOverlayComponent
+    ComponentLoaderOverlayComponent,
+    ImageSliderOverlayComponent
 } from '@etdb/custom-controls/container';
 import { MatStepperStepExtendedComponent } from '@etdb/custom-controls/components';
+import { ImageSliderOverlayService } from '@etdb/custom-controls/services';
 
 const COMPONENTS = [
     UserCardComponent,
@@ -16,13 +18,15 @@ const COMPONENTS = [
     MatStepperExtendedComponent,
     MatStepperStepExtendedComponent,
     PageLoadingIndicatorComponent,
-    ComponentLoaderOverlayComponent
+    ComponentLoaderOverlayComponent,
+    ImageSliderOverlayComponent
 ];
 
 @NgModule({
     imports: [CommonModule, MaterialModule],
     declarations: [...COMPONENTS],
     exports: [...COMPONENTS],
-    entryComponents: [PageLoadingIndicatorComponent]
+    providers: [ImageSliderOverlayService],
+    entryComponents: [PageLoadingIndicatorComponent, ImageSliderOverlayComponent]
 })
 export class CustomControlModule { }
