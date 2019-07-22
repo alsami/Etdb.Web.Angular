@@ -15,11 +15,6 @@
     background: none;
 }
 
-.dark-backdrop {
-    background: #000;
-    opacity: 0.85 !important;
-}
-
 @mixin image-slider-overlay-component-theme($theme) {
     $accent: map-get($map: $theme, $key: accent);
     $foreground-palette: map-get($theme, foreground);
