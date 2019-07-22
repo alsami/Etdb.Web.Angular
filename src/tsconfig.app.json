@@ -15,6 +15,7 @@
             "gapi",
             "gapi.auth2",
             "fb",
+            "hammerjs",
         ]
     },
     "exclude": [

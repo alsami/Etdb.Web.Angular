@@ -3,8 +3,8 @@
         <mat-icon>arrow_back</mat-icon>
     </button>
     <mat-progress-spinner *ngIf="selectedImageLoading();" color="accent" mode="indeterminate"></mat-progress-spinner>
-    <img [hidden]="selectedImageLoading()" [src]="selectedImageUrl + '?dimensionX=300&dimensionY=300'"
-        (load)="imageLoaded();" />
+    <img (swipeleft)="previous();" (swiperight)="next();" [hidden]="selectedImageLoading()"
+        [src]="selectedImageUrl + '?dimensionX=300&dimensionY=300'" (load)="imageLoaded();" />
     <button mat-icon-button (click)="next()" class="control">
         <mat-icon>arrow_forward</mat-icon>
     </button>

@@ -3,7 +3,7 @@
     "compilerOptions": {
         "baseUrl": "./src",
         "importHelpers": true,
-    "module": "esnext",
+        "module": "esnext",
         "paths": {
             "@etdb/*": [
                 "app/*"
@@ -25,6 +25,7 @@
             "gapi",
             "gapi.auth2",
             "fb",
+            "hammerjs",
         ],
         "lib": [
             "es2018",
