@@ -1,5 +1,9 @@
 @import '~@angular/material/theming';
 
+.selected-image-container {
+    min-height: 250px;
+}
+
 .thumbnail-container {
     margin-top: 20px;
     overflow-y: scroll;

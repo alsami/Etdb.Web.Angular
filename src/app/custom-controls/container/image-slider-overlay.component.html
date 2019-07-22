@@ -1,8 +1,10 @@
-<div class="flex-container flex-center-center flex-flow-row">
+<div class="flex-container flex-center-center flex-flow-row selected-image-container">
     <button mat-icon-button class="control" (click)="previous();">
         <mat-icon>arrow_back</mat-icon>
     </button>
-    <img [src]="selectedImageUrl + '?dimensionX=300&dimensionY=300'" />
+    <mat-progress-spinner *ngIf="selectedImageLoading();" color="accent" mode="indeterminate"></mat-progress-spinner>
+    <img [hidden]="selectedImageLoading()" [src]="selectedImageUrl + '?dimensionX=300&dimensionY=300'"
+        (load)="imageLoaded();" />
     <button mat-icon-button (click)="next()" class="control">
         <mat-icon>arrow_forward</mat-icon>
     </button>
