@@ -1,8 +1,12 @@
 @import '~@angular/material/theming';
 
 .thumbnail-container {
-    overflow: hidden;
     margin-top: 20px;
+    overflow-y: scroll;
+}
+
+.thumbnail-image {
+    height: 90px;
 }
 
 ::-webkit-scrollbar {
