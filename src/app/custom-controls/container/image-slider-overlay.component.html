@@ -1,13 +1,7 @@
 <div class="flex-container flex-center-center flex-flow-row selected-image-container">
-    <button mat-icon-button class="control" (click)="previous();">
-        <mat-icon>arrow_back</mat-icon>
-    </button>
     <mat-progress-spinner *ngIf="selectedImageLoading();" color="accent" mode="indeterminate"></mat-progress-spinner>
     <img (swipeleft)="previous();" (swiperight)="next();" [hidden]="selectedImageLoading()"
         [src]="selectedImageUrl + '?dimensionX=300&dimensionY=300'" (load)="imageLoaded();" />
-    <button mat-icon-button (click)="next()" class="control">
-        <mat-icon>arrow_forward</mat-icon>
-    </button>
 </div>
 <div class="thumbnail-container flex-container" [style.width.px]="windowWidth">
     <img *ngFor="let url of imageSliderConfig.thumbnails; let i = index;" [src]="url + '?dimensionX=180&dimensionY=180'"
