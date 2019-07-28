@@ -1,6 +1,6 @@
 <div class="flex-container flex-center-center flex-flow-row selected-image-container">
     <mat-progress-spinner *ngIf="selectedImageLoading();" color="accent" mode="indeterminate"></mat-progress-spinner>
-    <img (swipeleft)="previous();" (swiperight)="next();" [hidden]="selectedImageLoading()"
+    <img (swipeleft)="next();" (swiperight)="previous();" [hidden]="selectedImageLoading()"
         [src]="selectedImageUrl + '?dimensionX=300&dimensionY=300'" (load)="imageLoaded();" />
 </div>
 <div class="thumbnail-container flex-container" [style.width.px]="windowWidth">
