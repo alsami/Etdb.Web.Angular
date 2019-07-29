@@ -2,7 +2,7 @@ import { AuthenticationProvider } from '@etdb/core/models';
 
 export interface IdentityUser {
     id: string;
-    emails: string;
+    email: string;
     lastName: string;
     firstName: string;
     userName: string;
