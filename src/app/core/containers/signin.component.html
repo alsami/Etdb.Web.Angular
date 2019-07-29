@@ -9,13 +9,13 @@
                 (requestSignin)="googleSignIn($event)">
             </etdb-google-signin-button>
             <div *ngIf="!(googleAuthAvailable$ | async)" style="text-align: center; font-size: smaller">
-                Your client is blocking required java-script to enable authentication via google.
+                Your client is blocking required java-script to enable authentication via Google.
             </div>
             <div style="margin: 10px"></div>
             <etdb-facebook-signin-button [facebookAuthAvailable]="facebookAuthAvailable$ | async"
                 (requestSignin)="facebookSignIn($event)"></etdb-facebook-signin-button>
             <div *ngIf="!(facebookAuthAvailable$ | async)" style="text-align: center; font-size: smaller">
-                Your client is blocking required java-script to enable authentication via google.
+                Your client is blocking required java-script to enable authentication via Facebook.
             </div>
             <div style="margin: 10px"></div>
             <etdb-signin-form (requestSignIn)="signIn($event)">
