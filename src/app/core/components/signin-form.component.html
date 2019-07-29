@@ -6,10 +6,12 @@
         <mat-card-content>
             <div class="flex-container flex-flow-column">
                 <mat-form-field>
-                    <input formControlName="userName" matInput type="text" placeholder="Username or Email" />
+                    <input autocomplete="username" formControlName="userName" matInput type="text"
+                        placeholder="Username or Email" />
                 </mat-form-field>
                 <mat-form-field>
-                    <input matInput #passwordInput formControlName="password" type="password" placeholder="Password" />
+                    <input autocomplete="current-password" matInput #passwordInput formControlName="password"
+                        type="password" placeholder="Password" />
                     <mat-icon (click)="changePasswordVisibility()" class="pointer" matSuffix>remove_red_eye</mat-icon>
                 </mat-form-field>
             </div>

@@ -59,8 +59,8 @@
                 <form #userNamePasswordFormTempl [formGroup]="userNamePasswordForm" novalidate>
                     <div class="flex-container flex-flow-column">
                         <mat-form-field>
-                            <input formControlName="userName" matInput type="text" placeholder="Choose a username"
-                                required />
+                            <input autocomplete="username" formControlName="userName" matInput type="text"
+                                placeholder="Choose a username" required />
                             <mat-error *ngIf="hasMinLengthError()">Four characters are required for a valid user-name!
                             </mat-error>
                             <mat-error *ngIf="hasMaxLengthError()">32 characters are maximum for a valid user-name!
@@ -69,8 +69,8 @@
                     </div>
                     <div class="flex-container flex-flow-column">
                         <mat-form-field>
-                            <input matInput #passwordInput formControlName="password" type="password"
-                                placeholder="Password" required />
+                            <input autocomplete="new-password" matInput #passwordInput formControlName="password"
+                                type="password" placeholder="Password" required />
                             <mat-icon (click)="changePasswordVisibility(passwordInput);" class="pointer" matSuffix>
                                 remove_red_eye</mat-icon>
                             <mat-error *ngIf="hasMinLengthPasswordError();">
@@ -78,8 +78,9 @@
                             </mat-error>
                         </mat-form-field>
                         <mat-form-field>
-                            <input matInput #passwordInputRepeat formControlName="passwordRepeat" type="password"
-                                placeholder="Repeat password" required />
+                            <input autocomplete="new-password" matInput #passwordInputRepeat
+                                formControlName="passwordRepeat" type="password" placeholder="Repeat password"
+                                required />
                             <mat-icon (click)="changePasswordVisibility(passwordInputRepeat);" class="pointer"
                                 matSuffix>remove_red_eye</mat-icon>
                             <mat-error *ngIf="hasMismatchedPasswordError();">
