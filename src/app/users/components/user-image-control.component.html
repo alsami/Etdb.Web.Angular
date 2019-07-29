@@ -1,13 +1,16 @@
 <div class="flex-container flex-flow-column">
     <mat-card>
-        <mat-card-title class="mat-typography mat-card-title">
-            <h2>Manage your images</h2>
-        </mat-card-title>
+        <div class="flex-container">
+            <mat-card-title class="mat-typography mat-card-title">
+                <h2>Manage your images</h2>
+            </mat-card-title>
+            <span style="flex: 1 0 auto;"></span>
+            <button *ngIf="profileImages.length" mat-icon-button (click)="showDialog();">
+                <mat-icon>photo_library</mat-icon>
+            </button>
+        </div>
         <mat-card-content class="grid-tile-container">
             <ng-container *ngIf="profileImages.length">
-                <button mat-icon-button (click)="showDialog();">
-                    <mat-icon>photo_library</mat-icon>
-                </button>
                 <cdk-virtual-scroll-viewport [itemSize]="100" [minBufferPx]="100" [maxBufferPx]="200"
                     class="image-viewport">
                     <mat-grid-list [cols]="2" rowHeight="150px" guterSize="1em" class="mat-elevation-z8">
