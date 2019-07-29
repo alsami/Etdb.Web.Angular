@@ -11,7 +11,7 @@ export class ImageSliderOverlayComponent {
     public selectedImageIndex: number;
     public selectedImageUrl: string;
     public windowWidth: number;
-    public imageLoadState: { url: string, loading: boolean }[] = [];
+    public imageLoadState: boolean[] = [];
 
     public constructor(public dialogRef: ImageSliderOverlayRef,
         @Inject(ImageSliderOverlayToken) public imageSliderConfig: ImageSliderOverlayConfig) {
@@ -56,23 +56,18 @@ export class ImageSliderOverlayComponent {
     }
 
     public selectedImageLoading(): boolean {
-        return this.imageLoadState[this.selectedImageIndex].loading;
+        return this.imageLoadState[this.selectedImageIndex];
     }
 
     public imageLoaded(): void {
-        this.imageLoadState[this.selectedImageIndex].loading = false;
+        this.imageLoadState[this.selectedImageIndex] = false;
     }
 
     private setSelectedImageLoading(index: number): void {
-        this.imageLoadState[index].loading = true;
+        this.imageLoadState[index] = true;
     }
 
-    private createLoadState(imageSliderConfig: ImageSliderOverlayConfig): { url: string, loading: boolean }[] {
-        return imageSliderConfig.thumbnails.map(url => {
-            return {
-                url: url,
-                loading: true
-            };
-        });
+    private createLoadState(imageSliderConfig: ImageSliderOverlayConfig): boolean[] {
+        return imageSliderConfig.thumbnails.map(() => true);
     }
 }
