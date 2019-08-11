@@ -21,19 +21,16 @@ export class ErrorRetryHandlerInterceptor implements HttpInterceptor {
             catchError((error: HttpErrorResponse) => {
                 if (error.status !== 401) {
                     this.showError(error);
-                    return new Observable<HttpEvent<any>>();
                     return this.complete(httpHandler, request);
                 }
 
                 if (!this.tokenStorageService.canRestore()) {
                     this.whenEverythingHasFailed(error);
-                    return new Observable<HttpEvent<any>>();
                     return this.complete(httpHandler, request);
                 }
 
                 if (nextRequest.url.indexOf('/auth/') > -1) {
                     this.whenEverythingHasFailed(error);
-                    return new Observable<HttpEvent<any>>();
                     return this.complete(httpHandler, request);
                 }
 
