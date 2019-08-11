@@ -21,17 +21,20 @@ export class ErrorRetryHandlerInterceptor implements HttpInterceptor {
             catchError((error: HttpErrorResponse) => {
                 if (error.status !== 401) {
                     this.showError(error);
-                    return this.complete(httpHandler);
+                    return new Observable<HttpEvent<any>>();
+                    return this.complete(httpHandler, request);
                 }
 
                 if (!this.tokenStorageService.canRestore()) {
                     this.whenEverythingHasFailed(error);
-                    return this.complete(httpHandler);
+                    return new Observable<HttpEvent<any>>();
+                    return this.complete(httpHandler, request);
                 }
 
                 if (nextRequest.url.indexOf('/auth/') > -1) {
                     this.whenEverythingHasFailed(error);
-                    return this.complete(httpHandler);
+                    return new Observable<HttpEvent<any>>();
+                    return this.complete(httpHandler, request);
                 }
 
                 this.authFacadeService.restoreSignin(false);
@@ -52,8 +55,8 @@ export class ErrorRetryHandlerInterceptor implements HttpInterceptor {
         );
     }
 
-    private complete(httpHandler: HttpHandler): Observable<HttpEvent<any>> {
-        return httpHandler.handle(null);
+    private complete(httpHandler: HttpHandler, request: HttpRequest<any>): Observable<HttpEvent<any>> {
+        return httpHandler.handle(request);
     }
 
     private showError(error: HttpErrorResponse): void {
@@ -67,6 +70,46 @@ export class ErrorRetryHandlerInterceptor implements HttpInterceptor {
         this.showError(error);
         this.router.navigate(['/signin']);
     }
+
+    // ,
+    // tap((response: HttpResponse<any>) => {
+    //     if (!(response instanceof HttpErrorResponse)) {
+    //         return;
+    //     }
+
+    //     const error = response as HttpErrorResponse;
+
+    //     if (error.status !== 401) {
+    //         this.showError(error);
+    //         return;
+    //     }
+
+    //     if (!this.tokenStorageService.canRestore()) {
+    //         this.whenEverythingHasFailed(error);
+    //         return;
+    //     }
+
+    //     if (nextRequest.url.indexOf('/auth/') > -1) {
+    //         this.whenEverythingHasFailed(error);
+    //         return;
+    //     }
+
+    //     this.authFacadeService.restoreSignin(false);
+
+    //     this.authFacadeService.awaitAuthenticated().pipe(switchMap(authenticated => {
+    //         if (!authenticated) {
+    //             this.whenEverythingHasFailed(error);
+    //             return httpHandler.handle(nextRequest.clone());
+    //         }
+    //         const repeatedRequest = nextRequest.clone({
+    //             setHeaders: {
+    //                 'Authorization': 'Bearer ' + this.tokenStorageService.getToken().accessToken
+    //             }
+    //         });
+
+    //         return httpHandler.handle(repeatedRequest);
+    //     }));
+    // })
 }
 
 
