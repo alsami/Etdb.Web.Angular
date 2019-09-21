@@ -3,7 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import {
     UserProfileComponent,
     UsersRoutingComponent,
-    UserSettingsComponent
+    UserSettingsComponent,
+    UserSearchComponent
 } from '@etdb/users/container';
 import { UserIsSignedInUserGuard } from '@etdb/users/guards';
 import { UserResolver } from '@etdb/users/resolver/user-loader.resolver';
@@ -13,6 +14,10 @@ const routes: Routes = [
         path: '',
         component: UsersRoutingComponent,
         children: [
+            {
+                path: 'user-search',
+                component: UserSearchComponent
+            },
             {
                 path: 'profile/:id',
                 component: UserProfileComponent,

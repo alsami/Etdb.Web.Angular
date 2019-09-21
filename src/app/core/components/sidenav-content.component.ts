@@ -27,6 +27,10 @@ export class SidenavContentComponent {
             path: 'browse',
             displayName: 'Browse',
             icon: 'dashboard'
+        }, {
+            path: 'users/user-search',
+            displayName: 'Users',
+            icon: 'person'
         }
     ];
 }

@@ -9,7 +9,7 @@ import { AuthenticationLogFacadeService, ProfileImageQueueFacadeService,
 import { reducers } from '@etdb/users/+state/reducers';
 import { AuthenticationLogOverviewComponent, UserImageControlComponent,
     UserInfochangeComponent, UserNameChangeComponent, UserPasswordchangeFormComponent } from '@etdb/users/components';
-import { UserProfileComponent, UserSettingsComponent, UsersRoutingComponent } from '@etdb/users/container';
+import { UserProfileComponent, UserSettingsComponent, UsersRoutingComponent, UserSearchComponent } from '@etdb/users/container';
 import { AuthenticationLogService, UserSearchService, UserService } from '@etdb/users/services';
 import { UsersRoutingModule } from '@etdb/users/users-routing.module';
 import { EffectsModule } from '@ngrx/effects';
@@ -38,6 +38,7 @@ import { StoreModule } from '@ngrx/store';
         UserImageControlComponent,
         UserNameChangeComponent,
         AuthenticationLogOverviewComponent,
+        UserSearchComponent,
     ],
     providers: [UserService, UserSearchService, AuthenticationLogService,
         UsersFacadeService, UsersSearchFacadeService, AuthenticationLogFacadeService, ProfileImageQueueFacadeService]

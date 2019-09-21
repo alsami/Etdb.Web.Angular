@@ -22,7 +22,10 @@
     </div>
     <mat-divider></mat-divider>
 </ng-container>
-<a mat-button type="button" class="max-width" *ngFor="let link of discoverLinks" [routerLink]="link.path"
+<ng-template ngFor let-link let-last="last" [ngForOf]="discoverLinks">
+    <button mat-button type="button" class="max-width" [routerLink]="link.path"
     routerLinkActive="active-sidenav-menu-link" (click)="linkClicked.emit();">
     <mat-icon>{{ link.icon }}</mat-icon> <span style="font-size: 14px;">{{ link.displayName }}</span>
-</a>
+    </button>
+    <mat-divider></mat-divider>
+</ng-template>
