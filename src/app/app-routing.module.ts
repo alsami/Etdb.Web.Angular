@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BrowseComponent } from '@etdb/browse/container';
-import { SignInComponent, RegisterComponent } from '@etdb/core/containers';
+import { RegisterComponent, SignInComponent, UnauthorizedComponent } from '@etdb/core/containers';
 import { NotSignedInGuard } from '@etdb/core/guards';
-import { UnauthorizedComponent } from '@etdb/core/containers';
 
 const routes: Routes = [
     {
@@ -31,7 +30,7 @@ const routes: Routes = [
     },
     {
         path: 'users',
-        loadChildren: async () => (await import('app/users/users.module')).UsersModule
+        loadChildren: async () => (await import('./users/users.module')).UsersModule
     }
 ];
 
