@@ -45,8 +45,8 @@
                 </span>
             </div>
             <div class="flex-container flex-flow-row flex-justify-end" style="margin-top: .5em; margin-right: 1em;">
-                <button mat-fab color="accent" [matMenuTriggerFor]="uploadMenu">
-                    <mat-icon>add</mat-icon>
+                <button mat-fab color="accent" (click)="triggerFileDialog();">
+                    <mat-icon>add_a_photo</mat-icon>
                 </button>
             </div>
         </mat-card-content>
@@ -60,11 +60,6 @@
                         requestProfileImageRemove();
                     ">
         <mat-icon>delete</mat-icon> Delete Image
-    </button>
-</mat-menu>
-<mat-menu #uploadMenu="matMenu" yPosition="below" xPosition="before">
-    <button mat-menu-item (click)="triggerFileDialog();">
-        <mat-icon>add_a_photo</mat-icon> Upload image(s)
     </button>
 </mat-menu>
 <input #fileInput hidden accept="image/*" multiple type="file" (change)="emitSelection($event);" />
