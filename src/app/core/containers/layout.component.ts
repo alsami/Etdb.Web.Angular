@@ -5,7 +5,6 @@ import {
     OnDestroy,
     AfterViewInit,
     ViewChild,
-    AfterViewChecked,
     ChangeDetectorRef
 } from '@angular/core';
 import { Observable, Subscription, BehaviorSubject } from 'rxjs';
@@ -29,7 +28,7 @@ import { AppNotificationsFacadeService } from '@etdb/app-notification/+state/fac
     styleUrls: ['layout.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LayoutComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
+export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     private overlayRef: OverlayRef;
     private interval;
     private mediaObserver: Subscription;
@@ -120,9 +119,6 @@ export class LayoutComponent implements OnInit, AfterViewInit, AfterViewChecked,
             });
     }
 
-    public ngAfterViewChecked(): void {
-    }
-
     public ngOnDestroy(): void {
         this.mediaObserver.unsubscribe();
     }
@@ -177,8 +173,9 @@ export class LayoutComponent implements OnInit, AfterViewInit, AfterViewChecked,
     }
 
     private determineLayoutGap(): void {
-        if (this.breakpointService.isExtraSmallDevice()) {
-            this.layoutGap = '56';
+        if (this.breakpointService.isExtraSmallDevice() ||
+                this.breakpointService.isSmallDevice()) {
+            this.layoutGap = '0';
             return;
         }
 
