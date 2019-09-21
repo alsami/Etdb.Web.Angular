@@ -10,7 +10,7 @@ jobs:
     - stage: build
       name: build etdb-app
       before_script: npm i
-      script: ng build
+      script: ng build --prod
       if: tag IS NOT present
     - stage: publish
       name: publish-etdb-app

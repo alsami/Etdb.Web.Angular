@@ -4,7 +4,7 @@ import {
     UserProfileComponent,
     UsersRoutingComponent,
     UserSettingsComponent
-} from '@etdb/users/containers';
+} from '@etdb/users/container';
 import { UserIsSignedInUserGuard } from '@etdb/users/guards';
 import { UserResolver } from '@etdb/users/resolver/user-loader.resolver';
 

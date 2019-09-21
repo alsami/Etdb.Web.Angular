@@ -1,30 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CustomControlModule } from '@etdb/custom-controls/custom-controls.module';
 import { MaterialModule } from '@etdb/shared';
-import {
-    UserProfileComponent,
-    UsersRoutingComponent,
-    UserSettingsComponent
-} from '@etdb/users/containers';
-import { UserEffects, UserSearchEffects, AuthenticationLogEffects, ProfileImageUploadQueueEffects } from '@etdb/users/+state/effects';
+import { AuthenticationLogEffects, ProfileImageUploadQueueEffects, UserEffects, UserSearchEffects } from '@etdb/users/+state/effects';
+import { AuthenticationLogFacadeService, ProfileImageQueueFacadeService,
+    UsersFacadeService, UsersSearchFacadeService } from '@etdb/users/+state/facades';
 import { reducers } from '@etdb/users/+state/reducers';
-import { UserService, UserSearchService, AuthenticationLogService } from '@etdb/users/services';
+import { AuthenticationLogOverviewComponent, UserImageControlComponent,
+    UserInfochangeComponent, UserNameChangeComponent, UserPasswordchangeFormComponent } from '@etdb/users/components';
+import { UserProfileComponent, UserSettingsComponent, UsersRoutingComponent } from '@etdb/users/container';
+import { AuthenticationLogService, UserSearchService, UserService } from '@etdb/users/services';
 import { UsersRoutingModule } from '@etdb/users/users-routing.module';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { CustomControlModule } from '@etdb/custom-controls/custom-controls.module';
-import { ReactiveFormsModule } from '@angular/forms';
-import {
-    UserPasswordchangeFormComponent,
-    UserInfochangeComponent,
-    UserImageControlComponent,
-    UserNameChangeComponent,
-    AuthenticationLogOverviewComponent
-} from '@etdb/users/components';
-import {
-    UsersFacadeService, UsersSearchFacadeService,
-    AuthenticationLogFacadeService, ProfileImageQueueFacadeService
-} from '@etdb/users/+state/facades';
 
 @NgModule({
     imports: [
