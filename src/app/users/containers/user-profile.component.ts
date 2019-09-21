@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { User, AuthenticationLog } from '@etdb/models';
-import { Observable, combineLatest, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { TitleFacadeService } from '@etdb/core/+state/facades';
-import { UsersFacadeService, AuthenticationLogFacadeService } from '@etdb/users/+state/facades';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { ActivatedRoute } from '@angular/router';
+import { TitleFacadeService } from '@etdb/core/+state/facades';
+import { AuthenticationLog, User } from '@etdb/models';
+import { AuthenticationLogFacadeService, UsersFacadeService } from '@etdb/users/+state/facades';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
     selector: 'etdb-user',
@@ -35,9 +35,7 @@ export class UserProfileComponent implements OnInit {
         this.authenticationLogs$ = this.authenticationFacadeService.authenticationLogs$;
 
         this.loading$ = combineLatest(this.loadingUser$, this.loadingAuthenticationLogs$)
-            .pipe(
-                map(([loadingUser, loadingAuthenticationLogs]) => loadingUser || loadingAuthenticationLogs)
-            );
+            .pipe(map(([loadingUser, loadingAuthenticationLogs]) => loadingUser || loadingAuthenticationLogs));
 
         this.user$ = this.route.data.pipe(
             map((userData: { user: User }) => {

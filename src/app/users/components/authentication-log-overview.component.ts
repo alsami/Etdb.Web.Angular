@@ -1,11 +1,12 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 import { AuthenticationLog } from '@etdb/models';
 import { AuthenticationLogType } from '@etdb/models/user.models';
-import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
     selector: 'etdb-authentication-log-overview',
     templateUrl: 'authentication-log-overview.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AuthenticationLogOverviewComponent implements OnChanges {
     AuthenticationLogType = AuthenticationLogType;
