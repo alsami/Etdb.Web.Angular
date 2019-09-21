@@ -8,7 +8,7 @@
     <span style="flex: 1 1 auto;"></span>
     <button *ngIf="!user && !(isSignInPage$ | async)" mat-button routerLink="/signin"
         (click)="linkedMenuClicked.emit();">Signin</button>
-    <button mat-icon-button [matMenuTriggerFor]="themeMenu">
+    <button *ngIf="!user" mat-icon-button [matMenuTriggerFor]="themeMenu">
         <mat-icon>color_lens</mat-icon>
     </button>
     <mat-menu #themeMenu="matMenu">
@@ -17,6 +17,7 @@
             <mat-divider *ngIf="!last"></mat-divider>
         </ng-template>
     </mat-menu>
+    <!-- when user! -->
     <ng-container *ngIf="user">
         <button mat-icon-button cdkOverlayOrigin (click)="openNotifications();">
             <mat-icon [matBadge]="unreadAppNotificationsCount" matBadgePosition="above before" matBadgeColor="accent"
@@ -38,6 +39,10 @@
             <mat-divider></mat-divider>
             <button mat-menu-item [routerLink]="'users/settings/' + user?.id" (click)="linkedMenuClicked.emit();">
                 <mat-icon>settings</mat-icon> Settings
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item [matMenuTriggerFor]="themeMenu">
+                <mat-icon>color_lens</mat-icon> Theme
             </button>
             <mat-divider></mat-divider>
             <button mat-menu-item (click)="requestLogout.emit(); linkedMenuClicked.emit();">
