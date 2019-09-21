@@ -1,8 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Store } from '@ngrx/store';
-import * as fromRoot from '@etdb/+state';
-import { TitleActions } from '@etdb/core/+state/actions';
-// import { HubConnection, HubConnectionBuilder, LogLevel } from '@aspnet/signalr';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { TitleFacadeService } from '@etdb/core/+state/facades';
 
 @Component({
     selector: 'etdb-browse',
@@ -10,7 +7,7 @@ import { TitleActions } from '@etdb/core/+state/actions';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BrowseComponent implements OnInit {
-    public constructor(private store: Store<fromRoot.AppState>) { }
+    public constructor(private titleFacade: TitleFacadeService) { }
     // private hubConnection: HubConnection;
 
     public ngOnInit(): void {
@@ -26,8 +23,6 @@ export class BrowseComponent implements OnInit {
         //         .catch(error => console.warn('got error', error));
         // });
 
-
-
-        this.store.dispatch(new TitleActions.SetTitle('Browse'));
+        this.titleFacade.setTitle('Browse');
     }
 }

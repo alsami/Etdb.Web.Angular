@@ -4,11 +4,15 @@
     "typescript.preferences.quoteStyle": "single",
     "javascript.preferences.quoteStyle": "single",
     "typescript.preferences.importModuleSpecifier": "non-relative",
+    "tslint.autoFixOnSave": true,
     "editor.formatOnSave": true,
     "editor.tabSize": 4,
     "editor.insertSpaces": true,
     "editor.detectIndentation": false,
-    "tslint.autoFixOnSave": true,
     "editor.cursorWidth": 5,
-    "editor.cursorBlinking": "expand"
+    "editor.cursorBlinking": "expand",
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": true,
+        "source.fixAll": true
+    }
 }
