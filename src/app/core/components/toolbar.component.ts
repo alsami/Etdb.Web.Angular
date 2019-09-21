@@ -19,7 +19,7 @@ import { TemplatePortal } from '@angular/cdk/portal';
     selector: 'etdb-toolbar',
     templateUrl: 'toolbar.component.html',
     styleUrls: ['toolbar.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Default
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class ToolbarComponent implements OnInit, OnChanges {
@@ -27,6 +27,7 @@ export class ToolbarComponent implements OnInit, OnChanges {
     @Output() requestLogout: EventEmitter<void> = new EventEmitter<void>();
     @Output() linkedMenuClicked: EventEmitter<void> = new EventEmitter<void>();
     @Output() hamburgerMenuClicked: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @Output() notificationIconClicked: EventEmitter<void> = new EventEmitter();
 
     @Input() title = '';
     @Input() sidenavVisible: boolean;
@@ -68,32 +69,35 @@ export class ToolbarComponent implements OnInit, OnChanges {
     }
 
     public openNotifications(): void {
-        if (this.overlayRef && this.overlayRef.hasAttached()) {
-            this.overlayRef.detach();
-            return;
+        this.notificationIconClicked.emit();
+        if (false) {
+            if (this.overlayRef && this.overlayRef.hasAttached()) {
+                this.overlayRef.detach();
+                return;
+            }
+            const positionStrategy = this.overlay
+                .position()
+                .flexibleConnectedTo(this.overlayOrigin.elementRef)
+                .withPositions([{
+                    originX: 'end',
+                    originY: 'bottom',
+                    overlayX: 'end',
+                    overlayY: 'top',
+                    offsetX: 0,
+                    offsetY: 0,
+                }]);
+
+
+            this.overlayRef = this.overlay.create({
+                positionStrategy,
+                hasBackdrop: true
+            });
+
+            this.portal = new TemplatePortal(this.overlayTemplate, this.viewContainerRef);
+            this.overlayRef.attach(this.portal);
+
+            this.overlayRef.backdropClick().subscribe(() => this.overlayRef.detach());
         }
-        const positionStrategy = this.overlay
-            .position()
-            .flexibleConnectedTo(this.overlayOrigin.elementRef)
-            .withPositions([{
-                originX: 'end',
-                originY: 'bottom',
-                overlayX: 'end',
-                overlayY: 'top',
-                offsetX: 0,
-                offsetY: 0,
-            }]);
-
-
-        this.overlayRef = this.overlay.create({
-            positionStrategy,
-            hasBackdrop: true
-        });
-
-        this.portal = new TemplatePortal(this.overlayTemplate, this.viewContainerRef);
-        this.overlayRef.attach(this.portal);
-
-        this.overlayRef.backdropClick().subscribe(() => this.overlayRef.detach());
     }
 
     public getUserGreeting(): string {

@@ -50,6 +50,8 @@ export class LayoutComponent implements OnInit, AfterViewInit, AfterViewChecked,
 
     public restoringSignIn$: Observable<boolean>;
 
+    public showNotifications = false;
+
 
     public constructor(
         private breakpointService: BreakpointService,
