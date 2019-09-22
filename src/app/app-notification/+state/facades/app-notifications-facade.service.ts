@@ -29,4 +29,12 @@ export class AppNotificationsFacadeService {
     public remove(id: string): void {
         this.store.dispatch(new AppNotificationActions.Remove(id));
     }
+
+    public read(id: string): void {
+        this.store.dispatch(new AppNotificationActions.Read(id));
+    }
+
+    public restore(): void {
+        this.store.dispatch(new AppNotificationActions.Restore());
+    }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { ProgressNotification } from '@etdb/app-notification/models';
 
 @Component({
@@ -6,11 +6,6 @@ import { ProgressNotification } from '@etdb/app-notification/models';
     templateUrl: 'progress-notification.component.html',
     changeDetection: ChangeDetectionStrategy.Default
 })
-export class ProgressNotificationComponent implements OnChanges {
+export class ProgressNotificationComponent {
     @Input() notification: ProgressNotification;
-
-
-    public ngOnChanges(): void {
-        console.log('progress in comp', this.notification.progress);
-    }
 }

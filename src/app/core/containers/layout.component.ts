@@ -135,6 +135,11 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
         this.layoutFacadeService.toggleSidenav(show);
     }
 
+    public toggleNotifications(show: boolean): void {
+        this.showNotifications = show;
+        console.log('showNotifications', this.showNotifications);
+    }
+
     public toggleSidenavBasesOnSize(): void {
         if (
             !this.breakpointService.isExtraSmallDevice() &&

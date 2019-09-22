@@ -2,15 +2,15 @@
     [unreadAppNotificationsCount]="unreadAppNotificationsCount$ | async" (requestThemeChange)="changeTheme($event);"
     (requestLogout)="logout();" (linkedMenuClicked)="toggleSidenavBasesOnSize();"
     (hamburgerMenuClicked)="toggleSidenav($event); showNotifications = false;"
-    (notificationIconClicked)="showNotifications = !showNotifications; toggleSidenav(false);">
+    (notificationIconClicked)="toggleNotifications(true); toggleSidenav(false);">
 </etdb-toolbar>
-<mat-sidenav-container class="main-sidenav-container" (backdropClick)="toggleSidenav(false);">
+<mat-sidenav-container class="main-sidenav-container" (backdropClick)="toggleSidenav(false); toggleNotifications(false);">
     <mat-sidenav color="accent" #sidenav [mode]="sidenavMode" [opened]="showSidenav$ | async" [fixedInViewport]="true"
         [fixedTopGap]="layoutGap" style="box-shadow: 3px 0 6px rgba(0, 0, 0, 0.2); width: 200px;">
         <etdb-sidenav-content [authenticatedUser]="user$ | async" (linkClicked)="toggleSidenavBasesOnSize();">
         </etdb-sidenav-content>
     </mat-sidenav>
-    <mat-sidenav [opened]="showNotifications"  [fixedInViewport]="true" [fixedTopGap]="layoutGap" [mode]="sidenavMode" position="end" (backdropClick)="showNotifications = false">
+    <mat-sidenav [opened]="showNotifications"  [fixedInViewport]="true" [fixedTopGap]="layoutGap" [mode]="sidenavMode" position="end">
         <etdb-app-notification-overview></etdb-app-notification-overview>
     </mat-sidenav>
     <mat-sidenav-container>

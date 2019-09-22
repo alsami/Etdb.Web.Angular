@@ -18,4 +18,18 @@ export class AppNotificationOverviewComponent implements OnInit {
     public ngOnInit(): void {
         this.notifications$ = this.appNotificationsFacadeService.appNotifications$;
     }
+
+    public notificationRead(notification: AppNotification): void {
+        this.appNotificationsFacadeService.read(notification.id);
+    }
+
+    public notificationRemove(notification: AppNotification): void {
+        this.appNotificationsFacadeService.remove(notification.id);
+    }
+
+    public getViewIcon(notification: AppNotification): string {
+        return notification.read
+            ? 'visibility_off'
+            : 'visibility';
+    }
 }

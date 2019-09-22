@@ -3,13 +3,21 @@ import { AppNotification } from '@etdb/app-notification/models';
 
 export enum AppNotificationActionTypes {
     Add = '[App-Notifications] Add notification',
+    AddMany = '[App-Notifications] Add notifications',
     Update = '[App-Notifications] Update notification',
     Remove = '[App-Notifications] Remove notification',
+    Read = '[App-Notifications] Read notification',
+    Restore = '[App-Notifications] Restore notifications'
 }
 
 export class Add<TNotification extends AppNotification> implements Action {
     readonly type = AppNotificationActionTypes.Add;
     public constructor(public notification: TNotification) { }
+}
+
+export class AddMany<TNotification extends AppNotification> implements Action {
+    readonly type = AppNotificationActionTypes.AddMany;
+    public constructor(public notifications: TNotification[]) { }
 }
 
 export class Update<TNotification extends AppNotification> implements Action {
@@ -22,7 +30,19 @@ export class Remove implements Action {
     public constructor(public id: string) { }
 }
 
+export class Read implements Action {
+    readonly type = AppNotificationActionTypes.Read;
+    public constructor(public id: string) { }
+}
+
+export class Restore implements Action {
+    readonly type = AppNotificationActionTypes.Restore;
+}
+
 export type AppNoticationActionsUnion =
     | Add<AppNotification>
+    | AddMany<AppNotification>
     | Update<AppNotification>
-    | Remove;
+    | Remove
+    | Read
+    | Restore;

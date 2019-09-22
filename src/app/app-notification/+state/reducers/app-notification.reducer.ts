@@ -17,9 +17,14 @@ export function reducer(state: AppNotificationState = initialState,
     action: AppNotificationActions.AppNoticationActionsUnion): AppNotificationState {
     switch (action.type) {
         case AppNotificationActions.AppNotificationActionTypes.Add: {
-
             return {
                 ...adapter.addOne(action.notification, state)
+            };
+        }
+
+        case AppNotificationActions.AppNotificationActionTypes.AddMany: {
+            return {
+                ...adapter.addMany(action.notifications, state)
             };
         }
 
@@ -29,9 +34,25 @@ export function reducer(state: AppNotificationState = initialState,
             };
         }
 
+        case AppNotificationActions.AppNotificationActionTypes.Read: {
+            const notification = state.entities[action.id];
+
+            if (!notification) {
+                return state;
+            }
+
+            notification.read = !notification.read;
+
+            return {
+                ...adapter.upsertOne(notification, state)
+            };
+        }
+
         case AppNotificationActions.AppNotificationActionTypes.Remove: {
             return adapter.removeOne(action.id, state);
         }
+
+
         default: return state;
     }
 }

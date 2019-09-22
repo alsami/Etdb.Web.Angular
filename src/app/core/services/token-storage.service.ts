@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { IdentityToken } from '@etdb/core/models';
 
+const KEY = 'ETDB_TOKEN';
+
 @Injectable({
     providedIn: 'root'
 })
 export class TokenStorageService {
     public storeToken(token: IdentityToken): void {
-        window.localStorage.setItem('token', JSON.stringify(token));
+        window.localStorage.setItem(KEY, JSON.stringify(token));
     }
 
     public getToken(): IdentityToken {
@@ -14,7 +16,7 @@ export class TokenStorageService {
     }
 
     public clearToken(): void {
-        window.localStorage.removeItem('token');
+        window.localStorage.removeItem(KEY);
     }
 
     public canRestore(): boolean {
@@ -23,7 +25,7 @@ export class TokenStorageService {
     }
 
     private getTokenFromStorage(): IdentityToken {
-        const token: IdentityToken = JSON.parse(window.localStorage.getItem('token'));
+        const token: IdentityToken = JSON.parse(window.localStorage.getItem(KEY));
 
         if (!token) {
             return undefined;

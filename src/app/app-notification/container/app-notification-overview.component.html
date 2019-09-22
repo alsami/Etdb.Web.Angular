@@ -5,12 +5,23 @@
     <ng-template ngFor let-notification let-last="last" [ngForOf]="notifications$ | async">
         <div class="notification-container">
             <ng-container [ngSwitch]="notification.type">
-                <etdb-progress-notification *ngSwitchCase="AppNotificationTypes.Progress" [notification]="notification">
-                </etdb-progress-notification>
-                <etdb-simple-notification *ngSwitchCase="AppNotificationTypes.Simple" [notification]="notification">
-                </etdb-simple-notification>
+                <div class="flex-container flex-flow-row">
+                    <etdb-progress-notification *ngSwitchCase="AppNotificationTypes.Progress" [notification]="notification" [etdbUnreadNotification]="notification">
+                    </etdb-progress-notification>
+                    <etdb-simple-notification *ngSwitchCase="AppNotificationTypes.Simple" [notification]="notification" [etdbUnreadNotification]="notification">
+                    </etdb-simple-notification>
+                    <span style="flex: 1 1 auto;"></span>
+                    <div class="flex-container flex-flow-column">
+                        <button mat-button (click)="notificationRead(notification);">
+                            <mat-icon>{{ getViewIcon(notification) }}</mat-icon>
+                        </button>
+                        <button mat-button (click)="notificationRemove(notification);">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
             </ng-container>
         </div>
-        <mat-divider *ngIf="!last"></mat-divider>
+        <mat-divider></mat-divider>
     </ng-template>
 </div>

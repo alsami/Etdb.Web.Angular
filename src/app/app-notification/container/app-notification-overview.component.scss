@@ -4,6 +4,10 @@
     padding: 0 16px;
 }
 
+.mat-menu-panel {
+    min-height: 100% !important;
+}
+
 @mixin app-notification-overview-theme($theme) {
     $foreground-palette: map-get($theme, foreground);
     $default-color: mat-color($foreground-palette, base);
