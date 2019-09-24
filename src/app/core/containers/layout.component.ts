@@ -5,7 +5,9 @@ import {
     OnDestroy,
     AfterViewInit,
     ViewChild,
-    ChangeDetectorRef
+    ChangeDetectorRef,
+    ViewContainerRef,
+    TemplateRef
 } from '@angular/core';
 import { Observable, Subscription, BehaviorSubject } from 'rxjs';
 import { IdentityUser } from '@etdb/core/models';
@@ -16,7 +18,7 @@ import {
     OverlayPositionBuilder,
     OverlayRef
 } from '@angular/cdk/overlay';
-import { TemplatePortalDirective, Portal } from '@angular/cdk/portal';
+import { TemplatePortal } from '@angular/cdk/portal';
 import { delay } from 'rxjs/operators';
 import { LayoutFacadeService, AuthFacadeService, TitleFacadeService } from '@etdb/core/+state/facades';
 import { AppNotification } from '@etdb/app-notification/models';
@@ -34,8 +36,8 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     private mediaObserver: Subscription;
 
 
-    @ViewChild(TemplatePortalDirective, { static: false })
-    templatePortal: Portal<any>;
+    @ViewChild('overlay', { static: false })
+    templatePortal: TemplateRef<any>;
 
     showSidenav$: Observable<boolean>;
     title$: Observable<string>;
@@ -61,6 +63,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
         private authFacadeService: AuthFacadeService,
         private titleFacadeService: TitleFacadeService,
         private appNotificationsFacade: AppNotificationsFacadeService,
+        private viewContainerRef: ViewContainerRef,
     ) { }
 
     public ngOnInit(): void {
@@ -96,7 +99,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
                     return;
                 }
 
-                this.overlayRef.attach(this.templatePortal);
+                this.overlayRef.attach(new TemplatePortal(this.templatePortal, this.viewContainerRef));
 
                 this.interval = setInterval(() => {
                     if (this.dots$.getValue().length === 0) {

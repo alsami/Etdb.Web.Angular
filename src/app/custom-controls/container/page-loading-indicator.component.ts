@@ -5,14 +5,16 @@ import {
     ViewChild,
     OnInit,
     AfterViewInit,
-    OnDestroy
+    OnDestroy,
+    TemplateRef,
+    ViewContainerRef
 } from '@angular/core';
 import {
     Overlay,
     OverlayPositionBuilder,
     OverlayRef
 } from '@angular/cdk/overlay';
-import { TemplatePortalDirective, Portal } from '@angular/cdk/portal';
+import { TemplatePortal } from '@angular/cdk/portal';
 import { BreakpointService } from '@etdb/core/services';
 import { Breakpoints } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
@@ -27,8 +29,8 @@ export class PageLoadingIndicatorComponent
     @Input()
     loading: boolean;
 
-    @ViewChild(TemplatePortalDirective, { static: false })
-    templatePortal: Portal<any>;
+    @ViewChild('overlay', { static: false })
+    templateRef: TemplateRef<any>;
 
     private overlayRef: OverlayRef;
     private breakpointSubscription: Subscription;
@@ -37,7 +39,8 @@ export class PageLoadingIndicatorComponent
     public constructor(
         private overlay: Overlay,
         private overlayBuilder: OverlayPositionBuilder,
-        private breakpointService: BreakpointService
+        private breakpointService: BreakpointService,
+        private viewContainerRef: ViewContainerRef,
     ) {}
 
     public ngOnInit(): void {
@@ -45,7 +48,7 @@ export class PageLoadingIndicatorComponent
     }
 
     public ngAfterViewInit(): void {
-        this.overlayRef.attach(this.templatePortal);
+        this.overlayRef.attach(new TemplatePortal(this.templateRef, this.viewContainerRef));
 
         this.breakpointSubscription = this.breakpointService
             .hasBreakpointChanged(Breakpoints.XSmall)
@@ -71,7 +74,7 @@ export class PageLoadingIndicatorComponent
             this.isExtrasmallWindow ? 56 : 64
         );
 
-        this.overlayRef.attach(this.templatePortal);
+        this.overlayRef.attach(new TemplatePortal(this.templateRef, this.viewContainerRef));
     }
 
     private buildOverLayRef(size: 56 | 64): OverlayRef {
@@ -81,16 +84,6 @@ export class PageLoadingIndicatorComponent
                 .top(`${size}px`)
                 .width('100%')
         });
-
-        // console.log(size);
-        // return this.overlay.create({
-        //     positionStrategy: this.overlayBuilder
-        //         .global()
-        //         .height('100%')
-        //         .width('100%'),
-        //     hasBackdrop: true,
-        //     backdropClass: 'cdk-overlay-dark-backdrop'
-        // });
     }
 
     private safeDetach(): void {
