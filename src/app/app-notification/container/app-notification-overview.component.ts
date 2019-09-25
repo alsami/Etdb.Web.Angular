@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { AppNotificationsFacadeService } from '@etdb/app-notification/+state/facades';
 import { Observable } from 'rxjs';
 import { AppNotification, AppNotificationType } from '@etdb/app-notification/models';
+import { AppNotificationStorageService } from '@etdb/app-notification/services';
 
 @Component({
     selector: 'etdb-app-notification-overview',
@@ -13,10 +14,13 @@ export class AppNotificationOverviewComponent implements OnInit {
     public notifications$: Observable<AppNotification[]>;
     public AppNotificationTypes = AppNotificationType;
 
-    public constructor(private appNotificationsFacadeService: AppNotificationsFacadeService) { }
+    public constructor(private appNotificationsFacadeService: AppNotificationsFacadeService,
+        private notificationStorage: AppNotificationStorageService) { }
 
     public ngOnInit(): void {
         this.notifications$ = this.appNotificationsFacadeService.appNotifications$;
+
+        this.notifications$.subscribe(notifications => this.notificationStorage.storeMany(notifications));
     }
 
     public notificationRead(notification: AppNotification): void {

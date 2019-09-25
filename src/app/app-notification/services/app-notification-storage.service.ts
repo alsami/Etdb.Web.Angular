@@ -7,67 +7,12 @@ const KEY = 'ETDB_APP_NOTIFICATIONS';
   providedIn: 'root'
 })
 export class AppNotificationStorageService {
-    public store(notification: AppNotification): void {
-        let existingNotifications = JSON.parse(window.localStorage.getItem(KEY)) as AppNotification[];
-
-        if (!existingNotifications) {
-            existingNotifications = [];
-        }
-
-        existingNotifications.push(notification);
-
-        window.localStorage.setItem(KEY, JSON.stringify(existingNotifications));
-    }
-
-    public update(mutatedNotification: AppNotification): void {
-        let existingNotifications = JSON.parse(window.localStorage.getItem(KEY)) as AppNotification[];
-
-        if (!existingNotifications) {
-            existingNotifications = [];
-        }
-
-        const index = existingNotifications.findIndex(notifi => notifi.id === mutatedNotification.id);
-
-        if (index === -1) {
+    public storeMany(notifications: AppNotification[]): void {
+        if (!notifications) {
             return;
         }
 
-        existingNotifications[index] = mutatedNotification;
-        window.localStorage.setItem(KEY, JSON.stringify(existingNotifications));
-    }
-
-    public read(id: string): void {
-        let existingNotifications = JSON.parse(window.localStorage.getItem(KEY)) as AppNotification[];
-
-        if (!existingNotifications) {
-            existingNotifications = [];
-        }
-
-        const index = existingNotifications.findIndex(notifi => notifi.id === id);
-
-        if (index === -1) {
-            return;
-        }
-
-        existingNotifications[index].read = !existingNotifications[index].read;
-        window.localStorage.setItem(KEY, JSON.stringify(existingNotifications));
-    }
-
-    public remove(id: string): void {
-        let existingNotifications = JSON.parse(window.localStorage.getItem(KEY)) as AppNotification[];
-
-        if (!existingNotifications) {
-            existingNotifications = [];
-        }
-
-        const index = existingNotifications.findIndex(notifi => notifi.id === id);
-
-        if (index === -1) {
-            return;
-        }
-
-        existingNotifications.splice(index, 1);
-        window.localStorage.setItem(KEY, JSON.stringify(existingNotifications));
+        window.localStorage.setItem(KEY, JSON.stringify(notifications));
     }
 
 
