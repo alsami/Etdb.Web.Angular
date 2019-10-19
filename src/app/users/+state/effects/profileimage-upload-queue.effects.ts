@@ -20,7 +20,7 @@ export class ProfileImageUploadQueueEffects {
             map((action: ProfileImageQueueActions.Add) => {
                 const notification = new ProgressNotification(UniqueIdentifier.create().toString(), 'Uploading images', 0);
 
-                this.appNotificationFacadeService.create(notification);
+                this.appNotificationFacadeService.create(action.profileImageQueueItem.userId, notification);
 
                 this.snackbar.open('Your images are being uploaded in the background', null, {
                     duration: 1000,
@@ -52,7 +52,7 @@ export class ProfileImageUploadQueueEffects {
                         }),
                         map(currentValue => {
                             if (Array.isArray(currentValue)) {
-                                this.appNotificationFacadeService.create(
+                                this.appNotificationFacadeService.create(action.profileImageQueueItem.userId,
                                     new SimpleNotification(UniqueIdentifier.create().toString(), 'Images uploaded!'));
                             }
 
@@ -62,7 +62,7 @@ export class ProfileImageUploadQueueEffects {
                         catchError((error: Error) => {
                             this.appNotificationFacadeService.remove(action.progressNotification.id);
 
-                            this.appNotificationFacadeService.create(
+                            this.appNotificationFacadeService.create(action.profileImageQueueItem.userId,
                                 new SimpleNotification(UniqueIdentifier.create().toString(), 'Uploading images failed'));
 
                             this.profileImageQueueFacadeService.remove(action.profileImageQueueItem.id);

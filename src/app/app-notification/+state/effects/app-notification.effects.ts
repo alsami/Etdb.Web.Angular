@@ -12,8 +12,8 @@ export class AppNotificationEffects {
     @Effect({dispatch: false})
     restore$ = this.actions$
         .pipe(ofType(AppNotificationActionTypes.Restore),
-            tap(() => {
-                const notifications = this.appNotificationStorage.restore();
+            tap((action: AppNotificationActions.Restore) => {
+                const notifications = this.appNotificationStorage.restore(action.userId);
 
                 if (!notifications.length) {
                     return;

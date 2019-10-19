@@ -12,7 +12,7 @@ export enum AppNotificationActionTypes {
 
 export class Add<TNotification extends AppNotification> implements Action {
     readonly type = AppNotificationActionTypes.Add;
-    public constructor(public notification: TNotification) { }
+    public constructor(public userId: string, public notification: TNotification) { }
 }
 
 export class AddMany<TNotification extends AppNotification> implements Action {
@@ -37,6 +37,7 @@ export class Read implements Action {
 
 export class Restore implements Action {
     readonly type = AppNotificationActionTypes.Restore;
+    public constructor(public userId: string) {}
 }
 
 export type AppNoticationActionsUnion =

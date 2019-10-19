@@ -5,7 +5,6 @@ import {
 } from '@angular/cdk/overlay';
 import { AuthFacadeService, LayoutFacadeService } from '@etdb/core/+state/facades';
 import { Subscription } from 'rxjs';
-import { AppNotificationsFacadeService } from '@etdb/app-notification/+state/facades';
 
 @Component({
     selector: 'etdb-root',
@@ -20,12 +19,10 @@ export class AppComponent implements OnDestroy {
 
         private overlayContainer: OverlayContainer,
         private authFacadeService: AuthFacadeService,
-        private layoutFacadeService: LayoutFacadeService,
-        private notificationsFacadeService: AppNotificationsFacadeService,
+        private layoutFacadeService: LayoutFacadeService
     ) {
         this.subscribeThemeChanges();
         this.authFacadeService.initialize();
-        this.notificationsFacadeService.restore();
     }
 
     public ngOnDestroy(): void {

@@ -1,8 +1,11 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { AppNotificationsFacadeService } from '@etdb/app-notification/+state/facades';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { AppNotification, AppNotificationType } from '@etdb/app-notification/models';
 import { AppNotificationStorageService } from '@etdb/app-notification/services';
+import { AuthFacadeService } from '@etdb/core/+state/facades';
+import { IdentityUser } from '@etdb/core/models';
+import { map } from 'rxjs/operators';
 
 @Component({
     selector: 'etdb-app-notification-overview',
@@ -11,16 +14,28 @@ import { AppNotificationStorageService } from '@etdb/app-notification/services';
     changeDetection: ChangeDetectionStrategy.Default
 })
 export class AppNotificationOverviewComponent implements OnInit {
+    private authenticatedUser$: Observable<IdentityUser>;
+
     public notifications$: Observable<AppNotification[]>;
     public AppNotificationTypes = AppNotificationType;
 
     public constructor(private appNotificationsFacadeService: AppNotificationsFacadeService,
-        private notificationStorage: AppNotificationStorageService) { }
+        private notificationStorage: AppNotificationStorageService, private authFacadeService: AuthFacadeService) { }
 
     public ngOnInit(): void {
+        this.authenticatedUser$ = this.authFacadeService.authenticatedUser$;
+
         this.notifications$ = this.appNotificationsFacadeService.appNotifications$;
 
-        this.notifications$.subscribe(notifications => this.notificationStorage.storeMany(notifications));
+        combineLatest(this.authenticatedUser$, this.notifications$)
+            .pipe(map(([authenticatedUser, notifications]) => {
+                if (!authenticatedUser || !notifications || !notifications.length) {
+                    return;
+                }
+
+                this.notificationStorage.storeMany(authenticatedUser.id, notifications);
+            }))
+            .subscribe();
     }
 
     public notificationRead(notification: AppNotification): void {

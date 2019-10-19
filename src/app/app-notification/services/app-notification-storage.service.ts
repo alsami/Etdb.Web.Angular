@@ -7,17 +7,26 @@ const KEY = 'ETDB_APP_NOTIFICATIONS';
   providedIn: 'root'
 })
 export class AppNotificationStorageService {
-    public storeMany(notifications: AppNotification[]): void {
-        if (!notifications) {
+    public storeMany(userId: string, notifications: AppNotification[]): void {
+        console.log('STORAGE');
+        if (!notifications || !notifications.length || !userId || !userId.length) {
             return;
         }
 
-        window.localStorage.setItem(KEY, JSON.stringify(notifications));
+        const combinedKey = `${KEY}_${userId}`;
+
+        window.localStorage.setItem(combinedKey, JSON.stringify(notifications));
     }
 
 
-    public restore(): AppNotification[] {
-        const notifications = JSON.parse(window.localStorage.getItem(KEY)) as AppNotification[];
+    public restore(userId: string): AppNotification[] {
+        if (!userId || !userId.length) {
+            return [];
+        }
+
+        const combinedKey = `${KEY}_${userId}`;
+
+        const notifications = JSON.parse(window.localStorage.getItem(combinedKey)) as AppNotification[];
 
         if (!notifications) {
             return [];

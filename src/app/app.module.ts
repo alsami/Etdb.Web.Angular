@@ -12,8 +12,6 @@ import { reducers, metaReducers } from '@etdb/+state';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
-
-
 @NgModule({
     imports: [
         BrowserModule,

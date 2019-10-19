@@ -18,8 +18,8 @@ export class AppNotificationsFacadeService {
         this.unreadAppNotifications$ = this.store.pipe(select(fromAppNotifications.getUnreadAppNotificationsCount));
     }
 
-    public create<TAppNotifcation extends AppNotification>(notification: TAppNotifcation): void {
-        this.store.dispatch(new AppNotificationActions.Add(notification));
+    public create<TAppNotifcation extends AppNotification>(userId: string, notification: TAppNotifcation): void {
+        this.store.dispatch(new AppNotificationActions.Add(userId, notification));
     }
 
     public update<TAppNotifcation extends AppNotification>(notification: TAppNotifcation): void {
@@ -34,7 +34,7 @@ export class AppNotificationsFacadeService {
         this.store.dispatch(new AppNotificationActions.Read(id));
     }
 
-    public restore(): void {
-        this.store.dispatch(new AppNotificationActions.Restore());
+    public restore(userId: string): void {
+        this.store.dispatch(new AppNotificationActions.Restore(userId));
     }
 }

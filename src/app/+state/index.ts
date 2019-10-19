@@ -7,22 +7,14 @@ import {
 } from '@ngrx/store';
 import { environment } from '../../environments/environment';
 import { fromAuth, fromLayout, fromTitle } from '@etdb/core/+state/reducers';
+import { AuthActionTypes } from '@etdb/core/+state/actions/auth.actions';
 
-/**
- * As mentioned, we treat each reducer like a table in a database. This means
- * our top level state interface is just a map of keys to inner state types.
- */
 export interface AppState {
     layout: fromLayout.LayoutState;
     title: fromTitle.TitleState;
     auth: fromAuth.AuthState;
 }
 
-/**
- * Our state is composed of a map of action reducer functions.
- * These reducer functions are called with each dispatched action
- * and the current or initial state and return a new immutable state.
- */
 export const reducers: ActionReducerMap<AppState> = {
     layout: fromLayout.reducer,
     title: fromTitle.reducer,
@@ -41,14 +33,18 @@ export function logger(
     };
 }
 
-/**
- * By default, @ngrx/store uses combineReducers with the reducer map to compose
- * the root meta-reducer. To add more meta-reducers, provide an array of meta-reducers
- * that will be composed to form the root meta-reducer.
- */
+export function clearOnSignOut(reducer: ActionReducer<AppState>) {
+    return function (state: AppState, action: any) {
+      return reducer(action.type === AuthActionTypes.SignOut ? <any> {
+          ...state,
+          appNotifications: []
+      } : state, action);
+    };
+}
+
 export const metaReducers: MetaReducer<AppState>[] = !environment.production
-    ? [logger]
-    : [];
+    ? [logger, clearOnSignOut]
+    : [clearOnSignOut];
 
 /**
  * Layout Reducers

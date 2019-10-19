@@ -19,10 +19,10 @@ import {
     OverlayRef
 } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
-import { delay } from 'rxjs/operators';
 import { LayoutFacadeService, AuthFacadeService, TitleFacadeService } from '@etdb/core/+state/facades';
 import { AppNotification } from '@etdb/app-notification/models';
 import { AppNotificationsFacadeService } from '@etdb/app-notification/+state/facades';
+import { delay } from 'rxjs/operators';
 
 @Component({
     selector: 'etdb-layout',
@@ -34,18 +34,19 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     private overlayRef: OverlayRef;
     private interval;
     private mediaObserver: Subscription;
+    private authenticatedUserId: string;
 
 
     @ViewChild('overlay', { static: false })
     templatePortal: TemplateRef<any>;
 
-    showSidenav$: Observable<boolean>;
-    title$: Observable<string>;
-    user$: Observable<IdentityUser>;
-    notifications$: Observable<AppNotification[]>;
-    unreadAppNotificationsCount$: Observable<number>;
-    sidenavMode: string;
-    layoutGap: string;
+    public showSidenav$: Observable<boolean>;
+    public title$: Observable<string>;
+    public user$: Observable<IdentityUser>;
+    public notifications$: Observable<AppNotification[]>;
+    public unreadAppNotificationsCount$: Observable<number>;
+    public sidenavMode: string;
+    public layoutGap: string;
 
     public dots$: BehaviorSubject<string> = new BehaviorSubject('');
 
@@ -120,6 +121,26 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
                     this.dots$.next('');
                 }, 500);
             });
+
+        this.user$.pipe(
+        ).subscribe(authenticatedUser => {
+            if (!authenticatedUser)  {
+                this.authenticatedUserId = null;
+                return;
+            }
+
+            if (!this.authenticatedUserId) {
+                this.authenticatedUserId = authenticatedUser.id;
+                this.appNotificationsFacade.restore(this.authenticatedUserId);
+                return;
+            }
+
+            if (authenticatedUser.id === this.authenticatedUserId) {
+                return;
+            }
+
+            this.appNotificationsFacade.restore(this.authenticatedUserId);
+        });
     }
 
     public ngOnDestroy(): void {
