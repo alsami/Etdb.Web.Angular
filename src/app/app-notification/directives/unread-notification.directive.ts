@@ -11,8 +11,6 @@ export class UnreadNotificationDirective implements AfterViewInit {
     public constructor(private elementRef: ElementRef) {}
 
     public ngAfterViewInit(): void {
-        console.log(this.appNotificaton, this.elementRef);
-
         if (!this.appNotificaton.read) {
             this.elementRef.nativeElement.style.fontWeight = 'bold';
             return;

@@ -1,6 +1,6 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { AppNotificationsFacadeService } from '@etdb/app-notification/+state/facades';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable, combineLatest, Subscription } from 'rxjs';
 import { AppNotification, AppNotificationType } from '@etdb/app-notification/models';
 import { AppNotificationStorageService } from '@etdb/app-notification/services';
 import { AuthFacadeService } from '@etdb/core/+state/facades';
@@ -13,11 +13,15 @@ import { map } from 'rxjs/operators';
     styleUrls: ['app-notification-overview.component.scss'],
     changeDetection: ChangeDetectionStrategy.Default
 })
-export class AppNotificationOverviewComponent implements OnInit {
+export class AppNotificationOverviewComponent implements OnInit, OnDestroy {
     private authenticatedUser$: Observable<IdentityUser>;
+
+    private userNotificationSub: Subscription;
 
     public notifications$: Observable<AppNotification[]>;
     public AppNotificationTypes = AppNotificationType;
+
+
 
     public constructor(private appNotificationsFacadeService: AppNotificationsFacadeService,
         private notificationStorage: AppNotificationStorageService, private authFacadeService: AuthFacadeService) { }
@@ -27,7 +31,7 @@ export class AppNotificationOverviewComponent implements OnInit {
 
         this.notifications$ = this.appNotificationsFacadeService.appNotifications$;
 
-        combineLatest(this.authenticatedUser$, this.notifications$)
+        this.userNotificationSub = combineLatest(this.authenticatedUser$, this.notifications$)
             .pipe(map(([authenticatedUser, notifications]) => {
                 if (!authenticatedUser || !notifications || !notifications.length) {
                     return;
@@ -36,6 +40,14 @@ export class AppNotificationOverviewComponent implements OnInit {
                 this.notificationStorage.storeMany(authenticatedUser.id, notifications);
             }))
             .subscribe();
+    }
+
+    public ngOnDestroy(): void {
+        if (!this.userNotificationSub) {
+            return;
+        }
+
+        this.userNotificationSub.unsubscribe();
     }
 
     public notificationRead(notification: AppNotification): void {

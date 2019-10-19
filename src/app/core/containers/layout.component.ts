@@ -35,6 +35,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     private interval;
     private mediaObserver: Subscription;
     private authenticatedUserId: string;
+    private authenticatedUserSub: Subscription;
 
 
     @ViewChild('overlay', { static: false })
@@ -122,7 +123,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
                 }, 500);
             });
 
-        this.user$.pipe(
+        this.authenticatedUserSub = this.user$.pipe(
         ).subscribe(authenticatedUser => {
             if (!authenticatedUser)  {
                 this.authenticatedUserId = null;
@@ -144,6 +145,7 @@ export class LayoutComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
+        this.authenticatedUserSub.unsubscribe();
         this.mediaObserver.unsubscribe();
     }
 
