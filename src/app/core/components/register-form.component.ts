@@ -154,8 +154,8 @@ export class RegisterFormComponent {
 
     private buildForms(): void {
         this.nameForm = this.formBuilder.group({
-            name: [null],
-            firstName: [null]
+            name: [null, Validators.required],
+            firstName: [null, Validators.required]
         });
 
         this.emailsForm = this.formBuilder.group({

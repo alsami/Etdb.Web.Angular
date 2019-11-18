@@ -1,14 +1,16 @@
 <div class="flex-container flex-center-center flex-flow-column">
     <div class="register-container">
         <etdb-mat-stepper-extended [endButtonLabel]="'Register'" [isLinear]="true">
-            <etdb-mat-stepper-step-extended label="Your name" [form]="nameForm" [isOptional]="true">
+            <etdb-mat-stepper-step-extended label="Your name" [form]="nameForm">
                 <form [formGroup]="nameForm">
                     <div class="flex-container flex-flow-column">
                         <mat-form-field>
                             <input formControlName="firstName" matInput type="text" placeholder="Your name" />
+                            <mat-error>This field is required.</mat-error>
                         </mat-form-field>
                         <mat-form-field>
                             <input formControlName="name" matInput type="text" placeholder="Your family name" />
+                            <mat-error>This field is required.</mat-error>
                         </mat-form-field>
                     </div>
                 </form>
