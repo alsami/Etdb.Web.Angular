@@ -10,7 +10,8 @@ import { BehaviorSubject } from 'rxjs';
 
 export class ComponentLoaderOverlayComponent implements OnChanges {
     private interval;
-    private dots$: BehaviorSubject<string> = new BehaviorSubject('');
+
+    public dots$: BehaviorSubject<string> = new BehaviorSubject('');
 
     @Input() loading = false;
 

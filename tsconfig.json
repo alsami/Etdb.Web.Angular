@@ -1,35 +1,37 @@
 {
-    "compileOnSave": false,
-    "compilerOptions": {
-        "baseUrl": "./src",
-        "importHelpers": true,
-        "module": "esnext",
-        "paths": {
-            "@etdb/*": [
-                "app/*"
-            ]
-        },
-        "outDir": "./dist/out-tsc",
-        "sourceMap": true,
-        "declaration": false,
-        "moduleResolution": "node",
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "target": "es2015",
-        "typeRoots": [
-            "node_modules/@types"
-        ],
-        "types": [
-            "gapi",
-            "gapi.auth2",
-            "fb",
-            "hammerjs"
-        ],
-        "lib": [
-            "es2018",
-            "dom"
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+        "@etdb/*": [
+            "app/*"
         ]
-    }
+    },
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2015",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "types": [
+        "gapi",
+        "gapi.auth2",
+        "fb",
+        "hammerjs"
+    ],
+    "lib": [
+      "es2018",
+      "dom"
+    ]
+  },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true
+  }
 }
