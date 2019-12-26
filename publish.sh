@@ -9,4 +9,4 @@ az storage blob delete-batch --source ${1} --account-name ${2} --account-key ${3
 
 echo publishing web-content
 
-az storage blob upload-batch -s ./dist/etdb-webclient -d ${1} --account-name ${2} --account-key ${3}
+az storage blob upload-batch --source ./dist/etdb-webclient --destination ${1} --account-name ${2} --account-key ${3}
