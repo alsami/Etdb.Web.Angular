@@ -20,8 +20,6 @@ export class AuthenticationLogOverviewComponent implements OnChanges {
             return;
         }
 
-        this.authenticationLogs.forEach(authLog => authLog.loggedAt = new Date(authLog.loggedAt));
-
         this.dataSource.data = this.authenticationLogs;
     }
 
