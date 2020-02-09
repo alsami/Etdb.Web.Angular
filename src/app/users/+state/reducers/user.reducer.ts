@@ -72,23 +72,29 @@ export function reducer(
 
         case UserActionTypes.UploadedProfileImages: {
             const user = state.entities[action.userId];
-            if (!user.profileImageMetaInfos) { user.profileImageMetaInfos = []; }
-            user.profileImageMetaInfos = user.profileImageMetaInfos.concat(action.profileImageMetainfos);
+
+            const mutatedUser = {
+                ...{},
+                ...user,
+                profileImageMetaInfos: user.profileImageMetaInfos.slice().concat(action.profileImageMetainfos)
+            }
 
             return {
-                ...adapter.upsertOne(user, state),
-                selectedUser: user,
-                selectedId: user.id,
+                ...adapter.upsertOne(mutatedUser, state),
+                selectedUser: mutatedUser,
+                selectedId: mutatedUser.id,
             };
         }
 
         case UserActionTypes.RemovedProfileImage: {
             const user = state.entities[action.userId];
-            user.profileImageMetaInfos = user.profileImageMetaInfos.filter(
-                meta => meta.url !== action.url
+            const images = user
+                            .profileImageMetaInfos
+                            .slice()
+                            .filter(meta => meta.url !== action.url
             );
             return {
-                ...adapter.upsertOne(user, state),
+                ...adapter.upsertOne({...{}, ...user, profileImageMetaInfos: images}, state),
                 removingProfileImage: false
             };
         }
@@ -109,12 +115,13 @@ export function reducer(
         case UserActionTypes.UpdatedProfileInfo: {
             const user = state.entities[action.id];
 
-            user.firstName = action.profileInfoChange.firstName;
-            user.name = action.profileInfoChange.name;
-            user.biography = action.profileInfoChange.biography;
-
             return {
-                ...adapter.upsertOne(user, state),
+                ...adapter.upsertOne({
+                    ...user,
+                    firstName: action.profileInfoChange.firstName,
+                    name: action.profileInfoChange.name,
+                    biography: action.profileInfoChange.biography
+                }, state),
                 profileInfoUpdating: false
             };
         }
@@ -122,18 +129,27 @@ export function reducer(
         case UserActionTypes.MarkedPrimaryProfileImage: {
             const user = state.entities[action.userId];
 
-            user.profileImageMetaInfos.forEach(meta => meta.isPrimary = meta.id === action.id);
+            const imageMetas = user
+                .profileImageMetaInfos
+                .map(meta => ({...{}, ...meta}));
+
+            imageMetas.forEach(meta => meta.isPrimary = meta.id === action.id);
 
             return {
-                ...adapter.upsertOne(user, state),
+                ...adapter.upsertOne({
+                    ...user,
+                    profileImageMetaInfos: imageMetas
+                }, state),
                 markingPrimaryProfileImage: false
             };
         }
 
         case UserActionTypes.ChangedUserName: {
-            const user = state.entities[action.data.id];
-
-            user.userName = action.data.userName;
+            const user = {
+                ...{},
+                ...state.entities[action.data.id],
+                userName: action.data.userName
+            }
 
             return {
                 ...adapter.upsertOne(user, state),

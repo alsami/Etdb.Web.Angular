@@ -45,10 +45,13 @@ export class ProfileImageUploadQueueEffects {
                                 return;
                             }
 
-                            action.progressNotification.progress = currentValue;
+                            const storedNotification = action.progressNotification;
 
                             this.appNotificationFacadeService
-                                .update(action.progressNotification);
+                                .update({
+                                    ...storedNotification,
+                                    progress: currentValue
+                                });
                         }),
                         map(currentValue => {
                             if (Array.isArray(currentValue)) {

@@ -13,8 +13,14 @@ export function reducer(state: ProfileImageUploadQueueState = initialState,
     action: ProfileImageQueueActions.ProfileImageQueueItemActionUnion): ProfileImageUploadQueueState {
     switch (action.type) {
         case ProfileImageQueueActions.ProfileImageUploadQueueActionTypes.Add: {
-            state.queueItems.push(action.profileImageQueueItem);
-            return state;
+            const queueItems = state.queueItems.slice();
+
+            queueItems.push(action.profileImageQueueItem);
+
+            return  {
+                ...state,
+                queueItems: queueItems
+            }
         }
 
         case ProfileImageQueueActions.ProfileImageUploadQueueActionTypes.Remove: {
@@ -24,9 +30,14 @@ export function reducer(state: ProfileImageUploadQueueState = initialState,
                 return state;
             }
 
-            state.queueItems.splice(index, 1);
+            const queueItems = state.queueItems.slice();
 
-            return state;
+            queueItems.splice(index, 1);
+
+            return {
+                ...state,
+                queueItems
+            };
         }
 
         default: return state;

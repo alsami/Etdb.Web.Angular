@@ -35,7 +35,12 @@ export function reducer(state: AppNotificationState = initialState,
         }
 
         case AppNotificationActions.AppNotificationActionTypes.Read: {
-            const notification = state.entities[action.id];
+            const storedNotification = state.entities[action.id];
+
+            const notification = {
+                ...{},
+                ...storedNotification
+            };
 
             if (!notification) {
                 return state;
@@ -44,7 +49,7 @@ export function reducer(state: AppNotificationState = initialState,
             notification.read = !notification.read;
 
             return {
-                ...adapter.upsertOne(notification, state)
+                ...adapter.upsertOne(notification, adapter.removeOne(storedNotification.id, state))
             };
         }
 
