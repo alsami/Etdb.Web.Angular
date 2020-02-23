@@ -22,6 +22,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 import { OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
@@ -54,6 +55,7 @@ const modules = [
     MatChipsModule,
     MatGridListModule,
     MatBadgeModule,
+    MatButtonToggleModule,
 ];
 
 @NgModule({

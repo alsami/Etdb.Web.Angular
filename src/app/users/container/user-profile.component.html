@@ -9,7 +9,19 @@
         </div>
     </mat-tab>
     <mat-tab *ngIf="selectedUserIsAuthenticatedUser$ | async" label="Sign-In Logs">
-        <etdb-authentication-log-overview [authenticationLogs]="authenticationLogs$ | async">
+        <div class="flex-container flex-justify-center">
+            <mat-button-toggle-group (change)="toggleView($event);">
+                <mat-button-toggle value="table_chart" (checked)="selectedAuthenticationView === 'table_chart'">
+                    <mat-icon>table_chart</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle value="pie_chart" (checked)="selectedAuthenticationView === 'pie_chart'">
+                    <mat-icon>pie_chart</mat-icon>
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+        <etdb-authentication-log-overview *ngIf="selectedAuthenticationView === 'table_chart'" [authenticationLogs]="authenticationLogs$ | async">
         </etdb-authentication-log-overview>
+        <etdb-authentication-log-piechartview  *ngIf="selectedAuthenticationView === 'pie_chart'" [authenticationLogs]="authenticationLogs$ | async">
+        </etdb-authentication-log-piechartview>
     </mat-tab>
 </mat-tab-group>

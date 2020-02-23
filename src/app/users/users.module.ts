@@ -8,12 +8,13 @@ import { AuthenticationLogFacadeService, ProfileImageQueueFacadeService,
     UsersFacadeService, UsersSearchFacadeService } from '@etdb/users/+state/facades';
 import { reducers } from '@etdb/users/+state/reducers';
 import { AuthenticationLogOverviewComponent, UserImageControlComponent,
-    UserInfochangeComponent, UserNameChangeComponent, UserPasswordchangeFormComponent } from '@etdb/users/components';
+    UserInfochangeComponent, UserNameChangeComponent, UserPasswordchangeFormComponent, AuthenticationLogPiechartviewComponent } from '@etdb/users/components';
 import { UserProfileComponent, UserSettingsComponent, UsersRoutingComponent, UserSearchComponent } from '@etdb/users/container';
 import { AuthenticationLogService, UserSearchService, UserService } from '@etdb/users/services';
 import { UsersRoutingModule } from '@etdb/users/users-routing.module';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
     imports: [
@@ -27,7 +28,8 @@ import { StoreModule } from '@ngrx/store';
         MaterialModule,
         UsersRoutingModule,
         CustomControlModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        NgxChartsModule,
     ],
     declarations: [
         UsersRoutingComponent,
@@ -37,8 +39,9 @@ import { StoreModule } from '@ngrx/store';
         UserInfochangeComponent,
         UserImageControlComponent,
         UserNameChangeComponent,
-        AuthenticationLogOverviewComponent,
         UserSearchComponent,
+        AuthenticationLogOverviewComponent,
+        AuthenticationLogPiechartviewComponent,
     ],
     providers: [UserService, UserSearchService, AuthenticationLogService,
         UsersFacadeService, UsersSearchFacadeService, AuthenticationLogFacadeService, ProfileImageQueueFacadeService]

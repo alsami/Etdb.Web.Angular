@@ -27,7 +27,8 @@
     "@ngrx/entity": "^9.0.0-beta.0",
     "@ngrx/store": "^9.0.0-beta.0",
     "@angular/cdk": "~9.0.1",
-    "@angular/material": "~9.0.1"
+    "@angular/material": "~9.0.1",
+    "@swimlane/ngx-charts": "^13.0.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.900.3",

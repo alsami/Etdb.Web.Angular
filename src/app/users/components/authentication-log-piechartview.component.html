@@ -1,0 +1,22 @@
+<div class="page-content page-content-pad-xs">
+    <div class="flex-container flex-justify-center flex-flow-column">
+        <div class="chart-container">
+            <ngx-charts-pie-chart
+                [scheme]="colorScheme"
+                [results]="authenticationLogsByType"
+                [legend]="false"
+                [labels]="true"
+                [doughnut]="true">
+            </ngx-charts-pie-chart>
+        </div>
+        <div class="chart-container">
+            <ngx-charts-pie-chart
+                [scheme]="colorScheme"
+                [results]="authenticationLogsByIpAddress"
+                [legend]="false"
+                [labels]="true"
+                [doughnut]="true">
+            </ngx-charts-pie-chart>
+        </div>
+    </div>
+</div>

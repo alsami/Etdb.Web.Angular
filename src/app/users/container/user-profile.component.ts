@@ -6,6 +6,7 @@ import { AuthenticationLog, User } from '@etdb/models';
 import { AuthenticationLogFacadeService, UsersFacadeService } from '@etdb/users/+state/facades';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { MatButtonToggleChange } from '@angular/material/button-toggle';
 
 @Component({
     selector: 'etdb-user',
@@ -21,6 +22,7 @@ export class UserProfileComponent implements OnInit {
     public authenticationLogs$: Observable<AuthenticationLog[]>;
     public loadingUser$: Observable<boolean>;
     public currentUser$: BehaviorSubject<User> = new BehaviorSubject(null);
+    public selectedAuthenticationView = 'table_chart';
 
     public constructor(
         private route: ActivatedRoute,
@@ -65,5 +67,9 @@ export class UserProfileComponent implements OnInit {
         }
 
         this.authenticationFacadeService.loadLogs(currentUser.authenticationLogsUrl);
+    }
+
+    public toggleView(change: MatButtonToggleChange): void {
+        this.selectedAuthenticationView = change.value;
     }
 }
