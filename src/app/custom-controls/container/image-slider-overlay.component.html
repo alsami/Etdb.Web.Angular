@@ -1,9 +1,9 @@
 <div class="flex-container flex-center-center flex-flow-row selected-image-container">
     <mat-progress-spinner *ngIf="selectedImageLoading();" color="accent" mode="indeterminate"></mat-progress-spinner>
     <img (swipeleft)="next();" (swiperight)="previous();" [hidden]="selectedImageLoading()"
-        [src]="selectedImageUrl + '?dimensionX=300&dimensionY=300'" (load)="imageLoaded();" />
+        [src]="selectedImageUrl" (load)="imageLoaded();" class="selected-image" />
 </div>
 <div class="thumbnail-container flex-container" [style.width.px]="windowWidth">
-    <img *ngFor="let url of imageSliderConfig.thumbnails; let i = index;" [src]="url + '?dimensionX=180&dimensionY=180'"
+    <img *ngFor="let url of imageSliderConfig.thumbnails; let i = index;" [src]="url"
         class="thumbnail-image" (click)="selectImage(i);" />
 </div>
