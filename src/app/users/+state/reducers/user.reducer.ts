@@ -87,11 +87,12 @@ export function reducer(
         }
 
         case UserActionTypes.RemovedProfileImage: {
+            console.log('REMOVE');
             const user = state.entities[action.userId];
             const images = user
                             .profileImageMetaInfos
                             .slice()
-                            .filter(meta => meta.url !== action.url
+                            .filter(meta => meta.removeUrl !== action.url
             );
             return {
                 ...adapter.upsertOne({...{}, ...user, profileImageMetaInfos: images}, state),
